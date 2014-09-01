@@ -55,6 +55,8 @@ void CMsgSocket::OnReceive(int nErrorCode)
 {
 	// TODO: Add your specialized code here and/or call the base class
 	theApp.ReceiveFromClient();
+
+	AsyncSelect(FD_READ);
 	
 	CSocket::OnReceive(nErrorCode);
 }
