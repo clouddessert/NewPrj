@@ -178,8 +178,9 @@ LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 3, strTmp);
 			
 			
-			fTmp = pComm_Dat->sPlatType;  //短整型  //平台类型
-			strTmp.Format("%d",(int)fTmp);
+//			fTmp = pComm_Dat->sPlatType;  //短整型  //平台类型
+//			strTmp.Format("%d",(int)fTmp);
+			strTmp.Format("%s",pComm_Dat->sPlatType);
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 4, strTmp);
 			
 			fTmp = pComm_Dat->dConfidence;  //置信度
@@ -187,7 +188,7 @@ LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 5, strTmp);
 
 
-			fTmp = pComm_Dat->fReachAzimuth;
+			fTmp = pComm_Dat->dReachAzimuth;
 			strTmp.Format("%.4f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 6, strTmp);
 	// 		

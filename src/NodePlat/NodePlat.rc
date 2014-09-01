@@ -153,6 +153,14 @@ BEGIN
                     WS_BORDER | WS_TABSTOP,24,21,60,50
 END
 
+IDD_MSG_DLG_FIFTH DIALOG DISCARDABLE  0, 0, 188, 94
+STYLE WS_CHILD
+FONT 9, "свт╡"
+BEGIN
+    CONTROL         "List1",IDC_LIST_UNICLUSTERMSG,"SysListView32",
+                    LVS_REPORT | WS_BORDER | WS_TABSTOP,30,20,70,50
+END
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////

@@ -1,9 +1,9 @@
-// MsgFourthPage.cpp : implementation file
+// MsgFifthPage.cpp : implementation file
 //
 
 #include "stdafx.h"
 #include "nodeplat.h"
-#include "MsgFourthPage.h"
+#include "MsgFifthPage.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -15,52 +15,52 @@ static char THIS_FILE[] = __FILE__;
 extern CNodePlatApp theApp;
 
 /////////////////////////////////////////////////////////////////////////////
-// CMsgFourthPage property page
+// CMsgFifthPage property page
 
-IMPLEMENT_DYNCREATE(CMsgFourthPage, CPropertyPage)
+IMPLEMENT_DYNCREATE(CMsgFifthPage, CPropertyPage)
 
-CMsgFourthPage::CMsgFourthPage() : CPropertyPage(CMsgFourthPage::IDD)
+CMsgFifthPage::CMsgFifthPage() : CPropertyPage(CMsgFifthPage::IDD)
 {
-	//{{AFX_DATA_INIT(CMsgFourthPage)
+	//{{AFX_DATA_INIT(CMsgFifthPage)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 }
 
-CMsgFourthPage::~CMsgFourthPage()
+CMsgFifthPage::~CMsgFifthPage()
 {
 }
 
-void CMsgFourthPage::DoDataExchange(CDataExchange* pDX)
+void CMsgFifthPage::DoDataExchange(CDataExchange* pDX)
 {
 	CPropertyPage::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CMsgFourthPage)
+	//{{AFX_DATA_MAP(CMsgFifthPage)
 		// NOTE: the ClassWizard will add DDX and DDV calls here
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(CMsgFourthPage, CPropertyPage)
-	//{{AFX_MSG_MAP(CMsgFourthPage)
+BEGIN_MESSAGE_MAP(CMsgFifthPage, CPropertyPage)
+	//{{AFX_MSG_MAP(CMsgFifthPage)
 	ON_WM_SIZE()
-	ON_MESSAGE(WM_SIG_OUT_MSG, OnSigleOutMessage) 
+	ON_MESSAGE(WM_MUL_OUT_MSG, OnSigleOutMessage)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CMsgFourthPage message handlers
+// CMsgFifthPage message handlers
 
-
-BOOL CMsgFourthPage::OnInitDialog() 
+BOOL CMsgFifthPage::OnInitDialog() 
 {
 	CPropertyPage::OnInitDialog();
 
-	theApp.hSigOut_wnd = GetSafeHwnd();
+	theApp.hMulOut_wnd = GetSafeHwnd();
 
-	CString IDENTIFY_Columns[]=
+	CString CLUSTER_Columns[]=
 	{
 	 	    _T("综合批号"),
 			_T("平台类型"),
 			_T("可信度"),
+//			_T("目标数"),
 
 // 			_T("平台编号"),
 // 			_T("设备编号"),
@@ -89,20 +89,20 @@ BOOL CMsgFourthPage::OnInitDialog()
 // 			_T("平台名称"),
 // 			_T("敌我属性"),
 // 			_T("可信度"),
-// 			_T("国家/地区"),		
+// 			_T("国家/地区"),
 	};
 
-	((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
+	((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	
-	for(int i=0; i<sizeof(IDENTIFY_Columns)/sizeof(IDENTIFY_Columns[0]); ++i)
-		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertColumn(i, IDENTIFY_Columns[i], LVCFMT_CENTER, 80);
+	for(int i=0; i<sizeof(CLUSTER_Columns)/sizeof(CLUSTER_Columns[0]); ++i)
+		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->InsertColumn(i, CLUSTER_Columns[i], LVCFMT_CENTER, 80);
 
 	return TRUE;  // return TRUE unless you set the focus to a control	        
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
 
 
-void CMsgFourthPage::OnSize(UINT nType, int cx, int cy) 
+void CMsgFifthPage::OnSize(UINT nType, int cx, int cy) 
 {
 	this->ShowWindow(SW_MAXIMIZE);
 	//CPropertyPage::OnSize(nType, cx, cy);
@@ -115,16 +115,18 @@ void CMsgFourthPage::OnSize(UINT nType, int cx, int cy)
 		this->GetWindowRect(&rect);
 		ScreenToClient(&rect);
 		
-		GetDlgItem(IDC_LIST_FUSIONMSG)->MoveWindow(0, 0, rect.Width(), rect.Height(), TRUE);
+		GetDlgItem(IDC_LIST_UNICLUSTERMSG)->MoveWindow(0, 0, rect.Width(), rect.Height(), TRUE);
 	}
 }
 
 
-//这个函数根据输出的结构体来更新!!!!!!!!!!!!!!!!!
-LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam) 
+
+LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam) 
 {
 	//这里使用iterator去显示
 	VCT_IDENTIINFOR_MSG::iterator iterator;
+// 	VCT_ESM_MSG::iterator iteEsm;
+// 	VCT_COMM_MSG::iterator iteComm;
 	
 	int nTmp = 0;
 	int iTmpProp = 0;
@@ -133,13 +135,18 @@ LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 	
 	if (0 == wParam)
 	{
-		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetRedraw(FALSE);//关闭重绘
+		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetRedraw(FALSE);//关闭重绘
 		
 		//清除显示列表
-		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->DeleteAllItems();
+		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->DeleteAllItems();
 		
 		//显示数据
 //		int m = theApp.m_IdentifyMsg.size();
+// 		for (iterator = theApp.m_ClusterUniMsg.begin(); iterator != theApp.m_ClusterUniMsg.end(); iterator++,++nTmp)
+// 		{
+// 			fTmp = iterator->lAutonum;//综合批号
+// 			strTmp.Format("%d", (int)fTmp);
+// 			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->InsertItem(nTmp, strTmp, 9);
 		for (iterator = theApp.m_IdentifyMsg.begin(); iterator != theApp.m_IdentifyMsg.end(); iterator++,++nTmp)
 		{
 			//strTmp.Format("%s", _T("8000"));
@@ -156,23 +163,18 @@ LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 			fTmp = iterator->dConfidence;  //置信度
 			strTmp.Format("%.2f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->SetItemText(nTmp, 2, strTmp);	
-			
-// 			fTmp = m;
-// 			strTmp.Format("%d", (int)fTmp);
-// 			((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetItemText(nTmp, 3, strTmp);	
-			// 		fTmp = m_pTmpTrackIter->second.fLati;
-			// 		strTmp.Format("%.4f", fTmp);
-			// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 5, strTmp);		
+		
 		}
-		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetRedraw();//启动
+		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetRedraw();//启动
 	}
 	else
 	{
 		//清除显示列表
-		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->DeleteAllItems();
+		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->DeleteAllItems();
 	}
-
 
 
 	return 0;
 }
+
+

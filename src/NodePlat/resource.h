@@ -15,12 +15,16 @@
 #define IDB_PLANE                       140
 #define IDB_MISSILE                     142
 #define IDB_SHIP1                       143
+#define IDD_MSG_DLG_FIFTH               144
+#define IDD_DIALOG1                     144
 #define IDC_LIST_ESM                    1000
 #define IDC_LIST_COMMUNICATE            1001
 #define IDC_LIST_TRACE                  1002
 #define IDC_OURS_TREE                   1003
 #define IDC_LIST_FUSIONMSG              1003
+#define IDC_LIST_FIRSTIDENTMSG          1003
 #define IDC_ENEMY_TREE                  1004
+#define IDC_LIST_UNICLUSTERMSG          1004
 #define IDM_CONNECTSVR                  32772
 
 // Next default values for new objects
@@ -28,9 +32,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        144
+#define _APS_NEXT_RESOURCE_VALUE        145
 #define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1004
+#define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

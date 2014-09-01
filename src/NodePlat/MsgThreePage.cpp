@@ -195,8 +195,9 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 3, strTmp);
 			
 			
-			fTmp = pTrace_Dat->sPlatType;  //短整型  //平台类型
-			strTmp.Format("%d",(int)fTmp);
+//			fTmp = pTrace_Dat->sPlatType;  //短整型  //平台类型
+//			strTmp.Format("%d",(int)fTmp);
+			strTmp.Format("%s",pTrace_Dat->sPlatType);
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 4, strTmp);
 			
 			fTmp = pTrace_Dat->dConfidence;  //置信度
@@ -204,7 +205,7 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 5, strTmp);
 
 
-			fTmp = pTrace_Dat->fAzimuth;
+			fTmp = pTrace_Dat->dAzimuth;
 			strTmp.Format("%.4f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 6, strTmp);
 
@@ -212,11 +213,11 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 			strTmp.Format("%s",pTrace_Dat->cPlatName);  //平台名称
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,7,strTmp);
 			
-			fTmp = pTrace_Dat->fLonti; //经度
+			fTmp = pTrace_Dat->dLonti; //经度
 			strTmp.Format("%.4f",fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,8,strTmp);
 			
-			fTmp = pTrace_Dat->fLati; //纬度
+			fTmp = pTrace_Dat->dLati; //纬度
 			strTmp.Format("%.4f",fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,9,strTmp);
 			// 		

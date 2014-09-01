@@ -175,17 +175,21 @@ void CMainFrame::StartTimer_X(void)
 void CMainFrame::OnTimer(UINT nIDEvent) 
 {
 	// TODO: Add your message handler code here and/or call default
-	theApp.pOutPt = NULL;
+//	theApp.pOutPt = NULL;
 	
 	if (8 == nIDEvent)
 	{
 		//调用算法模块
 		::EnterCriticalSection(&(theApp.g_cs));
-		theApp.pOutPt = SingleIdentify(&(theApp.m_RecvMsg.stEsm), &(theApp.m_RecvMsg.stComm), &(theApp.m_RecvMsg.stTrace));
+		if (!theApp.m_RecvMsg.stEsm.empty() || !theApp.m_RecvMsg.stComm.empty() || !theApp.m_RecvMsg.stTrace.empty())
+		{
+			SingleIdentify(theApp.m_RecvMsg, theApp.m_ClusterUniMsg, theApp.m_ClusterNoTraceMsg, theApp.m_IdentifyMsg, theApp.m_SingleTrace, theApp.m_SingleEsm, theApp.m_SingleComm);
+		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		
 		//显示数据
 		::PostMessage(theApp.hSigOut_wnd, WM_SIG_OUT_MSG, 0, 0);
+		::PostMessage(theApp.hMulOut_wnd, WM_MUL_OUT_MSG, 0, 0);
 	}
 
 	CFrameWnd::OnTimer(nIDEvent);

@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=CMsgSocket
-LastTemplate=CSocket
+LastClass=CMsgFifthPage
+LastTemplate=CPropertyPage
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
 LastPage=0
 
-ClassCount=18
+ClassCount=19
 Class1=CAllParamSheet
 Class2=CDrawView
 Class3=CMainFrame
@@ -27,16 +27,18 @@ Class15=CNodePlatView
 Class16=CParamFstPage
 Class17=CParamSecondPage
 
-ResourceCount=8
-Resource1=IDD_PARAM_DLG_SECOND
-Resource2=IDD_PARAM_DLG_FIRST
-Resource3=IDD_MSG_DLG_THREE
-Resource4=IDD_MSG_DLG_SECOND
-Resource5=IDD_MSG_DLG_FIRST
-Resource6=IDR_MAINFRAME
-Resource7=IDD_ABOUTBOX
+ResourceCount=9
+Resource1=IDD_MSG_DLG_FOURTH
+Resource2=IDR_MAINFRAME
+Resource3=IDD_ABOUTBOX
+Resource4=IDD_PARAM_DLG_SECOND
+Resource5=IDD_PARAM_DLG_FIRST
+Resource6=IDD_MSG_DLG_THREE
+Resource7=IDD_MSG_DLG_SECOND
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_FOURTH
+Resource8=IDD_MSG_DLG_FIRST
+Class19=CMsgFifthPage
+Resource9=IDD_MSG_DLG_FIFTH
 
 [CLS:CAllParamSheet]
 Type=0
@@ -79,6 +81,7 @@ Type=0
 BaseClass=CPropertyPage
 HeaderFile=MsgFourthPage.h
 ImplementationFile=MsgFourthPage.cpp
+LastObject=CMsgFourthPage
 
 [CLS:CMsgFstPage]
 Type=0
@@ -212,4 +215,19 @@ BaseClass=CSocket
 Filter=N
 VirtualFilter=uq
 LastObject=CMsgSocket
+
+[CLS:CMsgFifthPage]
+Type=0
+HeaderFile=MsgFifthPage.h
+ImplementationFile=MsgFifthPage.cpp
+BaseClass=CPropertyPage
+Filter=D
+LastObject=CMsgFifthPage
+VirtualFilter=idWC
+
+[DLG:IDD_MSG_DLG_FIFTH]
+Type=1
+Class=?
+ControlCount=1
+Control1=IDC_LIST_UNICLUSTERMSG,SysListView32,1350631425
 

@@ -152,8 +152,8 @@ void CDrawView::OnDraw(CDC* pDC)
 				bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
 				MemDc123.CreateCompatibleDC(pDC);  
 				CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
-				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->fLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
-				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->fLati)/(UP_LATI-DOWN_LATI));
+				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
 				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
 				MemDc123.DeleteDC(); 
 			}
@@ -167,8 +167,8 @@ void CDrawView::OnDraw(CDC* pDC)
 				bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
 				MemDc123.CreateCompatibleDC(pDC);  
 				CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
-				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->fLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
-				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->fLati)/(UP_LATI-DOWN_LATI));
+				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
 				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
 				MemDc123.DeleteDC(); 
 			}
@@ -182,8 +182,8 @@ void CDrawView::OnDraw(CDC* pDC)
 				bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
 				MemDc123.CreateCompatibleDC(pDC);  
 				CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
-				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->fLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
-				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->fLati)/(UP_LATI-DOWN_LATI));
+				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
 				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
 				MemDc123.DeleteDC(); 		   
 			}
@@ -197,8 +197,8 @@ void CDrawView::OnDraw(CDC* pDC)
 				bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
 				MemDc123.CreateCompatibleDC(pDC);  
 				CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
-				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->fLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
-				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->fLati)/(UP_LATI-DOWN_LATI));
+				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
 				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
 				MemDc123.DeleteDC(); 		   
 			}	  

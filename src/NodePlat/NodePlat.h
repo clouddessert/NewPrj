@@ -43,8 +43,17 @@ public:
 	//输入结构体
 	ALL_MSG_INPUT m_RecvMsg;
 
-	//输出指针
-	VCT_IDENTIINFOR_MSG* pOutPt;
+	//输出指针	//输出:聚类编批结果
+	VCT_UNINUM_MSG m_ClusterUniMsg;//有航迹
+	VCT_UNINOTRACE_MSG m_ClusterNoTraceMsg;//无航迹
+	
+	//输出:未聚类结果
+	VCT_TRACE_MSG m_SingleTrace;
+	VCT_ESM_MSG m_SingleEsm;
+	VCT_COMM_MSG m_SingleComm;
+	
+	//输出:单舰识别结果
+	VCT_IDENTIINFOR_MSG m_IdentifyMsg;
 
 	//p2p socket
 	CMsgSocket* m_P2PSocket;
@@ -60,6 +69,7 @@ public:
 	HWND hCOMM_wmd;
 	HWND hTRACE_wmd;
 	HWND hSigOut_wnd;
+	HWND hMulOut_wnd;
 
 	//view的指针
 	void* pXview;

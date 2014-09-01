@@ -10,6 +10,7 @@
 #include "MsgSecPage.h"
 #include "MsgThreePage.h"
 #include "MsgFourthPage.h"
+#include "MsgFifthPage.h"
 /////////////////////////////////////////////////////////////////////////////
 // CMsgAllSheet
 
@@ -28,6 +29,7 @@ private:
 	CMsgSecPage m_SecPage;
 	CMsgThreePage m_ThreePage;
 	CMsgFourthPage m_FourthPage;
+	CMsgFifthPage m_FifthPage;
 // Operations
 public:
 

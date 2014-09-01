@@ -43,6 +43,7 @@ using namespace std;
 #define WM_TRACE_MSG WM_USER+103
 
 #define WM_SIG_OUT_MSG WM_USER+104
+#define WM_MUL_OUT_MSG WM_USER+105
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

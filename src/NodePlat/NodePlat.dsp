@@ -119,6 +119,10 @@ SOURCE=.\MsgCtlView.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\MsgFifthPage.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MsgFourthPage.cpp
 # End Source File
 # Begin Source File
@@ -218,6 +222,10 @@ SOURCE=.\MsgAllSheet.h
 # Begin Source File
 
 SOURCE=.\MsgCtlView.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgFifthPage.h
 # End Source File
 # Begin Source File
 

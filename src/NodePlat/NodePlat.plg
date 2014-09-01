@@ -6,13 +6,7 @@
 --------------------Configuration: NodePlat - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP385C.tmp" with contents
-[
-/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"C:\Documents and Settings\Administrator\×ÀÃæ\N 0901 NodePlat\NodePlat.cpp"
-]
-Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP385C.tmp" 
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP385D.tmp" with contents
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP6FF.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/NodePlat.pdb" /debug /machine:I386 /out:"Debug/NodePlat.exe" /pdbtype:sept 
 ".\Debug\AllParamSheet.obj"
@@ -35,13 +29,12 @@ Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP385D.tmp" with co
 ".\Debug\SingleIdentify.obj"
 ".\Debug\StdAfx.obj"
 ".\Debug\NodePlat.res"
+".\Debug\MsgFifthPage.obj"
 ]
-Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP385D.tmp"
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP6FF.tmp"
 <h3>Output Window</h3>
-Compiling...
-NodePlat.cpp
 Linking...
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP385E.tmp" with contents
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP701.tmp" with contents
 [
 /nologo /o"Debug/NodePlat.bsc" 
 ".\Debug\StdAfx.sbr"
@@ -62,8 +55,9 @@ Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP385E.tmp" with co
 ".\Debug\NodePlatView.sbr"
 ".\Debug\ParamFstPage.sbr"
 ".\Debug\ParamSecondPage.sbr"
-".\Debug\SingleIdentify.sbr"]
-Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP385E.tmp"
+".\Debug\SingleIdentify.sbr"
+".\Debug\MsgFifthPage.sbr"]
+Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP701.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 

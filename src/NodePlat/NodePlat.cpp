@@ -51,7 +51,7 @@ CNodePlatApp::CNodePlatApp()
 	hTRACE_wmd = NULL;
 	hSigOut_wnd = NULL;
 
-	pOutPt = NULL;
+//	pOutPt = NULL;
 
 	pXview = NULL;
 }

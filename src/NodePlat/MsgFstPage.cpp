@@ -195,8 +195,9 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 3, strTmp);
 			
 			
-			fTmp = pESM_Dat->sPlatType;  //短整型  //平台类型
-			strTmp.Format("%d",(int)fTmp);
+//			fTmp = pESM_Dat->sPlatType;  //短整型  //平台类型
+//			strTmp.Format("%d",(int)fTmp);
+			strTmp.Format("%s",pESM_Dat->sPlatType);
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 4, strTmp);
 			
 			fTmp = pESM_Dat->dConfidence;  //置信度
@@ -204,7 +205,7 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 5, strTmp);
 			
 			
-			fTmp = pESM_Dat->fReachAzimuth;
+			fTmp = pESM_Dat->dReachAzimuth;
 			strTmp.Format("%.4f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 6, strTmp);
 			
