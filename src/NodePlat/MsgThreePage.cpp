@@ -60,7 +60,7 @@ BOOL CMsgThreePage::OnInitDialog()
 // 		_T("平台编号"),
 // 		_T("设备编号"),
 // 		_T("设备类型"),
-// 		_T("目标批号"),
+ 		_T("合批号"),//0
 // 
 // 		_T("距离"),
 // 		_T("方位"),
@@ -81,18 +81,20 @@ BOOL CMsgThreePage::OnInitDialog()
 // 		_T("可信度"),
 // 		_T("国家/地区"),
 
-		_T("平台编号"),
-		_T("设备编号"),
-		_T("设备类型"),
+		_T("目标批号"),  //1
 
-		_T("目标批号"),  //3
-		_T("平台类型"), //4
-		_T("可信度"),  //5
-		_T("方位"),  //6
+		_T("平台编号"),//2
+		_T("设备编号"),//3
+		_T("设备类型"),//4
 
-		_T("平台名称"), //7
-		_T("经度"),     //8
-		_T("纬度"),     //9
+		
+		_T("平台类型"), //5
+		_T("可信度"),  //6
+		_T("方位"),  //7
+
+		_T("平台名称"), //8
+		_T("经度"),     //9
+		_T("纬度"),     //10
 		
 		_T("距离"),
 		
@@ -159,7 +161,7 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->DeleteAllItems();
 		
 		//显示数据
-		for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++,++nTmp)
+		for (pTrace_Dat = theApp.m_Trace.begin(); pTrace_Dat != theApp.m_Trace.end(); pTrace_Dat++,++nTmp)
 		{
 			strTmp.Format("%s", _T("Trace"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->InsertItem(nTmp, strTmp, 9);
@@ -181,45 +183,48 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 	// 		}
 	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 3, strTmp);
 			
-			strTmp.Format("%s",pTrace_Dat->cPlatNumber); //平台编号
+			strTmp.Format("%d",pTrace_Dat->lAutonum); //合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 0, strTmp);
-			
-			strTmp.Format("%s",pTrace_Dat->cEquipmentNumber); //设备编号
-			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 1, strTmp);
-			
-			strTmp.Format("%s",pTrace_Dat->cEquipmentType); //设备类型
-			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 2, strTmp);
 
 			fTmp = pTrace_Dat->lTargetNumber;//目标批号
 			strTmp.Format("%d",(int)fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 1, strTmp);
+
+			strTmp.Format("%s",pTrace_Dat->cPlatNumber); //平台编号
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 2, strTmp);
+			
+			strTmp.Format("%s",pTrace_Dat->cEquipmentNumber); //设备编号
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 3, strTmp);
+			
+			strTmp.Format("%s",pTrace_Dat->cEquipmentType); //设备类型
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 4, strTmp);
 			
 			
 //			fTmp = pTrace_Dat->sPlatType;  //短整型  //平台类型
 //			strTmp.Format("%d",(int)fTmp);
 			strTmp.Format("%s",pTrace_Dat->sPlatType);
-			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 4, strTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 5, strTmp);
 			
 			fTmp = pTrace_Dat->dConfidence;  //置信度
 			strTmp.Format("%.2f",fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 5, strTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 6, strTmp);
 
 
 			fTmp = pTrace_Dat->dAzimuth;
 			strTmp.Format("%.4f", fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 6, strTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 7, strTmp);
 
 
 			strTmp.Format("%s",pTrace_Dat->cPlatName);  //平台名称
-			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,7,strTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 8, strTmp);
 			
 			fTmp = pTrace_Dat->dLonti; //经度
 			strTmp.Format("%.4f",fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,8,strTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 9, strTmp);
 			
 			fTmp = pTrace_Dat->dLati; //纬度
 			strTmp.Format("%.4f",fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,9,strTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 10, strTmp);
 			// 		
 	// 		fTmp = m_pTmpTrackIter->second.fLati;
 	// 		strTmp.Format("%.4f", fTmp);

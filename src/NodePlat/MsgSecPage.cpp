@@ -76,7 +76,7 @@ BOOL CMsgSecPage::OnInitDialog()
 // 		_T("平台编号"),
 // 		_T("设备编号"),
 // 		_T("设备类型"),
-// 		_T("目标批号"),
+  		_T("合批号"),//0
 // 		
 // 		_T("载频信息"),
 // 		_T("到达方位"),
@@ -95,7 +95,7 @@ BOOL CMsgSecPage::OnInitDialog()
 			_T("设备编号"),
 			_T("设备类型"),
 			
-			_T("目标批号"),
+			_T("目标批号"),//1
 			_T("平台类型"), //4
 			_T("可信度"),   //5
 			_T("到达方位"), //6
@@ -142,55 +142,37 @@ LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->DeleteAllItems();
 		
 		//显示数据
-		for (pComm_Dat = theApp.m_Comm_Dat.begin(); pComm_Dat != theApp.m_Comm_Dat.end(); pComm_Dat++,++nTmp)
+		for (pComm_Dat = theApp.m_Comm/*theApp.m_Comm_Dat*/.begin(); pComm_Dat != theApp.m_Comm/*theApp.m_Comm_Dat*/.end(); pComm_Dat++,++nTmp)
 		{
 			strTmp.Format("%s", _T("Comm"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->InsertItem(nTmp, strTmp, 9);
-	// 		
-	// 		strTmp.Format("%s", m_pTmpTrackIter->second.strName);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 1, strTmp);
-	// 		
-	// 		strTmp.Format("%s", m_pTmpTrackIter->second.strType);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 2, strTmp);
-	// 		
-	// 		iTmpProp = m_pTmpTrackIter->second.iTargetProp;
-	// 		if (iTmpProp)
-	// 		{
-	// 			strTmp = _T("我");
-	// 		}
-	// 		else
-	// 		{
-	// 			strTmp = _T("敌");
-	// 		}
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 3, strTmp);
-		
-			strTmp.Format("%s",pComm_Dat->cPlatNumber);//平台编号
+			
+			strTmp.Format("%d",pComm_Dat->lAutonum);//合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 0, strTmp);
-			
-			strTmp.Format("%s",pComm_Dat->cEquipmentNumber); //设备编号
-			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 1, strTmp);
-			
-			strTmp.Format("%s",pComm_Dat->cEquipmentType); //设备类型
-			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 2, strTmp);
-			
+
 			fTmp = pComm_Dat->lTargetNumber;//目标批号
 			strTmp.Format("%d",(int)fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 1, strTmp);
+			
+			strTmp.Format("%s",pComm_Dat->cPlatNumber);//平台编号
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 2, strTmp);
+			
+			strTmp.Format("%s",pComm_Dat->cEquipmentNumber); //设备编号
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 3, strTmp);
 			
-			
-//			fTmp = pComm_Dat->sPlatType;  //短整型  //平台类型
-//			strTmp.Format("%d",(int)fTmp);
-			strTmp.Format("%s",pComm_Dat->sPlatType);
+			strTmp.Format("%s",pComm_Dat->cEquipmentType); //设备类型
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 4, strTmp);
+			
+			strTmp.Format("%s",pComm_Dat->sPlatType); //平台类型
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 5, strTmp);
 			
 			fTmp = pComm_Dat->dConfidence;  //置信度
 			strTmp.Format("%.2f",fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 5, strTmp);
-
-
-			fTmp = pComm_Dat->dReachAzimuth;
-			strTmp.Format("%.4f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 6, strTmp);
+
+			fTmp = pComm_Dat->dReachAzimuth;//方位
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 7, strTmp);
 	// 		
 	// 		fTmp = m_pTmpTrackIter->second.fLati;
 	// 		strTmp.Format("%.4f", fTmp);

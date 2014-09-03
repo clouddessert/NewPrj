@@ -77,7 +77,7 @@ BOOL CMsgFstPage::OnInitDialog()
 // 		_T("平台编号"),
 // 		_T("设备编号"),
 // 		_T("设备类型"),
-// 		_T("目标批号"),
+ 		_T("合批号"),//0
 // 		
 // 		_T("载频信息"),
 // 		_T("重频信息"),
@@ -99,19 +99,21 @@ BOOL CMsgFstPage::OnInitDialog()
 // 		_T("敌我属性"),
 // 		_T("可信度"),
 // 		_T("国家"),	
-		    _T("平台编号"),//0
-			_T("设备编号"),//1
-			_T("设备类型"),//2
+		    _T("目标批号"),//1
 			
-			_T("目标批号"),//3
-			_T("平台类型"),  //4
-			_T("可信度"),   //5
-			_T("到达方位"), //6
+			_T("平台编号"),//2
+			_T("设备编号"),//3
+			_T("设备类型"),//4
 			
-			_T("载频信息"),//6
+			
+			_T("平台类型"),  //5
+			_T("可信度"),   //6
+			_T("到达方位"), //7
+			
+			_T("载频信息"),
 			_T("重频信息"),
 			_T("脉宽信息"),
-			_T("信号到达时间"),//7
+			_T("信号到达时间"),
 			_T("脉冲幅度"),
 			
 			_T("仰角"),
@@ -158,7 +160,7 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->DeleteAllItems();
 		
 		//显示数据
-		for (pESM_Dat = theApp.m_ESM_Dat.begin(); pESM_Dat != theApp.m_ESM_Dat.end(); pESM_Dat++,++nTmp)
+		for (pESM_Dat = theApp.m_ESM/*theApp.m_ESM_Dat*/.begin(); pESM_Dat != theApp.m_ESM/*theApp.m_ESM_Dat*/.end(); pESM_Dat++,++nTmp)
 		{
 			strTmp.Format("%s", _T("ESM"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->InsertItem(nTmp, strTmp, 9);
@@ -180,34 +182,32 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 	// 		}
 	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 3, strTmp);
 			
-			strTmp.Format("%s",pESM_Dat->cPlatNumber);//平台编号
+			strTmp.Format("%d",pESM_Dat->lAutonum);//合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 0, strTmp);
-			
-			strTmp.Format("%s",pESM_Dat->cEquipmentNumber); //设备编号
-			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 1, strTmp);
-			
-			strTmp.Format("%s",pESM_Dat->cEquipmentType); //设备类型
-			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 2, strTmp);
-
 
 			fTmp = pESM_Dat->lTargetNumber;//目标批号
 			strTmp.Format("%d",(int)fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 1, strTmp);
+
+			strTmp.Format("%s",pESM_Dat->cPlatNumber);//平台编号
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 2, strTmp);
+			
+			strTmp.Format("%s",pESM_Dat->cEquipmentNumber); //设备编号
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 3, strTmp);
 			
-			
-//			fTmp = pESM_Dat->sPlatType;  //短整型  //平台类型
-//			strTmp.Format("%d",(int)fTmp);
-			strTmp.Format("%s",pESM_Dat->sPlatType);
+			strTmp.Format("%s",pESM_Dat->cEquipmentType); //设备类型
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 4, strTmp);
+			
+			strTmp.Format("%s",pESM_Dat->sPlatType);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 5, strTmp);
 			
 			fTmp = pESM_Dat->dConfidence;  //置信度
 			strTmp.Format("%.2f",fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 5, strTmp);
-			
-			
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 6, strTmp);
+						
 			fTmp = pESM_Dat->dReachAzimuth;
 			strTmp.Format("%.4f", fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 6, strTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 7, strTmp);
 			
 	// 		fTmp = m_pTmpTrackIter->second.fLati;
 	// 		strTmp.Format("%.4f", fTmp);

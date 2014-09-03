@@ -1,7 +1,6 @@
 #include "SingleIdentify.h"
 
 #include <vector>
-
 #include <string>
 #include <iostream>
 #include <math.h>
@@ -16,7 +15,8 @@ typedef struct __STTYPE //举手表决要用的数据结构
 {
 	unsigned long lAutonum;   //综合批号
 	//	char *type;    //目标类型
-	unsigned short sType;     //平台类型
+	//unsigned short sType;     
+	char sType[32]; //平台类型
 	double con;               //可信度	
 }STTYPE;
 typedef vector<STTYPE> TYPEVEC;
@@ -214,7 +214,7 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 		
 		
 		/***方位聚类***/		
-		fTraceAz = iteTrace->fAzimuth;	// 航迹提供的方位角
+		fTraceAz = iteTrace->dAzimuth;	// 航迹提供的方位角
 // 		StClu.lAutonum = TN;
 // 		TN ++;
 		
@@ -227,13 +227,14 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 		{
 			if (iteEsm->cJfFlag == 0)
 			{
-				fReachA = iteEsm->fReachAzimuth; // ESM提供的方位角
+				fReachA = iteEsm->dReachAzimuth; // ESM提供的方位角
 				fA = fabs(fReachA - fTraceAz);				
 				/*聚为一类*/
 				if ((fA < Acc.dirAcc*2))
 				{
 					iteEsm->cJfFlag = '1';//聚类标志
 					iteEsm->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
+					iteEsm->lAutonum = TN;//编批
 					StClu.vctEsm.push_back(*iteEsm);//存储ESM信息
 				}
 			}
@@ -244,13 +245,14 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 		{
 			if (iteComm->cJfFlag == 0)
 			{
-				fReachA = iteComm->fReachAzimuth; // COM提供的方位角
+				fReachA = iteComm->dReachAzimuth; // COM提供的方位角
 				fA = fabs(fReachA - fTraceAz);
 				/*聚为一类*/
 				if ((fA < Acc.dirAcc*2)/* && (detElevation < stComAcc.dirAcc*2)*/)
 				{
 					iteComm->cJfFlag = '1';//聚类标志
 					iteComm->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
+					iteComm->lAutonum = TN;//编批
 					StClu.vctComm.push_back(*iteComm);//存储COMM信息
 				} 
 			}
@@ -258,20 +260,22 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 		/*聚类结果StClu存储*/
 		if (StClu.vctComm.empty()&&StClu.vctEsm.empty())//只有航迹信息
 		{
+			iteTrace->lAutonum = 0;
 			SingleTrace.push_back(*iteTrace);//放入未聚类的单一航迹中存储
 		} 
 		else
 		{
-			StClu.lAutonum = TN;
+			StClu.lAutonum = TN;//编批
+			iteTrace->lAutonum = TN;
 			StClu.structTrace.lAutonum = TN;
-			for (iteE = StClu.vctEsm.begin(); iteE != StClu.vctEsm.end(); iteE++)
-			{
-				iteE->lAutonum = TN;
-			}
-			for (iteC = StClu.vctComm.begin(); iteC != StClu.vctComm.end(); iteC++)
-			{
-				iteC->lAutonum = TN;
-			}
+// 			for (iteE = StClu.vctEsm.begin(); iteE != StClu.vctEsm.end(); iteE++)
+// 			{
+// 				iteE->lAutonum = TN;
+// 			}
+// 			for (iteC = StClu.vctComm.begin(); iteC != StClu.vctComm.end(); iteC++)
+// 			{
+// 				iteC->lAutonum = TN;
+// 			}
 			TN ++;
 			UniMsg.push_back(StClu);//存入有航迹聚类信息
 		}
@@ -296,7 +300,7 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 			StCluNo.vctEsm.clear();
 			StCluNo.vctComm.clear();
 
-			fReachA = iteEsm->fReachAzimuth; // ESM提供的方位角
+			fReachA = iteEsm->dReachAzimuth; // ESM提供的方位角
 // 			StCluNo.lAutonum = NN;
 // 			NN++;
 			iteEsm->cJfFlag = '1';//聚类标志
@@ -307,12 +311,13 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 			{
 				if (iteE->cJfFlag == 0)
 				{
-					fA = fabs(fReachA - iteE->fReachAzimuth);				
+					fA = fabs(fReachA - iteE->dReachAzimuth);				
 					/*聚为一类*/
 					if ((fA < Acc.dirAcc*2))
 					{
 						iteE->cJfFlag = '1';//聚类标志
 						iteE->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
+						iteE->lAutonum = NN;//编批
 						StCluNo.vctEsm.push_back(*iteE);//存储ESM信息
 					}
 				}
@@ -323,12 +328,13 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 			{
 				if (iteComm->cJfFlag == 0)
 				{
-					fA = fabs(fReachA - iteComm->fReachAzimuth);
+					fA = fabs(fReachA - iteComm->dReachAzimuth);
 					/*聚为一类*/
 					if ((fA < Acc.dirAcc*2)/* && (detElevation < stComAcc.dirAcc*2)*/)
 					{
 						iteComm->cJfFlag = '1';//聚类标志
 						iteComm->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
+						iteComm->lAutonum = NN;//编批
 						StCluNo.vctComm.push_back(*iteComm);//存储COMM信息
 					} 
 				}
@@ -336,20 +342,22 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 			/*聚类结果StCluNo存储*/
 			if (StCluNo.vctComm.empty()&&(StCluNo.vctEsm.size()<2))//只有ESM信息
 			{
+				iteEsm->lAutonum = 0;
 				SingleEsm.push_back(*iteEsm);//放入未聚类的单一ESM中存储
 			} 
 			else
 			{
-				StCluNo.lAutonum = NN;
+				StCluNo.lAutonum = NN;//编批
+				iteEsm->lAutonum = NN;
 				StCluNo.vctEsm.push_back(*iteEsm);
-				for (iteE = StCluNo.vctEsm.begin(); iteE != StCluNo.vctEsm.end(); iteE++)
-				{
-					iteE->lAutonum = NN;
-				}
-				for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
-				{
-					iteC->lAutonum = NN;
-				}
+// 				for (iteE = StCluNo.vctEsm.begin(); iteE != StCluNo.vctEsm.end(); iteE++)
+// 				{
+// 					iteE->lAutonum = NN;
+// 				}
+// 				for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
+// 				{
+// 					iteC->lAutonum = NN;
+// 				}
 				NN++;
 				UniNoTrace.push_back(StCluNo);//存入无航迹聚类信息
 			}	
@@ -374,9 +382,9 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 			StCluNo.vctEsm.clear();
 			StCluNo.vctComm.clear();
 			
-			fReachA = iteComm->fReachAzimuth; // ESM提供的方位角
-			StCluNo.lAutonum = NN;
-			NN++;
+			fReachA = iteComm->dReachAzimuth; // ESM提供的方位角
+// 			StCluNo.lAutonum = NN;
+// 			NN++;
 			iteComm->cJfFlag = '1';//聚类标志
 			iteComm->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
 			/*对未聚类的COMM信息进行处理*/
@@ -385,12 +393,13 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 			{
 				if (iteC->cJfFlag == 0)
 				{
-					fA = fabs(fReachA - iteC->fReachAzimuth);
+					fA = fabs(fReachA - iteC->dReachAzimuth);
 					/*聚为一类*/
 					if ((fA < Acc.dirAcc*2)/* && (detElevation < stComAcc.dirAcc*2)*/)
 					{
 						iteC->cJfFlag = '1';//聚类标志
 						iteC->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
+						iteC->lAutonum = NN;//编批
 						StCluNo.vctComm.push_back(*iteC);//存储COMM信息
 					} 
 				}
@@ -398,16 +407,18 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 			/*聚类结果StCluNo存储*/
 			if (StCluNo.vctComm.size()<2)//只有COMM信息
 			{
+				iteComm->lAutonum = 0;
 				SingleComm.push_back(*iteComm);//放入未聚类的单一COMM中存储
 			} 
 			else
 			{
 				StCluNo.lAutonum = NN;
+				iteComm->lAutonum = NN;
 				StCluNo.vctComm.push_back(*iteComm);
-				for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
-				{
-					iteC->lAutonum = NN;
-				}
+// 				for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
+// 				{
+// 					iteC->lAutonum = NN;
+// 				}
 				NN++;
 				UniNoTrace.push_back(StCluNo);//存入无航迹聚类信息
 			}
@@ -468,7 +479,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteEsm->cJfFlag)//未聚类
 			{
-				fA = fabs(iteUni->structTrace.fAzimuth - iteEsm->fReachAzimuth);
+				fA = fabs(iteUni->structTrace.dAzimuth - iteEsm->dReachAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类
 				{
 					iteEsm->cJfFlag = 1;
@@ -496,7 +507,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteComm->cJfFlag)//未聚类
 			{
-				fA = fabs(iteUni->structTrace.fAzimuth - iteComm->fReachAzimuth);
+				fA = fabs(iteUni->structTrace.dAzimuth - iteComm->dReachAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类
 				{
 					iteComm->cJfFlag = 1;
@@ -515,12 +526,12 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		if (!iteNoTrace->vctEsm.empty())
 		{
 			iteE = iteNoTrace->vctEsm.begin();
-			fA = iteE->fReachAzimuth;//取方位
+			fA = iteE->dReachAzimuth;//取方位
 		}
 		else
 		{
 			iteC = iteNoTrace->vctComm.begin();
-			fA = iteC->fReachAzimuth;//取方位
+			fA = iteC->dReachAzimuth;//取方位
 		}
 		/*处理ESM信息*/
 		for (iteE = iteNoTrace->vctEsm.begin(); iteE != iteNoTrace->vctEsm.end(); iteE++)//有批号一样的esm更新
@@ -540,7 +551,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteEsm->cJfFlag)//未聚类
 			{
-				fA = fabs(fA - iteEsm->fReachAzimuth);
+				fA = fabs(fA - iteEsm->dReachAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类
 				{
 					iteEsm->cJfFlag = 1;
@@ -569,7 +580,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteComm->cJfFlag)//未聚类
 			{
-				fA = fabs(fA - iteComm->fReachAzimuth);
+				fA = fabs(fA - iteComm->dReachAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类
 				{
 					iteComm->cJfFlag = 1;
@@ -585,7 +596,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteTrace->cJfFlag)//未聚类
 			{
-				fA = fabs(fA - iteTrace->fAzimuth);
+				fA = fabs(fA - iteTrace->dAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类，存入有航迹信息
 				{
 					/*清空StClu*/
@@ -646,7 +657,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		StClu.vctEsm.clear();
 		StClu.vctComm.clear();
 
-		fA = iteT->fAzimuth;		
+		fA = iteT->dAzimuth;		
 		for(iteTrace = AllMessage.stTrace.begin(); iteTrace != AllMessage.stTrace.end(); iteTrace++)//未处理信息
 		{
 			if (!iteTrace->cJfFlag)//未聚类
@@ -655,6 +666,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 				{
 					iteTrace->cJfFlag = 1;
 					iteTrace->lFlag = 3;//出现，标记为3
+					iteTrace->lAutonum = 0;
 					*iteT = *iteTrace;//更新
 				}
 			}
@@ -663,7 +675,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteEsm->cJfFlag)//未聚类
 			{
-				fA = fabs(fA - iteEsm->fReachAzimuth);
+				fA = fabs(fA - iteEsm->dReachAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类
 				{
 					iteEsm->cJfFlag = 1;
@@ -676,7 +688,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteComm->cJfFlag)//未聚类
 			{
-				fA = fabs(fA - iteComm->fReachAzimuth);
+				fA = fabs(fA - iteComm->dReachAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类
 				{
 					iteComm->cJfFlag = 1;
@@ -687,6 +699,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		}
 		if (StClu.vctComm.empty()&&StClu.vctEsm.empty())//只有航迹信息
 		{
+			iteT->lAutonum = 0;
 		} 
 		else
 		{
@@ -733,7 +746,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		StCluNo.vctEsm.clear();
 		StCluNo.vctComm.clear();
 
-		fA = iteE->fReachAzimuth;
+		fA = iteE->dReachAzimuth;
 		for (iteEsm = AllMessage.stEsm.begin(); iteEsm != AllMessage.stEsm.end(); iteEsm++)//AllMessage.stEsm
 		{
 			if (!iteEsm->cJfFlag)//未聚类
@@ -742,6 +755,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 				{
 					iteEsm->cJfFlag = 1;
 					iteEsm->lFlag = 3;//出现，标记为3
+					iteEsm->lAutonum = 0;
 					*iteE = *iteEsm;//更新
 				}
 			}			
@@ -750,11 +764,12 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteTrace->cJfFlag)//未聚类
 			{
-				fA = fabs(fA - iteTrace->fAzimuth);
+				fA = fabs(fA - iteTrace->dAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类
 				{
 					iteTrace->cJfFlag = 1;
 					iteTrace->lFlag = 3;//出现，标记为3
+					iteTrace->lAutonum = TN;
 					StClu.structTrace = *iteTrace;
 					StClu.lAutonum = TN;
 				//	TN++;
@@ -767,11 +782,12 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				if (!iteEsm->cJfFlag)//未聚类
 				{
-					fA = fabs(fA - iteEsm->fReachAzimuth);
+					fA = fabs(fA - iteEsm->dReachAzimuth);
 					if (fA < Acc.dirAcc*2)//聚为一类
 					{
 						iteEsm->cJfFlag = 1;
 						iteEsm->lFlag = 3;//出现，标记为3
+					//	iteEsm->lAutonum = StClu.lAutonum;
 						StClu.vctEsm.push_back(*iteEsm);
 					}
 				}
@@ -780,15 +796,17 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				if (!iteComm->cJfFlag)//未聚类
 				{
-					fA = fabs(fA - iteComm->fReachAzimuth);
+					fA = fabs(fA - iteComm->dReachAzimuth);
 					if (fA < Acc.dirAcc*2)//聚为一类
 					{
 						iteComm->cJfFlag = 1;
 						iteComm->lFlag = 3;//出现，标记为3
+				//		iteComm->lAutonum = StClu.lAutonum;
 						StClu.vctComm.push_back(*iteComm);
 					}
 				}
 			}
+//			iteE->lAutonum = StClu.lAutonum;
 			StClu.vctEsm.push_back(*iteE);
 			StClu.structTrace.lAutonum = TN;
 			for (iteE = StClu.vctEsm.begin(); iteE != StClu.vctEsm.end(); iteE++)
@@ -799,7 +817,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				iteC->lAutonum = TN;
 			}
-			TN++;
+  			TN++;
 			UniMsg.push_back(StClu);
 		} 
 		else
@@ -808,7 +826,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				if (!iteEsm->cJfFlag)//未聚类
 				{
-					fA = fabs(fA - iteEsm->fReachAzimuth);
+					fA = fabs(fA - iteEsm->dReachAzimuth);
 					if (fA < Acc.dirAcc*2)//聚为一类
 					{
 						iteEsm->cJfFlag = 1;
@@ -821,7 +839,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				if (!iteComm->cJfFlag)//未聚类
 				{
-					fA = fabs(fA - iteComm->fReachAzimuth);
+					fA = fabs(fA - iteComm->dReachAzimuth);
 					if (fA < Acc.dirAcc*2)//聚为一类
 					{
 						iteComm->cJfFlag = 1;
@@ -878,7 +896,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		StCluNo.vctEsm.clear();
 		StCluNo.vctComm.clear();
 
-		fA = iteC->fReachAzimuth;//取得方位角
+		fA = iteC->dReachAzimuth;//取得方位角
 
 		for (iteComm = AllMessage.stComm.begin(); iteComm != AllMessage.stComm.end(); iteComm++)//AllMessage.stEsm
 		{
@@ -888,6 +906,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 				{
 					iteComm->cJfFlag = 1;
 					iteComm->lFlag = 3;//出现，标记为3
+					iteComm->lAutonum = 0;
 					*iteC = *iteComm;//更新
 				}
 			}			
@@ -896,11 +915,12 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		{
 			if (!iteTrace->cJfFlag)//未聚类
 			{
-				fA = fabs(fA - iteTrace->fAzimuth);
+				fA = fabs(fA - iteTrace->dAzimuth);
 				if (fA < Acc.dirAcc*2)//聚为一类
 				{
 					iteTrace->cJfFlag = 1;
 					iteTrace->lFlag = 3;//出现，标记为3
+					iteTrace->lAutonum = TN;
 					StClu.structTrace = *iteTrace;
 					StClu.lAutonum = TN;
 					//TN++;
@@ -913,7 +933,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				if (!iteEsm->cJfFlag)//未聚类
 				{
-					fA = fabs(fA - iteEsm->fReachAzimuth);
+					fA = fabs(fA - iteEsm->dReachAzimuth);
 					if (fA < Acc.dirAcc*2)//聚为一类
 					{
 						iteEsm->cJfFlag = 1;
@@ -926,7 +946,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				if (!iteComm->cJfFlag)//未聚类
 				{
-					fA = fabs(fA - iteComm->fReachAzimuth);
+					fA = fabs(fA - iteComm->dReachAzimuth);
 					if (fA < Acc.dirAcc*2)//聚为一类
 					{
 						iteComm->cJfFlag = 1;
@@ -953,7 +973,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				if (!iteEsm->cJfFlag)//未聚类
 				{
-					fA = fabs(fA - iteEsm->fReachAzimuth);
+					fA = fabs(fA - iteEsm->dReachAzimuth);
 					if (fA < Acc.dirAcc*2)//聚为一类
 					{
 						iteEsm->cJfFlag = 1;
@@ -966,7 +986,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				if (!iteComm->cJfFlag)//未聚类
 				{
-					fA = fabs(fA - iteComm->fReachAzimuth);
+					fA = fabs(fA - iteComm->dReachAzimuth);
 					if (fA < Acc.dirAcc*2)//聚为一类
 					{
 						iteComm->cJfFlag = 1;
@@ -998,6 +1018,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		if (!iteTrace->cJfFlag)//未聚类
 		{
 			iteTrace->lFlag = 3;//出现，标记为3
+			iteTrace->lAutonum = 0;
 			SingleTrace.push_back(*iteTrace);
 		}
 	}
@@ -1006,6 +1027,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		if (!iteEsm->cJfFlag)//未聚类
 		{
 			iteEsm->lFlag = 3;//出现，标记为3
+			iteEsm->lAutonum = 0;
 			SingleEsm.push_back(*iteEsm);
 		}
 	}
@@ -1014,6 +1036,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		if (!iteComm->cJfFlag)//未聚类
 		{
 			iteComm->lFlag = 3;//出现，标记为3
+			iteComm->lAutonum = 0;
 			SingleComm.push_back(*iteComm);
 		}
 	}
@@ -1206,7 +1229,8 @@ void ShowOfHands(TYPEVEC& Type, VCT_IDENTIINFOR_MSG& IdentifyVec)
 		{
 			STTYPE tmp;
 			tmp.lAutonum = it->lAutonum;
-			tmp.sType = it->sType;
+			//tmp.sType = it->sType;
+			strcpy(tmp.sType,it->sType);
 			tmp.con = it->con;
 			Vcst.push_back(tmp);//将新的目标类型信息存入Vcst
             typenum.push_back(1);//新的目标类型识别数为1
@@ -1248,7 +1272,8 @@ void ShowOfHands(TYPEVEC& Type, VCT_IDENTIINFOR_MSG& IdentifyVec)
 	/*将识别结果存入Identify*/
  	IDENTIINFOR IdentStr;
 	IdentStr.lAutonum = Vcst[max].lAutonum;//综合批号
-	IdentStr.sPlatType = Vcst[max].sType;//目标类型
+	strcpy(IdentStr.sPlatType,Vcst[max].sType);
+	//IdentStr.sPlatType = Vcst[max].sType;//目标类型
 	IdentStr.dConfidence = c;//综合可信度
 	IdentifyVec.push_back(IdentStr);
 
@@ -1349,20 +1374,23 @@ void SingleIdentify(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINO
 		{
 			StType.lAutonum = itt->lAutonum;
 			StType.con = itt->vctEsm[i].dConfidence;
-			StType.sType = itt->vctEsm[i].sPlatType;
+			//StType.sType = itt->vctEsm[i].sPlatType;
+			strcpy(StType.sType, itt->vctEsm[i].sPlatType);
 			Type.push_back(StType);				
 		}
 		for (i = 0; i < nLenCom; i++)//同一批号的comm信息如type结构存入Type
 		{
 			StType.lAutonum = itt->lAutonum;
 			StType.con = itt->vctComm[i].dConfidence;
-			StType.sType = itt->vctComm[i].sPlatType;
+			//StType.sType = itt->vctComm[i].sPlatType;
+			strcpy(StType.sType,itt->vctComm[i].sPlatType);
 			Type.push_back(StType);				
 		}
 		//同一批号的Trace信息如type结构存入Type
 		StType.lAutonum = itt->lAutonum;
 		StType.con = itt->structTrace.dConfidence;
-		StType.sType = itt->structTrace.sPlatType;
+		//StType.sType = itt->structTrace.sPlatType;
+		strcpy(StType.sType,itt->structTrace.sPlatType);
 		Type.push_back(StType);
 
 		ShowOfHands(Type, IdentifyVec);//调用举手表决函数

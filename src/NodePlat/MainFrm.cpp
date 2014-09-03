@@ -176,7 +176,9 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 {
 	// TODO: Add your message handler code here and/or call default
 //	theApp.pOutPt = NULL;
-	
+	VCT_ESM_MSG::iterator ite_Esm;
+	VCT_COMM_MSG::iterator ite_Comm;
+	VCT_TRACE_MSG::iterator ite_Trace;
 	if (8 == nIDEvent)
 	{
 		//调用算法模块
@@ -184,10 +186,26 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 		if (!theApp.m_RecvMsg.stEsm.empty() || !theApp.m_RecvMsg.stComm.empty() || !theApp.m_RecvMsg.stTrace.empty())
 		{
 			SingleIdentify(theApp.m_RecvMsg, theApp.m_ClusterUniMsg, theApp.m_ClusterNoTraceMsg, theApp.m_IdentifyMsg, theApp.m_SingleTrace, theApp.m_SingleEsm, theApp.m_SingleComm);
+			//将编批后的信息存入
+			for (ite_Esm = theApp.m_RecvMsg.stEsm.begin(); ite_Esm != theApp.m_RecvMsg.stEsm.end(); ite_Esm++)
+			{
+				theApp.m_ESM.push_back(*ite_Esm);
+			}
+			for (ite_Comm = theApp.m_RecvMsg.stComm.begin(); ite_Comm != theApp.m_RecvMsg.stComm.end(); ite_Comm++)
+			{
+				theApp.m_Comm.push_back(*ite_Comm);
+			}
+			for (ite_Trace = theApp.m_RecvMsg.stTrace.begin(); ite_Trace != theApp.m_RecvMsg.stTrace.end(); ite_Trace++)
+			{
+				theApp.m_Trace.push_back(*ite_Trace);
+			}
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		
 		//显示数据
+		::PostMessage(theApp.hESM_wmd, WM_ESM_MSG, 0, 0);
+		::PostMessage(theApp.hCOMM_wmd, WM_COMM_MSG, 0, 0);
+		::PostMessage(theApp.hTRACE_wmd, WM_TRACE_MSG, 0, 0);
 		::PostMessage(theApp.hSigOut_wnd, WM_SIG_OUT_MSG, 0, 0);
 		::PostMessage(theApp.hMulOut_wnd, WM_MUL_OUT_MSG, 0, 0);
 	}

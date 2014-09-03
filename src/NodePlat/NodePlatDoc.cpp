@@ -173,7 +173,7 @@ void CNodePlatDoc::OnReceiveMsg()
 			theApp.m_RecvMsg.stEsm = theApp.m_ESM_Dat;
 			::LeaveCriticalSection(&(theApp.g_cs));
 			
-			::PostMessage(theApp.hESM_wmd, WM_ESM_MSG, 0, 0);
+//			::PostMessage(theApp.hESM_wmd, WM_ESM_MSG, 0, 0);
 
 			break;
 		}		
@@ -195,7 +195,7 @@ void CNodePlatDoc::OnReceiveMsg()
 			theApp.m_RecvMsg.stComm = theApp.m_Comm_Dat;
 			::LeaveCriticalSection(&(theApp.g_cs));
 
-			::PostMessage(theApp.hCOMM_wmd, WM_COMM_MSG, 0, 0);
+//			::PostMessage(theApp.hCOMM_wmd, WM_COMM_MSG, 0, 0);
 			
 			break;
 		}
@@ -216,7 +216,7 @@ void CNodePlatDoc::OnReceiveMsg()
 			theApp.m_RecvMsg.stTrace = theApp.m_Trace_Dat;
 			::LeaveCriticalSection(&(theApp.g_cs));
 
-			::PostMessage(theApp.hTRACE_wmd, WM_TRACE_MSG, 0, 0);
+//			::PostMessage(theApp.hTRACE_wmd, WM_TRACE_MSG, 0, 0);
 
 			break;
 		}

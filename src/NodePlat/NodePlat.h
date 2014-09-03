@@ -43,7 +43,12 @@ public:
 	//输入结构体
 	ALL_MSG_INPUT m_RecvMsg;
 
-	//输出指针	//输出:聚类编批结果
+	//输出:编批结果
+	VCT_ESM_MSG m_ESM;
+	VCT_COMM_MSG m_Comm;
+	VCT_TRACE_MSG m_Trace;
+
+	//输出:聚类结果
 	VCT_UNINUM_MSG m_ClusterUniMsg;//有航迹
 	VCT_UNINOTRACE_MSG m_ClusterNoTraceMsg;//无航迹
 	
