@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CMsgFifthPage
+LastClass=CMsgFstPage
 LastTemplate=CPropertyPage
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
@@ -27,18 +27,20 @@ Class15=CNodePlatView
 Class16=CParamFstPage
 Class17=CParamSecondPage
 
-ResourceCount=9
-Resource1=IDD_MSG_DLG_FOURTH
-Resource2=IDR_MAINFRAME
-Resource3=IDD_ABOUTBOX
-Resource4=IDD_PARAM_DLG_SECOND
-Resource5=IDD_PARAM_DLG_FIRST
-Resource6=IDD_MSG_DLG_THREE
-Resource7=IDD_MSG_DLG_SECOND
+ResourceCount=11
+Resource1=IDD_ABOUTBOX
+Resource2=IDD_PARAM_DLG_FIRST
+Resource3=IDD_MSG_DLG_THREE
+Resource4=IDD_MSG_DLG_SECOND
+Resource5=IDR_MENU2
+Resource6=IDR_MENU1
+Resource7=IDR_MAINFRAME
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_FIRST
+Resource8=IDD_MSG_DLG_FOURTH
 Class19=CMsgFifthPage
-Resource9=IDD_MSG_DLG_FIFTH
+Resource9=IDD_PARAM_DLG_SECOND
+Resource10=IDD_MSG_DLG_FIRST
+Resource11=IDD_MSG_DLG_FIFTH
 
 [CLS:CAllParamSheet]
 Type=0
@@ -88,6 +90,7 @@ Type=0
 BaseClass=CPropertyPage
 HeaderFile=MsgFstPage.h
 ImplementationFile=MsgFstPage.cpp
+LastObject=IDM_SENDMSG
 
 [CLS:CMsgListView]
 Type=0
@@ -222,7 +225,7 @@ HeaderFile=MsgFifthPage.h
 ImplementationFile=MsgFifthPage.cpp
 BaseClass=CPropertyPage
 Filter=D
-LastObject=CMsgFifthPage
+LastObject=IDM_SENDMSG
 VirtualFilter=idWC
 
 [DLG:IDD_MSG_DLG_FIFTH]
@@ -230,4 +233,16 @@ Type=1
 Class=?
 ControlCount=1
 Control1=IDC_LIST_UNICLUSTERMSG,SysListView32,1350631425
+
+[MNU:IDR_MENU1]
+Type=1
+Class=?
+Command1=IDM_SENDMSG
+CommandCount=1
+
+[MNU:IDR_MENU2]
+Type=1
+Class=?
+Command1=IDM_SENDMSG
+CommandCount=1
 

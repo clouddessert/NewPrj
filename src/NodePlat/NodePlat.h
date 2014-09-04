@@ -79,6 +79,9 @@ public:
 	//输出:单舰识别结果
 	VCT_IDENTIINFOR_MSG m_IdentifyMsg;
 
+	//请求行号
+	int m_iline;
+
 	//p2p socket
 	CMsgSocket* m_P2PSocket;
 

@@ -22,8 +22,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CMsgFstPage)
 	enum { IDD = IDD_MSG_DLG_FIRST };
-		// NOTE - ClassWizard will add data members here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
+	CListCtrl	m_click_esm;
 	//}}AFX_DATA
 
 
@@ -41,6 +40,9 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	virtual BOOL OnInitDialog();
 	afx_msg LRESULT OnEsmMessage(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnRclickListEsm(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnClickListEsm(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnSendmsg();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

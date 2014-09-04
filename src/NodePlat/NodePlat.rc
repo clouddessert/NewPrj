@@ -86,6 +86,14 @@ BEGIN
     END
 END
 
+IDR_MENU2 MENU DISCARDABLE 
+BEGIN
+    POPUP "sds"
+    BEGIN
+        MENUITEM "∑¢ÀÕ«Î«Û",                    IDM_SENDMSG
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
