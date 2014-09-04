@@ -14,6 +14,9 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+//////////////////////////////////////////////////////////////////////////
+//接受socket
+//CMySocket* m_ReceiveSocket = NULL;
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatApp
 
@@ -249,7 +252,7 @@ void CNodePlatApp::ClientClose(void* pContext)
 		}
 		else
 		{
-			//继续
+			 //继续
 		}
 	}
 	::LeaveCriticalSection(&(theApp.g_cs));
@@ -257,28 +260,143 @@ void CNodePlatApp::ClientClose(void* pContext)
 
 void CNodePlatApp::ReceiveFromClient(void)
 {
-	//1\接收 别人的请求数据
+	//1\接收 别人的请求数据 	//4\接收邻舰发送来的查找到的返回信息
+	//考虑请求是结构体组成的容器 接收后，将发送过来的含数组的容器转成含容器的容器
+#if 0 
+	VCT_SendRequest_Msg::iterator iteRecvReq_Dat;
+	VCT_BACK_Cooperative_Msg::iterator iteBack_Dat;
+	ProtcolHeader stHeader;
+	ZeroMemory(&stHeader, sizeof(ProtcolHeader));
+	//解析包头
+	m_ReceiveSocket->Receive(&stHeader, sizeof(ProtcolHeader));
+	switch (stHeader.nMsgType)  //接收的类型和发送的类型一致
+	{
+		//接收 别人的请求数据,航迹，COM，ESM消息
+    case 5:
+		{
+			SendRequest_Msg tmpRecRequest_Msg;
+			SendBack_Msg tmpRecBack_Mag;
+			//读数据拒绝修改
+			::EnterCriticalSection(&(theApp.g_cs));
+			//清空接收请求信息的容器
+			for ( iteRecvReq_Dat = theApp.m_RecvReqMsg_Dat.begin(); iteRecvReq_Dat != theApp.m_RecvReqMsg_Dat.end(); iteRecvReq_Dat++)
+			{   	 
+			   memset(&(*iteRecvReq_Dat), 0, sizeof(SendRequest_Msg));
+			}
+			theApp.m_RecvReqMsg_Dat.clear();
 
+            //接收
+			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
+			{
+				ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+				m_ReceiveSocket->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+				theApp.m_RecvReqMsg_Dat.push_back(tmpRecRequest_Msg);    
+			}
+			::LeaveCriticalSection(&(theApp.g_cs));	
+			break;
+		}
+	case 6://接收别舰发送来的查找到的返回信息
+		{
+			SendBack_Msg tmpRecBack_Msg;
+			//读数据拒绝修改
+			::EnterCriticalSection(&(theApp.g_cs));
+			//清空接收返回信息的容器
+			for ( iteBack_Dat = theApp.m_RecvBackMsg_Dat.begin(); iteBack_Dat != theApp.m_RecvBackMsg_Dat.end(); iteBack_Dat++)
+			{   	 
+				memset(&(*iteBack_Dat), 0, sizeof(SendBack_Msg));
+			}
+			theApp.m_RecvBackMsg_Dat.clear();
+			
+            //接收
+			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
+			{
+				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+				m_ReceiveSocket->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+				theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);    
+			}
+			::LeaveCriticalSection(&(theApp.g_cs));	
+			break;
+		}
+	default:
+		break;
+	}
+#endif
 
 }
 
 void CNodePlatApp::SendToClient(void)
 {
-	/*
-	//3\请求数据
-	if (需不需要请求)
-	{
-		//send data
 
+#if 0 	
+	//3\请求数据
+	ProtcolHeader stHeader;
+	VCT_SendRequest_Msg::iterator iteSendReq_Dat;
+	VCT_SendBack_Msg::iterator iteSendBack_Dat;
+
+	if (/*有无请求,如何判断*/)  //有请求
+	{    
+		//send data
+		//发送所有请求数据
+	    ::EnterCriticalSection(&(theApp.g_cs));
+		switch (theApp.cMsgType)
+		{
+		case 5:
+			{
+				stHeader.nMsgType = 5;
+				stHeader.nMsgLength = m_SendReqMsg_Dat.size();
+				for ( theApp.m_pClient =m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
+				{
+					theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
+					for (iteSendReq_Dat = theApp.m_SendReqMsg_Dat.begin(); iteSendReq_Dat != theApp.m_SendReqMsg_Dat.end(); iteSendReq_Dat++)
+					{   
+						theApp.m_pClient->second->Send(&(*iteSendReq_Dat), sizeof(SendRequest_Msg/*转化成存放各种数组的结构体类型SendRequest_Msg*/));
+					}
+				}
+			break;
+			}
+		default:
+	        break;
+			}
 	}
 
-	//2\发送给别人响应数据
-	if (have received req data)
+ /*
+//2\发送给别人响应数据
+if (have received req data)
+{
+  if (算法处理完成!)
 	{
-		if (算法处理完成!)
-		{
-			//回传算法数据
+	    //回传算法数据
+	}
+}*/
 
+	if (/*有收到邻舰发送的请求信息*/)
+	{
+	
+		if ( /*算法处理完成*/)  //如何判断算法是否处理完成
+		{ //得到需要返回给邻舰的数据 (该数据已经转换成含数组的容器)
+		  //发送回传算法的数据
+			::EnterCriticalSection(&(theApp.g_cs));
+			switch (theApp.cMsgType)
+			{
+			case 6:
+				{
+					stHeader.nMsgType = 6;
+					stHeader.nMsgLength = m_SendBackMsg_Dat.size();
+					for ( theApp.m_pClient = m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
+					{
+						theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
+						for (iteSendBack_Dat = theApp.m_SendBackMsg_Dat.begin(); iteSendBack_Dat != theApp.m_SendBackMsg_Dat.end(); iteSendBack_Dat++)
+						{   
+							theApp.m_pClient->second->Send(&(*iteSendBack_Dat), sizeof(SendBack_Msg));
+						}
+					}
+					break;
+				}
+			default:
+				break;
+			}			
 		}
-	}*/
+      
+	}
+#endif
 }

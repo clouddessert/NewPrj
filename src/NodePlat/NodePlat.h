@@ -43,12 +43,31 @@ public:
 	//输入结构体
 	ALL_MSG_INPUT m_RecvMsg;
 
+
+	//输入请求信息
+	Request_Cooperative_Msg m_RecvReqMsg;  //结构体 报文头中的信息长度就是容器的大小,即结构体的个数
+
+    VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
+	VCT_SendRequest_Msg m_RecvReqMsg_Dat;    //接收请求信息
+
+	VCT_SendBack_Msg m_SendBackMsg_Dat;      //返回信息
+	VCT_SendBack_Msg m_RecvBackMsg_Dat;      //接收返回信息
+
+
+//		Request_Cooperative_Msg m_RecvReqMsg;   //ESM,COMM用容器接收
+	
+	//消息类型
+	unsigned char cMsgType;	//5 所有信息请求，Track,Esm,Com
+
+	//输出指针	//输出:聚类编批结果
+
 	//输出:编批结果
 	VCT_ESM_MSG m_ESM;
 	VCT_COMM_MSG m_Comm;
 	VCT_TRACE_MSG m_Trace;
 
 	//输出:聚类结果
+
 	VCT_UNINUM_MSG m_ClusterUniMsg;//有航迹
 	VCT_UNINOTRACE_MSG m_ClusterNoTraceMsg;//无航迹
 	

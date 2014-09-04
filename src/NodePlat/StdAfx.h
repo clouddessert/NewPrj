@@ -36,6 +36,7 @@ using namespace std;
 #include "Comm Struct.h"
 
 #include "Alg/SingleIdentify.h"
+#include "Alg/XSi.h"
 
 //ÏûÏ¢
 #define WM_ESM_MSG WM_USER+101
