@@ -45,16 +45,22 @@ public:
 
 
 	//输入请求信息
-	Request_Cooperative_Msg m_RecvReqMsg;  //结构体 报文头中的信息长度就是容器的大小,即结构体的个数
+// 	Request_Cooperative_Msg m_RecvReqMsg;  //结构体 报文头中的信息长度就是容器的大小,即结构体的个数
+// 
+//     VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
+// 	VCT_SendRequest_Msg m_RecvReqMsg_Dat;    //接收请求信息
+// 
+// 	VCT_SendBack_Msg m_SendBackMsg_Dat;      //返回信息
+// 	VCT_SendBack_Msg m_RecvBackMsg_Dat;      //接收返回信息
 
-    VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
-	VCT_SendRequest_Msg m_RecvReqMsg_Dat;    //接收请求信息
+	//信息交互结构体
+	Request_Cooperative_Msg m_StRequest;      //保存联合识别前此批号的本舰信息
 
-	VCT_SendBack_Msg m_SendBackMsg_Dat;      //返回信息
-	VCT_SendBack_Msg m_RecvBackMsg_Dat;      //接收返回信息
+	SendRequest_Msg m_StSendRequest;          //发送请求的结构体
+	SendRequest_Msg m_StReceiveRequest;       //接收请求的结构体
 
-
-//		Request_Cooperative_Msg m_RecvReqMsg;   //ESM,COMM用容器接收
+	SendBack_Msg m_SendBackMsg;               //发送返回信息
+	SendBack_Msg m_ReceiveBackMsg;               //接收返回信息
 	
 	//消息类型
 	unsigned char cMsgType;	//5 所有信息请求，Track,Esm,Com

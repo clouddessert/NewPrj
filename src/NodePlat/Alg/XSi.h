@@ -135,16 +135,23 @@ typedef vector<SendRequest_Msg> VCT_SendRequest_Msg;
 //发送返回信息的结构,结构体中有数组
 typedef struct __SendBack_Msg
 {
-	long int nStampTime;                     //发送返回信息的当前时间 
+	long int num;                            //信息单元序号
+    long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替
+	char *SendIp[20];                        //发送方IP地址
+	char *ReceiveIp[20];                     //接收方IP地址
+	SHIP_POSITION stBackShipPosi;            //应答舰的经纬高
+
 	unsigned long lAutonum;
     TRACKSTATUS_MARK stTrace;                //同一目标的航迹信息,只有一条航迹信息,包含目标的位置，目标类型，目标型号，可信度，目标批号
-	double dRange;                           //目标相对于邻舰的距离
-	double dAzimuth;                         //目标相对于邻舰的方位
-	double dElevationAngle;                  //目标相对于邻舰的仰角
-//目标上雷达数（ESM），
-//目标上通信设备数
-//各雷达型号[数组]
-//各通信型号[数组]
+
+	int BackESMN;                               //ESM信息总数
+	int BackCOMN;                               //COM信息总数
+	//需补充//各雷达型号[数组]
+    //各通信型号[数组]
+// 	double dRange;                           //目标相对于邻舰的距离
+// 	double dAzimuth;                         //目标相对于邻舰的方位
+// 	double dElevationAngle;                  //目标相对于邻舰的仰角
+
 //ESM
 	unsigned long lEsmTargetNumber[10];        //目标批号
 	double dEsmZaiPin[10];                     //载频信息结构..
@@ -154,16 +161,16 @@ typedef struct __SendBack_Msg
     char *sEsmPlatType[10];                    //F117,F118,F119
 	double dEsmConfidence[10];                 //可信度
 //COM
-	unsigned long lComAutonum;			        //目标批号
+	//需补充//通信信号电平[数组]
+	unsigned long lComTargetNumber[10];			//目标COMM批号
     double dComZaiPin[10];                      //载频信息结构
-	double dComPulseExtent[10];                 //脉冲幅度
-	//需补充//通信中心频率[数组]//通信信号电平[数组]//通信跳频次数[数组]//通信通信带宽[数组]
+	double dComPulseExtent[10];                 //脉冲幅度 
+	double dComFre[10];                       // 中心频率(MHz)
+	double dComBand[10];                      // 信号带宽(MHz)
+	double dComJPN[10];                       // 跳步次数
 	char *sComPlatType[10];                     //F117,F118,F119
 	double dComConfidence[10];                  //可信度
-	SHIP_POSITION stBackShipPosi;               //应答舰的经纬高
-	int BackESMN;                               //ESM信息总数
-	int BackCOMN;                               //COM信息总数
-	int BackTrackN;                             //航迹数
+	
 	int nCorrFlag;                            //是否找到关联信息的标志
 }SendBack_Msg;
 typedef vector<SendBack_Msg> VCT_SendBack_Msg;
