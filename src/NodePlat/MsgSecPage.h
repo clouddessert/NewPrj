@@ -22,8 +22,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CMsgSecPage)
 	enum { IDD = IDD_MSG_DLG_SECOND };
-		// NOTE - ClassWizard will add data members here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
+	CListCtrl	m_click_comm;
 	//}}AFX_DATA
 
 
@@ -41,6 +40,7 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	virtual BOOL OnInitDialog();
 	afx_msg LRESULT OnCommMessage(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnRclickListCommunicate(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

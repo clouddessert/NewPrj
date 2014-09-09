@@ -260,7 +260,7 @@ void CMsgFstPage::OnRclickListEsm(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 /*右击弹出菜单*/
 	CMenu menu;
-	VERIFY( menu.LoadMenu(IDR_MENU2) );       //IDR_MENU1是新建菜单ID
+	VERIFY( menu.LoadMenu(IDR_MENU2) );       //IDR_MENU2是新建菜单ID
 	CMenu* popup = menu.GetSubMenu(0);
 	//ASSERT( popup != NULL );
 	popup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
@@ -303,36 +303,143 @@ void CMsgFstPage::OnSendmsg() //响应弹出菜单
 //#if 0
 	//获取需要联合识别的信息，并转化成发送报文的结构
 	VCT_UNINUM_MSG::iterator iteYes;
-	VCT_UNINOTRACE_MSG::iterator iteNo;
+	VCT_UNINOTRACE_MSG::iterator iteNo;	
+	VCT_ESM_MSG::iterator iteEsm;
+	VCT_COMM_MSG::iterator iteComm;
+
 	long int lnum;//请求的合批号
-	lnum = theApp.m_ESM_Dat.at(theApp.m_iline).lAutonum;
+	Request_Cooperative_Msg StRequest;//保存联合识别前此批号的本舰信息
+	SendRequest_Msg StSendRequest;//发送请求的结构体
+
+	lnum = theApp.m_ESM_Dat.at(theApp.m_iline).lAutonum;//获取请求协同的批号
+
+	StRequest.vctEsm.clear();
+	StRequest.vctComm.clear();
+ 	memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK));
+	memset(&StRequest, 0, sizeof(Request_Cooperative_Msg));//清空保存联合识别前信息的结构体
+	memset(&StSendRequest, 0, sizeof(SendRequest_Msg));//清空发送请求的结构体
+
 	if (lnum >= 8000)
 	{
 		for (iteYes = theApp.m_ClusterUniMsg.begin(); iteYes != theApp.m_ClusterUniMsg.end(); iteYes++)
 		{
 			if (iteYes->lAutonum == lnum)
-			{//请求结构体
+			{
+				/*取出联合识别前此批号的相关信息并存储*/
+				StRequest.lAutonum = lnum;//合批号
+				StRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
+				if (iteYes->vctEsm.size())//请求协同ESM信息
+				{
+					for (iteEsm = iteYes->vctEsm.begin(); iteEsm = iteYes->vctEsm.end(); iteEsm++)
+					{
+						StRequest.vctEsm.push_back(*iteEsm);
+					}
+				}
+				if (iteYes->vctComm.size())//请求协同COMM信息
+				{
+					for (iteComm = iteYes->vctComm.begin(); iteComm = iteYes->vctComm.end(); iteComm++)
+					{
+						StRequest.vctComm.push_back(*iteComm);
+					}
+				}
+				////存放本舰经纬高
+				//StRequest.stReqShipPosi.dHeight = iteYes->structTrace.d
+				//StRequest.stReqShipPosi.dLati = ;
+				//StRequest.stReqShipPosi.dLonti = ;
+				StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
 
+
+				/*请求结构体*/
+				//StSendRequest.num ++;//信息单元序号???????????????
+				//long int nStampTime;                     //发送请求信息时的当前时间
+				StSendRequest.lAutomn = lnum;//合批号
+				StSendRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
+				StSendRequest.nRequestEsmN = iteYes->vctEsm.size();
+				StSendRequest.nRequestComN = iteYes->vctComm.size();
+				for (int i = 0; i <= iteYes->vctEsm.size();i++)//请求协同ESM信息
+				{
+					StSendRequest.lEsmTargetNumber[i] = iteYes->vctEsm.at(i).lTargetNumber;//目标esm批号
+					StSendRequest.dEsmZaiPin[i] = iteYes->vctEsm.at(i).dZaiPin;//载频
+					StSendRequest.dEsmMaiKuan[i] = iteYes->vctEsm.at(i).dMaiKuan;////脉宽
+					StSendRequest.dEsmTianXianScan[i] = iteYes->vctEsm.at(i).dTianXianScan;//天线扫描信息
+				}
+				for (i = 0; i <= iteYes->vctComm.size();i++)//请求协同COMM信息
+				{
+					StSendRequest.lComTargetNumber[i] = iteYes->vctComm.at(i).lTargetNumber;//目标comm批号
+					StSendRequest.dComZaiPin[i] = iteYes->vctComm.at(i).dComZaiPin;//载频信息
+					StSendRequest.dComPulseExtent[i] = iteYes->vctComm.at(i).dPulseExtent;//脉冲幅度
+				}
+				//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高
+				//StSendRequest.stReqShipPosi.dLati = ;
+				//StSendRequest.stReqShipPosi.dLonti = ;
 				
-
-
+				StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
 
 				break;
 			}
 		}
 	} 
+
 	else
 	{
 		for (iteNo = theApp.m_ClusterNoTraceMsg.begin(); iteNo != theApp.m_ClusterNoTraceMsg.end(); iteNo++)
 		{
 			if (iteNo->lAutonum == lnum)
-			{//请求结构体
+			{
+				/*取出联合识别前此批号的相关信息并存储*/
+				StRequest.lAutonum = lnum;//合批号
+				//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);
+				if (iteNo->vctEsm.size())//请求协同ESM信息
+				{
+					for (iteEsm = iteNo->vctEsm.begin(); iteEsm = iteNo->vctEsm.end(); iteEsm++)
+					{
+						StRequest.vctEsm.push_back(*iteEsm);
+					}
+				}
+				if (iteNo->vctComm.size())//请求协同COMM信息
+				{
+					for (iteComm = iteNo->vctComm.begin(); iteComm = iteNo->vctComm.end(); iteComm++)
+					{
+						StRequest.vctComm.push_back(*iteComm);
+					}
+				}
+				//存放本舰经纬高
+// 				StRequest.stReqShipPosi.dHeight = ;
+// 				StRequest.stReqShipPosi.dLati = ;
+// 				StRequest.stReqShipPosi.dLonti = ;
+				StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
+
 				
+				/*请求结构体*/				
+				//StSendRequest.num ++;//信息单元序号???????????????
+				//long int nStampTime;                     //发送请求信息时的当前时间
+				StSendRequest.lAutomn = lnum;//合批号
+				//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);//请求协同TRACE信息
+				StSendRequest.nRequestEsmN = iteNo->vctEsm.size();
+				StSendRequest.nRequestComN = iteNo->vctComm.size();
+				for (int i = 0; i <= iteNo->vctEsm.size();i++)//请求协同ESM信息
+				{
+					StSendRequest.lEsmTargetNumber[i] = iteNo->vctEsm.at(i).lTargetNumber;//目标esm批号
+					StSendRequest.dEsmZaiPin[i] = iteNo->vctEsm.at(i).dZaiPin;//载频
+					StSendRequest.dEsmMaiKuan[i] = iteNo->vctEsm.at(i).dMaiKuan;////脉宽
+					StSendRequest.dEsmTianXianScan[i] = iteNo->vctEsm.at(i).dTianXianScan;//天线扫描信息
+				}
+				for (i = 0; i <= iteNo->vctComm.size();i++)//请求协同COMM信息
+				{
+					StSendRequest.lComTargetNumber[i] = iteNo->vctComm.at(i).lTargetNumber;//目标comm批号
+					StSendRequest.dComZaiPin[i] = iteNo->vctComm.at(i).dComZaiPin;//载频信息
+					StSendRequest.dComPulseExtent[i] = iteNo->vctComm.at(i).dPulseExtent;//脉冲幅度
+				}
+				//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高
+				//StSendRequest.stReqShipPosi.dLati = ;
+				//StSendRequest.stReqShipPosi.dLonti = ;
 				
+				StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
 				
 				break;
 			}
 		}
 	}
+
 //#endif	
 }

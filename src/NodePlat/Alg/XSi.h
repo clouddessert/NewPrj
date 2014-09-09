@@ -84,17 +84,13 @@ typedef struct __FUS_COM
 
 typedef struct __Request_Cooperative_Msg     //主舰请求协同的信息数据结构
 {
-//	double dRange;                           //目标对于本舰的距离（信息来自于航迹Track信息）
-//	double dAzimuth;                         //目标方位
-//	double dElevationAngle;                  //目标仰角
-//  如果某舰送入的时间太长，一般取大于4个周期,即时差=当前时间-发送请求时间>4个战情更新时间，则认为没收到此邻舰协同信息
-    long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
+	long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
 //  VCT_TRACE_MSG vctTrace;                  //请求协同的航迹信息
 	unsigned long lAutonum;
 	TRACKSTATUS_MARK stTrace;
 	VCT_ESM_MSG vctEsm;                      //是否要加?????????  当送出的信息只有ESM ，请求协同ESM信息
 	VCT_COMM_MSG vctComm;                    //是否要加?????????  当送出的信息只有COM , 请求协同的COM信息   
-    SHIP_POSITION stReqShipPosi;
+    SHIP_POSITION stReqShipPosi;             //存放本舰经纬高
     int nCorrFlag;                           //请求信息的结构体是否找到相关联信息的标志
 // 	double dLonti;                           //主舰经度(弧度)
 // 	double dLati;                            //主舰纬度(弧度)
@@ -107,23 +103,32 @@ typedef struct __Request_Cooperative_Msg     //主舰请求协同的信息数据结构
 //把容器换成数组，发送请求的信息结构
 typedef struct __SendRequest_Msg     //需要发送的请求信息，主舰请求协同的信息数据结构
 {
-    long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
-	unsigned long lAutonum;
+	long int num;                            //信息单元序号
+    long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替
+	char *ReceiveIp[20];                     //接收方IP地址
+	char *SendIp[20];                        //发送方IP地址
+	SHIP_POSITION stReqShipPosi;             //本舰经纬高
+	
+	unsigned long lAutomn;                   //合批号
 	TRACKSTATUS_MARK stTrace;
+
+	int nRequestEsmN;                         //本舰目标所含的ESM数
+	int nRequestComN;                         //本舰目标所含的COM数
 //ESM
-	unsigned long lEsmTargetNumber[10];        //目标批号
+	unsigned long lEsmTargetNumber[10];        //目标ESM批号
 	double dEsmZaiPin[10];                     //载频信息结构..
 	double dEsmMaiKuan[10];                    //脉宽信息结构..
 	double dEsmTianXianScan[10];               //天线扫描信息结构..
-//  char *sEsmPlatType[10];                   //存放Esm平台类型数组
+
 //COM
-	unsigned long lComAutonum;			        //目标批号
+	unsigned long lComTargetNumber[10];			//目标COMM批号
     double dComZaiPin[10];                      //载频信息结构
 	double dComPulseExtent[10];                 //脉冲幅度 
-	SHIP_POSITION stReqShipPosi;
-   	int nRequestEsmN;
-	int nRequestComN;
-	int nRequestTrackN;
+//0909补充:
+	double dComFre[10];                       // 中心频率(MHz)
+	double dComBand[10];                      // 信号带宽(MHz)
+	double dComJPN[10];                       // 跳步次数
+
 	int nCorrFlag;                           //请求信息的结构体是否找到相关联信息的标志
 }SendRequest_Msg;
 typedef vector<SendRequest_Msg> VCT_SendRequest_Msg;

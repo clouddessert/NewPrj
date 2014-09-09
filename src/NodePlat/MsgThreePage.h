@@ -22,8 +22,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CMsgThreePage)
 	enum { IDD = IDD_MSG_DLG_THREE };
-		// NOTE - ClassWizard will add data members here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
+	CListCtrl	m_click_trace;
 	//}}AFX_DATA
 
 
@@ -41,6 +40,7 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg LRESULT OnTraceMessage(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnRclickListTrace(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 

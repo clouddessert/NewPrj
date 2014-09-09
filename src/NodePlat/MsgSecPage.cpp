@@ -21,7 +21,6 @@ IMPLEMENT_DYNCREATE(CMsgSecPage, CPropertyPage)
 CMsgSecPage::CMsgSecPage() : CPropertyPage(CMsgSecPage::IDD)
 {
 	//{{AFX_DATA_INIT(CMsgSecPage)
-		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 }
 
@@ -33,7 +32,7 @@ void CMsgSecPage::DoDataExchange(CDataExchange* pDX)
 {
 	CPropertyPage::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CMsgSecPage)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
+	DDX_Control(pDX, IDC_LIST_COMMUNICATE, m_click_comm);
 	//}}AFX_DATA_MAP
 }
 
@@ -42,6 +41,7 @@ BEGIN_MESSAGE_MAP(CMsgSecPage, CPropertyPage)
 	//{{AFX_MSG_MAP(CMsgSecPage)
 	ON_WM_SIZE()
 	ON_MESSAGE(WM_COMM_MSG, OnCommMessage)
+ 	ON_NOTIFY(NM_RCLICK, IDC_LIST_COMMUNICATE, OnRclickListCommunicate)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -200,3 +200,35 @@ LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)
 	
 	return 0;  
 } 
+
+void CMsgSecPage::OnRclickListCommunicate(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	// TODO: Add your control notification handler code here
+//#if 0
+	DWORD dwPos = GetMessagePos();
+	CPoint point( LOWORD(dwPos), HIWORD(dwPos) ); 
+	/*获得行列号*/
+	m_click_comm.ScreenToClient(&point);
+	
+	LVHITTESTINFO lvinfo;
+	lvinfo.pt = point;
+	lvinfo.flags = LVHT_ABOVE;
+	int nItem = m_click_comm.SubItemHitTest(&lvinfo);
+	if(nItem != -1)
+	{
+		//CString strtemp;
+		//strtemp.Format("点击的是第%d行第%d列", lvinfo.iItem, lvinfo.iSubItem);
+		//AfxMessageBox(strtemp);
+		theApp.m_iline = lvinfo.iItem;
+	}
+	/*右击弹出菜单*/
+	CMenu menu;
+	VERIFY( menu.LoadMenu(IDR_MENU2) );       //IDR_MENU2是新建菜单ID
+	CMenu* popup = menu.GetSubMenu(0);
+	//ASSERT( popup != NULL );
+	popup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
+		this );//TPM_RIGHTBUTTON使右键点击菜单也起作用 
+//#endif
+
+	*pResult = 0;
+}
