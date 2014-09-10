@@ -79,6 +79,10 @@ typedef struct __COMSTATUS_MARK           //通信侦查信息
 	double dElevationAngle;              //仰角
 	unsigned long lSignalReachTime;      //信号到达时间
    	double dPulseExtent;                 //脉冲幅度 
+// 0909补充:
+     	double dComFre;                       // 中心频率(MHz)
+	double dComBand;                      // 信号带宽(MHz)
+	double dComJPN;                       // 跳步次数
 //识别信息 
     char cSignalType[32];                 //信号类型
 	char cModulationStyle[32];            //调制样式     
