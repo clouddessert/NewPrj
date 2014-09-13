@@ -212,6 +212,21 @@ void CCommandPlatView::OnDraw(CDC* pDC)
 		   }
 	   }
 
+		   for ( pShip_Position = theApp.m_Ship_Position.begin(); pShip_Position != theApp.m_Ship_Position.end(); pShip_Position++)
+		   {
+				   CDC MemDc4;         //用作缓冲作图的内存DC，定义一个显示位图对象
+				   CBitmap bmp2/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+				   BITMAP bmpInfo2/*,bmpInfo2*/;
+				   bmp2.LoadBitmap(IDB_SHIP1);
+				   bmp2.GetObject(sizeof(bmpInfo2), &bmpInfo2);
+				   MemDc4.CreateCompatibleDC(pDC);  
+				   CBitmap* pOldBitmap = MemDc4.SelectObject(&bmp2);
+				   m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pShip_Position->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+				   m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pShip_Position->dLati)/(UP_LATI-DOWN_LATI));
+				   MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo2.bmWidth, bmpInfo2.bmHeight, &MemDc4, 0, 0, SRCCOPY); 
+				   MemDc4.DeleteDC(); 
+		   }
+
 	//复制图像
 	pDC->StretchBlt(0, 0, ClientRect.Width(), ClientRect.Height(), &MemDc,
 		0, 0, bBitMap.bmWidth, bBitMap.bmHeight, SRCCOPY);
@@ -599,6 +614,19 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 3;
 	}
+	else if (nIDEvent == 8)
+	{
+		//updata Data
+		::EnterCriticalSection(&(theApp.g_cs));
+		for (pShip_Position = theApp.m_Ship_Position.begin(); pShip_Position != theApp.m_Ship_Position.end(); pShip_Position++)
+		{
+			pShip_Position->dHeight = pShip_Position->dHeight ;
+			pShip_Position->dLonti  = pShip_Position->dLonti  + 0.0001;
+			pShip_Position->dLati  = pShip_Position->dLati  + 0.0001;
+		}
+		::LeaveCriticalSection(&(theApp.g_cs));
+		theApp.cMsgType = 4;
+	}
 	else
 	{
 
@@ -634,4 +662,6 @@ void CCommandPlatView::OnInitialUpdate()
 	SetTimer(5, 1000, NULL);	//ESM
 	SetTimer(6, 500, NULL);		//Comm
 	SetTimer(7, 500, NULL);		//Trace
+	SetTimer(8, 500, NULL);     //ShipPosition
+
 }

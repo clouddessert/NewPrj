@@ -153,16 +153,16 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 			//((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertItem(nTmp, strTmp, 9);				
 			fTmp = iterator->lAutonum;//综合批号
 			strTmp.Format("%d", (int)fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->InsertItem(nTmp, strTmp, 9);
+			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->InsertItem(nTmp, strTmp, 9);
 			
 //			fTmp = iterator->sPlatType;  //短整型  //平台类型
 //			strTmp.Format("%d", (int)fTmp);
 			strTmp.Format("%s", iterator->sPlatType);
-			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->SetItemText(nTmp, 1, strTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetItemText(nTmp, 1, strTmp);
 			
 			fTmp = iterator->dConfidence;  //置信度
 			strTmp.Format("%.2f", fTmp);
-			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->SetItemText(nTmp, 2, strTmp);	
+			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetItemText(nTmp, 2, strTmp);	
 		
 		}
 		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetRedraw();//启动

@@ -138,6 +138,7 @@ void CDrawView::OnDraw(CDC* pDC)
     GetClientRect(&rect);
 
 	VCT_TRACE_MSG::iterator pTrace_Dat;
+	VCT_SHIP_POSITION::iterator pShip_Position;
 	
 	if (!theApp.m_Trace_Dat.empty())
 	   {
@@ -201,9 +202,26 @@ void CDrawView::OnDraw(CDC* pDC)
 				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
 				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
 				MemDc123.DeleteDC(); 		   
-			}	  
+			}	
 		}
-	   }
+	  }
+	//显示舰的信息
+	for ( pShip_Position = theApp.m_Ship_Position.begin(); pShip_Position != theApp.m_Ship_Position.end(); pShip_Position++)
+	{
+		CDC MemDc4;         //用作缓冲作图的内存DC，定义一个显示位图对象
+		CBitmap bmp2/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+		BITMAP bmpInfo2/*,bmpInfo2*/;
+		bmp2.LoadBitmap(IDB_SHIP1);
+		bmp2.GetObject(sizeof(bmpInfo2), &bmpInfo2);
+		MemDc4.CreateCompatibleDC(pDC);  
+		CBitmap* pOldBitmap = MemDc4.SelectObject(&bmp2);
+		m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pShip_Position->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+		m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pShip_Position->dLati)/(UP_LATI-DOWN_LATI));
+		MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo2.bmWidth, bmpInfo2.bmHeight, &MemDc4, 0, 0, SRCCOPY); 
+		MemDc4.DeleteDC(); 
+	}
+
+
 	
 	//复制图像
 	pDC->StretchBlt(0, 0, ClientRect.Width(), ClientRect.Height(), &MemDc,

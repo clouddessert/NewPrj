@@ -11,6 +11,9 @@
 #include "MsgThreePage.h"
 #include "MsgFourthPage.h"
 #include "MsgFifthPage.h"
+#include "MsgSixthPage.h"
+#include "MsgSeventhPage.h"
+#include "MsgEighthPage.h"
 /////////////////////////////////////////////////////////////////////////////
 // CMsgAllSheet
 
@@ -30,6 +33,10 @@ private:
 	CMsgThreePage m_ThreePage;
 	CMsgFourthPage m_FourthPage;
 	CMsgFifthPage m_FifthPage;
+	CMsgSixthPage m_SixthPage;
+	CMsgSeventhPage m_SeventhPage;
+	CMsgEighthPage m_EighthPage;
+
 // Operations
 public:
 

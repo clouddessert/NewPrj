@@ -29,6 +29,9 @@ CMsgAllSheet::CMsgAllSheet(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPag
 	AddPage(&m_ThreePage);
 	AddPage(&m_FourthPage);
 	AddPage(&m_FifthPage);
+	AddPage(&m_SixthPage);
+	AddPage(&m_SeventhPage);
+	AddPage(&m_EighthPage);
 
 }
 
@@ -68,6 +71,16 @@ BOOL CMsgAllSheet::OnInitDialog()
 	item.mask = TCIF_TEXT;
 	item.pszText = "多舰联合识别信息";
 	GetTabControl()->SetItem(4, &item);
+	item.mask = TCIF_TEXT;
+	item.pszText = "多舰融合ESM信息";
+	GetTabControl()->SetItem(5, &item);
+	item.mask = TCIF_TEXT;
+	item.pszText = "多舰融合通讯信息";
+	GetTabControl()->SetItem(6, &item);
+	item.mask = TCIF_TEXT;
+	item.pszText = "多舰融合航迹信息";
+	GetTabControl()->SetItem(7, &item);
+
 
 	return bResult;
 }

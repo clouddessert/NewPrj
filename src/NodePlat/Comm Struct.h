@@ -135,6 +135,7 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
 
 }TRACKSTATUS_MARK;
 
+typedef vector<SHIP_POSITION> VCT_SHIP_POSITION; //存储各舰的GPS信息
 typedef vector<ESMSTATUS_MARK> VCT_ESM_MSG;	//存储雷达侦察信息
 typedef vector<COMSTATUS_MARK> VCT_COMM_MSG; //存储通信侦查信息
 typedef vector<TRACKSTATUS_MARK> VCT_TRACE_MSG; //存储雷达探测信息

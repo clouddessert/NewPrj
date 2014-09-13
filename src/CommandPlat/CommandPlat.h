@@ -63,6 +63,8 @@ public:
 	VCT_ESM_MSG m_ESM_Dat;
 	VCT_COMM_MSG m_Comm_Dat;
 	VCT_TRACE_MSG m_Trace_Dat;
+	VCT_SHIP_POSITION m_Ship_Position;
+
 
 
 public:

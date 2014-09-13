@@ -199,6 +199,7 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 	VCT_ESM_MSG::iterator pESM_Dat;
 	VCT_COMM_MSG::iterator pComm_Dat;
 	VCT_TRACE_MSG::iterator pTrace_Dat;
+	VCT_SHIP_POSITION::iterator pShip_Position;
 
 	while (theApp.bThreadRun)
 	{
@@ -253,6 +254,19 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 				}
 				str = _T("·¢ËÍº½¼£Êý¾Ý\r\n");
 				theApp.m_NewMessage.push_back(str);
+				break;
+			case 4:
+				stHeader.nMsgType = 4;
+				stHeader.nMsgLength = theApp.m_Ship_Position.size();
+				for (theApp.m_pClient = theApp.m_ClientMap.begin(); theApp.m_pClient != theApp.m_ClientMap.end(); theApp.m_pClient++)
+				{
+					theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
+					
+					for (pShip_Position = theApp.m_Ship_Position.begin(); pShip_Position != theApp.m_Ship_Position.end(); pShip_Position++)
+					{
+						theApp.m_pClient->second->Send(&(*pShip_Position), sizeof(SHIP_POSITION));
+					}
+				}
 				break;
 			default:
 				break;
@@ -376,11 +390,30 @@ void CCommandPlatApp::OnStartJq()
 	theApp.m_ESM_Dat.clear();
 	theApp.m_Comm_Dat.clear();
 	theApp.m_Trace_Dat.clear();
+	theApp.m_Ship_Position.clear();
 
 	//init data
 	ESMSTATUS_MARK stEsmStatus;
 	COMSTATUS_MARK  stComStatus;
 	TRACKSTATUS_MARK stTrackStatus;
+	SHIP_POSITION stShipPosition;
+
+//Ship Position
+	stShipPosition.dHeight = 0.0;
+	stShipPosition.dLonti = 119.1;
+	stShipPosition.dLati = 22.5;
+	theApp.m_Ship_Position.push_back(stShipPosition); //½¢1
+
+	stShipPosition.dHeight = 0.0;
+	stShipPosition.dLonti = 116.5;
+	stShipPosition.dLati = 22.0;
+	theApp.m_Ship_Position.push_back(stShipPosition); //½¢2
+
+	stShipPosition.dHeight = 0.0;
+	stShipPosition.dLonti = 121.5;
+	stShipPosition.dLati = 26.0;
+	theApp.m_Ship_Position.push_back(stShipPosition); //½¢3
+
 //ESM	
 	stEsmStatus.lTargetNumber = 3001;
     stEsmStatus.dReachAzimuth =(float)35.0;
@@ -586,6 +619,7 @@ void CCommandPlatApp::OnStopJq()
 	theApp.m_ESM_Dat.clear();
 	theApp.m_Comm_Dat.clear();
 	theApp.m_Trace_Dat.clear();
+	theApp.m_Ship_Position.clear();
 
 
 	//update List

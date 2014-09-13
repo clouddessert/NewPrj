@@ -119,6 +119,10 @@ SOURCE=.\MsgCtlView.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\MsgEighthPage.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MsgFifthPage.cpp
 # End Source File
 # Begin Source File
@@ -136,6 +140,14 @@ SOURCE=.\MsgListView.cpp
 # Begin Source File
 
 SOURCE=.\MsgSecPage.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgSeventhPage.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgSixthPage.cpp
 # End Source File
 # Begin Source File
 
@@ -225,6 +237,10 @@ SOURCE=.\MsgCtlView.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\MsgEighthPage.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\MsgFifthPage.h
 # End Source File
 # Begin Source File
@@ -242,6 +258,14 @@ SOURCE=.\MsgListView.h
 # Begin Source File
 
 SOURCE=.\MsgSecPage.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgSeventhPage.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgSixthPage.h
 # End Source File
 # Begin Source File
 

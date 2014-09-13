@@ -27,20 +27,23 @@ Class15=CNodePlatView
 Class16=CParamFstPage
 Class17=CParamSecondPage
 
-ResourceCount=11
-Resource1=IDD_MSG_DLG_FOURTH
+ResourceCount=14
+Resource1=IDD_MSG_DLG_SIXTH
 Resource2=IDR_MENU2
 Resource3=IDD_ABOUTBOX
 Resource4=IDD_PARAM_DLG_SECOND
-Resource5=IDD_MSG_DLG_FIRST
+Resource5=IDD_MSG_DLG_FOURTH
 Resource6=IDR_MENU1
-Resource7=IDD_MSG_DLG_SECOND
+Resource7=IDD_MSG_DLG_FIFTH
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_THREE
+Resource8=IDD_MSG_DLG_FIRST
 Class19=CMsgFifthPage
 Resource9=IDR_MAINFRAME
-Resource10=IDD_PARAM_DLG_FIRST
-Resource11=IDD_MSG_DLG_FIFTH
+Resource10=IDD_MSG_DLG_THREE
+Resource11=IDD_MSG_DLG_SEVENTH
+Resource12=IDD_MSG_DLG_SECOND
+Resource13=IDD_PARAM_DLG_FIRST
+Resource14=IDD_MSG_DLG_EIGHTH
 
 [CLS:CAllParamSheet]
 Type=0
@@ -250,4 +253,22 @@ Type=1
 Class=?
 Command1=IDM_SENDMSG
 CommandCount=1
+
+[DLG:IDD_MSG_DLG_SIXTH]
+Type=1
+Class=?
+ControlCount=1
+Control1=IDC_LIST_MulESM,SysListView32,1350631425
+
+[DLG:IDD_MSG_DLG_SEVENTH]
+Type=1
+Class=?
+ControlCount=1
+Control1=IDC_LIST_MulCOMM,SysListView32,1350631425
+
+[DLG:IDD_MSG_DLG_EIGHTH]
+Type=1
+Class=?
+ControlCount=1
+Control1=IDC_LIST_MulTRACE,SysListView32,1350631425
 

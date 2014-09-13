@@ -63,6 +63,8 @@ private:
 	VCT_ESM_MSG::iterator pESM_Dat;
 	VCT_COMM_MSG::iterator pComm_Dat;
 	VCT_TRACE_MSG::iterator pTrace_Dat;
+	VCT_SHIP_POSITION::iterator pShip_Position;
+
 
 //	VCT_IDENTIFY_MSG::iterator pIDENTIFY_Dat;
 

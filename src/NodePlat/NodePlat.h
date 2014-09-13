@@ -39,10 +39,11 @@ public:
 	VCT_ESM_MSG m_ESM_Dat;
 	VCT_COMM_MSG m_Comm_Dat;
 	VCT_TRACE_MSG m_Trace_Dat;
+	VCT_SHIP_POSITION m_Ship_Position;
 
 	//输入结构体
 	ALL_MSG_INPUT m_RecvMsg;
-
+	VCT_SHIP_POSITION m_SPosition;
 
 	//输入请求信息
 // 	Request_Cooperative_Msg m_RecvReqMsg;  //结构体 报文头中的信息长度就是容器的大小,即结构体的个数
@@ -103,6 +104,11 @@ public:
 	HWND hTRACE_wmd;
 	HWND hSigOut_wnd;
 	HWND hMulOut_wnd;
+	//多舰
+	HWND hMulESM_wmd;
+	HWND hMulCOMM_wnd;
+	HWND hMulTRACE_wnd;
+
 
 	//view的指针
 	void* pXview;

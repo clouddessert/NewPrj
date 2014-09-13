@@ -46,6 +46,7 @@ CNodePlatDoc::CNodePlatDoc()
 	theApp.m_RecvMsg.stComm.clear();
 	theApp.m_RecvMsg.stEsm.clear();
 	theApp.m_RecvMsg.stTrace.clear();
+	theApp.m_SPosition.clear();
 }
 
 CNodePlatDoc::~CNodePlatDoc()
@@ -57,6 +58,7 @@ CNodePlatDoc::~CNodePlatDoc()
 	theApp.m_RecvMsg.stComm.clear();
 	theApp.m_RecvMsg.stEsm.clear();
 	theApp.m_RecvMsg.stTrace.clear();
+	theApp.m_SPosition.clear();
 }
 
 BOOL CNodePlatDoc::OnNewDocument()
@@ -128,6 +130,7 @@ void CNodePlatDoc::OnConnectsvr()
 		theApp.m_RecvMsg.stComm.clear();
 		theApp.m_RecvMsg.stEsm.clear();
 		theApp.m_RecvMsg.stTrace.clear();
+		theApp.m_SPosition.clear();
 
 		//开始记录数据
 		CMainFrame* pTmp = (CMainFrame*)AfxGetMainWnd();
@@ -220,6 +223,29 @@ void CNodePlatDoc::OnReceiveMsg()
 
 			break;
 		}
+	case 4:
+		{
+			SHIP_POSITION tmp;
+			//读数据拒绝修改
+			::EnterCriticalSection(&(theApp.g_cs));
+			theApp.m_Ship_Position.clear();
+			for (int nNum = 1; nNum<=stHeader.nMsgLength; ++nNum)
+			{
+				ZeroMemory(&tmp, sizeof(SHIP_POSITION));
+				m_ReceiveSocket->Receive(&tmp, sizeof(SHIP_POSITION));	
+				theApp.m_Ship_Position.push_back(tmp);
+			}
+			//copy
+			theApp.m_SPosition.clear();
+			theApp.m_SPosition= theApp.m_Ship_Position;
+			::LeaveCriticalSection(&(theApp.g_cs));
+			
+			//			::PostMessage(theApp.hTRACE_wmd, WM_TRACE_MSG, 0, 0);
+			
+			break;
+		}
+
+
 	default:
 		break;
 	}	

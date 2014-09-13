@@ -169,6 +169,30 @@ BEGIN
                     LVS_REPORT | WS_BORDER | WS_TABSTOP,30,20,70,50
 END
 
+IDD_MSG_DLG_SIXTH DIALOG DISCARDABLE  0, 0, 187, 94
+STYLE WS_CHILD
+FONT 9, "свт╡"
+BEGIN
+    CONTROL         "List1",IDC_LIST_MulESM,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,29,8,60,50
+END
+
+IDD_MSG_DLG_SEVENTH DIALOG DISCARDABLE  0, 0, 187, 94
+STYLE WS_CHILD
+FONT 9, "свт╡"
+BEGIN
+    CONTROL         "List1",IDC_LIST_MulCOMM,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,39,15,60,50
+END
+
+IDD_MSG_DLG_EIGHTH DIALOG DISCARDABLE  0, 0, 187, 94
+STYLE WS_CHILD
+FONT 9, "свт╡"
+BEGIN
+    CONTROL         "List1",IDC_LIST_MulTRACE,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,28,20,60,50
+END
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
@@ -227,6 +251,11 @@ BEGIN
         RIGHTMARGIN, 228
         TOPMARGIN, 7
         BOTTOMMARGIN, 48
+    END
+
+    IDD_MSG_DLG_SEVENTH, DIALOG
+    BEGIN
+        RIGHTMARGIN, 186
     END
 END
 #endif    // APSTUDIO_INVOKED

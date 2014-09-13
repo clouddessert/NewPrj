@@ -19,6 +19,9 @@
 #define IDD_DIALOG1                     144
 #define IDR_MENU1                       145
 #define IDR_MENU2                       147
+#define IDD_MSG_DLG_SIXTH               148
+#define IDD_MSG_DLG_SEVENTH             149
+#define IDD_MSG_DLG_EIGHTH              150
 #define IDC_LIST_ESM                    1000
 #define IDC_LIST_COMMUNICATE            1001
 #define IDC_LIST_TRACE                  1002
@@ -27,6 +30,9 @@
 #define IDC_LIST_FIRSTIDENTMSG          1003
 #define IDC_ENEMY_TREE                  1004
 #define IDC_LIST_UNICLUSTERMSG          1004
+#define IDC_LIST_MulESM                 1005
+#define IDC_LIST_MulTRACE               1007
+#define IDC_LIST_MulCOMM                1008
 #define IDM_CONNECTSVR                  32772
 #define IDM_SENDMSG                     32773
 
@@ -35,9 +41,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_RESOURCE_VALUE        151
 #define _APS_NEXT_COMMAND_VALUE         32774
-#define _APS_NEXT_CONTROL_VALUE         1005
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
