@@ -42,7 +42,7 @@ protected:
 	afx_msg LRESULT OnEsmMessage(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnRclickListEsm(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnClickListEsm(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnSendmsg();
+	//afx_msg void OnSendmsg();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

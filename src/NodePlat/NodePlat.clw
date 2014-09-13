@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CMsgSecPage
+LastClass=CMsgFstPage
 LastTemplate=CPropertyPage
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
@@ -28,21 +28,21 @@ Class16=CParamFstPage
 Class17=CParamSecondPage
 
 ResourceCount=14
-Resource1=IDD_MSG_DLG_SIXTH
-Resource2=IDR_MENU2
-Resource3=IDD_ABOUTBOX
-Resource4=IDD_PARAM_DLG_SECOND
-Resource5=IDD_MSG_DLG_FOURTH
+Resource1=IDD_MSG_DLG_SECOND
+Resource2=IDD_MSG_DLG_FIFTH
+Resource3=IDD_MSG_DLG_SIXTH
+Resource4=IDD_MSG_DLG_SEVENTH
+Resource5=IDD_PARAM_DLG_FIRST
 Resource6=IDR_MENU1
-Resource7=IDD_MSG_DLG_FIFTH
+Resource7=IDD_MSG_DLG_THREE
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_FIRST
+Resource8=IDD_PARAM_DLG_SECOND
 Class19=CMsgFifthPage
-Resource9=IDR_MAINFRAME
-Resource10=IDD_MSG_DLG_THREE
-Resource11=IDD_MSG_DLG_SEVENTH
-Resource12=IDD_MSG_DLG_SECOND
-Resource13=IDD_PARAM_DLG_FIRST
+Resource9=IDD_MSG_DLG_FOURTH
+Resource10=IDR_MENU2
+Resource11=IDD_MSG_DLG_FIRST
+Resource12=IDD_ABOUTBOX
+Resource13=IDR_MAINFRAME
 Resource14=IDD_MSG_DLG_EIGHTH
 
 [CLS:CAllParamSheet]
@@ -93,7 +93,7 @@ Type=0
 BaseClass=CPropertyPage
 HeaderFile=MsgFstPage.h
 ImplementationFile=MsgFstPage.cpp
-LastObject=IDC_LIST_ESM
+LastObject=CMsgFstPage
 
 [CLS:CMsgListView]
 Type=0
@@ -108,7 +108,7 @@ HeaderFile=MsgSecPage.h
 ImplementationFile=MsgSecPage.cpp
 Filter=D
 VirtualFilter=idWC
-LastObject=IDC_LIST_COMMUNICATE
+LastObject=IDM_SENDMSG
 
 [CLS:CMsgThreePage]
 Type=0
@@ -130,6 +130,8 @@ BaseClass=CWinApp
 HeaderFile=NodePlat.h
 ImplementationFile=NodePlat.cpp
 LastObject=CNodePlatApp
+Filter=N
+VirtualFilter=AC
 
 [CLS:CAboutDlg]
 Type=0
