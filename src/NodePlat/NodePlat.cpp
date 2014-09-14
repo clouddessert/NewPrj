@@ -259,7 +259,39 @@ void CNodePlatApp::ClientClose(void* pContext)
 
 void CNodePlatApp::ReceiveFromClient(void)
 {
-	//1\接收 别人的请求数据 	//4\接收邻舰发送来的查找到的返回信息
+#if 0
+	//接收包头
+
+	//根据包头类型做出状态机
+
+	switch (包的类型)
+	{
+	case 11:
+		//接收的请求
+		
+		//去你的数据库寻找数据;
+
+		//准备发送
+		//方法1
+		//放到需要发送的buufer里面,定时检查buffer是否为空,不是就发发送!
+
+
+		//方法2
+		if (找到)
+		//SendToClient();
+
+		break;
+	case 12:
+		//接收的别人的数据
+
+		//保存到接收的buffer,over
+		break;
+	default:
+		break;
+	}
+#endif
+	
+	//\接收 别人的请求数据 	//4\接收邻舰发送来的查找到的返回信息
 	//考虑请求是结构体组成的容器 接收后，将发送过来的含数组的容器转成含容器的容器
 #if 0 
 
@@ -385,10 +417,32 @@ if (have received req data)
 	}
 #endif
 }
-void CNodePlatApp::OnSendmsg() 
+
+void CNodePlatApp::OnSendmsg(/*vector<IP>*/) 
 {
 	// TODO: Add your command handler code here
 	AfxMessageBox("ok");
+#if 0
+
+
+	for (i = 0; i < 5; ++i)
+	{
+		//组包
+		
+		//向相应的节点发送数据包
+		//记录当前时间
+		
+		//超时判断
+		//判断接收的容器是否为空?
+		
+		//如果不为空,接收的数据参与运算!
+		//参与运算,先copy一份当前的容器;清空接收的buffer容器
+
+	}
+
+	//调用算法
+#endif
+
 //#if 0
 	//获取需要联合识别的信息，并转化成发送报文的结构
 	VCT_UNINUM_MSG::iterator iteYes;
