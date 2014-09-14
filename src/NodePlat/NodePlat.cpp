@@ -260,41 +260,61 @@ void CNodePlatApp::ClientClose(void* pContext)
 void CNodePlatApp::ReceiveFromClient(void)
 {
 #if 0
+	//0914改
 	//接收包头
-
 	//根据包头类型做出状态机
-
-	switch (包的类型)
+	ProtcolHeader stHeader;
+	ZeroMemory(&stHeader, sizeof(ProtcolHeader));
+	m_ReceiveSocket->Receive(&stHeader, sizeof(ProtcolHeader));
+	switch (stHeader.nMsgType)
 	{
 	case 11:
+		{
 		//接收的请求
-		
-		//去你的数据库寻找数据;
-
+		//去你的数据库寻找数据; 匹配?????????还需修改算法接口
 		//准备发送
 		//方法1
-		//放到需要发送的buufer里面,定时检查buffer是否为空,不是就发发送!
-
-
+		//放到需要发送的buufer里面,定时检查buffer是否为空,不是就发发送!?????????
 		//方法2
-		if (找到)
+		//if (找到)
 		//SendToClient();
-
+		SendRequest_Msg tmpRecRequest_Msg;
+		::EnterCriticalSection(&(theApp.g_cs));
+		memset(&theApp.m_StReceiveRequest, 0, sizeof(SendRequest_Msg));
+		for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
+		{
+			ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+			m_ReceiveSocket->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+		}
+		//调用查找匹配请求的信息的算法,还需修改算法接口
+       	::LeaveCriticalSection(&(theApp.g_cs));	
 		break;
+		}
+
 	case 12:
 		//接收的别人的数据
-
-		//保存到接收的buffer,over
-		break;
+	    //保存到接收的buffer,over?????????????
+		{
+			SendBack_Msg tmpRecBack_Msg;
+			::EnterCriticalSection(&(theApp.g_cs));
+			memset(&theApp.m_ReceiveBackMsg, 0, sizeof(SendBack_Msg));
+			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
+			{
+				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+				m_ReceiveSocket->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+			}
+			::LeaveCriticalSection(&(theApp.g_cs));	
+			break;
+		}
 	default:
 		break;
 	}
 #endif
-	
+
+#if 0 	
+    //0903改
 	//\接收 别人的请求数据 	//4\接收邻舰发送来的查找到的返回信息
 	//考虑请求是结构体组成的容器 接收后，将发送过来的含数组的容器转成含容器的容器
-#if 0 
-
 	ProtcolHeader stHeader;
 	ZeroMemory(&stHeader, sizeof(ProtcolHeader));
 	//解析包头
@@ -349,7 +369,8 @@ void CNodePlatApp::ReceiveFromClient(void)
 void CNodePlatApp::SendToClient(void)
 {
 
-#if 0 	
+#if 0 
+	//0903改
 	//3\请求数据
 	ProtcolHeader stHeader;
 	VCT_SendRequest_Msg::iterator iteSendReq_Dat;
@@ -388,7 +409,6 @@ if (have received req data)
 	    //回传算法数据
 	}
 }*/
-
 	if (sizeof(theApp.m_SendBackMsg))
 	{
 		if (/*算法处理完成*/)//如何判断算法是否处理完成
@@ -405,8 +425,7 @@ if (have received req data)
 					for ( theApp.m_pClient = m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
 					{
 						theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
-						theApp.m_pClient->second->Send(&theApp.m_SendBackMsg, sizeof(SendBack_Msg));
-						
+						theApp.m_pClient->second->Send(&theApp.m_SendBackMsg, sizeof(SendBack_Msg));						
 					}
 					break;
 				}
@@ -423,8 +442,7 @@ void CNodePlatApp::OnSendmsg(/*vector<IP>*/)
 	// TODO: Add your command handler code here
 	AfxMessageBox("ok");
 #if 0
-
-
+   //0914改
 	for (i = 0; i < 5; ++i)
 	{
 		//组包
