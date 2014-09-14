@@ -16,6 +16,8 @@
 
 #include "MsgSocket.h"
 #include "MySocket.h"
+#include <map>
+using namespace std;
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatApp:
 // See NodePlat.cpp for the implementation of this class
@@ -62,6 +64,9 @@ public:
 
 	SendBack_Msg m_SendBackMsg;               //发送返回信息
 	SendBack_Msg m_ReceiveBackMsg;               //接收返回信息
+
+	
+	map<int, CString> IpMap;                //存放所有邻舰IP地址
 	
 	//消息类型
 	unsigned char cMsgType;	//5 所有信息请求，Track,Esm,Com
@@ -88,6 +93,9 @@ public:
 
 	//请求行号
 	int m_iline;
+
+	//各舰返回的所有匹配信息
+	VCT_BACK_Cooperative_Msg m_BackMsg;
 
 	//p2p socket
 	CMsgSocket* m_P2PSocket;
@@ -127,7 +135,7 @@ public:
 // Implementation
 	//{{AFX_MSG(CNodePlatApp)
 	afx_msg void OnAppAbout();
-	afx_msg void OnSendmsg();
+	afx_msg void OnSendmsg(/*map<int, CString> IpMap*/);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

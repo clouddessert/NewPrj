@@ -92,11 +92,10 @@ typedef struct __Request_Cooperative_Msg     //Ö÷½¢ÇëÇóĞ­Í¬µÄĞÅÏ¢Êı¾İ½á¹¹
 	VCT_COMM_MSG vctComm;                    //ÊÇ·ñÒª¼Ó?????????  µ±ËÍ³öµÄĞÅÏ¢Ö»ÓĞCOM , ÇëÇóĞ­Í¬µÄCOMĞÅÏ¢   
     SHIP_POSITION stReqShipPosi;             //´æ·Å±¾½¢¾­Î³¸ß
     int nCorrFlag;                           //ÇëÇóĞÅÏ¢µÄ½á¹¹ÌåÊÇ·ñÕÒµ½Ïà¹ØÁªĞÅÏ¢µÄ±êÖ¾
-// 	double dLonti;                           //Ö÷½¢¾­¶È(»¡¶È)
-// 	double dLati;                            //Ö÷½¢Î³¶È(»¡¶È)
-// 	double dHeight;                          //Ö÷½¢¸ß¶È£¨Ò»°ãÎª0£©£¬µ±ÇëÇóĞ­Í¬µÄÎª·É»ú£¬¸ß¶È²»Îª0
+
 
 }Request_Cooperative_Msg;
+
 
 ///////////////////////////////////////////////////
 ///////////////////////////////////////////////////
@@ -105,8 +104,8 @@ typedef struct __SendRequest_Msg     //ĞèÒª·¢ËÍµÄÇëÇóĞÅÏ¢£¬Ö÷½¢ÇëÇóĞ­Í¬µÄĞÅÏ¢Êı¾
 {
 	long int num;                            //ĞÅÏ¢µ¥ÔªĞòºÅ
     long int nStampTime;                     //·¢ËÍÇëÇóĞÅÏ¢Ê±µÄµ±Ç°Ê±¼ä £¬ÉÏÊöµÄµ±Ç°Ê±¼ä¿ÉÓÃ·µ»ØĞÅÏ¢µÄµ±Ç°Ê±¼äÀ´´úÌæ
-	char *ReceiveIp[20];                     //½ÓÊÕ·½IPµØÖ·
-	char *SendIp[20];                        //·¢ËÍ·½IPµØÖ·
+// 	char *ReceiveIp[20];                     //½ÓÊÕ·½IPµØÖ·
+// 	char *SendIp[20];                        //·¢ËÍ·½IPµØÖ·
 	SHIP_POSITION stReqShipPosi;             //±¾½¢¾­Î³¸ß
 	
 	unsigned long lAutomn;                   //ºÏÅúºÅ
@@ -131,7 +130,7 @@ typedef struct __SendRequest_Msg     //ĞèÒª·¢ËÍµÄÇëÇóĞÅÏ¢£¬Ö÷½¢ÇëÇóĞ­Í¬µÄĞÅÏ¢Êı¾
 
 	int nCorrFlag;                           //ÇëÇóĞÅÏ¢µÄ½á¹¹ÌåÊÇ·ñÕÒµ½Ïà¹ØÁªĞÅÏ¢µÄ±êÖ¾
 }SendRequest_Msg;
-typedef vector<SendRequest_Msg> VCT_SendRequest_Msg;
+//typedef vector<SendRequest_Msg> VCT_SendRequest_Msg;
 //·¢ËÍ·µ»ØĞÅÏ¢µÄ½á¹¹,½á¹¹ÌåÖĞÓĞÊı×é
 typedef struct __SendBack_Msg
 {
@@ -173,7 +172,7 @@ typedef struct __SendBack_Msg
 	
 	int nCorrFlag;                            //ÊÇ·ñÕÒµ½¹ØÁªĞÅÏ¢µÄ±êÖ¾
 }SendBack_Msg;
-typedef vector<SendBack_Msg> VCT_SendBack_Msg;
+//typedef vector<SendBack_Msg> VCT_SendBack_Msg;
 
 ///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -249,8 +248,6 @@ typedef struct __UNI_All_NUM //¾ÛÀàºóÓĞ±àÅúºÍÎŞ±àÅúÊı¾İ½á¹¹
 	VCT_ESM_MSG vctSingleEsm;
 	VCT_TRACE_MSG vctSingleTrace;
 }UNI_All_NUM;
-
-
 
 
 
