@@ -101,10 +101,10 @@ public:
 	CMsgSocket* m_P2PSocket;
 
 	//客户端
-	CMySocket* pClient;
+	CMsgSocket* pClient;
 	//客户端指针
-	map<DWORD, CMySocket*> m_ClientMap;
-	map<DWORD, CMySocket*>::iterator m_pClient;
+	map<DWORD, CMsgSocket*> m_ClientMap;
+	map<DWORD, CMsgSocket*>::iterator m_pClient;
 
 public:
 	HWND hESM_wmd;
@@ -129,8 +129,8 @@ public:
 	void ClientAccept(void);
 	void ClientClose(void* pContext);
 
-	void ReceiveFromClient(void);
-	void SendToClient(void);
+	void ReceiveFromClient(CMsgSocket* pThis);
+	void SendToClient(CMsgSocket* pThis);
 
 // Implementation
 	//{{AFX_MSG(CNodePlatApp)

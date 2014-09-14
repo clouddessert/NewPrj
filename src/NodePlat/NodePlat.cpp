@@ -14,9 +14,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//////////////////////////////////////////////////////////////////////////
-//接受socket
-//MySocket* m_ReceiveSocket = NULL;
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatApp
 
@@ -188,9 +185,9 @@ void CNodePlatApp::ServerCreate(void)
 	theApp.m_P2PSocket->Socket();
 	
 	theApp.m_P2PSocket->Bind(P2P_SERVER_PORT);
+	
 	//开始监听
 	theApp.m_P2PSocket->Listen();
-	
 }
 
 void CNodePlatApp::ServerShutDown(void)
@@ -214,12 +211,12 @@ void CNodePlatApp::ServerShutDown(void)
 }
 
 void CNodePlatApp::ClientAccept(void)
-{
+{	
 	CString strTmp;
 	UINT nPort = 0;
 	DWORD dwClientIP = 0;
 	
-	theApp.pClient = new CMySocket();
+	theApp.pClient = new CMsgSocket();
 	//接受连接
 	theApp.m_P2PSocket->Accept(*(theApp.pClient));
 	
@@ -257,7 +254,7 @@ void CNodePlatApp::ClientClose(void* pContext)
 	::LeaveCriticalSection(&(theApp.g_cs));
 }
 
-void CNodePlatApp::ReceiveFromClient(void)
+void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 {
 #if 0
 	//0914改
@@ -265,7 +262,7 @@ void CNodePlatApp::ReceiveFromClient(void)
 	//根据包头类型做出状态机
 	ProtcolHeader stHeader;
 	ZeroMemory(&stHeader, sizeof(ProtcolHeader));
-	theApp.m_P2PSocket->Receive(&stHeader, sizeof(ProtcolHeader));
+	pThis->Receive(&stHeader, sizeof(ProtcolHeader));		//后面的指针都用pThis
 	switch (stHeader.nMsgType)
 	{
 	case 11:
@@ -284,10 +281,14 @@ void CNodePlatApp::ReceiveFromClient(void)
 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
 			{
 				ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-				theApp.m_P2PSocket->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-			}
-			//调用查找匹配请求的信息的算法,还需修改算法接口
+				pThis->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+			}	//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
 			::LeaveCriticalSection(&(theApp.g_cs));	
+
+			//调用查找匹配请求的信息的算法,还需修改算法接口
+			
+			//SendTo,一定要添加,这里为了方便使用立刻sendTO
+			SendToClient(pThis);
 			break;
 		}
 		
@@ -301,7 +302,7 @@ void CNodePlatApp::ReceiveFromClient(void)
 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
 			{
 				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-				theApp.m_P2PSocket->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+				pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
 			}
 			::LeaveCriticalSection(&(theApp.g_cs));	
 			break;
@@ -366,9 +367,21 @@ void CNodePlatApp::ReceiveFromClient(void)
 	
 }
 
-void CNodePlatApp::SendToClient(void)
+void CNodePlatApp::SendToClient(CMsgSocket* pThis)
 {
-	
+	//这里需要写！！！！
+	//这里需要sendto的数据准备好
+
+	//准备完成，发送
+	UINT nPort = 0;
+	CString strTmp;
+	pThis->GetPeerName(strTmp, nPort);
+
+	//前面2个需要修改
+	theApp.m_P2PSocket->SendTo(NULL, sizeof(theApp.m_StSendRequest), nPort, strTmp);
+
+	//it is ok!
+
 #if 0 
 	//0903改
 	//3\请求数据
@@ -535,7 +548,9 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 	//如果不为空,接收的数据参与运算!
 	//参与运算,先copy一份当前的容器;清空接收的buffer容器
 
-	for (int i = 0; i < theApp.IpMap.size(); ++i)
+	for (int i = 0; i < theApp.IpMap.size(); ++i)//????????????????????????????????????仔细想想！
+	//这里面的map是界面传过来的！！不是全局的那个map，全局的map是给你界面用的。比如你选中B舰，这里的vector就是B舰的
+	//for (int i = 0; i < IpMap.size(); ++i)
 	{	
 		//组包/*请求结构体*/
 		if (lnum >= 8000)
@@ -609,14 +624,22 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 			}
 		}
 		//向相应的节点发送数据包
+		//这里是是在全局的包里面找到那个IP地址
 		iteMap = theApp.IpMap.find(i);
-		theApp.m_P2PSocket->SendTo(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest), P2P_SERVER_PORT, iteMap->second,0);		
+		//这里必须要主动连接!!!
+		theApp.m_P2PSocket->Connect(iteMap->second, P2P_SERVER_PORT);
+		//这里的sendTo就是用这个socket！！！不需要改
+		theApp.m_P2PSocket->SendTo(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest), P2P_SERVER_PORT, iteMap->second);		
 		//记录当前时间(组包时当前时戳)
 			
-		//超时判断
+		//超时判断（我最后写，这个部分比较复杂!!需要在所有写好的基础上）
 
-		//判断接收的信息是否为空		
-		if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!
+		//这里的接收缓冲区是vector！！！！！！！！！！！！！！！！
+		//不是一个结构体，不只是接收一个结构体！！！！！
+		//重写!!!!
+#if 0
+		//判断接收的信息是否为空
+		if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true的！！！！姐姐们，结构体的的size是一直有的。你们写个程序测试下！！！！！
 		{	
 			//先将当前结构体中数组转化成容器!!!!!!!!!待写
 
@@ -626,15 +649,11 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 			//清空接收的结构体/*buffer容器*/
 			memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
 		}
-			
-			
-			
+#endif					
 	}
 
 	//调用算法
-
-
-
+	//你们针对现有的东西，把算法的接口调整好！！！！！
 
 //#endif
 		
