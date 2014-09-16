@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=CMsgFstPage
-LastTemplate=CPropertyPage
+LastClass=CNetworkSetting
+LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
 LastPage=0
 
-ClassCount=19
+ClassCount=20
 Class1=CAllParamSheet
 Class2=CDrawView
 Class3=CMainFrame
@@ -27,23 +27,25 @@ Class15=CNodePlatView
 Class16=CParamFstPage
 Class17=CParamSecondPage
 
-ResourceCount=14
-Resource1=IDD_MSG_DLG_SECOND
-Resource2=IDD_MSG_DLG_FIFTH
-Resource3=IDD_MSG_DLG_SIXTH
-Resource4=IDD_MSG_DLG_SEVENTH
-Resource5=IDD_PARAM_DLG_FIRST
+ResourceCount=15
+Resource1=IDD_MSG_DLG_SIXTH
+Resource2=IDR_MAINFRAME
+Resource3=IDR_MENU2
+Resource4=IDD_ABOUTBOX
+Resource5=IDD_MSG_DLG_FOURTH
 Resource6=IDR_MENU1
-Resource7=IDD_MSG_DLG_THREE
+Resource7=IDD_MSG_DLG_FIFTH
 Class18=CMsgSocket
-Resource8=IDD_PARAM_DLG_SECOND
+Resource8=IDD_MSG_DLG_FIRST
 Class19=CMsgFifthPage
-Resource9=IDD_MSG_DLG_FOURTH
-Resource10=IDR_MENU2
-Resource11=IDD_MSG_DLG_FIRST
-Resource12=IDD_ABOUTBOX
-Resource13=IDR_MAINFRAME
-Resource14=IDD_MSG_DLG_EIGHTH
+Resource9=IDD_MSG_DLG_EIGHTH
+Resource10=IDD_PARAM_DLG_FIRST
+Resource11=IDD_MSG_DLG_SEVENTH
+Resource12=IDD_MSG_DLG_THREE
+Resource13=IDD_PARAM_DLG_SECOND
+Resource14=IDD_MSG_DLG_SECOND
+Class20=CNetworkSetting
+Resource15=IDD_NETWORKDLG
 
 [CLS:CAllParamSheet]
 Type=0
@@ -146,6 +148,8 @@ BaseClass=CDocument
 HeaderFile=NodePlatDoc.h
 ImplementationFile=NodePlatDoc.cpp
 LastObject=CNodePlatDoc
+Filter=N
+VirtualFilter=DC
 
 [CLS:CNodePlatView]
 Type=0
@@ -216,9 +220,10 @@ Control1=IDC_ENEMY_TREE,SysTreeView32,1350631431
 [MNU:IDR_MAINFRAME]
 Type=1
 Class=?
-Command1=IDM_CONNECTSVR
-Command2=ID_APP_ABOUT
-CommandCount=2
+Command1=ID_NETWORKSETTING
+Command2=IDM_CONNECTSVR
+Command3=ID_APP_ABOUT
+CommandCount=3
 
 [CLS:CMsgSocket]
 Type=0
@@ -273,4 +278,24 @@ Type=1
 Class=?
 ControlCount=1
 Control1=IDC_LIST_MulTRACE,SysListView32,1350631425
+
+[CLS:CNetworkSetting]
+Type=0
+HeaderFile=NetworkSetting.h
+ImplementationFile=NetworkSetting.cpp
+BaseClass=CDialog
+Filter=D
+LastObject=CNetworkSetting
+VirtualFilter=dWC
+
+[DLG:IDD_NETWORKDLG]
+Type=1
+Class=CNetworkSetting
+ControlCount=6
+Control1=IDC_SERVERSET,button,1342177287
+Control2=IDC_TEAMSET,button,1342177287
+Control3=IDC_SERVERIP,static,1342308352
+Control4=IDC_SERIP,edit,1350631552
+Control5=IDC_TEAMLIST,SysListView32,1350631425
+Control6=IDC_BUTTONCLOSE,button,1342242816
 

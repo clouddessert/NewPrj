@@ -44,6 +44,7 @@ protected:
 protected:
 	//{{AFX_MSG(CNodePlatDoc)
 	afx_msg void OnConnectsvr();
+	afx_msg void OnNetworksetting();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

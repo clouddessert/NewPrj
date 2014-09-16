@@ -6,7 +6,7 @@
 
 #include "MainFrm.h"
 #include "NodePlatDoc.h"
-
+#include "NetworkSetting.h"
 //////////////////////////////////////////////////////////////////////////
 #include "MySocket.h"
 
@@ -30,6 +30,7 @@ IMPLEMENT_DYNCREATE(CNodePlatDoc, CDocument)
 BEGIN_MESSAGE_MAP(CNodePlatDoc, CDocument)
 	//{{AFX_MSG_MAP(CNodePlatDoc)
 	ON_COMMAND(IDM_CONNECTSVR, OnConnectsvr)
+	ON_COMMAND(ID_NETWORKSETTING, OnNetworksetting)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -249,4 +250,17 @@ void CNodePlatDoc::OnReceiveMsg()
 	default:
 		break;
 	}	
+}
+
+void CNodePlatDoc::OnNetworksetting() 
+{
+	// TODO: Add your command handler code here
+
+	CNetworkSetting dlg;
+	dlg.DoModal();
+	
+// 	CNetworkSetting* set = new CNetworkSetting;
+// 	set->Create(IDD_NETWORK,NULL);
+// 	set->ShowWindow(SW_SHOW);
+	
 }

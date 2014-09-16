@@ -130,7 +130,7 @@ typedef struct __SendRequest_Msg     //ĞèÒª·¢ËÍµÄÇëÇóĞÅÏ¢£¬Ö÷½¢ÇëÇóĞ­Í¬µÄĞÅÏ¢Êı¾
 
 	int nCorrFlag;                           //ÇëÇóĞÅÏ¢µÄ½á¹¹ÌåÊÇ·ñÕÒµ½Ïà¹ØÁªĞÅÏ¢µÄ±êÖ¾
 }SendRequest_Msg;
-//typedef vector<SendRequest_Msg> VCT_SendRequest_Msg;
+typedef vector<SendRequest_Msg> VCT_SendRequest_Msg;
 //·¢ËÍ·µ»ØĞÅÏ¢µÄ½á¹¹,½á¹¹ÌåÖĞÓĞÊı×é
 typedef struct __SendBack_Msg
 {
@@ -172,7 +172,7 @@ typedef struct __SendBack_Msg
 	
 	int nCorrFlag;                            //ÊÇ·ñÕÒµ½¹ØÁªĞÅÏ¢µÄ±êÖ¾
 }SendBack_Msg;
-//typedef vector<SendBack_Msg> VCT_SendBack_Msg;
+typedef vector<SendBack_Msg> VCT_SendBack_Msg;
 
 ///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////

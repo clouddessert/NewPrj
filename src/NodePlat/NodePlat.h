@@ -50,9 +50,9 @@ public:
 	//输入请求信息
 // 	Request_Cooperative_Msg m_RecvReqMsg;  //结构体 报文头中的信息长度就是容器的大小,即结构体的个数
 // 
-       VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
+    VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
  	VCT_SendRequest_Msg m_RecvReqMsg_Dat;    //接收请求信息
-// 
+
  	VCT_SendBack_Msg m_SendBackMsg_Dat;      //返回信息
  	VCT_SendBack_Msg m_RecvBackMsg_Dat;      //接收返回信息
 
@@ -116,6 +116,8 @@ public:
 	HWND hMulESM_wmd;
 	HWND hMulCOMM_wnd;
 	HWND hMulTRACE_wnd;
+
+	//HWND hIp_wnd;
 
 
 	//view的指针

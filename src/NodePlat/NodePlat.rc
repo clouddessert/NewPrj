@@ -78,6 +78,7 @@ IDR_MAINFRAME MENU PRELOAD DISCARDABLE
 BEGIN
     POPUP "网络设置"
     BEGIN
+        MENUITEM "网络配置",                    ID_NETWORKSETTING
         MENUITEM "连接服务器",                  IDM_CONNECTSVR
     END
     POPUP "帮助(&H)"
@@ -193,6 +194,19 @@ BEGIN
                     WS_BORDER | WS_TABSTOP,28,20,60,50
 END
 
+IDD_NETWORKDLG DIALOG DISCARDABLE  0, 0, 231, 185
+STYLE WS_POPUP
+FONT 10, "新宋体"
+BEGIN
+    GROUPBOX        "服务器配置",IDC_SERVERSET,8,6,206,40
+    GROUPBOX        "编队配置",IDC_TEAMSET,8,57,206,98
+    LTEXT           "服务器IP：",IDC_SERVERIP,23,25,44,8
+    EDITTEXT        IDC_SERIP,73,23,123,14,ES_AUTOHSCROLL
+    CONTROL         "List1",IDC_TEAMLIST,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,23,81,172,50
+    PUSHBUTTON      "关闭",IDC_BUTTONCLOSE,173,164,50,14
+END
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
@@ -256,6 +270,11 @@ BEGIN
     IDD_MSG_DLG_SEVENTH, DIALOG
     BEGIN
         RIGHTMARGIN, 186
+    END
+
+    IDD_NETWORKDLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 230
     END
 END
 #endif    // APSTUDIO_INVOKED

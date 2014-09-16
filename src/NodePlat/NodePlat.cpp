@@ -227,13 +227,15 @@ void CNodePlatApp::ClientAccept(void)
 	
 	//¥Ê»Îmap
 	::EnterCriticalSection(&(theApp.g_cs));
-	theApp.m_ClientMap.insert(map<DWORD, CMySocket*>::value_type(dwClientIP, theApp.pClient));
+//	theApp.m_ClientMap.insert(map<DWORD, CMySocket*>::value_type(dwClientIP, theApp.pClient));
+	theApp.m_ClientMap.insert(map<DWORD, CMsgSocket*>::value_type(dwClientIP, theApp.pClient));
 	::LeaveCriticalSection(&(theApp.g_cs));
 }
 
 void CNodePlatApp::ClientClose(void* pContext)
 {
-	CMySocket* pSk = (CMySocket*)pContext;
+	//CMySocket* pSk = (CMySocket*)pContext;
+	CMsgSocket* pSk = (CMsgSocket*)pContext;
 	
 	::EnterCriticalSection(&(theApp.g_cs));
 	for (theApp.m_pClient = theApp.m_ClientMap.begin(); theApp.m_pClient != theApp.m_ClientMap.end(); theApp.m_pClient++)

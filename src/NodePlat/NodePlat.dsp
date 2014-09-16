@@ -163,6 +163,10 @@ SOURCE=.\MySocket.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\NetworkSetting.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\NodePlat.cpp
 # End Source File
 # Begin Source File
@@ -278,6 +282,10 @@ SOURCE=.\MsgThreePage.h
 # Begin Source File
 
 SOURCE=.\MySocket.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\NetworkSetting.h
 # End Source File
 # Begin Source File
 
