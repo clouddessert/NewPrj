@@ -163,6 +163,10 @@ SOURCE=.\MsgThreePage.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Alg\MultipleIdentify.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MySocket.cpp
 # End Source File
 # Begin Source File
@@ -290,6 +294,10 @@ SOURCE=.\MsgSocket.h
 # Begin Source File
 
 SOURCE=.\MsgThreePage.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Alg\MultipleIdentify.h
 # End Source File
 # Begin Source File
 

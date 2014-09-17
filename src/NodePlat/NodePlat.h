@@ -88,6 +88,8 @@ public:
 	
 	//输出:单舰识别结果
 	VCT_IDENTIINFOR_MSG m_IdentifyMsg;
+	//输出:多舰识别结果
+	VCT_MIDENTIINFOR_MSG m_MulIdentifyMsg;
 
 	//请求行号
 	int m_iline;

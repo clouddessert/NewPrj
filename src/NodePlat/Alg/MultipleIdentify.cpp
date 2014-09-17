@@ -1,4 +1,5 @@
 #include "MultipleIdentify.h"
+#include <StdAfx.h>
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
@@ -7,28 +8,28 @@
 /************************************************************************/
 /*                             集对分析算子                             */
 /************************************************************************/
-void Mf_SPA(double s, double t,double& corr)
-{
-	double spa;
-	double tmp;
-	
-	double a,b,c;
-	
-	if(s>t)
-	{
-		tmp =s;
-		s=t;
-		t=tmp;
-	}
-	
-	a=s/t;
-	b=s/t/(t*t-1);
-	c=(t*t-s*t-1)/(t*t-1);
-	
-	spa=a+fabs(b)-fabs(c);
-	
-	corr=spa;                 //带回两数相关系数
-}
+void Mf_SPA(double s, double t,double& corr);
+// {
+// 	double spa;
+// 	double tmp;
+// 	
+// 	double a,b,c;
+// 	
+// 	if(s>t)
+// 	{
+// 		tmp =s;
+// 		s=t;
+// 		t=tmp;
+// 	}
+// 	
+// 	a=s/t;
+// 	b=s/t/(t*t-1);
+// 	c=(t*t-s*t-1)/(t*t-1);
+// 	
+// 	spa=a+fabs(b)-fabs(c);
+// 	
+// 	corr=spa;                 //带回两数相关系数
+// }
 
 /**************************************************************************/
 /***********                 从大到小排序模块             *****************/

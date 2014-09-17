@@ -38,6 +38,7 @@ using namespace std;
 #include "Alg/SingleIdentify.h"
 #include "Alg/XSi.h"
 #include "Alg/CooperativeMsg.h"
+#include "Alg/MultipleIdentify.h"
 
 //ÏûÏ¢
 #define WM_ESM_MSG WM_USER+101

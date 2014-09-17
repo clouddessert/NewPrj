@@ -818,6 +818,7 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 
 	//µ˜”√À„∑®
 	GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
+	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
 	
 
 //#endif		
