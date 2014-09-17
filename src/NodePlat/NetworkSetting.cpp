@@ -30,7 +30,7 @@ void CNetworkSetting::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CNetworkSetting)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
+	DDX_Control(pDX, IDC_IPADDRESS, m_ipaddr);
 	//}}AFX_DATA_MAP
 }
 
@@ -64,7 +64,11 @@ BOOL CNetworkSetting::OnInitDialog()
 	::GetPrivateProfileString(_T("IP地址"), _T("服务器IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath);
 	strTmp.ReleaseBuffer();
 
-	GetDlgItem(IDC_SERIP)->SetWindowText(strTmp);	//显示服务器IP	
+	DWORD dwIP; 
+	dwIP = inet_addr(strTmp); 
+	unsigned char *pIP = (unsigned char*)&dwIP; 
+	m_ipaddr.SetAddress(*pIP, *(pIP+1), *(pIP+2), *(pIP+3));//显示服务器IP
+	//GetDlgItem(IDC_IPADDRESS)->SetWindowText(strTmp);		
 	// 	//保存当前IP
 	// 	::WritePrivateProfileString(_T("IP地址"), _T("服务器IP地址"), strTmp, sPath);
 	

@@ -28,22 +28,22 @@ Class16=CParamFstPage
 Class17=CParamSecondPage
 
 ResourceCount=15
-Resource1=IDD_PARAM_DLG_FIRST
-Resource2=IDD_MSG_DLG_FIRST
-Resource3=IDD_MSG_DLG_FOURTH
-Resource4=IDD_MSG_DLG_FIFTH
-Resource5=IDD_ABOUTBOX
+Resource1=IDD_PARAM_DLG_SECOND
+Resource2=IDD_MSG_DLG_SECOND
+Resource3=IDD_MSG_DLG_FIRST
+Resource4=IDD_MSG_DLG_FOURTH
+Resource5=IDR_MENU2
 Resource6=IDR_MENU1
-Resource7=IDD_PARAM_DLG_SECOND
+Resource7=IDD_ABOUTBOX
 Class18=CMsgSocket
-Resource8=IDR_MENU2
+Resource8=IDR_MAINFRAME
 Class19=CMsgFifthPage
-Resource9=IDD_MSG_DLG_SECOND
-Resource10=IDD_MSG_DLG_SEVENTH
-Resource11=IDD_MSG_DLG_THREE
-Resource12=IDD_MSG_DLG_EIGHTH
-Resource13=IDD_MSG_DLG_SIXTH
-Resource14=IDR_MAINFRAME
+Resource9=IDD_MSG_DLG_THREE
+Resource10=IDD_MSG_DLG_SIXTH
+Resource11=IDD_PARAM_DLG_FIRST
+Resource12=IDD_MSG_DLG_SEVENTH
+Resource13=IDD_MSG_DLG_FIFTH
+Resource14=IDD_MSG_DLG_EIGHTH
 Class20=CNetworkSetting
 Resource15=IDD_NETWORKDLG
 
@@ -285,7 +285,7 @@ HeaderFile=NetworkSetting.h
 ImplementationFile=NetworkSetting.cpp
 BaseClass=CDialog
 Filter=D
-LastObject=CNetworkSetting
+LastObject=IDC_IPADDRESS
 VirtualFilter=dWC
 
 [DLG:IDD_NETWORKDLG]
@@ -295,7 +295,7 @@ ControlCount=6
 Control1=IDC_SERVERSET,button,1342177287
 Control2=IDC_TEAMSET,button,1342177287
 Control3=IDC_SERVERIP,static,1342308352
-Control4=IDC_SERIP,edit,1350631552
-Control5=IDC_TEAMLIST,SysListView32,1350631425
-Control6=IDC_BUTTONCLOSE,button,1342242816
+Control4=IDC_TEAMLIST,SysListView32,1350631425
+Control5=IDC_BUTTONCLOSE,button,1342242816
+Control6=IDC_IPADDRESS,SysIPAddress32,1342242816
 

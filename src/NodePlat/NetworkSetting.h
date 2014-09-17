@@ -19,7 +19,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CNetworkSetting)
 	enum { IDD = IDD_NETWORKDLG };
-		// NOTE: the ClassWizard will add data members here
+	CIPAddressCtrl	m_ipaddr;
 	//}}AFX_DATA
 
 
