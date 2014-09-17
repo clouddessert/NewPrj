@@ -1,5 +1,5 @@
 
-//#include "Comm Struct.h"
+#include "../Comm Struct.h"
 using namespace std;
 
 
@@ -258,34 +258,34 @@ typedef vector<BACK_Cooperative_Msg> VCT_BACK_Cooperative_Msg;  //存储邻舰送给主
 typedef vector<Cooperative_FUSIDENTIINFOR> VCT_Cooperative_FUSIDENTIINFOR;  //存储协同后融合信息和识别结果的结构体
 
 //本舰请求---协同识别接口函数  本舰请求协同的信息（对于聚类编批的结果），存放邻舰应答送给主舰协同的信息结构体的容器，存储协同后融合信息和识别结果结构体的容器。
-void GET_Cooperate_Recognition_Modul(VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative, VCT_Cooperative_FUSIDENTIINFOR& VctFusIdentify);
+//void GET_Cooperate_Recognition_Modul(VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative, VCT_Cooperative_FUSIDENTIINFOR& VctFusIdentify);
 
 //邻舰请求协同--要求本舰接收到请求信息后，
                //1.查找合批信息<TRACE,ESM,COM>,找出同一目标的合批信息，发送给邻舰；
                //2.若合批信息<TRACE,ESM,COM>中不存在对应的信息，那么在未合批的信息（包括1.<ESM,COM>;  2.<ESM>; 3.<COM>）中查找对应的信息（同一类的方位角相同的）
 
-void COOP_Find_INFormation_TO_MainSHOP(SHIP_POSITION& stSelfPosi, UNI_All_NUM& stUniAll,VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative);
-/*************************************************/
-/*************************************************/
-//根据请求信息中的综合批号来决定调用哪一种函数
-//(总批大于8000，即请求信息是聚类后有航迹的信息，调用函数1)
-//(总批号在7000到8000之间，即请求信息是聚类后无航迹的信息，调用函数2)
-//(总批号小于7000，即为目标批号，请求信息为未聚类的航迹信息，调用函数3)
-void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All_NUM& stUniAll, VCT_Request_Cooperative_Msg::iterator& iteRequestMsg,/*VCT_Request_Cooperative_Msg& vctRequestCooperative,*/ VCT_BACK_Cooperative_Msg& vctBackCooperative);
+//void COOP_Find_INFormation_TO_MainSHOP(SHIP_POSITION& stSelfPosi, UNI_All_NUM& stUniAll,VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative);
 
-void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All_NUM& stUniAll, VCT_Request_Cooperative_Msg::iterator& iteRequestMsg,/*VCT_Request_Cooperative_Msg& vctRequestCooperative, */VCT_BACK_Cooperative_Msg& vctBackCooperative);
-
-void ReqSingleTrace_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All_NUM& stUniAll, VCT_Request_Cooperative_Msg::iterator & iteRequestMsg,/*VCT_Request_Cooperative_Msg& vctRequestCooperative,*/ VCT_BACK_Cooperative_Msg& vctBackCooperative);
+//主函数接口:
+void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& stSendRequest, SendBack_Msg& stSendBackMsg);
 
 
-// 本舰邻舰都有自身航迹信息时（即都存在距离方位俯仰角时），本舰邻舰经纬高都已知，输出邻舰观测到的目标在本舰上的坐标及相对于本舰的经纬高。
-void Get_Coordinate_Conversion_Module(double Rd1,double Az1,double Ez1,double Rd2,double Az2,double Ez2,double La1,double Ba1,double Ha1,
-									  double La2,double Ba2,double Ha2,/*double *x1,double *y1,double *z1,*/double& Xt,double& Yt,double& Zt,double& Rdt,double& Azt,double& Ezt,double& SumCorr);
 
-void Mf_SPA(double s, double t,double& corr); //s,t为相同类型的信息，进行集对分析，将返回的相关系数存入容器VctCorr中
-
-
-void Get_NO_SelfTrack_Coordinate_Conversion_Module(double Rd2,double Az2,double Ez2,double La1,double Ba1,double Ha1,
-						  double La2,double Ba2,double Ha2,double& Xt,double& Yt,double& Zt);
-
-void Object_Radar_Transform(double Lt,double Bt,double Ht,double L0,double B0,double H0,double& rd,double& az,double& ez);
+// /*************************************************/
+// /*************************************************/
+// //根据请求信息中的综合批号来决定调用哪一种函数
+// //(总批大于8000，即请求信息是聚类后有航迹的信息，调用函数1)
+// //(总批号在7000到8000之间，即请求信息是聚类后无航迹的信息，调用函数2)
+// //(总批号小于7000，即为目标批号，请求信息为未聚类的航迹信息，调用函数3)
+// void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All_NUM& stUniAll, VCT_Request_Cooperative_Msg::iterator& iteRequestMsg,/*VCT_Request_Cooperative_Msg& vctRequestCooperative,*/ VCT_BACK_Cooperative_Msg& vctBackCooperative);
+// void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All_NUM& stUniAll, VCT_Request_Cooperative_Msg::iterator& iteRequestMsg,/*VCT_Request_Cooperative_Msg& vctRequestCooperative, */VCT_BACK_Cooperative_Msg& vctBackCooperative);
+// void ReqSingleTrace_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All_NUM& stUniAll, VCT_Request_Cooperative_Msg::iterator & iteRequestMsg,/*VCT_Request_Cooperative_Msg& vctRequestCooperative,*/ VCT_BACK_Cooperative_Msg& vctBackCooperative);
+// 
+// // 本舰邻舰都有自身航迹信息时（即都存在距离方位俯仰角时），本舰邻舰经纬高都已知，输出邻舰观测到的目标在本舰上的坐标及相对于本舰的经纬高。
+// void Get_Coordinate_Conversion_Module(double Rd1,double Az1,double Ez1,double Rd2,double Az2,double Ez2,double La1,double Ba1,double Ha1,
+// 									  double La2,double Ba2,double Ha2,/*double *x1,double *y1,double *z1,*/double& Xt,double& Yt,double& Zt,double& Rdt,double& Azt,double& Ezt,double& SumCorr);
+// 
+// void Mf_SPA(double s, double t,double& corr); //s,t为相同类型的信息，进行集对分析，将返回的相关系数存入容器VctCorr中
+// void Get_NO_SelfTrack_Coordinate_Conversion_Module(double Rd2,double Az2,double Ez2,double La1,double Ba1,double Ha1,
+// 						  double La2,double Ba2,double Ha2,double& Xt,double& Yt,double& Zt);
+// void Object_Radar_Transform(double Lt,double Bt,double Ht,double L0,double B0,double H0,double& rd,double& az,double& ez);

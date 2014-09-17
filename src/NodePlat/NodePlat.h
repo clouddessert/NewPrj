@@ -52,7 +52,7 @@ public:
 // 
     VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
  	VCT_SendRequest_Msg m_RecvReqMsg_Dat;    //接收请求信息
-
+// 
  	VCT_SendBack_Msg m_SendBackMsg_Dat;      //返回信息
  	VCT_SendBack_Msg m_RecvBackMsg_Dat;      //接收返回信息
 
@@ -117,8 +117,6 @@ public:
 	HWND hMulCOMM_wnd;
 	HWND hMulTRACE_wnd;
 
-	//HWND hIp_wnd;
-
 
 	//view的指针
 	void* pXview;
@@ -132,7 +130,7 @@ public:
 	void ClientClose(void* pContext);
 
 	void ReceiveFromClient(CMsgSocket* pThis);
-	void SendToClient(CMsgSocket* pThis);
+	void SendToClient(CMsgSocket* pThis,SendRequest_Msg tmpRecRequest_Msg);
 
 // Implementation
 	//{{AFX_MSG(CNodePlatApp)

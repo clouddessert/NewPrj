@@ -234,7 +234,7 @@ void CNodePlatApp::ClientAccept(void)
 
 void CNodePlatApp::ClientClose(void* pContext)
 {
-	//CMySocket* pSk = (CMySocket*)pContext;
+//	CMySocket* pSk = (CMySocket*)pContext;
 	CMsgSocket* pSk = (CMsgSocket*)pContext;
 	
 	::EnterCriticalSection(&(theApp.g_cs));
@@ -258,7 +258,7 @@ void CNodePlatApp::ClientClose(void* pContext)
 
 void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 {
-#if 0
+//#if 0
 	//0914改
 	//接收包头
 	//根据包头类型做出状态机
@@ -279,18 +279,17 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 			//SendToClient();
 			SendRequest_Msg tmpRecRequest_Msg;
 			::EnterCriticalSection(&(theApp.g_cs));
-			memset(&theApp.m_StReceiveRequest, 0, sizeof(SendRequest_Msg));
+//			memset(&theApp.m_StReceiveRequest, 0, sizeof(SendRequest_Msg));
+			theApp.m_RecvReqMsg_Dat.clear();
 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
 			{
 				ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
 				pThis->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+				theApp.m_RecvReqMsg_Dat.push_back(tmpRecRequest_Msg);
 			}	//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
 			::LeaveCriticalSection(&(theApp.g_cs));	
-
-			//调用查找匹配请求的信息的算法,还需修改算法接口
-			
 			//SendTo,一定要添加,这里为了方便使用立刻sendTO
-			SendToClient(pThis);
+			SendToClient(pThis,tmpRecRequest_Msg);
 			break;
 		}
 		
@@ -300,156 +299,261 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 		{
 			SendBack_Msg tmpRecBack_Msg;
 			::EnterCriticalSection(&(theApp.g_cs));
-			memset(&theApp.m_ReceiveBackMsg, 0, sizeof(SendBack_Msg));
+//			memset(&theApp.m_ReceiveBackMsg, 0, sizeof(SendBack_Msg));
+			theApp.m_RecvBackMsg_Dat.clear();
 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
 			{
 				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
 				pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
+				theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
 			}
-			::LeaveCriticalSection(&(theApp.g_cs));	
+			::LeaveCriticalSection(&(theApp.g_cs));	 
+			//定时 调用处理联合识别的算法
 			break;
 		}
 	default:
 		break;
 	}
-#endif
+// #endif
 	
-#if 0 	
-    //0903改
-	//\接收 别人的请求数据 	//4\接收邻舰发送来的查找到的返回信息
-	//考虑请求是结构体组成的容器 接收后，将发送过来的含数组的容器转成含容器的容器
-	ProtcolHeader stHeader;
-	ZeroMemory(&stHeader, sizeof(ProtcolHeader));
-	//解析包头
-	theApp.m_P2PSocket->Receive(&stHeader, sizeof(ProtcolHeader));
-	switch (stHeader.nMsgType)  //接收的类型和发送的类型一致
-	{
-		//接收 别人的请求数据,航迹，COM，ESM消息
-    case 5:
-		{
-			SendRequest_Msg tmpRecRequest_Msg;
-			
-			//读数据拒绝修改
-			::EnterCriticalSection(&(theApp.g_cs));
-			//清空接收请求信息的结构体
-			memset(&theApp.m_StReceiveRequest, 0, sizeof(SendRequest_Msg));
-			
-            //接收
-			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
-			{
-				ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-				theApp.m_P2PSocket->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-				
-			}
-			::LeaveCriticalSection(&(theApp.g_cs));	
-			break;
-		}
-	case 6://接收别舰发送来的查找到的返回信息
-		{
-			SendBack_Msg tmpRecBack_Msg;
-			//读数据拒绝修改
-			::EnterCriticalSection(&(theApp.g_cs));
-			//清空接收返回信息的结构体
-			memset(&theApp.m_ReceiveBackMsg, 0, sizeof(SendBack_Msg));
-			
-            //接收
-			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
-			{
-				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-				theApp.m_P2PSocket->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-				
-			}
-			::LeaveCriticalSection(&(theApp.g_cs));	
-			break;
-		}
-	default:
-		break;
-	}
-#endif
+// #if 0 	
+//     //0903改
+// 	//\接收 别人的请求数据 	//4\接收邻舰发送来的查找到的返回信息
+// 	//考虑请求是结构体组成的容器 接收后，将发送过来的含数组的容器转成含容器的容器
+// 	ProtcolHeader stHeader;
+// 	ZeroMemory(&stHeader, sizeof(ProtcolHeader));
+// 	//解析包头
+// 	theApp.m_P2PSocket->Receive(&stHeader, sizeof(ProtcolHeader));
+// 	switch (stHeader.nMsgType)  //接收的类型和发送的类型一致
+// 	{
+// 		//接收 别人的请求数据,航迹，COM，ESM消息
+//     case 5:
+// 		{
+// 			SendRequest_Msg tmpRecRequest_Msg;
+// 			
+// 			//读数据拒绝修改
+// 			::EnterCriticalSection(&(theApp.g_cs));
+// 			//清空接收请求信息的结构体
+// 			memset(&theApp.m_StReceiveRequest, 0, sizeof(SendRequest_Msg));
+// 			
+//             //接收
+// 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
+// 			{
+// 				ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+// 				theApp.m_P2PSocket->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+// 				
+// 			}
+// 			::LeaveCriticalSection(&(theApp.g_cs));	
+// 			break;
+// 		}
+// 	case 6://接收别舰发送来的查找到的返回信息
+// 		{
+// 			SendBack_Msg tmpRecBack_Msg;
+// 			//读数据拒绝修改
+// 			::EnterCriticalSection(&(theApp.g_cs));
+// 			//清空接收返回信息的结构体
+// 			memset(&theApp.m_ReceiveBackMsg, 0, sizeof(SendBack_Msg));
+// 			
+//             //接收
+// 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
+// 			{
+// 				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+// 				theApp.m_P2PSocket->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+// 				
+// 			}
+// 			::LeaveCriticalSection(&(theApp.g_cs));	
+// 			break;
+// 		}
+// 	default:
+// 		break;
+// 	}
+// #endif
 	
 }
 
-void CNodePlatApp::SendToClient(CMsgSocket* pThis)
+void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest_Msg)
 {
+//0916WHY改
+	VCT_UNINUM_MSG::iterator iteUnin;
+	VCT_UNINOTRACE_MSG::iterator iteNoTraceUnin;
+	VCT_COMM_MSG::iterator iteSingleCom;
+	VCT_ESM_MSG::iterator iteSingleEsm;
+	VCT_TRACE_MSG::iterator iteSingleTrace;
+	VCT_ESM_MSG::iterator iteEsm;          //同方位ESM信息
+	VCT_COMM_MSG::iterator iteComm; 
+	UNI_NUM stUni;
+	UNI_NOTRACE_NUM stUniNoT;
 	//这里需要写！！！！
 	//这里需要sendto的数据准备好
+    //调用算法 准备需要发送出的响应数据 被动发送
+	//输入:该时刻本舰聚类后有编批和无编批数据信息, 邻舰发送来的含数组的请求结构体, 找出的返回信息(已转化为数组形式的结构体)
+     SendBack_Msg stSendBackMsg;
+     ZeroMemory(&stSendBackMsg, sizeof(SendBack_Msg));
+	 UNI_All_NUM stUniAllN;
+	 //清空存储聚类后的数据结构体中的各容器.
+	 for ( iteUnin = stUniAllN.vctUnin.begin(); iteUnin != stUniAllN.vctUnin.end(); iteUnin++)
+	 {
+		iteUnin->lAutonum = NULL;
+		memset(&(iteUnin->structTrace), 0, sizeof(TRACKSTATUS_MARK));
+		for ( iteEsm = iteUnin->vctEsm.begin(); iteEsm != iteUnin->vctEsm.end(); iteEsm++)
+		{
+			memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
+		}
+		for( iteComm = iteUnin->vctComm.begin(); iteComm != iteUnin->vctComm.end(); iteComm++)
+		{
+			memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
+		}
+		iteUnin->vctEsm.clear();
+		iteUnin->vctComm.clear();
+	 }
+	 for ( iteNoTraceUnin = stUniAllN.vctNoTraceUnin.begin(); iteNoTraceUnin != stUniAllN.vctNoTraceUnin.end(); iteNoTraceUnin++)
+	 {
+		 iteNoTraceUnin->lAutonum = NULL;
+		 for ( iteEsm = iteNoTraceUnin->vctEsm.begin(); iteEsm != iteNoTraceUnin->vctEsm.end(); iteEsm++)
+		 {
+			 memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
+		 }
+		 for( iteComm = iteNoTraceUnin->vctComm.begin(); iteComm != iteNoTraceUnin->vctComm.end(); iteComm++)
+		 {
+			 memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
+		 }
+		 iteNoTraceUnin->vctEsm.clear();
+		 iteNoTraceUnin->vctComm.clear();
+	 }
+     for ( iteSingleTrace = stUniAllN.vctSingleTrace.begin(); iteSingleTrace != stUniAllN.vctSingleTrace.end(); iteSingleTrace++)
+     {
+		memset(&(*iteSingleTrace), 0, sizeof(TRACKSTATUS_MARK));
+     }
+	 for( iteSingleEsm = stUniAllN.vctSingleEsm.begin(); iteSingleEsm != stUniAllN.vctSingleEsm.end(); iteSingleEsm++)
+	 {
+		memset(&(*iteSingleEsm), 0, sizeof(ESMSTATUS_MARK));
+	 }
+	 for( iteSingleCom = stUniAllN.vctSingleCom.begin(); iteSingleCom != stUniAllN.vctSingleCom.end(); iteSingleCom++)
+	 {
+    	memset(&(*iteSingleCom ), 0, sizeof(COMSTATUS_MARK));
+	 }
+	 stUniAllN.vctSingleTrace.clear();
+	 stUniAllN.vctSingleEsm.clear();
+	 stUniAllN.vctSingleCom.clear();
+	 //存储聚类后的有编批和无编批数据信息
+	 for ( iteUnin = m_ClusterUniMsg.begin(); iteUnin != m_ClusterUniMsg.end(); iteUnin++)
+	 {
+		 stUni.lAutonum = iteUnin->lAutonum;
+		 stUni.structTrace = iteUnin->structTrace;
+		 for ( iteEsm = iteUnin->vctEsm.begin(); iteEsm != iteUnin->vctEsm.end(); iteEsm++)
+		 {
+			 stUni.vctEsm.push_back(*iteEsm);
+		 }
+		 for ( iteComm = iteUnin->vctComm.begin(); iteComm != iteUnin->vctComm.end(); iteComm++)
+		 {
+			 stUni.vctComm.push_back(*iteComm);
+		 }
+		 stUniAllN.vctUnin.push_back(stUni);
+	 }
+	 for( iteNoTraceUnin = m_ClusterNoTraceMsg.begin(); iteNoTraceUnin != m_ClusterNoTraceMsg.end(); iteNoTraceUnin++)
+	 {
+		 stUniNoT.lAutonum = iteNoTraceUnin->lAutonum;
+		 for ( iteEsm = iteNoTraceUnin->vctEsm.begin(); iteEsm != iteNoTraceUnin->vctEsm.end(); iteEsm++)
+		 {
+			 stUniNoT.vctEsm.push_back(*iteEsm);
+		 }
+		 for ( iteComm = iteNoTraceUnin->vctComm.begin(); iteComm != iteNoTraceUnin->vctComm.end(); iteComm++)
+		 {
+			 stUniNoT.vctComm.push_back(*iteComm);
+		 }
+		 stUniAllN.vctNoTraceUnin.push_back(stUniNoT);
+	 }
+	 //存储未聚类的单独信息
+     for ( iteSingleTrace = m_SingleTrace.begin(); iteSingleTrace != m_SingleTrace.end(); iteSingleTrace++)
+     {
+		 stUniAllN.vctSingleTrace.push_back(*iteSingleTrace);
+     }
+	 for ( iteSingleEsm = m_SingleEsm.begin(); iteSingleEsm != m_SingleEsm.end(); iteSingleEsm++)
+	 {
+		 stUniAllN.vctSingleEsm.push_back(*iteSingleEsm);
+	 }
+	 for( iteSingleCom = m_SingleComm.begin(); iteSingleCom != m_SingleComm.end(); iteSingleCom++)
+     {
+		 stUniAllN.vctSingleCom.push_back(*iteSingleCom);
+	 }
+     //调用算法,找出响应请求的返回信息stSendBackMsg
+	 CoopFind_Information_To_MainShip(stUniAllN, tmpRecRequest_Msg, stSendBackMsg);
 
 	//准备完成，发送
 	UINT nPort = 0;
 	CString strTmp;
 	pThis->GetPeerName(strTmp, nPort);
-
 	//前面2个需要修改
-	theApp.m_P2PSocket->SendTo(NULL, sizeof(theApp.m_StSendRequest), nPort, strTmp);
-
+//	theApp.m_P2PSocket->SendTo(NULL, sizeof(theApp.m_StSendRequest), nPort, strTmp);
+	theApp.m_P2PSocket->SendTo(&stSendBackMsg, sizeof(stSendBackMsg), nPort, strTmp);
 	//it is ok!
 
-#if 0 
-	//0903改
-	//3\请求数据
-	ProtcolHeader stHeader;
-	VCT_SendRequest_Msg::iterator iteSendReq_Dat;
-	VCT_SendBack_Msg::iterator iteSendBack_Dat;
-	
-	if (sizeof(theApp.m_StSendRequest))  //有请求
-	{    
-		//send data
-		//发送所有请求数据
-		::EnterCriticalSection(&(theApp.g_cs));
-		switch (theApp.cMsgType)
-		{
-		case 5:
-			{
-				stHeader.nMsgType = 5;
-				stHeader.nMsgLength = sizeof(theApp.m_StSendRequest);
-				for ( theApp.m_pClient =m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
-				{
-					theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
-					theApp.m_pClient->second->Send(&theApp.m_StSendRequest, sizeof(SendRequest_Msg));
-					
-				}
-				break;
-			}
-		default:
-			break;
-		}
-	}
-	
-	/*
-	//2\发送给别人响应数据
-	if (have received req data)
-	{
-	if (算法处理完成!)
-	{
-	//回传算法数据
-	}
-}*/
-	if (sizeof(theApp.m_SendBackMsg))
-	{
-		if (/*算法处理完成*/)//如何判断算法是否处理完成
-		{
-			//得到需要返回给邻舰的数据 (该数据已经转换成含数组的容器)
-			//发送回传算法的数据
-			::EnterCriticalSection(&(theApp.g_cs));
-			switch (theApp.cMsgType)
-			{
-			case 6:
-				{
-					stHeader.nMsgType = 6;
-					stHeader.nMsgLength = sizeof(theApp.m_SendBackMsg);
-					for ( theApp.m_pClient = m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
-					{
-						theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
-						theApp.m_pClient->second->Send(&theApp.m_SendBackMsg, sizeof(SendBack_Msg));						
-					}
-					break;
-				}
-			default:
-				break;
-			}	
-		}
-	}
-#endif
+// #if 0 
+// 	//0903改
+// 	//3\请求数据
+// 	ProtcolHeader stHeader;
+// 	VCT_SendRequest_Msg::iterator iteSendReq_Dat;
+// 	VCT_SendBack_Msg::iterator iteSendBack_Dat;
+// 	
+// 	if (sizeof(theApp.m_StSendRequest))  //有请求
+// 	{    
+// 		//send data
+// 		//发送所有请求数据
+// 		::EnterCriticalSection(&(theApp.g_cs));
+// 		switch (theApp.cMsgType)
+// 		{
+// 		case 5:
+// 			{
+// 				stHeader.nMsgType = 5;
+// 				stHeader.nMsgLength = sizeof(theApp.m_StSendRequest);
+// 				for ( theApp.m_pClient =m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
+// 				{
+// 					theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
+// 					theApp.m_pClient->second->Send(&theApp.m_StSendRequest, sizeof(SendRequest_Msg));
+// 					
+// 				}
+// 				break;
+// 			}
+// 		default:
+// 			break;
+// 		}
+// 	}
+// 	
+// 	/*
+// 	//2\发送给别人响应数据
+// 	if (have received req data)
+// 	{
+// 	if (算法处理完成!)
+// 	{
+// 	//回传算法数据
+// 	}
+// }*/
+// 	if (sizeof(theApp.m_SendBackMsg))
+// 	{
+// 		if (/*算法处理完成*/)//如何判断算法是否处理完成
+// 		{
+// 			//得到需要返回给邻舰的数据 (该数据已经转换成含数组的容器)
+// 			//发送回传算法的数据
+// 			::EnterCriticalSection(&(theApp.g_cs));
+// 			switch (theApp.cMsgType)
+// 			{
+// 			case 6:
+// 				{
+// 					stHeader.nMsgType = 6;
+// 					stHeader.nMsgLength = sizeof(theApp.m_SendBackMsg);
+// 					for ( theApp.m_pClient = m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
+// 					{
+// 						theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
+// 						theApp.m_pClient->second->Send(&theApp.m_SendBackMsg, sizeof(SendBack_Msg));						
+// 					}
+// 					break;
+// 				}
+// 			default:
+// 				break;
+// 			}	
+// 		}
+// 	}
+// #endif
 }
 
 void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/) 
@@ -501,7 +605,6 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 				//StRequest.stReqShipPosi.dLati = ;
 				//StRequest.stReqShipPosi.dLonti = ;
 				theApp.m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
-
 				break;
 			}
 		}
@@ -538,8 +641,6 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 			}
 		}
 	} 
-	
-
 	//组包
 	//向相应的节点发送数据包
 	//记录当前时间(组包时当前时戳)
@@ -584,7 +685,6 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 					//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高
 					//StSendRequest.stReqShipPosi.dLati = ;
 					//StSendRequest.stReqShipPosi.dLonti = ;
-					
 					theApp.m_StSendRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0					
 					break;
 				}
@@ -615,11 +715,13 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 						theApp.m_StSendRequest.lComTargetNumber[i] = iteNo->vctComm.at(i).lTargetNumber;//目标comm批号
 						theApp.m_StSendRequest.dComZaiPin[i] = iteNo->vctComm.at(i).dComZaiPin;//载频信息
 						theApp.m_StSendRequest.dComPulseExtent[i] = iteNo->vctComm.at(i).dPulseExtent;//脉冲幅度
+						theApp.m_StSendRequest.dComFre[i] = iteNo->vctComm.at(i).dComFre; // 中心频率(MHz)
+						theApp.m_StSendRequest.dComBand[i] = iteNo->vctComm.at(i).dComBand; // 信号带宽(MHz)
+						theApp.m_StSendRequest.dComJPN[i] = iteNo->vctComm.at(i).dComJPN; // 跳步次数             
 					}
 					//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高
 					//StSendRequest.stReqShipPosi.dLati = ;
 					//StSendRequest.stReqShipPosi.dLonti = ;
-					
 					theApp.m_StSendRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0					
 					break;
 				}
@@ -641,7 +743,8 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 		//重写!!!!
 #if 0
 		//判断接收的信息是否为空
-		if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true的！！！！姐姐们，结构体的的size是一直有的。你们写个程序测试下！！！！！
+//		if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true的！！！！姐姐们，结构体的的size是一直有的。你们写个程序测试下！！！！！
+		if (sizeof(theApp.m_SendBackMsg))theApp.m_RecvBackMsg_Dat
 		{	
 			//先将当前结构体中数组转化成容器!!!!!!!!!待写
 
@@ -657,8 +760,5 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 	//调用算法
 	//你们针对现有的东西，把算法的接口调整好！！！！！
 
-//#endif
-		
-
-		
+//#endif		
 }
