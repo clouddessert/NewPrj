@@ -96,6 +96,11 @@ public:
 	VCT_Request_Cooperative_Msg m_RequestMsg;
 	//各舰返回的所有匹配信息
 	VCT_BACK_Cooperative_Msg m_BackMsg;
+    //本舰和各舰的合并信息
+	VCT_COOPER_MSG m_CooperMsg;
+	
+
+
 
 	//p2p socket
 	CMsgSocket* m_P2PSocket;

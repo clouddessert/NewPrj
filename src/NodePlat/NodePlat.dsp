@@ -103,6 +103,10 @@ SOURCE=.\AllParamSheet.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Alg\CooperativeMsg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\DrawView.cpp
 # End Source File
 # Begin Source File
@@ -226,6 +230,10 @@ SOURCE=".\Comm Struct.h"
 # Begin Source File
 
 SOURCE=.\CommHeader.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Alg\CooperativeMsg.h
 # End Source File
 # Begin Source File
 
