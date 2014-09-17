@@ -570,6 +570,7 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 {
 	// TODO: Add your command handler code here
 	AfxMessageBox("ok");
+
 //#if 0
 //0914改
 	//获取需要联合识别的信息，并转化成发送报文的结构

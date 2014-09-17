@@ -275,10 +275,10 @@ void CMsgThreePage::OnRclickListTrace(NMHDR* pNMHDR, LRESULT* pResult)
 	/*右击弹出菜单*/
 	CMenu menu;
 	VERIFY( menu.LoadMenu(IDR_MENU2) );       //IDR_MENU2是新建菜单ID
-	CMenu* popup = menu.GetSubMenu(0);
-	//ASSERT( popup != NULL );
-	popup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
-		this );//TPM_RIGHTBUTTON使右键点击菜单也起作用 
+	CMenu* popup = menu.GetSubMenu(0);        //取得被指定菜单激活的下拉式菜单或子菜单的句柄
+	CPoint oPoint;//定义一个用于确定光标位置的位置  
+    GetCursorPos(&oPoint);//获取当前光标的位置，以便使得菜单可以跟随光标
+	popup->TrackPopupMenu(TPM_LEFTALIGN, oPoint.x,oPoint.y,this );//TPM_RIGHTBUTTON使右键点击菜单也起作用, 在指定位置显示弹出菜单，并跟踪菜单项的选择
 //#endif	
 	*pResult = 0;
 }
