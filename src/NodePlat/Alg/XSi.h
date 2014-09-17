@@ -143,6 +143,7 @@ typedef struct __SendBack_Msg
 	unsigned long lAutonum;
     TRACKSTATUS_MARK stTrace;                //同一目标的航迹信息,只有一条航迹信息,包含目标的位置，目标类型，目标型号，可信度，目标批号
 
+	int BackTraceN;                             //Trace信息总数
 	int BackESMN;                               //ESM信息总数
 	int BackCOMN;                               //COM信息总数
 	//需补充//各雷达型号[数组]
@@ -184,15 +185,16 @@ typedef struct __BACK_Cooperative_Msg        //邻舰送给主舰协同信息的数据结构
     TRACKSTATUS_MARK stTrace;                //同一目标的航迹信息,只有一条航迹信息
 	VCT_ESM_MSG vctEsm;                      //同一目标的ESM信息
 	VCT_COMM_MSG vctComm;                    //同一目标的COMM信息
-	double dRange;                           //目标相对于邻舰的距离
-	double dAzimuth;                         //目标相对于邻舰的方位
-	double dElevationAngle;                  //目标相对于邻舰的仰角
+// 	double dRange;                           //目标相对于邻舰的距离
+// 	double dAzimuth;                         //目标相对于邻舰的方位
+// 	double dElevationAngle;                  //目标相对于邻舰的仰角
 	SHIP_POSITION stBackShipPosi;            //应答舰的经纬高
     int nCorrFlag;                           //是否找到关联信息的标志
 	int BackESMN;                    //ESM信息总数
 	int BackCOMN;                    //COM信息总数
 	int BackTrackN;                  //航迹数
 }BACK_Cooperative_Msg;
+
 
 typedef vector<FUS_TRACK> VCT_FUS_TRACK;      //存储融合后的雷达探测信息 (航迹信息)
 typedef vector<FUS_ESM> VCT_FUS_ESM;	     //存储融合后的雷达侦察信息 (根据关联系数，存储不同种类的侦查信息结构体)

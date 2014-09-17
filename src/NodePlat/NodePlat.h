@@ -50,15 +50,13 @@ public:
 	//输入请求信息
 // 	Request_Cooperative_Msg m_RecvReqMsg;  //结构体 报文头中的信息长度就是容器的大小,即结构体的个数
 // 
-    VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
+//    VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
  	VCT_SendRequest_Msg m_RecvReqMsg_Dat;    //接收请求信息
 // 
- 	VCT_SendBack_Msg m_SendBackMsg_Dat;      //返回信息
+// 	VCT_SendBack_Msg m_SendBackMsg_Dat;      //返回匹配信息
  	VCT_SendBack_Msg m_RecvBackMsg_Dat;      //接收返回信息
 
 	//信息交互结构体
-	Request_Cooperative_Msg m_StRequest;      //保存联合识别前此批号的本舰信息
-
 	SendRequest_Msg m_StSendRequest;          //发送请求的结构体
 	SendRequest_Msg m_StReceiveRequest;       //接收请求的结构体
 
@@ -93,7 +91,9 @@ public:
 
 	//请求行号
 	int m_iline;
-
+ 
+	//本舰请求的信息
+	VCT_Request_Cooperative_Msg m_RequestMsg;
 	//各舰返回的所有匹配信息
 	VCT_BACK_Cooperative_Msg m_BackMsg;
 

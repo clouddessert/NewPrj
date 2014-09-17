@@ -109,9 +109,9 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 		//Çå¿Õ vctBackCooperative
 		iteBackMsg->lAutonum = NULL;
 		iteBackMsg->nStampTime = NULL;
-		iteBackMsg->dAzimuth = NULL;
-		iteBackMsg->dElevationAngle = NULL;
-		iteBackMsg->dRange = NULL;
+// 		iteBackMsg->dAzimuth = NULL;
+// 		iteBackMsg->dElevationAngle = NULL;
+// 		iteBackMsg->dRange = NULL;
 		iteBackMsg->BackTrackN = 0;
 		iteBackMsg->BackESMN = 0;
 		iteBackMsg->BackCOMN = 0;
@@ -732,9 +732,9 @@ void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 		//Çå¿Õ vctBackCooperative
 		iteBackMsg->lAutonum = NULL;
 		iteBackMsg->nStampTime = NULL;
-		iteBackMsg->dAzimuth = NULL;
-		iteBackMsg->dElevationAngle = NULL;
-		iteBackMsg->dRange = NULL;
+// 		iteBackMsg->dAzimuth = NULL;
+// 		iteBackMsg->dElevationAngle = NULL;
+// 		iteBackMsg->dRange = NULL;
 		iteBackMsg->BackTrackN = 0;
 		iteBackMsg->BackESMN = 0;
 		iteBackMsg->BackCOMN = 0;
@@ -1188,9 +1188,9 @@ for (iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.e
 	//Çå¿Õ vctBackCooperative
 	iteBackMsg->lAutonum = NULL;
 	iteBackMsg->nStampTime = NULL;
-	iteBackMsg->dAzimuth = NULL;
-	iteBackMsg->dElevationAngle = NULL;
-	iteBackMsg->dRange = NULL;
+// 	iteBackMsg->dAzimuth = NULL;
+// 	iteBackMsg->dElevationAngle = NULL;
+// 	iteBackMsg->dRange = NULL;
 	iteBackMsg->BackTrackN = 0;
 	iteBackMsg->BackESMN = 0;
 	iteBackMsg->BackCOMN = 0;
@@ -1633,7 +1633,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 		iteReqCoopMsg->nCorrFlag = NULL;
 		iteReqCoopMsg->nStampTime = NULL;
 		memset(&iteReqCoopMsg->stReqShipPosi, 0, sizeof(SHIP_POSITION));
-		memset(&(*iteReqCoopMsg), 0, sizeof(TRACKSTATUS_MARK));
+		memset(&iteReqCoopMsg->stTrace, 0, sizeof(TRACKSTATUS_MARK));
 		for ( iteEsm = iteReqCoopMsg->vctEsm.begin(); iteEsm != iteReqCoopMsg->vctEsm.end(); iteEsm++)
 		{
 			memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
@@ -1643,6 +1643,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 			memset(&(*iteCom), 0, sizeof(COMSTATUS_MARK));
 		}		
 	}
+	vctReqCoopMsg.clear();
 	vctReqCoopMsg.push_back(stReqCooperMsg);
 	
 	for (iteRequestMsg1 = vctReqCoopMsg.begin(); iteRequestMsg1 != vctReqCoopMsg.end(); iteRequestMsg1++)

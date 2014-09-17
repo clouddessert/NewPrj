@@ -566,15 +566,35 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 	VCT_UNINOTRACE_MSG::iterator iteNo;	
 	VCT_ESM_MSG::iterator iteEsm;
 	VCT_COMM_MSG::iterator iteComm;	
-	map<int, CString>::iterator iteMap;
+	map<int, CString>::iterator iteMap;	
+	VCT_Request_Cooperative_Msg::iterator iteReqCoopMsg;
+	Request_Cooperative_Msg m_StRequest;      //保存联合识别前此批号的本舰信息
 	long int lnum;//请求的合批号
 	lnum = theApp.m_ESM_Dat.at(theApp.m_iline).lAutonum;//获取请求协同的批号
 	
-	theApp.m_StRequest.vctEsm.clear();
-	theApp.m_StRequest.vctComm.clear();
-	memset(&(theApp.m_StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK));
-	memset(&theApp.m_StRequest, 0, sizeof(Request_Cooperative_Msg));//清空保存联合识别前信息的结构体		
+	m_StRequest.vctEsm.clear();
+	m_StRequest.vctComm.clear();
+	memset(&(m_StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK));
+	memset(&m_StRequest, 0, sizeof(Request_Cooperative_Msg));//清空保存联合识别前信息的结构体		
 	memset(&theApp.m_StSendRequest, 0, sizeof(SendRequest_Msg));//清空发送请求的结构体
+
+	for ( iteReqCoopMsg = theApp.m_RequestMsg.begin(); iteReqCoopMsg != theApp.m_RequestMsg.end(); iteReqCoopMsg++)
+	{ 
+		iteReqCoopMsg->lAutonum = NULL;
+		iteReqCoopMsg->nCorrFlag = NULL;
+		iteReqCoopMsg->nStampTime = NULL;
+		memset(&iteReqCoopMsg->stTrace, 0, sizeof(TRACKSTATUS_MARK));
+		memset(&iteReqCoopMsg->stReqShipPosi, 0, sizeof(SHIP_POSITION));
+		for ( iteEsm = iteReqCoopMsg->vctEsm.begin(); iteEsm != iteReqCoopMsg->vctEsm.end(); iteEsm++)
+		{
+			memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
+		}
+		for ( iteComm = iteReqCoopMsg->vctComm.begin(); iteComm != iteReqCoopMsg->vctComm.end();iteComm++)
+		{
+			memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
+		}		
+	}
+	theApp.m_RequestMsg.clear();
 	
 	/*取出联合识别前此批号的相关信息并存储Line460-523*/
 	if (lnum >= 8000)
@@ -583,27 +603,28 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 		{
 			if (iteYes->lAutonum == lnum)
 			{
-				theApp.m_StRequest.lAutonum = lnum;//合批号
-				theApp.m_StRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
+				m_StRequest.lAutonum = lnum;//合批号
+				m_StRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
 				if (iteYes->vctEsm.size())//请求协同ESM信息
 				{
 					for (iteEsm = iteYes->vctEsm.begin(); iteEsm = iteYes->vctEsm.end(); iteEsm++)
 					{
-						theApp.m_StRequest.vctEsm.push_back(*iteEsm);
+						m_StRequest.vctEsm.push_back(*iteEsm);
 					}
 				}
 				if (iteYes->vctComm.size())//请求协同COMM信息
 				{
 					for (iteComm = iteYes->vctComm.begin(); iteComm = iteYes->vctComm.end(); iteComm++)
 					{
-						theApp.m_StRequest.vctComm.push_back(*iteComm);
+						m_StRequest.vctComm.push_back(*iteComm);
 					}
 				}
 				////存放本舰经纬高
 				//StRequest.stReqShipPosi.dHeight = iteYes->structTrace.d
 				//StRequest.stReqShipPosi.dLati = ;
 				//StRequest.stReqShipPosi.dLonti = ;
-				theApp.m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
+				m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
+				theApp.m_RequestMsg.push_back(m_StRequest);
 				break;
 			}
 		}
@@ -615,27 +636,28 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 		{
 			if (iteNo->lAutonum == lnum)
 			{
-				theApp.m_StRequest.lAutonum = lnum;//合批号
+				m_StRequest.lAutonum = lnum;//合批号
 				//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);
 				if (iteNo->vctEsm.size())//请求协同ESM信息
 				{
 					for (iteEsm = iteNo->vctEsm.begin(); iteEsm = iteNo->vctEsm.end(); iteEsm++)
 					{
-						theApp.m_StRequest.vctEsm.push_back(*iteEsm);
+						m_StRequest.vctEsm.push_back(*iteEsm);
 					}
 				}
 				if (iteNo->vctComm.size())//请求协同COMM信息
 				{
 					for (iteComm = iteNo->vctComm.begin(); iteComm = iteNo->vctComm.end(); iteComm++)
 					{
-						theApp.m_StRequest.vctComm.push_back(*iteComm);
+						m_StRequest.vctComm.push_back(*iteComm);
 					}
 				}
 				//存放本舰经纬高
 				// 				StRequest.stReqShipPosi.dHeight = ;
 				// 				StRequest.stReqShipPosi.dLati = ;
 				// 				StRequest.stReqShipPosi.dLonti = ;
-				theApp.m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
+				m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
+				theApp.m_RequestMsg.push_back(m_StRequest);
 				break;
 			}
 		}
@@ -649,10 +671,16 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 	
 	//如果不为空,接收的数据参与运算!
 	//参与运算,先copy一份当前的容器;清空接收的buffer容器
+	VCT_SendBack_Msg::iterator iteBack;
+	BACK_Cooperative_Msg stBackCooper;
+//	TRACKSTATUS_MARK stTrace;
+	ESMSTATUS_MARK stEsm;
+	COMSTATUS_MARK stCom;
+//	SHIP_POSITION stBackShipPosi;            //应答舰的经纬高
 
-	for (int i = 0; i < theApp.IpMap.size(); ++i)//????????????????????????????????????仔细想想！
+	//for (int i = 0; i < theApp.IpMap.size(); ++i)
 	//这里面的map是界面传过来的！！不是全局的那个map，全局的map是给你界面用的。比如你选中B舰，这里的vector就是B舰的
-	//for (int i = 0; i < IpMap.size(); ++i)
+	for (int i = 0; i < IpMap.size(); ++i)
 	{	
 		//组包/*请求结构体*/
 		if (lnum >= 8000)
@@ -727,7 +755,7 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 			}
 		}
 		//向相应的节点发送数据包
-		//这里是是在全局的包里面找到那个IP地址
+		//这里是在全局的包里面找到那个IP地址
 		iteMap = theApp.IpMap.find(i);
 		//这里必须要主动连接!!!
 		theApp.m_P2PSocket->Connect(iteMap->second, P2P_SERVER_PORT);
@@ -737,27 +765,52 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 			
 		//超时判断（我最后写，这个部分比较复杂!!需要在所有写好的基础上）
 
-		//这里的接收缓冲区是vector！！！！！！！！！！！！！！！！
-		//不是一个结构体，不只是接收一个结构体！！！！！
-		//重写!!!!
-//#if 0
-		//判断接收的信息是否为空
-//		if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true的！！！！姐姐们，结构体的的size是一直有的。你们写个程序测试下！！！！！
+
+
+		//判断接收缓冲区vector是否为空
+		//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.
 		if (theApp.m_RecvBackMsg_Dat.size() !=0 )
 		{	
 			//先将当前结构体中数组转化成容器!!!!!!!!!待写
-
-
-			//再将转化后的结构体存入容器（后续进行联合识别）
-		//	m_BackMsg.push_back(/*转化后的结构体*/);
+			for (iteBack = m_RecvBackMsg_Dat.begin(); iteBack != m_RecvBackMsg_Dat.end(); iteBack++)
+			{
+				stBackCooper.lAutonum = iteBack->lAutonum;
+				stBackCooper.nCorrFlag = iteBack->nCorrFlag;
+				stBackCooper.nStampTime = iteBack->nStampTime;
+				stBackCooper.BackESMN = iteBack->BackESMN;
+				stBackCooper.BackCOMN = iteBack->BackCOMN;
+				stBackCooper.BackTrackN = iteBack->BackTraceN;
+				memcpy(&stBackCooper.stBackShipPosi, &(iteBack->stBackShipPosi), sizeof(stBackCooper.stBackShipPosi)); 
+				memcpy(&stBackCooper.stTrace, &(iteBack->stTrace),sizeof(stBackCooper.stTrace));
+				for (int i=0; i< iteBack->BackESMN; i++)
+				{
+					stEsm.lTargetNumber = iteBack->lEsmTargetNumber[i];
+					stEsm.dZaiPin = iteBack->dEsmZaiPin[i];
+					stEsm.dMaiKuan = iteBack->dEsmZaiPin[i];
+					stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
+					stBackCooper.vctEsm.push_back(stEsm);
+				}
+				for (int j=0; i< iteBack->BackCOMN; j++)
+				{
+					stCom.lTargetNumber = iteBack->lComTargetNumber[j];
+					stCom.dComZaiPin = iteBack->dComZaiPin[j];
+					stCom.dPulseExtent = iteBack->dComPulseExtent[j];
+					stCom.dComFre = iteBack->dComFre[j];
+					stCom.dComBand = iteBack->dComBand[j];
+					stCom.dComJPN = iteBack->dComJPN[j];
+					stBackCooper.vctComm.push_back(stCom);
+				}
+				theApp.m_BackMsg.push_back(stBackCooper);
+			}
 			//清空接收的结构体/*buffer容器*/
 			memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
-		}
-//#endif					
+		}					
 	}
 
 	//调用算法
-	//你们针对现有的东西，把算法的接口调整好！！！！！
+
+
+	
 
 //#endif		
 }
