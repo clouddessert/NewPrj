@@ -100,7 +100,7 @@ public:
 	VCT_COOPER_MSG m_CooperMsg;
 	
 
-
+	HANDLE hEvent;
 
 	//p2p socket
 	CMsgSocket* m_P2PSocket;

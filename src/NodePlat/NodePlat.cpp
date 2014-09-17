@@ -53,6 +53,8 @@ CNodePlatApp::CNodePlatApp()
 	//	pOutPt = NULL;
 	
 	pXview = NULL;
+
+	hEvent = NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -188,6 +190,9 @@ void CNodePlatApp::ServerCreate(void)
 	
 	//开始监听
 	theApp.m_P2PSocket->Listen();
+
+	//创建同步时间
+	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 }
 
 void CNodePlatApp::ServerShutDown(void)
@@ -208,6 +213,9 @@ void CNodePlatApp::ServerShutDown(void)
 	//释放监听端资源
 	delete theApp.m_P2PSocket;
 	theApp.m_P2PSocket = NULL;
+
+	//关闭信号量
+	::CloseHandle(hEvent);
 }
 
 void CNodePlatApp::ClientAccept(void)
@@ -308,6 +316,9 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 				theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
 //			}
 			::LeaveCriticalSection(&(theApp.g_cs));
+
+			//Set 信号量，同步数据
+			::SetEvent(hEvent);
 			break;
 		}
 	default:
@@ -761,11 +772,9 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 		theApp.m_P2PSocket->Connect(iteMap->second, P2P_SERVER_PORT);
 		//这里的sendTo就是用这个socket！！！不需要改
 		theApp.m_P2PSocket->SendTo(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest), P2P_SERVER_PORT, iteMap->second);		
-		//记录当前时间(组包时当前时戳)
 			
-		//超时判断（我最后写，这个部分比较复杂!!需要在所有写好的基础上）
-
-
+		//超时判断（已经写好了，使用信号量。如果100ms以内收到数据，正常接收。100ms超时，跳出!
+		::WaitForSingleObject(hEvent, 100);
 
 		//判断接收缓冲区vector是否为空
 		//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.
