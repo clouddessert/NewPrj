@@ -281,12 +281,12 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 			::EnterCriticalSection(&(theApp.g_cs));
 //			memset(&theApp.m_StReceiveRequest, 0, sizeof(SendRequest_Msg));
 			theApp.m_RecvReqMsg_Dat.clear();
-			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
-			{
+// 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
+// 			{
 				ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
 				pThis->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
 				theApp.m_RecvReqMsg_Dat.push_back(tmpRecRequest_Msg);
-			}	//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
+//			}	//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
 			::LeaveCriticalSection(&(theApp.g_cs));	
 			//SendTo,一定要添加,这里为了方便使用立刻sendTO
 			SendToClient(pThis,tmpRecRequest_Msg);
@@ -300,15 +300,14 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 			SendBack_Msg tmpRecBack_Msg;
 			::EnterCriticalSection(&(theApp.g_cs));
 //			memset(&theApp.m_ReceiveBackMsg, 0, sizeof(SendBack_Msg));
-			theApp.m_RecvBackMsg_Dat.clear();
-			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
-			{
+//			theApp.m_RecvBackMsg_Dat.clear();
+// 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
+// 			{
 				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
 				pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
 				theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
-			}
-			::LeaveCriticalSection(&(theApp.g_cs));	 
-			//定时 调用处理联合识别的算法
+//			}
+			::LeaveCriticalSection(&(theApp.g_cs));
 			break;
 		}
 	default:
@@ -556,7 +555,7 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest
 // #endif
 }
 
-void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/) 
+void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 {
 	// TODO: Add your command handler code here
 	AfxMessageBox("ok");
@@ -741,10 +740,10 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 		//这里的接收缓冲区是vector！！！！！！！！！！！！！！！！
 		//不是一个结构体，不只是接收一个结构体！！！！！
 		//重写!!!!
-#if 0
+//#if 0
 		//判断接收的信息是否为空
 //		if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true的！！！！姐姐们，结构体的的size是一直有的。你们写个程序测试下！！！！！
-		if (sizeof(theApp.m_SendBackMsg))theApp.m_RecvBackMsg_Dat
+		if (theApp.m_RecvBackMsg_Dat.size() !=0 )
 		{	
 			//先将当前结构体中数组转化成容器!!!!!!!!!待写
 
@@ -754,7 +753,7 @@ void CNodePlatApp::OnSendmsg(/*map<int, CString> IpMap*//*vector<IP>*/)
 			//清空接收的结构体/*buffer容器*/
 			memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
 		}
-#endif					
+//#endif					
 	}
 
 	//调用算法
