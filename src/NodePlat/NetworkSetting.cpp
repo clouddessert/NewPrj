@@ -22,43 +22,6 @@ CNetworkSetting::CNetworkSetting(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CNetworkSetting)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
-
-	//读取临时路径
-	CString strTmp,strTmpA;
-	CString	sPath;
-	
-	//获得工程文件夹路径
-	::GetCurrentDirectory(_MAX_PATH,sPath.GetBuffer(_MAX_PATH));
-	sPath.ReleaseBuffer();
-	sPath = sPath+_T("\\NetConfig.ini");
-	
-	::GetPrivateProfileString(_T("IP地址"), _T("服务器IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath);
-	strTmp.ReleaseBuffer();
-	
-// 	//保存当前IP
-// 	::WritePrivateProfileString(_T("IP地址"), _T("服务器IP地址"), strTmp, sPath);
-
-// 	::GetPrivateProfileString(_T("编队IP"), _T("A船IP"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath);
-// 	strTmp.ReleaseBuffer();
-
-
-// 	theApp.hIp_wnd = GetSafeHwnd();
-// 	
-// 	CString Team_Columns[]=
-// 	{
-// 		_T("编号"),
-// 			_T("IP"),
-// 			
-// 	};
-// 	
-// 	
-// 	((CListCtrl*)GetDlgItem(IDC_TEAMLIST))->SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
-// 	
-// 	for(int i=0; i<sizeof(Team_Columns)/sizeof(Team_Columns[0]); ++i)
-// 		((CListCtrl*)GetDlgItem(IDC_TEAMLIST))->InsertColumn(i, Team_Columns[i], LVCFMT_CENTER, 100);
-
-
-	
 	
 }
 
@@ -88,6 +51,26 @@ BOOL CNetworkSetting::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	// TODO: Add extra initialization here
+	
+	//读取临时路径
+	CString strTmp,strTmpA;
+	CString	sPath;
+	
+	//获得工程文件夹路径
+	::GetCurrentDirectory(_MAX_PATH,sPath.GetBuffer(_MAX_PATH));
+	sPath.ReleaseBuffer();
+	sPath = sPath+_T("\\NetConfig.ini");
+	
+	::GetPrivateProfileString(_T("IP地址"), _T("服务器IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath);
+	strTmp.ReleaseBuffer();
+	
+	// 	//保存当前IP
+	// 	::WritePrivateProfileString(_T("IP地址"), _T("服务器IP地址"), strTmp, sPath);
+	
+	// 	::GetPrivateProfileString(_T("编队IP"), _T("A船IP"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath);
+	// 	strTmp.ReleaseBuffer();
+	
+
 	
 //	theApp.hIp_wnd = GetSafeHwnd();
 	
