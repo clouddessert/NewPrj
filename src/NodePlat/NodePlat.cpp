@@ -569,7 +569,7 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest
 void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 {
 	// TODO: Add your command handler code here
-	AfxMessageBox("ok");
+//	AfxMessageBox("ok");
 
 //#if 0
 //0914改
@@ -582,26 +582,35 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 	VCT_Request_Cooperative_Msg::iterator iteReqCoopMsg;
 	Request_Cooperative_Msg m_StRequest;      //保存联合识别前此批号的本舰信息
 	long int lnum;//请求的合批号
-	lnum = theApp.m_ESM_Dat.at(theApp.m_iline).lAutonum;//获取请求协同的批号
+	lnum = theApp.m_ESM.at(theApp.m_iline).lAutonum;//获取请求协同的批号
 	
+	for (iteEsm = m_StRequest.vctEsm.begin(); iteEsm != m_StRequest.vctEsm.end(); iteEsm++)
+	{
+		memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
+	}
 	m_StRequest.vctEsm.clear();
+	for (iteComm = m_StRequest.vctComm.begin(); iteComm != m_StRequest.vctComm.end();iteComm++)
+	{
+		memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
+	}
 	m_StRequest.vctComm.clear();
 	memset(&(m_StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK));
 	memset(&m_StRequest, 0, sizeof(Request_Cooperative_Msg));//清空保存联合识别前信息的结构体		
 	memset(&theApp.m_StSendRequest, 0, sizeof(SendRequest_Msg));//清空发送请求的结构体
 
-	for ( iteReqCoopMsg = theApp.m_RequestMsg.begin(); iteReqCoopMsg != theApp.m_RequestMsg.end(); iteReqCoopMsg++)
+
+	for (iteReqCoopMsg = theApp.m_RequestMsg.begin(); iteReqCoopMsg != theApp.m_RequestMsg.end(); iteReqCoopMsg++)
 	{ 
 		iteReqCoopMsg->lAutonum = NULL;
 		iteReqCoopMsg->nCorrFlag = NULL;
 		iteReqCoopMsg->nStampTime = NULL;
 		memset(&iteReqCoopMsg->stTrace, 0, sizeof(TRACKSTATUS_MARK));
 		memset(&iteReqCoopMsg->stReqShipPosi, 0, sizeof(SHIP_POSITION));
-		for ( iteEsm = iteReqCoopMsg->vctEsm.begin(); iteEsm != iteReqCoopMsg->vctEsm.end(); iteEsm++)
+		for (iteEsm = iteReqCoopMsg->vctEsm.begin(); iteEsm != iteReqCoopMsg->vctEsm.end(); iteEsm++)
 		{
 			memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
 		}
-		for ( iteComm = iteReqCoopMsg->vctComm.begin(); iteComm != iteReqCoopMsg->vctComm.end();iteComm++)
+		for (iteComm = iteReqCoopMsg->vctComm.begin(); iteComm != iteReqCoopMsg->vctComm.end();iteComm++)
 		{
 			memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
 		}		
@@ -690,9 +699,9 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 	COMSTATUS_MARK stCom;
 //	SHIP_POSITION stBackShipPosi;            //应答舰的经纬高
 
-	//for (int i = 0; i < theApp.IpMap.size(); ++i)
+	for (int i = 0; i < theApp.IpMap.size(); ++i)
 	//这里面的map是界面传过来的！！不是全局的那个map，全局的map是给你界面用的。比如你选中B舰，这里的vector就是B舰的
-	for (int i = 0; i < IpMap.size(); ++i)
+	//for (int i = 0; i < IpMap.size(); ++i)
 	{	
 		//组包/*请求结构体*/
 		if (lnum >= 8000)
@@ -820,6 +829,8 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 	//调用算法
 	GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
 	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
+
+
 	
 
 //#endif		
