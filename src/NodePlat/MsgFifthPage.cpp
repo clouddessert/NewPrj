@@ -124,7 +124,7 @@ void CMsgFifthPage::OnSize(UINT nType, int cx, int cy)
 LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam) 
 {
 	//这里使用iterator去显示
-	VCT_IDENTIINFOR_MSG::iterator iterator;
+	VCT_MIDENTIINFOR_MSG::iterator iterator;
 // 	VCT_ESM_MSG::iterator iteEsm;
 // 	VCT_COMM_MSG::iterator iteComm;
 	
@@ -147,7 +147,7 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 // 			fTmp = iterator->lAutonum;//综合批号
 // 			strTmp.Format("%d", (int)fTmp);
 // 			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->InsertItem(nTmp, strTmp, 9);
-		for (iterator = theApp.m_IdentifyMsg.begin(); iterator != theApp.m_IdentifyMsg.end(); iterator++,++nTmp)
+		for (iterator = theApp.m_MulIdentifyMsg.begin(); iterator != theApp.m_MulIdentifyMsg.end(); iterator++,++nTmp)
 		{
 			//strTmp.Format("%s", _T("8000"));
 			//((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertItem(nTmp, strTmp, 9);				
