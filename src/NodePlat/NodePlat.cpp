@@ -489,14 +489,19 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest
      //调用算法,找出响应请求的返回信息stSendBackMsg
 	 CoopFind_Information_To_MainShip(stUniAllN, tmpRecRequest_Msg, stSendBackMsg);
 
-	//准备完成，发送
-	UINT nPort = 0;
-	CString strTmp;
-	pThis->GetPeerName(strTmp, nPort);
-	//前面2个需要修改
-//	theApp.m_P2PSocket->SendTo(NULL, sizeof(theApp.m_StSendRequest), nPort, strTmp);
-	theApp.m_P2PSocket->SendTo(&stSendBackMsg, sizeof(stSendBackMsg), nPort, strTmp);
-	//it is ok!
+	 //判断返回信息不为空,进行发送
+    if ( stSendBackMsg.BackTraceN + stSendBackMsg.BackESMN +stSendBackMsg.BackESMN != 0)
+	{
+		//准备完成，发送
+		UINT nPort = 0;
+		CString strTmp;
+		pThis->GetPeerName(strTmp, nPort);
+		//前面2个需要修改
+		//	theApp.m_P2PSocket->SendTo(NULL, sizeof(theApp.m_StSendRequest), nPort, strTmp);
+		theApp.m_P2PSocket->SendTo(&stSendBackMsg, sizeof(stSendBackMsg), nPort, strTmp);
+	    //it is ok!
+	}
+
 
 // #if 0 
 // 	//0903改
