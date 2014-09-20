@@ -185,10 +185,10 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 // 
 // 				   stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
 // 				}
-*/
-	          	vctCooperMsg.push_back(stCooperMsg);
+*/  
 			}//if 综合批号相同 结束
 		}// for iteBackMsg
+		vctCooperMsg.push_back(stCooperMsg);
 	} //for iteRequestMsg
 //测试数据  合并信息条数
 // for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)

@@ -143,6 +143,7 @@ public:
 	//{{AFX_MSG(CNodePlatApp)
 	afx_msg void OnAppAbout();
 	afx_msg void OnSendmsg();/*map<int, CString> IpMap*/
+	afx_msg void OnStartsever();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -21,7 +21,8 @@ BEGIN_MESSAGE_MAP(CNodePlatApp, CWinApp)
 //{{AFX_MSG_MAP(CNodePlatApp)
 ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 ON_COMMAND(IDM_SENDMSG, OnSendmsg)
-//}}AFX_MSG_MAP
+	ON_COMMAND(ID_STARTSEVER, OnStartsever)
+	//}}AFX_MSG_MAP
 // Standard file based document commands
 ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
 ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
@@ -287,14 +288,11 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 			//SendToClient();
 			SendRequest_Msg tmpRecRequest_Msg;
 			::EnterCriticalSection(&(theApp.g_cs));
-//			memset(&theApp.m_StReceiveRequest, 0, sizeof(SendRequest_Msg));
 			theApp.m_RecvReqMsg_Dat.clear();
-// 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
-// 			{
-				ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-				pThis->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-				theApp.m_RecvReqMsg_Dat.push_back(tmpRecRequest_Msg);
-//			}	//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
+			ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+			pThis->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+			theApp.m_RecvReqMsg_Dat.push_back(tmpRecRequest_Msg);
+			//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
 			::LeaveCriticalSection(&(theApp.g_cs));	
 			//SendTo,一定要添加,这里为了方便使用立刻sendTO
 			SendToClient(pThis,tmpRecRequest_Msg);
@@ -307,16 +305,11 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 		{
 			SendBack_Msg tmpRecBack_Msg;
 			::EnterCriticalSection(&(theApp.g_cs));
-//			memset(&theApp.m_ReceiveBackMsg, 0, sizeof(SendBack_Msg));
-//			theApp.m_RecvBackMsg_Dat.clear();
-// 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
-// 			{
-				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-				pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
-				theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
-//			}
+			ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+			pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
+			theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
 			::LeaveCriticalSection(&(theApp.g_cs));
-
+			
 			//Set 信号量，同步数据
 			::SetEvent(hEvent);
 			break;
@@ -324,61 +317,8 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 	default:
 		break;
 	}
-// #endif
-	
-// #if 0 	
-//     //0903改
-// 	//\接收 别人的请求数据 	//4\接收邻舰发送来的查找到的返回信息
-// 	//考虑请求是结构体组成的容器 接收后，将发送过来的含数组的容器转成含容器的容器
-// 	ProtcolHeader stHeader;
-// 	ZeroMemory(&stHeader, sizeof(ProtcolHeader));
-// 	//解析包头
-// 	theApp.m_P2PSocket->Receive(&stHeader, sizeof(ProtcolHeader));
-// 	switch (stHeader.nMsgType)  //接收的类型和发送的类型一致
-// 	{
-// 		//接收 别人的请求数据,航迹，COM，ESM消息
-//     case 5:
-// 		{
-// 			SendRequest_Msg tmpRecRequest_Msg;
-// 			
-// 			//读数据拒绝修改
-// 			::EnterCriticalSection(&(theApp.g_cs));
-// 			//清空接收请求信息的结构体
-// 			memset(&theApp.m_StReceiveRequest, 0, sizeof(SendRequest_Msg));
-// 			
-//             //接收
-// 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
-// 			{
-// 				ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-// 				theApp.m_P2PSocket->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-// 				
-// 			}
-// 			::LeaveCriticalSection(&(theApp.g_cs));	
-// 			break;
-// 		}
-// 	case 6://接收别舰发送来的查找到的返回信息
-// 		{
-// 			SendBack_Msg tmpRecBack_Msg;
-// 			//读数据拒绝修改
-// 			::EnterCriticalSection(&(theApp.g_cs));
-// 			//清空接收返回信息的结构体
-// 			memset(&theApp.m_ReceiveBackMsg, 0, sizeof(SendBack_Msg));
-// 			
-//             //接收
-// 			for (int nNum = 1; nNum <= stHeader.nMsgLength; ++nNum)
-// 			{
-// 				ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-// 				theApp.m_P2PSocket->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-// 				
-// 			}
-// 			::LeaveCriticalSection(&(theApp.g_cs));	
-// 			break;
-// 		}
-// 	default:
-// 		break;
-// 	}
-// #endif
-	
+	// #endif
+		
 }
 
 void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest_Msg)
@@ -496,85 +436,15 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest
 		UINT nPort = 0;
 		CString strTmp;
 		pThis->GetPeerName(strTmp, nPort);
-		//前面2个需要修改
-		//	theApp.m_P2PSocket->SendTo(NULL, sizeof(theApp.m_StSendRequest), nPort, strTmp);
 		theApp.m_P2PSocket->SendTo(&stSendBackMsg, sizeof(stSendBackMsg), nPort, strTmp);
 	    //it is ok!
 	}
-
-
-// #if 0 
-// 	//0903改
-// 	//3\请求数据
-// 	ProtcolHeader stHeader;
-// 	VCT_SendRequest_Msg::iterator iteSendReq_Dat;
-// 	VCT_SendBack_Msg::iterator iteSendBack_Dat;
-// 	
-// 	if (sizeof(theApp.m_StSendRequest))  //有请求
-// 	{    
-// 		//send data
-// 		//发送所有请求数据
-// 		::EnterCriticalSection(&(theApp.g_cs));
-// 		switch (theApp.cMsgType)
-// 		{
-// 		case 5:
-// 			{
-// 				stHeader.nMsgType = 5;
-// 				stHeader.nMsgLength = sizeof(theApp.m_StSendRequest);
-// 				for ( theApp.m_pClient =m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
-// 				{
-// 					theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
-// 					theApp.m_pClient->second->Send(&theApp.m_StSendRequest, sizeof(SendRequest_Msg));
-// 					
-// 				}
-// 				break;
-// 			}
-// 		default:
-// 			break;
-// 		}
-// 	}
-// 	
-// 	/*
-// 	//2\发送给别人响应数据
-// 	if (have received req data)
-// 	{
-// 	if (算法处理完成!)
-// 	{
-// 	//回传算法数据
-// 	}
-// }*/
-// 	if (sizeof(theApp.m_SendBackMsg))
-// 	{
-// 		if (/*算法处理完成*/)//如何判断算法是否处理完成
-// 		{
-// 			//得到需要返回给邻舰的数据 (该数据已经转换成含数组的容器)
-// 			//发送回传算法的数据
-// 			::EnterCriticalSection(&(theApp.g_cs));
-// 			switch (theApp.cMsgType)
-// 			{
-// 			case 6:
-// 				{
-// 					stHeader.nMsgType = 6;
-// 					stHeader.nMsgLength = sizeof(theApp.m_SendBackMsg);
-// 					for ( theApp.m_pClient = m_ClientMap.begin(); theApp.m_pClient != m_ClientMap.end(); theApp.m_pClient++)
-// 					{
-// 						theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
-// 						theApp.m_pClient->second->Send(&theApp.m_SendBackMsg, sizeof(SendBack_Msg));						
-// 					}
-// 					break;
-// 				}
-// 			default:
-// 				break;
-// 			}	
-// 		}
-// 	}
-// #endif
 }
 
 void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 {
 	// TODO: Add your command handler code here
-//	AfxMessageBox("ok");
+	AfxMessageBox("ok");
 
 //#if 0
 //0914改
@@ -623,9 +493,10 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 	theApp.m_RequestMsg.clear();
 	
 	/*取出联合识别前此批号的相关信息并存储Line460-523*/
+	int s,t, m, n;
 	if (lnum >= 8000)
 	{
-		for (iteYes = theApp.m_ClusterUniMsg.begin(); iteYes != theApp.m_ClusterUniMsg.end(); iteYes++)
+		for (iteYes = theApp.m_ClusterUniMsg.begin(), s=1 ; s <= theApp.m_ClusterUniMsg.size() /*theApp.m_ClusterUniMsg.end()*/; iteYes++ ,s++)
 		{
 			if (iteYes->lAutonum == lnum)
 			{
@@ -633,14 +504,14 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 				m_StRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
 				if (iteYes->vctEsm.size())//请求协同ESM信息
 				{
-					for (iteEsm = iteYes->vctEsm.begin(); iteEsm = iteYes->vctEsm.end(); iteEsm++)
+					for (iteEsm = iteYes->vctEsm.begin(),m =1 ; m <= iteYes->vctEsm.size() /*iteEsm = iteYes->vctEsm.end()*/; iteEsm++,m++)
 					{
 						m_StRequest.vctEsm.push_back(*iteEsm);
 					}
 				}
 				if (iteYes->vctComm.size())//请求协同COMM信息
 				{
-					for (iteComm = iteYes->vctComm.begin(); iteComm = iteYes->vctComm.end(); iteComm++)
+					for (iteComm = iteYes->vctComm.begin(), n = 1;  n <= iteYes->vctComm.size()  /*iteComm = iteYes->vctComm.end()*/; iteComm++ ,n++)
 					{
 						m_StRequest.vctComm.push_back(*iteComm);
 					}
@@ -658,7 +529,7 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 	
 	else
 	{
-		for (iteNo = theApp.m_ClusterNoTraceMsg.begin(); iteNo != theApp.m_ClusterNoTraceMsg.end(); iteNo++)
+		for (iteNo = theApp.m_ClusterNoTraceMsg.begin() ,t=1; t<=theApp.m_ClusterNoTraceMsg.size()/* iteNo != theApp.m_ClusterNoTraceMsg.end()*/; iteNo++,t++)
 		{
 			if (iteNo->lAutonum == lnum)
 			{
@@ -666,14 +537,14 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 				//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);
 				if (iteNo->vctEsm.size())//请求协同ESM信息
 				{
-					for (iteEsm = iteNo->vctEsm.begin(); iteEsm = iteNo->vctEsm.end(); iteEsm++)
+					for (iteEsm = iteNo->vctEsm.begin(),m=1; m<=iteNo->vctEsm.size()/* iteEsm = iteNo->vctEsm.end()*/; iteEsm++,m++)
 					{
 						m_StRequest.vctEsm.push_back(*iteEsm);
 					}
 				}
 				if (iteNo->vctComm.size())//请求协同COMM信息
 				{
-					for (iteComm = iteNo->vctComm.begin(); iteComm = iteNo->vctComm.end(); iteComm++)
+					for (iteComm = iteNo->vctComm.begin(),n=1; n<=iteNo->vctComm.size()/* iteComm = iteNo->vctComm.end()*/; iteComm++,n++)
 					{
 						m_StRequest.vctComm.push_back(*iteComm);
 					}
@@ -711,7 +582,7 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 		//组包/*请求结构体*/
 		if (lnum >= 8000)
 		{
-			for (iteYes = theApp.m_ClusterUniMsg.begin(); iteYes != theApp.m_ClusterUniMsg.end(); iteYes++)
+			for (iteYes = theApp.m_ClusterUniMsg.begin(), s=1 ; s <= theApp.m_ClusterUniMsg.size() /* iteYes != theApp.m_ClusterUniMsg.end()*/; iteYes++,s++)
 			{
 				if (iteYes->lAutonum == lnum)
 				{	
@@ -722,14 +593,14 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 					theApp.m_StSendRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
 					theApp.m_StSendRequest.nRequestEsmN = iteYes->vctEsm.size();
 					theApp.m_StSendRequest.nRequestComN = iteYes->vctComm.size();
-					for (int i = 0; i <= iteYes->vctEsm.size();i++)//请求协同ESM信息
+					for (int i = 0; i < iteYes->vctEsm.size();i++)//请求协同ESM信息
 					{
 						theApp.m_StSendRequest.lEsmTargetNumber[i] = iteYes->vctEsm.at(i).lTargetNumber;//目标esm批号
 						theApp.m_StSendRequest.dEsmZaiPin[i] = iteYes->vctEsm.at(i).dZaiPin;//载频
 						theApp.m_StSendRequest.dEsmMaiKuan[i] = iteYes->vctEsm.at(i).dMaiKuan;////脉宽
 						theApp.m_StSendRequest.dEsmTianXianScan[i] = iteYes->vctEsm.at(i).dTianXianScan;//天线扫描信息
 					}
-					for (i = 0; i <= iteYes->vctComm.size();i++)//请求协同COMM信息
+					for (i = 0; i < iteYes->vctComm.size();i++)//请求协同COMM信息
 					{
 						theApp.m_StSendRequest.lComTargetNumber[i] = iteYes->vctComm.at(i).lTargetNumber;//目标comm批号
 						theApp.m_StSendRequest.dComZaiPin[i] = iteYes->vctComm.at(i).dComZaiPin;//载频信息
@@ -745,7 +616,7 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 		} 		
 		else
 		{
-			for (iteNo = theApp.m_ClusterNoTraceMsg.begin(); iteNo != theApp.m_ClusterNoTraceMsg.end(); iteNo++)
+			for (iteNo = theApp.m_ClusterNoTraceMsg.begin(),t=1; t<=theApp.m_ClusterNoTraceMsg.size()/* iteNo != theApp.m_ClusterNoTraceMsg.end()*/; iteNo++,t++)
 			{
 				if (iteNo->lAutonum == lnum)
 				{
@@ -831,12 +702,23 @@ void CNodePlatApp::OnSendmsg() /*map<int, CString> IpMap*//*vector<IP>*/
 		}					
 	}
 
-	//调用算法
-	GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
-	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
-
-
-	
-
+	if ( theApp.m_BackMsg.size() != 0)
+	{
+		//调用算法
+		GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
+		MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
+	}
+	else
+	{
+		AfxMessageBox("未找到返回信息");
+	}
 //#endif		
+}
+
+void CNodePlatApp::OnStartsever() 
+{
+	// TODO: Add your command handler code here
+	ServerCreate();
+	AfxMessageBox("成功开启服务");	
+	
 }
