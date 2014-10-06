@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=CNetworkSetting
-LastTemplate=CDialog
+LastClass=CClientSocket
+LastTemplate=CSocket
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
 LastPage=0
 
-ClassCount=20
+ClassCount=21
 Class1=CAllParamSheet
 Class2=CDrawView
 Class3=CMainFrame
@@ -28,23 +28,24 @@ Class16=CParamFstPage
 Class17=CParamSecondPage
 
 ResourceCount=15
-Resource1=IDR_MENU2
-Resource2=IDD_PARAM_DLG_FIRST
-Resource3=IDD_MSG_DLG_THREE
-Resource4=IDD_MSG_DLG_SECOND
-Resource5=IDD_MSG_DLG_EIGHTH
+Resource1=IDD_MSG_DLG_SIXTH
+Resource2=IDD_MSG_DLG_SEVENTH
+Resource3=IDD_MSG_DLG_FOURTH
+Resource4=IDR_MENU2
+Resource5=IDD_MSG_DLG_THREE
 Resource6=IDR_MENU1
 Resource7=IDR_MAINFRAME
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_SEVENTH
+Resource8=IDD_MSG_DLG_FIRST
 Class19=CMsgFifthPage
-Resource9=IDD_PARAM_DLG_SECOND
-Resource10=IDD_MSG_DLG_FOURTH
-Resource11=IDD_ABOUTBOX
-Resource12=IDD_MSG_DLG_FIFTH
-Resource13=IDD_MSG_DLG_FIRST
-Resource14=IDD_MSG_DLG_SIXTH
+Resource9=IDD_PARAM_DLG_FIRST
+Resource10=IDD_MSG_DLG_EIGHTH
+Resource11=IDD_PARAM_DLG_SECOND
+Resource12=IDD_MSG_DLG_SECOND
+Resource13=IDD_ABOUTBOX
+Resource14=IDD_MSG_DLG_FIFTH
 Class20=CNetworkSetting
+Class21=CClientSocket
 Resource15=IDD_NETWORKDLG
 
 [CLS:CAllParamSheet]
@@ -222,8 +223,9 @@ Type=1
 Class=?
 Command1=ID_NETWORKSETTING
 Command2=IDM_CONNECTSVR
-Command3=ID_APP_ABOUT
-CommandCount=3
+Command3=ID_STARTSEVER
+Command4=ID_APP_ABOUT
+CommandCount=4
 
 [CLS:CMsgSocket]
 Type=0
@@ -285,7 +287,7 @@ HeaderFile=NetworkSetting.h
 ImplementationFile=NetworkSetting.cpp
 BaseClass=CDialog
 Filter=D
-LastObject=IDC_BUTTONCLOSE
+LastObject=CNetworkSetting
 VirtualFilter=dWC
 
 [DLG:IDD_NETWORKDLG]
@@ -298,4 +300,12 @@ Control3=IDC_SERVERIP,static,1342308352
 Control4=IDC_TEAMLIST,SysListView32,1350631425
 Control5=IDC_BUTTONCLOSE,button,1342242816
 Control6=IDC_IPADDRESS,SysIPAddress32,1342242816
+
+[CLS:CClientSocket]
+Type=0
+HeaderFile=ClientSocket.h
+ImplementationFile=ClientSocket.cpp
+BaseClass=CSocket
+Filter=N
+VirtualFilter=uq
 

@@ -185,7 +185,8 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 // 
 // 				   stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
 // 				}
-*/  
+*/
+	          	
 			}//if 综合批号相同 结束
 		}// for iteBackMsg
 		vctCooperMsg.push_back(stCooperMsg);

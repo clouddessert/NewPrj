@@ -125,7 +125,17 @@ void CNodePlatDoc::OnConnectsvr()
 	//保存当前IP
 	::WritePrivateProfileString(_T("IP地址"), _T("服务器IP地址"), strTmp, sPath);
 	
-	if (m_ReceiveSocket->Connect(strTmp, SERVERPORT))
+	BOOL res;
+	for (int i = 0; i < 5; ++i)
+	{
+		res = m_ReceiveSocket->Connect(strTmp, SERVERPORT);
+		if (res)
+		{
+			break;
+		}
+	}
+
+	if (i != 5)
 	{
 		//开始
 		theApp.m_RecvMsg.stComm.clear();
@@ -264,3 +274,12 @@ void CNodePlatDoc::OnNetworksetting()
 // 	set->ShowWindow(SW_SHOW);
 	
 }
+
+
+
+// void CNodePlatDoc::OnStartsever() 
+// { 
+// 	//开启服务 创建服务器
+//     ServerCreate();
+// 
+// }

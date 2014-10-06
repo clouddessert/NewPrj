@@ -21,6 +21,8 @@
 
 //定义P2P服务端口
 #define P2P_SERVER_PORT 9001
+//定义P2P客户端端口
+#define P2P_CLIENT_PORT 6001
 
 #include <math.h>
 

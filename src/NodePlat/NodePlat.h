@@ -16,8 +16,7 @@
 
 #include "MsgSocket.h"
 #include "MySocket.h"
-#include <map>
-using namespace std;
+
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatApp:
 // See NodePlat.cpp for the implementation of this class
@@ -101,11 +100,14 @@ public:
     //本舰和各舰的合并信息
 	VCT_COOPER_MSG m_CooperMsg;
 	
-
+	/**********socket communication***************/
+	//同步事件标志位
 	HANDLE hEvent;
 
-	//p2p socket
+	//p2p socket服务器
 	CMsgSocket* m_P2PSocket;
+	//p2p socket客户端
+	CSocket* m_P2PClient;
 
 	//客户端
 	CMsgSocket* pClient;
@@ -131,13 +133,13 @@ public:
 private:
 	void ServerCreate(void);
 	void ServerShutDown(void);
+	void SendToClient(CMsgSocket* pThis,SendRequest_Msg tmpRecRequest_Msg);
 
 public:
+	//common
 	void ClientAccept(void);
 	void ClientClose(void* pContext);
-
 	void ReceiveFromClient(CMsgSocket* pThis);
-	void SendToClient(CMsgSocket* pThis,SendRequest_Msg tmpRecRequest_Msg);
 
 // Implementation
 	//{{AFX_MSG(CNodePlatApp)

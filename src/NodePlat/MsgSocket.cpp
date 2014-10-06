@@ -35,14 +35,6 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CMsgSocket member functions
 
-void CMsgSocket::OnClose(int nErrorCode) 
-{
-	// TODO: Add your specialized code here and/or call the base class
-	theApp.ClientClose(this);
-
-	CSocket::OnClose(nErrorCode);
-}
-
 void CMsgSocket::OnAccept(int nErrorCode) 
 {
 	// TODO: Add your specialized code here and/or call the base class
@@ -65,4 +57,12 @@ void CMsgSocket::OnSend(int nErrorCode)
 	// TODO: Add your specialized code here and/or call the base class
 
 	CSocket::OnSend(nErrorCode);
+}
+
+void CMsgSocket::OnClose(int nErrorCode) 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	theApp.ClientClose(this);
+	
+	CSocket::OnClose(nErrorCode);
 }
