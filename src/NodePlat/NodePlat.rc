@@ -76,23 +76,20 @@ IDR_NODEPLTYPE          ICON    DISCARDABLE     "res\\NodePlatDoc.ico"
 
 IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
 BEGIN
-    POPUP "网络设置"
+    POPUP "系统配置"
     BEGIN
-        MENUITEM "网络配置",                    ID_NETWORKSETTING
-        MENUITEM "连接服务器",                  IDM_CONNECTSVR
-        MENUITEM "开启服务",                    ID_STARTSEVER
+        MENUITEM "网络设置",                    IDM_NETWORK_SETTING
+        MENUITEM "系统参数",                    IDM_SYSTEM
+    END
+    POPUP "仿真功能"
+    BEGIN
+        MENUITEM "连接剧情",                    IDM_CONNECT_SERVICE
+        MENUITEM "启动编队服务",                IDM_TEAM_SERVICE_START
+        MENUITEM "关闭编队服务",                IDM_TEAM_SERVICE_STOP
     END
     POPUP "帮助(&H)"
     BEGIN
         MENUITEM "关于 NodePlat(&A)...",        ID_APP_ABOUT
-    END
-END
-
-IDR_MENU2 MENU DISCARDABLE 
-BEGIN
-    POPUP "sds"
-    BEGIN
-        MENUITEM "发送请求",                    IDM_SENDMSG
     END
 END
 
@@ -195,20 +192,20 @@ BEGIN
                     WS_BORDER | WS_TABSTOP,28,20,60,50
 END
 
-IDD_NETWORKDLG DIALOG DISCARDABLE  0, 0, 231, 173
+IDD_NETWORKDLG DIALOG DISCARDABLE  0, 0, 223, 173
 STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
     WS_CAPTION | WS_SYSMENU
 CAPTION "网络配置"
 FONT 10, "新宋体"
 BEGIN
     GROUPBOX        "服务器配置",IDC_SERVERSET,8,6,206,40
-    GROUPBOX        "编队配置",IDC_TEAMSET,8,57,206,76
-    LTEXT           "服务器IP：",IDC_SERVERIP,23,25,44,8
+    GROUPBOX        "编队配置",IDC_TEAMSET,8,57,206,90
+    LTEXT           "剧情服务器地址:",IDC_SERVERIP,31,25,60,8
     CONTROL         "List1",IDC_TEAMLIST,"SysListView32",LVS_REPORT | 
-                    WS_BORDER | WS_TABSTOP,23,74,172,50
-    PUSHBUTTON      "关闭",IDC_BUTTONCLOSE,81,148,50,14
+                    WS_BORDER | WS_TABSTOP,18,71,184,65
+    PUSHBUTTON      "关闭",IDC_BUTTONCLOSE,87,152,50,14
     CONTROL         "IPAddress1",IDC_IPADDRESS,"SysIPAddress32",WS_TABSTOP,
-                    71,23,100,15
+                    96,23,99,14
 END
 
 
@@ -278,7 +275,7 @@ BEGIN
 
     IDD_NETWORKDLG, DIALOG
     BEGIN
-        RIGHTMARGIN, 230
+        RIGHTMARGIN, 222
     END
 END
 #endif    // APSTUDIO_INVOKED

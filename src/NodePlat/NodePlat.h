@@ -131,8 +131,6 @@ public:
 	void* pXview;
 
 private:
-	void ServerCreate(void);
-	void ServerShutDown(void);
 	void SendToClient(CMsgSocket* pThis,SendRequest_Msg tmpRecRequest_Msg);
 
 public:
@@ -141,11 +139,12 @@ public:
 	void ClientClose(void* pContext);
 	void ReceiveFromClient(CMsgSocket* pThis);
 
+	void ServerCreate(void);
+	void ServerShutDown(void);
+
 // Implementation
 	//{{AFX_MSG(CNodePlatApp)
 	afx_msg void OnAppAbout();
-	afx_msg void OnSendmsg();/*map<int, CString> IpMap*/
-	afx_msg void OnStartsever();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

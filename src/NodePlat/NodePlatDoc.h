@@ -43,8 +43,12 @@ protected:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CNodePlatDoc)
-	afx_msg void OnConnectsvr();
-	afx_msg void OnNetworksetting();
+	afx_msg void OnNetworkSetting();
+	afx_msg void OnSystemSetting();
+	afx_msg void OnConnectService();
+	afx_msg void OnTeamServiceStart();
+	afx_msg void OnTeamServiceStop();
+	afx_msg void OnSendmsg();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

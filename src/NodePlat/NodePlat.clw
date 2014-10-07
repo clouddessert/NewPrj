@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CClientSocket
+LastClass=CNodePlatDoc
 LastTemplate=CSocket
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
@@ -27,26 +27,25 @@ Class15=CNodePlatView
 Class16=CParamFstPage
 Class17=CParamSecondPage
 
-ResourceCount=15
-Resource1=IDD_MSG_DLG_SIXTH
-Resource2=IDD_MSG_DLG_SEVENTH
-Resource3=IDD_MSG_DLG_FOURTH
-Resource4=IDR_MENU2
+ResourceCount=14
+Resource1=IDD_MSG_DLG_FIFTH
+Resource2=IDD_MSG_DLG_SIXTH
+Resource3=IDD_MSG_DLG_FIRST
+Resource4=IDR_MAINFRAME
 Resource5=IDD_MSG_DLG_THREE
 Resource6=IDR_MENU1
-Resource7=IDR_MAINFRAME
+Resource7=IDD_MSG_DLG_EIGHTH
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_FIRST
+Resource8=IDD_MSG_DLG_FOURTH
 Class19=CMsgFifthPage
 Resource9=IDD_PARAM_DLG_FIRST
-Resource10=IDD_MSG_DLG_EIGHTH
+Resource10=IDD_MSG_DLG_SEVENTH
 Resource11=IDD_PARAM_DLG_SECOND
 Resource12=IDD_MSG_DLG_SECOND
 Resource13=IDD_ABOUTBOX
-Resource14=IDD_MSG_DLG_FIFTH
 Class20=CNetworkSetting
 Class21=CClientSocket
-Resource15=IDD_NETWORKDLG
+Resource14=IDD_NETWORKDLG
 
 [CLS:CAllParamSheet]
 Type=0
@@ -148,7 +147,7 @@ Type=0
 BaseClass=CDocument
 HeaderFile=NodePlatDoc.h
 ImplementationFile=NodePlatDoc.cpp
-LastObject=CNodePlatDoc
+LastObject=IDM_SENDMSG
 Filter=N
 VirtualFilter=DC
 
@@ -221,11 +220,13 @@ Control1=IDC_ENEMY_TREE,SysTreeView32,1350631431
 [MNU:IDR_MAINFRAME]
 Type=1
 Class=?
-Command1=ID_NETWORKSETTING
-Command2=IDM_CONNECTSVR
-Command3=ID_STARTSEVER
-Command4=ID_APP_ABOUT
-CommandCount=4
+Command1=IDM_NETWORK_SETTING
+Command2=IDM_SYSTEM
+Command3=IDM_CONNECT_SERVICE
+Command4=IDM_TEAM_SERVICE_START
+Command5=IDM_TEAM_SERVICE_STOP
+Command6=ID_APP_ABOUT
+CommandCount=6
 
 [CLS:CMsgSocket]
 Type=0
@@ -252,12 +253,6 @@ ControlCount=1
 Control1=IDC_LIST_UNICLUSTERMSG,SysListView32,1350631425
 
 [MNU:IDR_MENU1]
-Type=1
-Class=?
-Command1=IDM_SENDMSG
-CommandCount=1
-
-[MNU:IDR_MENU2]
 Type=1
 Class=?
 Command1=IDM_SENDMSG
