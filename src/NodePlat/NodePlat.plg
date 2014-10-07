@@ -7,14 +7,14 @@
 </h3>
 <h3>Command Lines</h3>
 Creating command line "rc.exe /l 0x804 /fo"Debug/NodePlat.res" /d "_DEBUG" /d "_AFXDLL" "E:\NewPrj\trunk\src\NodePlat\NodePlat.rc"" 
-Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP51BB.tmp" with contents
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP4EF.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "E:\NewPrj\trunk\src\NodePlat\AllParamSheet.cpp"
 "E:\NewPrj\trunk\src\NodePlat\Alg\SingleIdentify.cpp"
 ]
-Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP51BB.tmp" 
-Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP51BC.tmp" with contents
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP4EF.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP4F0.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "E:\NewPrj\trunk\src\NodePlat\Alg\CooperativeMsg.cpp"
@@ -42,14 +42,14 @@ Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP51BC.tmp" with 
 "E:\NewPrj\trunk\src\NodePlat\ParamSecondPage.cpp"
 "E:\NewPrj\trunk\src\NodePlat\Alg\XSi.cpp"
 ]
-Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP51BC.tmp" 
-Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP51BD.tmp" with contents
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP4F0.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP501.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "E:\NewPrj\trunk\src\NodePlat\StdAfx.cpp"
 ]
-Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP51BD.tmp" 
-Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP51BE.tmp" with contents
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP501.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP502.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/NodePlat.pdb" /debug /machine:I386 /out:"Debug/NodePlat.exe" /pdbtype:sept 
 .\Debug\AllParamSheet.obj
@@ -81,7 +81,7 @@ Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP51BE.tmp" with 
 .\Debug\XSi.obj
 .\Debug\NodePlat.res
 ]
-Creating command line "link.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP51BE.tmp"
+Creating command line "link.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP502.tmp"
 <h3>Output Window</h3>
 Compiling resources...
 Compiling...
@@ -119,7 +119,7 @@ ParamSecondPage.cpp
 XSi.cpp
 Generating Code...
 Linking...
-Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP681D.tmp" with contents
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP1C89.tmp" with contents
 [
 /nologo /o"Debug/NodePlat.bsc" 
 .\Debug\StdAfx.sbr
@@ -149,7 +149,7 @@ Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP681D.tmp" with 
 .\Debug\ParamSecondPage.sbr
 .\Debug\SingleIdentify.sbr
 .\Debug\XSi.sbr]
-Creating command line "bscmake.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP681D.tmp"
+Creating command line "bscmake.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP1C89.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 

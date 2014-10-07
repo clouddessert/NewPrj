@@ -172,6 +172,11 @@ void CMainFrame::StartTimer_X(void)
 	SetTimer(8, 800, 0);
 }
 
+void CMainFrame::CloseTimer_X(void)
+{
+	KillTimer(8);
+}
+
 void CMainFrame::OnTimer(UINT nIDEvent) 
 {
 	// TODO: Add your message handler code here and/or call default

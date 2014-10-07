@@ -49,6 +49,7 @@ protected:
 	afx_msg void OnTeamServiceStart();
 	afx_msg void OnTeamServiceStop();
 	afx_msg void OnSendmsg();
+	afx_msg void OnDisconnectService();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -22,6 +22,7 @@ public:
 // Operations
 public:
 	void StartTimer_X(void);
+	void CloseTimer_X(void);
 
 // Overrides
 	// ClassWizard generated virtual function overrides

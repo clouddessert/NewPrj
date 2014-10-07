@@ -240,6 +240,21 @@ void CNodePlatApp::ClientAccept(void)
 	strTmp.ReleaseBuffer();
 	
 	//存入map
+	map<DWORD, CMsgSocket*>::iterator pTmpItor;
+	pTmpItor = theApp.m_ClientMap.find(dwClientIP);
+	if (theApp.m_ClientMap.end() == pTmpItor)
+	{
+		//none
+	}
+	else
+	{
+		//release resource
+		pTmpItor->second->Close();
+		delete (pTmpItor->second);
+		//删除资源
+		theApp.m_ClientMap.erase(pTmpItor);
+	}
+	//insert
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.m_ClientMap.insert(map<DWORD, CMsgSocket*>::value_type(dwClientIP, theApp.pClient));
 	::LeaveCriticalSection(&(theApp.g_cs));
@@ -256,6 +271,7 @@ void CNodePlatApp::ClientClose(void* pContext)
 		{
 			//关闭SOCKET
 			theApp.m_pClient->second->Close();
+			delete (theApp.m_pClient->second);
 			//删除关闭的资源
 			theApp.m_ClientMap.erase(theApp.m_pClient);
 			break;
@@ -294,7 +310,7 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 			theApp.m_RecvReqMsg_Dat.push_back(tmpRecRequest_Msg);
 			//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
 			::LeaveCriticalSection(&(theApp.g_cs));	
-			//SendTo,一定要添加,这里为了方便使用立刻sendTO
+			//Send数据返回
 			SendToClient(pThis,tmpRecRequest_Msg);
 			break;
 		}

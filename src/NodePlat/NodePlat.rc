@@ -84,6 +84,7 @@ BEGIN
     POPUP "仿真功能"
     BEGIN
         MENUITEM "连接剧情",                    IDM_CONNECT_SERVICE
+        MENUITEM "断开剧情",                    IDM_DISCONNECT_SERVICE
         MENUITEM "启动编队服务",                IDM_TEAM_SERVICE_START
         MENUITEM "关闭编队服务",                IDM_TEAM_SERVICE_STOP
     END

@@ -17,8 +17,8 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //////////////////////////////////////////////////////////////////////////
-//接受socket
-CMySocket* m_ReceiveSocket = NULL;
+//接受剧情socket
+static CMySocket* m_ReceiveSocket = NULL;
 
 //////////////////////////////
 extern CNodePlatApp theApp;
@@ -35,6 +35,7 @@ BEGIN_MESSAGE_MAP(CNodePlatDoc, CDocument)
 	ON_COMMAND(IDM_TEAM_SERVICE_START, OnTeamServiceStart)
 	ON_COMMAND(IDM_TEAM_SERVICE_STOP, OnTeamServiceStop)
 	ON_COMMAND(IDM_SENDMSG, OnSendmsg)
+	ON_COMMAND(IDM_DISCONNECT_SERVICE, OnDisconnectService)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -44,26 +45,11 @@ END_MESSAGE_MAP()
 CNodePlatDoc::CNodePlatDoc()
 {
 	// TODO: add one-time construction code here
-	m_ReceiveSocket = new CMySocket();
-	m_ReceiveSocket->Create(CLIENTPORT);
-
-	//开始
-	theApp.m_RecvMsg.stComm.clear();
-	theApp.m_RecvMsg.stEsm.clear();
-	theApp.m_RecvMsg.stTrace.clear();
-	theApp.m_SPosition.clear();
 }
 
 CNodePlatDoc::~CNodePlatDoc()
 {
-	m_ReceiveSocket->Close();
-	delete m_ReceiveSocket;
 
-	//结束
-	theApp.m_RecvMsg.stComm.clear();
-	theApp.m_RecvMsg.stEsm.clear();
-	theApp.m_RecvMsg.stTrace.clear();
-	theApp.m_SPosition.clear();
 }
 
 BOOL CNodePlatDoc::OnNewDocument()
@@ -242,9 +228,13 @@ void CNodePlatDoc::OnConnectService()
 	
 	::GetPrivateProfileString(_T("IP地址"), _T("服务器IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath);
 	strTmp.ReleaseBuffer();
-	
+
 	//保存当前IP
 	::WritePrivateProfileString(_T("IP地址"), _T("服务器IP地址"), strTmp, sPath);
+
+	//创建连接
+	m_ReceiveSocket = new CMySocket();
+	m_ReceiveSocket->Create(CLIENTPORT);
 	
 	BOOL res;
 	for (int i = 0; i < 5; ++i)
@@ -273,6 +263,22 @@ void CNodePlatDoc::OnConnectService()
 		//失败
 		AfxMessageBox(_T("连接剧情服务器失败，请重新配置网络"));
 	}
+}
+
+void CNodePlatDoc::OnDisconnectService() 
+{
+	// TODO: Add your command handler code here
+	//结束
+	CMainFrame* pTmp = (CMainFrame*)AfxGetMainWnd();
+	pTmp->CloseTimer_X();
+
+	theApp.m_RecvMsg.stComm.clear();
+	theApp.m_RecvMsg.stEsm.clear();
+	theApp.m_RecvMsg.stTrace.clear();
+	theApp.m_SPosition.clear();
+
+	m_ReceiveSocket->Close();
+	delete m_ReceiveSocket;
 }
 
 void CNodePlatDoc::OnTeamServiceStart() 
@@ -502,7 +508,7 @@ void CNodePlatDoc::OnSendmsg()
 		ProtcolHeader stHeader;                  //报头信息
 		//这里是在全局的包里面找到那个IP地址
 		iteMap = theApp.IpMap.find(i);
-		if (iteMap == NULL)
+		if (iteMap == theApp.IpMap.end())
 		{
 		}
 		else
