@@ -282,8 +282,8 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 
 void CCommandPlatApp::ServerCreate(void)
 {
-	m_ClientMap.clear();
-	m_pClient = NULL;
+	theApp.m_ClientMap.clear();
+	theApp.m_pClient = NULL;
 	
 	//新建对象
 	theApp.pSvr = new CMySocket();
@@ -332,6 +332,22 @@ void CCommandPlatApp::ClientAccept(void)
 	strTmp.ReleaseBuffer();
 	
 	//存入map
+	map<DWORD, CMySocket*>::iterator pTmpItor;
+	pTmpItor = theApp.m_ClientMap.find(dwClientIP);
+	if (theApp.m_ClientMap.end() == pTmpItor)
+	{
+		//none
+	}
+	else
+	{
+		//发现已经有的socket关闭，再申请新的
+		//release resource
+		pTmpItor->second->Close();
+		delete (pTmpItor->second);
+		//删除资源
+		theApp.m_ClientMap.erase(pTmpItor);
+	}
+	//存入map
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.m_ClientMap.insert(map<DWORD, CMySocket*>::value_type(dwClientIP, theApp.pClient));
 	::LeaveCriticalSection(&(theApp.g_cs));
@@ -358,6 +374,7 @@ void CCommandPlatApp::ClientClose(void* pContext)
 		{
 			//关闭SOCKET
 			theApp.m_pClient->second->Close();
+			delete (theApp.m_pClient->second);
 			//删除关闭的资源
 			theApp.m_ClientMap.erase(theApp.m_pClient);
 			break;

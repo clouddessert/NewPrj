@@ -663,5 +663,4 @@ void CCommandPlatView::OnInitialUpdate()
 	SetTimer(6, 500, NULL);		//Comm
 	SetTimer(7, 500, NULL);		//Trace
 	SetTimer(8, 500, NULL);     //ShipPosition
-
 }
