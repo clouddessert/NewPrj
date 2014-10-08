@@ -27,25 +27,26 @@ Class15=CNodePlatView
 Class16=CParamFstPage
 Class17=CParamSecondPage
 
-ResourceCount=14
-Resource1=IDD_PARAM_DLG_SECOND
-Resource2=IDD_PARAM_DLG_FIRST
-Resource3=IDR_MAINFRAME
-Resource4=IDD_MSG_DLG_FIRST
-Resource5=IDD_MSG_DLG_SEVENTH
+ResourceCount=15
+Resource1=IDD_MSG_DLG_THREE
+Resource2=IDD_MSG_DLG_SECOND
+Resource3=IDD_PARAM_DLG_SECOND
+Resource4=IDD_MSG_DLG_FIFTH
+Resource5=IDR_MAINFRAME
 Resource6=IDR_MENU1
-Resource7=IDD_MSG_DLG_SECOND
+Resource7=IDD_MSG_DLG_FOURTH
 Class18=CMsgSocket
-Resource8=IDD_ABOUTBOX
+Resource8=IDD_PARAM_DLG_FIRST
 Class19=CMsgFifthPage
-Resource9=IDD_MSG_DLG_SIXTH
-Resource10=IDD_MSG_DLG_THREE
-Resource11=IDD_MSG_DLG_FIFTH
-Resource12=IDD_MSG_DLG_EIGHTH
-Resource13=IDD_MSG_DLG_FOURTH
+Resource9=IDD_MSG_DLG_EIGHTH
+Resource10=IDD_MSG_DLG_FIRST
+Resource11=IDD_MSG_DLG_SEVENTH
+Resource12=IDR_MENU4
+Resource13=IDD_MSG_DLG_SIXTH
 Class20=CNetworkSetting
 Class21=CClientSocket
-Resource14=IDD_NETWORKDLG
+Resource14=IDD_ABOUTBOX
+Resource15=IDD_NETWORKDLG
 
 [CLS:CAllParamSheet]
 Type=0
@@ -304,4 +305,10 @@ ImplementationFile=ClientSocket.cpp
 BaseClass=CSocket
 Filter=N
 VirtualFilter=uq
+
+[MNU:IDR_MENU4]
+Type=1
+Class=?
+Command1=IDM_SENDMSG
+CommandCount=1
 

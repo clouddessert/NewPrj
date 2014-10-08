@@ -23,6 +23,8 @@
 #define IDD_MSG_DLG_SEVENTH             149
 #define IDD_MSG_DLG_EIGHTH              150
 #define IDD_NETWORKDLG                  151
+#define IDR_MENU3                       152
+#define IDR_MENU4                       153
 #define IDC_LIST_ESM                    1000
 #define IDC_LIST_COMMUNICATE            1001
 #define IDC_LIST_TRACE                  1002
@@ -54,8 +56,8 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        152
-#define _APS_NEXT_COMMAND_VALUE         32783
+#define _APS_NEXT_RESOURCE_VALUE        154
+#define _APS_NEXT_COMMAND_VALUE         32784
 #define _APS_NEXT_CONTROL_VALUE         1019
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

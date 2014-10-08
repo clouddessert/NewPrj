@@ -94,6 +94,14 @@ BEGIN
     END
 END
 
+IDR_MENU4 MENU DISCARDABLE 
+BEGIN
+    POPUP "POP"
+    BEGIN
+        MENUITEM "∑¢ÀÕ«Î«Û",                    IDM_SENDMSG
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
