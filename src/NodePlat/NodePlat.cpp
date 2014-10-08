@@ -187,13 +187,13 @@ void CNodePlatApp::ServerCreate(void)
 	theApp.m_P2PSocket->Bind(P2P_SERVER_PORT);
 	theApp.m_P2PSocket->Listen();
 
-	theApp.m_P2PSocket->AsyncSelect(FD_ACCEPT | FD_READ | FD_WRITE);
+	theApp.m_P2PSocket->AsyncSelect(FD_READ | FD_WRITE);
 
 	//p2p客户端socket初始化
 	theApp.m_P2PClient = new CClientSocket();
 	theApp.m_P2PClient->Create(P2P_CLIENT_PORT);
 	//设置读写为异步事件
-	theApp.m_P2PClient->AsyncSelect(FD_ACCEPT | FD_READ | FD_WRITE);
+	theApp.m_P2PClient->AsyncSelect(FD_READ | FD_WRITE);
 
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);

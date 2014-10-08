@@ -37,7 +37,7 @@ void CClientSocket::OnReceive(int nErrorCode)
 {
 	// TODO: Add your specialized code here and/or call the base class
 	theApp.ReceiveFromClient(this);
-	//AsyncSelect(FD_READ);
+	AsyncSelect(FD_READ | FD_WRITE);
 
 	CSocket::OnReceive(nErrorCode);
 }
