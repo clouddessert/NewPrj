@@ -5,6 +5,8 @@
 #include "nodeplat.h"
 #include "ClientSocket.h"
 
+#include "NodePlatDoc.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -14,6 +16,8 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CClientSocket
 extern CNodePlatApp theApp;
+extern CNodePlatDoc* pDoc;
+
 CClientSocket::CClientSocket()
 {
 }
@@ -36,8 +40,20 @@ END_MESSAGE_MAP()
 void CClientSocket::OnReceive(int nErrorCode) 
 {
 	// TODO: Add your specialized code here and/or call the base class
-	theApp.ReceiveFromClient(this);
-	AsyncSelect(FD_READ | FD_WRITE);
+	pDoc->ReceiveData(this);
+	//等待读的事件
+	AsyncSelect(FD_READ);
 
 	CSocket::OnReceive(nErrorCode);
+}
+
+void CClientSocket::OnSend(int nErrorCode) 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	pDoc->SendCoopReq(this);
+
+	//等待读的事件
+	AsyncSelect(FD_READ);
+
+	CSocket::OnSend(nErrorCode);
 }

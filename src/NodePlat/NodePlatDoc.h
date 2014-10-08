@@ -9,6 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "ClientSocket.h"
 
 class CNodePlatDoc : public CDocument
 {
@@ -21,6 +22,9 @@ public:
 
 // Operations
 public:
+	void OnReceiveMsg();
+	void SendCoopReq(CClientSocket* pThis);
+	void ReceiveData(CClientSocket* pThis);
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -32,7 +36,6 @@ public:
 
 // Implementation
 public:
-	void OnReceiveMsg();
 	virtual ~CNodePlatDoc();
 #ifdef _DEBUG
 	virtual void AssertValid() const;

@@ -100,6 +100,9 @@ public:
 	VCT_BACK_Cooperative_Msg m_BackMsg;
     //本舰和各舰的合并信息
 	VCT_COOPER_MSG m_CooperMsg;
+
+	//接收请求的临时数据
+	SendRequest_Msg tmpRecRequest_Msg;
 	
 	/**********socket communication***************/
 	//同步事件标志位
@@ -131,14 +134,12 @@ public:
 	//view的指针
 	void* pXview;
 
-private:
-	void SendToClient(CSocket* pThis,SendRequest_Msg tmpRecRequest_Msg);
-
 public:
 	//common
 	void ClientAccept(void);
 	void ClientClose(void* pContext);
-	void ReceiveFromClient(CSocket* pThis);
+	void ReceiveFromClient(CMsgSocket* pThis);
+	void SendToClient(CMsgSocket* pThis);
 
 	void ServerCreate(void);
 	void ServerShutDown(void);

@@ -186,14 +186,12 @@ void CNodePlatApp::ServerCreate(void)
 	theApp.m_P2PSocket->Socket();
 	theApp.m_P2PSocket->Bind(P2P_SERVER_PORT);
 	theApp.m_P2PSocket->Listen();
-
-	theApp.m_P2PSocket->AsyncSelect(FD_READ | FD_WRITE);
+	theApp.m_P2PSocket->AsyncSelect(FD_ACCEPT);
 
 	//p2p客户端socket初始化
 	theApp.m_P2PClient = new CClientSocket();
 	theApp.m_P2PClient->Create(P2P_CLIENT_PORT);
-	//设置读写为异步事件
-	theApp.m_P2PClient->AsyncSelect(FD_READ | FD_WRITE);
+	theApp.m_P2PClient->AsyncSelect(FD_READ);
 
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -236,32 +234,41 @@ void CNodePlatApp::ClientAccept(void)
 	
 	theApp.pClient = new CMsgSocket();
 	//接受连接
-	theApp.m_P2PSocket->Accept(*(theApp.pClient));
-	
-	theApp.pClient->GetPeerName(strTmp, nPort);
-	//转换IP地址，作为标志
-	dwClientIP = inet_addr(strTmp.GetBuffer(0));
-	strTmp.ReleaseBuffer();
-	
-	//存入map
-	map<DWORD, CMsgSocket*>::iterator pTmpItor;
-	pTmpItor = theApp.m_ClientMap.find(dwClientIP);
-	if (theApp.m_ClientMap.end() == pTmpItor)
+	if ( theApp.m_P2PSocket->Accept(*(theApp.pClient)) )
 	{
-		//none
+		//等待读的事件
+		theApp.pClient->AsyncSelect(FD_READ);
+
+		theApp.pClient->GetPeerName(strTmp, nPort);
+		//转换IP地址，作为标志
+		dwClientIP = inet_addr(strTmp.GetBuffer(0));
+		strTmp.ReleaseBuffer();
+		
+		//存入map
+		map<DWORD, CMsgSocket*>::iterator pTmpItor;
+		pTmpItor = theApp.m_ClientMap.find(dwClientIP);
+		if (theApp.m_ClientMap.end() == pTmpItor)
+		{
+			//none
+		}
+		else
+		{
+			//release resource
+			pTmpItor->second->Close();
+			delete (pTmpItor->second);
+			//删除资源
+			theApp.m_ClientMap.erase(pTmpItor);
+		}
+		//insert
+		::EnterCriticalSection(&(theApp.g_cs));
+		theApp.m_ClientMap.insert(map<DWORD, CMsgSocket*>::value_type(dwClientIP, theApp.pClient));
+		::LeaveCriticalSection(&(theApp.g_cs));
 	}
 	else
 	{
-		//release resource
-		pTmpItor->second->Close();
-		delete (pTmpItor->second);
-		//删除资源
-		theApp.m_ClientMap.erase(pTmpItor);
+		delete (theApp.pClient);
+		theApp.pClient = NULL;
 	}
-	//insert
-	::EnterCriticalSection(&(theApp.g_cs));
-	theApp.m_ClientMap.insert(map<DWORD, CMsgSocket*>::value_type(dwClientIP, theApp.pClient));
-	::LeaveCriticalSection(&(theApp.g_cs));
 }
 
 void CNodePlatApp::ClientClose(void* pContext)
@@ -288,7 +295,7 @@ void CNodePlatApp::ClientClose(void* pContext)
 	::LeaveCriticalSection(&(theApp.g_cs));
 }
 
-void CNodePlatApp::ReceiveFromClient(CSocket* pThis)
+void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 {
 	/*********************测试能否接收***************************/
 	//char* crevchar = new char;
@@ -306,16 +313,13 @@ void CNodePlatApp::ReceiveFromClient(CSocket* pThis)
 	case 11:
 		{
 			//接收的请求
-			SendRequest_Msg tmpRecRequest_Msg;
 			::EnterCriticalSection(&(theApp.g_cs));
 			theApp.m_RecvReqMsg_Dat.clear();
-			ZeroMemory(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-			pThis->Receive(&tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-			theApp.m_RecvReqMsg_Dat.push_back(tmpRecRequest_Msg);
+			ZeroMemory(&theApp.tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+			pThis->Receive(&theApp.tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+			theApp.m_RecvReqMsg_Dat.push_back(theApp.tmpRecRequest_Msg);
 			//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
 			::LeaveCriticalSection(&(theApp.g_cs));	
-			//Send数据返回
-			SendToClient(pThis,tmpRecRequest_Msg);
 			break;
 		}
 		//代表接收的是数据
@@ -330,7 +334,7 @@ void CNodePlatApp::ReceiveFromClient(CSocket* pThis)
 			::LeaveCriticalSection(&(theApp.g_cs));
 			
 			//Set 信号量，同步数据
-			::SetEvent(hEvent);
+			::SetEvent(theApp.hEvent);
 			break;
 		}
 	default:
@@ -338,7 +342,7 @@ void CNodePlatApp::ReceiveFromClient(CSocket* pThis)
 	}		
 }
 
-void CNodePlatApp::SendToClient(CSocket* pThis, SendRequest_Msg tmpRecRequest_Msg)
+void CNodePlatApp::SendToClient(CMsgSocket* pThis)
 {
 	//0916WHY改
 	VCT_UNINUM_MSG::iterator iteUnin;
@@ -444,7 +448,7 @@ void CNodePlatApp::SendToClient(CSocket* pThis, SendRequest_Msg tmpRecRequest_Ms
 		 stUniAllN.vctSingleCom.push_back(*iteSingleCom);
 	 }
      //调用算法,找出响应请求的返回信息stSendBackMsg
-	CoopFind_Information_To_MainShip(stUniAllN, tmpRecRequest_Msg, stSendBackMsg);
+	CoopFind_Information_To_MainShip(stUniAllN, theApp.tmpRecRequest_Msg, stSendBackMsg);
 
 	ProtcolHeader stHeader;                  //报头信息
 	//判断返回信息不为空,进行发送

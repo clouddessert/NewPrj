@@ -295,6 +295,58 @@ void CNodePlatDoc::OnTeamServiceStop()
 	theApp.ServerShutDown();
 }
 
+void CNodePlatDoc::SendCoopReq(CClientSocket* pThis)
+{
+	ProtcolHeader stHeader;                  //报头信息
+
+	stHeader.nMsgType = 11;
+	stHeader.nMsgLength = sizeof(ProtcolHeader);
+	theApp.m_P2PClient->Send(&stHeader, sizeof(stHeader));
+	theApp.m_P2PClient->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
+}
+
+void CNodePlatDoc::ReceiveData(CClientSocket* pThis)
+{
+	//接收包头
+	//根据包头类型做出状态机
+	ProtcolHeader stHeader;
+	ZeroMemory(&stHeader, sizeof(ProtcolHeader));
+	pThis->Receive(&stHeader, sizeof(ProtcolHeader));		//后面的指针都用pThis
+	switch (stHeader.nMsgType)
+	{
+		//代表接收的是请求
+	case 11:
+		{
+			//接收的请求
+			::EnterCriticalSection(&(theApp.g_cs));
+			theApp.m_RecvReqMsg_Dat.clear();
+			ZeroMemory(&theApp.tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+			pThis->Receive(&theApp.tmpRecRequest_Msg, sizeof(SendRequest_Msg));
+			theApp.m_RecvReqMsg_Dat.push_back(theApp.tmpRecRequest_Msg);
+			//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
+			::LeaveCriticalSection(&(theApp.g_cs));	
+			break;
+		}
+		//代表接收的是数据
+	case 12:
+		//保存到接收的buffer,over
+		{
+			SendBack_Msg tmpRecBack_Msg;
+			::EnterCriticalSection(&(theApp.g_cs));
+			ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+			pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
+			theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
+			::LeaveCriticalSection(&(theApp.g_cs));
+			
+			//Set 信号量，同步数据
+			::SetEvent(theApp.hEvent);
+			break;
+		}
+	default:
+		break;
+	}		
+}
+
 void CNodePlatDoc::OnSendmsg() 
 {
 	// TODO: Add your command handler code here
@@ -507,7 +559,6 @@ void CNodePlatDoc::OnSendmsg()
 
 		//向相应的节点发送数据包
 		int conreval;
-		ProtcolHeader stHeader;                  //报头信息
 		int errorinfo;
 		errorinfo = 0;
 		//这里是在全局的包里面找到那个IP地址
@@ -521,12 +572,9 @@ void CNodePlatDoc::OnSendmsg()
 			conreval = theApp.m_P2PClient->Connect(iteMap->second, P2P_SERVER_PORT);
 			
 			//发送请求
-			stHeader.nMsgType = 11;
-			stHeader.nMsgLength = sizeof(ProtcolHeader);
-			conreval = theApp.m_P2PClient->Send(&stHeader, sizeof(stHeader));
-			conreval = theApp.m_P2PClient->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
+			theApp.m_P2PClient->AsyncSelect(FD_WRITE);
 
-			//超时判断（已经写好了，使用信号量。如果100ms以内收到数据，正常接收。500ms超时，跳出!
+			//超时判断（已经写好了，使用信号量。如果500ms以内收到数据，正常接收。500ms超时，跳出!
 			::WaitForSingleObject(theApp.hEvent, 500);			
 			//判断接收缓冲区vector是否为空
 			//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.

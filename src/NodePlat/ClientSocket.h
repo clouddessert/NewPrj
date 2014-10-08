@@ -28,6 +28,7 @@ public:
 	//{{AFX_VIRTUAL(CClientSocket)
 	public:
 	virtual void OnReceive(int nErrorCode);
+	virtual void OnSend(int nErrorCode);
 	//}}AFX_VIRTUAL
 	// Generated message map functions
 	//{{AFX_MSG(CClientSocket)

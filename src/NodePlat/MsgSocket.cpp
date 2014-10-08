@@ -47,7 +47,8 @@ void CMsgSocket::OnReceive(int nErrorCode)
 {
 	// TODO: Add your specialized code here and/or call the base class
 	theApp.ReceiveFromClient(this);
-	AsyncSelect(FD_READ | FD_WRITE);
+	//立刻发送写请求
+	AsyncSelect(FD_WRITE);
 	
 	CSocket::OnReceive(nErrorCode);
 }
@@ -55,7 +56,10 @@ void CMsgSocket::OnReceive(int nErrorCode)
 void CMsgSocket::OnSend(int nErrorCode) 
 {
 	// TODO: Add your specialized code here and/or call the base class
-	AsyncSelect(FD_READ | FD_WRITE);
+	//数据处理，并且发送
+	theApp.SendToClient(this);
+	//继续等待读消息
+	AsyncSelect(FD_READ);
 
 	CSocket::OnSend(nErrorCode);
 }
