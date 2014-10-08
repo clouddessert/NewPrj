@@ -526,8 +526,7 @@ void CNodePlatDoc::OnSendmsg()
 			conreval = theApp.m_P2PClient->Send(&stHeader, sizeof(stHeader));
 			conreval = theApp.m_P2PClient->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
 
-			//超时判断（已经写好了，使用信号量。如果100ms以内收到数据，正常接收。100ms超时，跳出!
-			theApp.m_P2PClient->OnReceive(errorinfo);
+			//超时判断（已经写好了，使用信号量。如果100ms以内收到数据，正常接收。500ms超时，跳出!
 			::WaitForSingleObject(theApp.hEvent, 500);			
 			//判断接收缓冲区vector是否为空
 			//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.
