@@ -186,11 +186,11 @@ void CNodePlatApp::ServerCreate(void)
 	theApp.m_P2PSocket->Socket();
 	theApp.m_P2PSocket->Bind(P2P_SERVER_PORT);
 	theApp.m_P2PSocket->Listen();
-
+/*
 	//p2p客户端socket初始化
 	theApp.m_P2PClient = new CSocket();
 	theApp.m_P2PClient->Create(P2P_CLIENT_PORT);
-
+*/
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 }
@@ -213,13 +213,13 @@ void CNodePlatApp::ServerShutDown(void)
 	//释放监听端资源
 	delete theApp.m_P2PSocket;
 	theApp.m_P2PSocket = NULL;
-
+/*
 	//关闭发送客户端
 	theApp.m_P2PClient->Close();
 	//释放监听端资源
 	delete theApp.m_P2PClient;
 	theApp.m_P2PClient = NULL;
-
+*/
 	//关闭信号量
 	::CloseHandle(hEvent);
 }
@@ -449,7 +449,7 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest
 		//准备完成，发送数据返回
 		stHeader.nMsgType = 12;
 		stHeader.nMsgLength = sizeof(stSendBackMsg);
-		m_P2PClient->Send(&stHeader, sizeof(stHeader));
-		m_P2PClient->Send(&stSendBackMsg, sizeof(stSendBackMsg));
+		theApp.m_P2PSocket->Send(&stHeader, sizeof(stHeader));
+		theApp.m_P2PSocket->Send(&stSendBackMsg, sizeof(stSendBackMsg));
     }
 }

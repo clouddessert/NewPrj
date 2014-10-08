@@ -513,13 +513,13 @@ void CNodePlatDoc::OnSendmsg()
 		}
 		else
 		{
-			conreval = theApp.m_P2PClient->Connect(iteMap->second, P2P_SERVER_PORT);
+			conreval = theApp.m_P2PSocket->Connect(iteMap->second, P2P_SERVER_PORT);
 			
 			//发送请求
 			stHeader.nMsgType = 11;
 			stHeader.nMsgLength = sizeof(theApp.m_StSendRequest);
-			conreval = theApp.m_P2PClient->Send(&stHeader, sizeof(stHeader));
-			conreval = theApp.m_P2PClient->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
+			conreval = theApp.m_P2PSocket->Send(&stHeader, sizeof(stHeader));
+			conreval = theApp.m_P2PSocket->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
 
 			//超时判断（已经写好了，使用信号量。如果100ms以内收到数据，正常接收。100ms超时，跳出!
 			::WaitForSingleObject(theApp.hEvent, 500);
