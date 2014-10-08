@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Chinese (P.R.C.) resources
+// Chinese (中国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -88,15 +88,20 @@ BEGIN
         MENUITEM "启动编队服务",                IDM_TEAM_SERVICE_START
         MENUITEM "关闭编队服务",                IDM_TEAM_SERVICE_STOP
     END
+    POPUP "评估"
+    BEGIN
+        MENUITEM "单舰评估",                    IDM_EVA_SIN
+        MENUITEM "多舰评估",                    IDM_EVA_MUL
+    END
     POPUP "帮助(&H)"
     BEGIN
         MENUITEM "关于 NodePlat(&A)...",        ID_APP_ABOUT
     END
 END
 
-IDR_MENU4 MENU DISCARDABLE 
+IDR_MENU2 MENU DISCARDABLE 
 BEGIN
-    POPUP "POP"
+    POPUP "POP_UP"
     BEGIN
         MENUITEM "发送请求",                    IDM_SENDMSG
     END
@@ -299,7 +304,7 @@ IDB_MAP                 BITMAP  DISCARDABLE     "res\\捕获.bmp"
 IDB_PLANE               BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
 IDB_MISSILE             BITMAP  DISCARDABLE     "res\\missile.bmp"
 IDB_SHIP1               BITMAP  DISCARDABLE     "res\\ship1.bmp"
-#endif    // Chinese (P.R.C.) resources
+#endif    // Chinese (中国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

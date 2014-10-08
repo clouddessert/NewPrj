@@ -186,11 +186,11 @@ void CNodePlatApp::ServerCreate(void)
 	theApp.m_P2PSocket->Socket();
 	theApp.m_P2PSocket->Bind(P2P_SERVER_PORT);
 	theApp.m_P2PSocket->Listen();
-/*
+
 	//p2p客户端socket初始化
-	theApp.m_P2PClient = new CSocket();
+	theApp.m_P2PClient = new CClientSocket();
 	theApp.m_P2PClient->Create(P2P_CLIENT_PORT);
-*/
+
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 }
@@ -213,13 +213,13 @@ void CNodePlatApp::ServerShutDown(void)
 	//释放监听端资源
 	delete theApp.m_P2PSocket;
 	theApp.m_P2PSocket = NULL;
-/*
+
 	//关闭发送客户端
 	theApp.m_P2PClient->Close();
 	//释放监听端资源
 	delete theApp.m_P2PClient;
 	theApp.m_P2PClient = NULL;
-*/
+
 	//关闭信号量
 	::CloseHandle(hEvent);
 }
@@ -284,7 +284,7 @@ void CNodePlatApp::ClientClose(void* pContext)
 	::LeaveCriticalSection(&(theApp.g_cs));
 }
 
-void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
+void CNodePlatApp::ReceiveFromClient(CSocket* pThis)
 {
 	/*********************测试能否接收***************************/
 	//char* crevchar = new char;
@@ -334,7 +334,7 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 	}		
 }
 
-void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest_Msg)
+void CNodePlatApp::SendToClient(CSocket* pThis, SendRequest_Msg tmpRecRequest_Msg)
 {
 	//0916WHY改
 	VCT_UNINUM_MSG::iterator iteUnin;
@@ -449,7 +449,7 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis, SendRequest_Msg tmpRecRequest
 		//准备完成，发送数据返回
 		stHeader.nMsgType = 12;
 		stHeader.nMsgLength = sizeof(stSendBackMsg);
-		theApp.m_P2PSocket->Send(&stHeader, sizeof(stHeader));
-		theApp.m_P2PSocket->Send(&stSendBackMsg, sizeof(stSendBackMsg));
+		pThis->Send(&stHeader, sizeof(stHeader));
+		pThis->Send(&stSendBackMsg, sizeof(stSendBackMsg));
     }
 }

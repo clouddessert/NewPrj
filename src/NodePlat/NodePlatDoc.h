@@ -50,6 +50,8 @@ protected:
 	afx_msg void OnTeamServiceStop();
 	afx_msg void OnSendmsg();
 	afx_msg void OnDisconnectService();
+	afx_msg void OnEvaSin();
+	afx_msg void OnEvaMul();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

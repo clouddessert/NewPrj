@@ -36,6 +36,8 @@ BEGIN_MESSAGE_MAP(CNodePlatDoc, CDocument)
 	ON_COMMAND(IDM_TEAM_SERVICE_STOP, OnTeamServiceStop)
 	ON_COMMAND(IDM_SENDMSG, OnSendmsg)
 	ON_COMMAND(IDM_DISCONNECT_SERVICE, OnDisconnectService)
+	ON_COMMAND(IDM_EVA_SIN, OnEvaSin)
+	ON_COMMAND(IDM_EVA_MUL, OnEvaMul)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -506,24 +508,27 @@ void CNodePlatDoc::OnSendmsg()
 		//向相应的节点发送数据包
 		int conreval;
 		ProtcolHeader stHeader;                  //报头信息
+		int errorinfo;
+		errorinfo = 0;
 		//这里是在全局的包里面找到那个IP地址
 		iteMap = theApp.IpMap.find(i);
+		CString cstest = iteMap->second;
 		if (iteMap == theApp.IpMap.end())
 		{
 		}
 		else
 		{
-			conreval = theApp.m_P2PSocket->Connect(iteMap->second, P2P_SERVER_PORT);
+			conreval = theApp.m_P2PClient->Connect(iteMap->second, P2P_SERVER_PORT);
 			
 			//发送请求
 			stHeader.nMsgType = 11;
-			stHeader.nMsgLength = sizeof(theApp.m_StSendRequest);
-			conreval = theApp.m_P2PSocket->Send(&stHeader, sizeof(stHeader));
-			conreval = theApp.m_P2PSocket->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
+			stHeader.nMsgLength = sizeof(ProtcolHeader);
+			conreval = theApp.m_P2PClient->Send(&stHeader, sizeof(stHeader));
+			conreval = theApp.m_P2PClient->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
 
 			//超时判断（已经写好了，使用信号量。如果100ms以内收到数据，正常接收。100ms超时，跳出!
-			::WaitForSingleObject(theApp.hEvent, 500);
-			
+			theApp.m_P2PClient->OnReceive(errorinfo);
+			::WaitForSingleObject(theApp.hEvent, 500);			
 			//判断接收缓冲区vector是否为空
 			//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.
 			if (theApp.m_RecvBackMsg_Dat.size() !=0 )
@@ -571,9 +576,28 @@ void CNodePlatDoc::OnSendmsg()
 		//调用算法
 		GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
     	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
+		//此处，应将航迹融合的数据存储起来，方便评估，可存入文件中
+
+
+
 	}
 	else
 	{
 		AfxMessageBox("未找到返回信息");
 	}
+}
+
+//单舰评估
+void CNodePlatDoc::OnEvaSin() 
+{
+	// TODO: Add your command handler code here
+	
+}
+
+
+//多舰评估
+void CNodePlatDoc::OnEvaMul() 
+{
+	// TODO: Add your command handler code here
+	
 }

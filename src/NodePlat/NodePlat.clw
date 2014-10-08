@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CNodePlatDoc
+LastClass=CClientSocket
 LastTemplate=CSocket
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
@@ -28,24 +28,24 @@ Class16=CParamFstPage
 Class17=CParamSecondPage
 
 ResourceCount=15
-Resource1=IDD_MSG_DLG_THREE
-Resource2=IDD_MSG_DLG_SECOND
-Resource3=IDD_PARAM_DLG_SECOND
-Resource4=IDD_MSG_DLG_FIFTH
-Resource5=IDR_MAINFRAME
+Resource1=IDR_MENU2
+Resource2=IDD_ABOUTBOX
+Resource3=IDD_MSG_DLG_SEVENTH
+Resource4=IDD_MSG_DLG_SECOND
+Resource5=IDD_MSG_DLG_FIFTH
 Resource6=IDR_MENU1
-Resource7=IDD_MSG_DLG_FOURTH
+Resource7=IDD_MSG_DLG_THREE
 Class18=CMsgSocket
-Resource8=IDD_PARAM_DLG_FIRST
+Resource8=IDD_MSG_DLG_EIGHTH
 Class19=CMsgFifthPage
-Resource9=IDD_MSG_DLG_EIGHTH
-Resource10=IDD_MSG_DLG_FIRST
-Resource11=IDD_MSG_DLG_SEVENTH
-Resource12=IDR_MENU4
-Resource13=IDD_MSG_DLG_SIXTH
+Resource9=IDD_MSG_DLG_FIRST
+Resource10=IDD_PARAM_DLG_FIRST
+Resource11=IDD_MSG_DLG_SIXTH
+Resource12=IDR_MAINFRAME
+Resource13=IDD_MSG_DLG_FOURTH
 Class20=CNetworkSetting
+Resource14=IDD_PARAM_DLG_SECOND
 Class21=CClientSocket
-Resource14=IDD_ABOUTBOX
 Resource15=IDD_NETWORKDLG
 
 [CLS:CAllParamSheet]
@@ -148,7 +148,7 @@ Type=0
 BaseClass=CDocument
 HeaderFile=NodePlatDoc.h
 ImplementationFile=NodePlatDoc.cpp
-LastObject=IDM_DISCONNECT_SERVICE
+LastObject=CNodePlatDoc
 Filter=N
 VirtualFilter=DC
 
@@ -227,8 +227,10 @@ Command3=IDM_CONNECT_SERVICE
 Command4=IDM_DISCONNECT_SERVICE
 Command5=IDM_TEAM_SERVICE_START
 Command6=IDM_TEAM_SERVICE_STOP
-Command7=ID_APP_ABOUT
-CommandCount=7
+Command7=IDM_EVA_SIN
+Command8=IDM_EVA_MUL
+Command9=ID_APP_ABOUT
+CommandCount=9
 
 [CLS:CMsgSocket]
 Type=0
@@ -298,6 +300,12 @@ Control4=IDC_TEAMLIST,SysListView32,1350631425
 Control5=IDC_BUTTONCLOSE,button,1342242816
 Control6=IDC_IPADDRESS,SysIPAddress32,1342242816
 
+[MNU:IDR_MENU2]
+Type=1
+Class=?
+Command1=IDM_SENDMSG
+CommandCount=1
+
 [CLS:CClientSocket]
 Type=0
 HeaderFile=ClientSocket.h
@@ -305,10 +313,4 @@ ImplementationFile=ClientSocket.cpp
 BaseClass=CSocket
 Filter=N
 VirtualFilter=uq
-
-[MNU:IDR_MENU4]
-Type=1
-Class=?
-Command1=IDM_SENDMSG
-CommandCount=1
 

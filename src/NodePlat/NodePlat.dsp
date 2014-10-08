@@ -103,6 +103,10 @@ SOURCE=.\AllParamSheet.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ClientSocket.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Alg\CooperativeMsg.cpp
 # End Source File
 # Begin Source File
@@ -226,6 +230,10 @@ SOURCE=.\Alg\XSi.cpp
 # Begin Source File
 
 SOURCE=.\AllParamSheet.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ClientSocket.h
 # End Source File
 # Begin Source File
 

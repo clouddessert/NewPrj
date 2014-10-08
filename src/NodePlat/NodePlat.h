@@ -16,6 +16,7 @@
 
 #include "MsgSocket.h"
 #include "MySocket.h"
+#include "ClientSocket.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatApp:
@@ -107,7 +108,7 @@ public:
 	//p2p socket服务器
 	CMsgSocket* m_P2PSocket;
 	//p2p socket客户端
-	CSocket* m_P2PClient;
+	CClientSocket* m_P2PClient;
 
 	//客户端
 	CMsgSocket* pClient;
@@ -131,13 +132,13 @@ public:
 	void* pXview;
 
 private:
-	void SendToClient(CMsgSocket* pThis,SendRequest_Msg tmpRecRequest_Msg);
+	void SendToClient(CSocket* pThis,SendRequest_Msg tmpRecRequest_Msg);
 
 public:
 	//common
 	void ClientAccept(void);
 	void ClientClose(void* pContext);
-	void ReceiveFromClient(CMsgSocket* pThis);
+	void ReceiveFromClient(CSocket* pThis);
 
 	void ServerCreate(void);
 	void ServerShutDown(void);
