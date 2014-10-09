@@ -358,6 +358,7 @@ void CNodePlatDoc::OnSendmsg()
 	map<int, CString>::iterator iteMap;	
 	VCT_Request_Cooperative_Msg::iterator iteReqCoopMsg;
 	Request_Cooperative_Msg m_StRequest;      //保存联合识别前此批号的本舰信息
+	int i = 0;
 
 	long int lnum;//请求的合批号
 	lnum = theApp.m_ESM.at(theApp.m_iline).lAutonum;//获取请求协同的批号
@@ -482,7 +483,8 @@ void CNodePlatDoc::OnSendmsg()
 //	SHIP_POSITION stBackShipPosi;            //应答舰的经纬高
 
 	//这里面的map是界面传过来的！！不是全局的那个map，全局的map是给你界面用的。比如你选中B舰，这里的vector就是B舰的
-	for (int i = 0; i < theApp.IpMap.size(); ++i)
+	//for (iteMap = theApp.IpMap.begin(); iteMap < theApp.IpMap.end(); ++iteMap)
+	iteMap = theApp.IpMap.begin();
 	{	
 		//组包/*请求结构体*/
 		if (lnum >= 8000)           //????????????????是不是同一时刻的,从容器中转存为数组结构体
@@ -498,7 +500,7 @@ void CNodePlatDoc::OnSendmsg()
 					theApp.m_StSendRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
 					theApp.m_StSendRequest.nRequestEsmN = iteYes->vctEsm.size();
 					theApp.m_StSendRequest.nRequestComN = iteYes->vctComm.size();
-					for (int i = 0; i < iteYes->vctEsm.size();i++)//请求协同ESM信息
+					for (i = 0; i < iteYes->vctEsm.size();i++)//请求协同ESM信息
 					{
 						theApp.m_StSendRequest.lEsmTargetNumber[i] = iteYes->vctEsm.at(i).lTargetNumber;//目标esm批号
 						theApp.m_StSendRequest.dEsmZaiPin[i] = iteYes->vctEsm.at(i).dZaiPin;//载频
@@ -532,7 +534,7 @@ void CNodePlatDoc::OnSendmsg()
 					//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);//请求协同TRACE信息
 					theApp.m_StSendRequest.nRequestEsmN = iteNo->vctEsm.size();
 					theApp.m_StSendRequest.nRequestComN = iteNo->vctComm.size();
-					for (int i = 0; i < iteNo->vctEsm.size();i++)//请求协同ESM信息
+					for (i = 0; i < iteNo->vctEsm.size();i++)//请求协同ESM信息
 					{
 						theApp.m_StSendRequest.lEsmTargetNumber[i] = iteNo->vctEsm.at(i).lTargetNumber;//目标esm批号
 						theApp.m_StSendRequest.dEsmZaiPin[i] = iteNo->vctEsm.at(i).dZaiPin;//载频
@@ -561,6 +563,7 @@ void CNodePlatDoc::OnSendmsg()
 		int conreval;
 		int errorinfo;
 		errorinfo = 0;
+		/*
 		//这里是在全局的包里面找到那个IP地址
 		iteMap = theApp.IpMap.find(i);
 		CString cstest = iteMap->second;
@@ -568,7 +571,8 @@ void CNodePlatDoc::OnSendmsg()
 		{
 		}
 		else
-		{
+		{*/
+			CString cstest = iteMap->second;
 			conreval = theApp.m_P2PClient->Connect(iteMap->second, P2P_SERVER_PORT);
 			
 			//发送请求
@@ -577,7 +581,7 @@ void CNodePlatDoc::OnSendmsg()
 			theApp.m_P2PClient->AsyncSelect(FD_READ);
 
 			//超时判断（已经写好了，使用信号量。如果500ms以内收到数据，正常接收。500ms超时，跳出!
-			::WaitForSingleObject(theApp.hEvent, 500);	
+			::WaitForSingleObject(theApp.hEvent, 2000);	
 			
 			ProtcolHeader stHeader;
 			SendBack_Msg tmpRecBack_Msg;
@@ -624,7 +628,7 @@ void CNodePlatDoc::OnSendmsg()
 				//清空接收的结构体/*buffer容器*/
 				memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
 			}			
-		}		
+		/*}	*/	
 	}
 
 	//判断数据返回
