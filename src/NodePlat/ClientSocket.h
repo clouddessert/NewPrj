@@ -12,7 +12,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CClientSocket command target
 
-class CClientSocket : public CAsyncSocket
+class CClientSocket : public CSocket
 {
 // Attributes
 public:

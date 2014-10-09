@@ -572,11 +572,19 @@ void CNodePlatDoc::OnSendmsg()
 			conreval = theApp.m_P2PClient->Connect(iteMap->second, P2P_SERVER_PORT);
 			
 			//发送请求
-			theApp.m_P2PClient->AsyncSelect(FD_WRITE);
+	//		theApp.m_P2PClient->AsyncSelect(FD_WRITE);
 			SendCoopReq(NULL);
 
 			//超时判断（已经写好了，使用信号量。如果500ms以内收到数据，正常接收。500ms超时，跳出!
-			::WaitForSingleObject(theApp.hEvent, 500);			
+			::WaitForSingleObject(theApp.hEvent, 500);	
+			
+			ProtcolHeader stHeader;
+			SendBack_Msg tmpRecBack_Msg;
+			ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+			ZeroMemory(&stHeader, sizeof(ProtcolHeader));
+			theApp.m_P2PClient->Receive(&stHeader, sizeof(ProtcolHeader));
+			theApp.m_P2PClient->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+			theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
 			//判断接收缓冲区vector是否为空
 			//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.
 			if (theApp.m_RecvBackMsg_Dat.size() !=0 )

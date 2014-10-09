@@ -12,7 +12,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CMsgSocket command target
 
-class CMsgSocket : public CAsyncSocket
+class CMsgSocket : public CSocket
 {
 // Attributes
 public:
