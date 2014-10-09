@@ -191,7 +191,6 @@ void CNodePlatApp::ServerCreate(void)
 	//p2p客户端socket初始化
 	theApp.m_P2PClient = new CClientSocket();
 	theApp.m_P2PClient->Create(P2P_CLIENT_PORT);
-	theApp.m_P2PClient->AsyncSelect(FD_READ);
 
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);

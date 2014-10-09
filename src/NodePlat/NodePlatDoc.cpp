@@ -573,6 +573,7 @@ void CNodePlatDoc::OnSendmsg()
 			
 			//发送请求
 			theApp.m_P2PClient->AsyncSelect(FD_WRITE);
+			SendCoopReq(NULL);
 
 			//超时判断（已经写好了，使用信号量。如果500ms以内收到数据，正常接收。500ms超时，跳出!
 			::WaitForSingleObject(theApp.hEvent, 500);			
