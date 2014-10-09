@@ -295,17 +295,17 @@ void CNodePlatDoc::OnTeamServiceStop()
 	theApp.ServerShutDown();
 }
 
-void CNodePlatDoc::SendCoopReq(CClientSocket* pThis)
+void CNodePlatDoc::SendCoopReq(CSocket* pThis)
 {
 	ProtcolHeader stHeader;                  //报头信息
 
 	stHeader.nMsgType = 11;
 	stHeader.nMsgLength = sizeof(ProtcolHeader);
-	theApp.m_P2PClient->Send(&stHeader, sizeof(stHeader));
-	theApp.m_P2PClient->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
+	pThis->Send(&stHeader, sizeof(stHeader));
+	pThis->Send(&theApp.m_StSendRequest, sizeof(theApp.m_StSendRequest));
 }
 
-void CNodePlatDoc::ReceiveData(CClientSocket* pThis)
+void CNodePlatDoc::ReceiveData(CSocket* pThis)
 {
 	//接收包头
 	//根据包头类型做出状态机
@@ -314,19 +314,6 @@ void CNodePlatDoc::ReceiveData(CClientSocket* pThis)
 	pThis->Receive(&stHeader, sizeof(ProtcolHeader));		//后面的指针都用pThis
 	switch (stHeader.nMsgType)
 	{
-		//代表接收的是请求
-	case 11:
-		{
-			//接收的请求
-			::EnterCriticalSection(&(theApp.g_cs));
-			theApp.m_RecvReqMsg_Dat.clear();
-			ZeroMemory(&theApp.tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-			pThis->Receive(&theApp.tmpRecRequest_Msg, sizeof(SendRequest_Msg));
-			theApp.m_RecvReqMsg_Dat.push_back(theApp.tmpRecRequest_Msg);
-			//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
-			::LeaveCriticalSection(&(theApp.g_cs));	
-			break;
-		}
 		//代表接收的是数据
 	case 12:
 		//保存到接收的buffer,over
@@ -337,9 +324,6 @@ void CNodePlatDoc::ReceiveData(CClientSocket* pThis)
 			pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
 			theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
 			::LeaveCriticalSection(&(theApp.g_cs));
-			
-			//Set 信号量，同步数据
-			::SetEvent(theApp.hEvent);
 			break;
 		}
 	default:
@@ -483,8 +467,8 @@ void CNodePlatDoc::OnSendmsg()
 //	SHIP_POSITION stBackShipPosi;            //应答舰的经纬高
 
 	//这里面的map是界面传过来的！！不是全局的那个map，全局的map是给你界面用的。比如你选中B舰，这里的vector就是B舰的
-	//for (iteMap = theApp.IpMap.begin(); iteMap < theApp.IpMap.end(); ++iteMap)
-	iteMap = theApp.IpMap.begin();
+	for (iteMap = theApp.IpMap.begin(); iteMap != theApp.IpMap.end(); ++iteMap)
+	//iteMap = theApp.IpMap.begin();
 	{	
 		//组包/*请求结构体*/
 		if (lnum >= 8000)           //????????????????是不是同一时刻的,从容器中转存为数组结构体
@@ -561,8 +545,6 @@ void CNodePlatDoc::OnSendmsg()
 
 		//向相应的节点发送数据包
 		int conreval;
-		int errorinfo;
-		errorinfo = 0;
 		/*
 		//这里是在全局的包里面找到那个IP地址
 		iteMap = theApp.IpMap.find(i);
@@ -575,58 +557,53 @@ void CNodePlatDoc::OnSendmsg()
 			CString cstest = iteMap->second;
 			conreval = theApp.m_P2PClient->Connect(iteMap->second, P2P_SERVER_PORT);
 			
-			//发送请求
-			SendCoopReq(NULL);
-			//等待读事件
-			theApp.m_P2PClient->AsyncSelect(FD_READ);
+			if (conreval)
+			{
+				//发送请求
+				SendCoopReq(theApp.m_P2PClient);
+				//等待数据 
+				ReceiveData(theApp.m_P2PClient);
+				//关闭socket,等待重新使用!
+				theApp.m_P2PClient->Close();
 
-			//超时判断（已经写好了，使用信号量。如果500ms以内收到数据，正常接收。500ms超时，跳出!
-			::WaitForSingleObject(theApp.hEvent, 2000);	
-			
-			ProtcolHeader stHeader;
-			SendBack_Msg tmpRecBack_Msg;
-			ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-			ZeroMemory(&stHeader, sizeof(ProtcolHeader));
-			theApp.m_P2PClient->Receive(&stHeader, sizeof(ProtcolHeader));
-			theApp.m_P2PClient->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-			theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
-			//判断接收缓冲区vector是否为空
-			//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.
-			if (theApp.m_RecvBackMsg_Dat.size() !=0 )
-			{	
-				//先将当前结构体中数组转化成容器!!!!!!!!!待写
-				for (iteBack = theApp.m_RecvBackMsg_Dat.begin(); iteBack != theApp.m_RecvBackMsg_Dat.end(); iteBack++)
-				{
-					stBackCooper.lAutonum = iteBack->lAutonum;
-					stBackCooper.nCorrFlag = iteBack->nCorrFlag;
-					stBackCooper.nStampTime = iteBack->nStampTime;
-					stBackCooper.BackESMN = iteBack->BackESMN;
-					stBackCooper.BackCOMN = iteBack->BackCOMN;
-					stBackCooper.BackTrackN = iteBack->BackTraceN;
-					memcpy(&stBackCooper.stBackShipPosi, &(iteBack->stBackShipPosi), sizeof(stBackCooper.stBackShipPosi)); 
-					memcpy(&stBackCooper.stTrace, &(iteBack->stTrace),sizeof(stBackCooper.stTrace));
-					for (int i=0; i< iteBack->BackESMN; i++)
+				//判断接收缓冲区vector是否为空
+				//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.
+				if (theApp.m_RecvBackMsg_Dat.size() !=0 )
+				{	
+					//先将当前结构体中数组转化成容器!!!!!!!!!待写
+					for (iteBack = theApp.m_RecvBackMsg_Dat.begin(); iteBack != theApp.m_RecvBackMsg_Dat.end(); iteBack++)
 					{
-						stEsm.lTargetNumber = iteBack->lEsmTargetNumber[i];
-						stEsm.dZaiPin = iteBack->dEsmZaiPin[i];
-						stEsm.dMaiKuan = iteBack->dEsmZaiPin[i];
-						stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
-						stBackCooper.vctEsm.push_back(stEsm);
+						stBackCooper.lAutonum = iteBack->lAutonum;
+						stBackCooper.nCorrFlag = iteBack->nCorrFlag;
+						stBackCooper.nStampTime = iteBack->nStampTime;
+						stBackCooper.BackESMN = iteBack->BackESMN;
+						stBackCooper.BackCOMN = iteBack->BackCOMN;
+						stBackCooper.BackTrackN = iteBack->BackTraceN;
+						memcpy(&stBackCooper.stBackShipPosi, &(iteBack->stBackShipPosi), sizeof(stBackCooper.stBackShipPosi)); 
+						memcpy(&stBackCooper.stTrace, &(iteBack->stTrace),sizeof(stBackCooper.stTrace));
+						for (int i=0; i< iteBack->BackESMN; i++)
+						{
+							stEsm.lTargetNumber = iteBack->lEsmTargetNumber[i];
+							stEsm.dZaiPin = iteBack->dEsmZaiPin[i];
+							stEsm.dMaiKuan = iteBack->dEsmZaiPin[i];
+							stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
+							stBackCooper.vctEsm.push_back(stEsm);
+						}
+						for (int j=0; i< iteBack->BackCOMN; j++)
+						{
+							stCom.lTargetNumber = iteBack->lComTargetNumber[j];
+							stCom.dComZaiPin = iteBack->dComZaiPin[j];
+							stCom.dPulseExtent = iteBack->dComPulseExtent[j];
+							stCom.dComFre = iteBack->dComFre[j];
+							stCom.dComBand = iteBack->dComBand[j];
+							stCom.dComJPN = iteBack->dComJPN[j];
+							stBackCooper.vctComm.push_back(stCom);
+						}
+						theApp.m_BackMsg.push_back(stBackCooper);
 					}
-					for (int j=0; i< iteBack->BackCOMN; j++)
-					{
-						stCom.lTargetNumber = iteBack->lComTargetNumber[j];
-						stCom.dComZaiPin = iteBack->dComZaiPin[j];
-						stCom.dPulseExtent = iteBack->dComPulseExtent[j];
-						stCom.dComFre = iteBack->dComFre[j];
-						stCom.dComBand = iteBack->dComBand[j];
-						stCom.dComJPN = iteBack->dComJPN[j];
-						stBackCooper.vctComm.push_back(stCom);
-					}
-					theApp.m_BackMsg.push_back(stBackCooper);
-				}
-				//清空接收的结构体/*buffer容器*/
-				memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
+					//清空接收的结构体/*buffer容器*/
+					memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
+				}	
 			}			
 		/*}	*/	
 	}
@@ -635,12 +612,12 @@ void CNodePlatDoc::OnSendmsg()
 	if ( theApp.m_BackMsg.size() != 0)
 	{
 		//调用算法
-		GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
-    	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
+		//GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
+    	//MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
 		//此处，应将航迹融合的数据存储起来，方便评估，可存入文件中
 
 
-
+		AfxMessageBox("calucate ok!");
 	}
 	else
 	{

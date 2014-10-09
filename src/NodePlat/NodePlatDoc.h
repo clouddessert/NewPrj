@@ -9,8 +9,6 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "ClientSocket.h"
-
 class CNodePlatDoc : public CDocument
 {
 protected: // create from serialization only
@@ -23,8 +21,8 @@ public:
 // Operations
 public:
 	void OnReceiveMsg();
-	void SendCoopReq(CClientSocket* pThis);
-	void ReceiveData(CClientSocket* pThis);
+	void SendCoopReq(CSocket* pThis);
+	void ReceiveData(CSocket* pThis);
 
 // Overrides
 	// ClassWizard generated virtual function overrides

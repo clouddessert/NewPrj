@@ -245,9 +245,23 @@ void CNodePlatApp::ServerCreate(void)
 	theApp.m_P2PSocket->AsyncSelect(FD_ACCEPT);
 
 	//p2p客户端socket初始化
-	theApp.m_P2PClient = new CClientSocket();
+	theApp.m_P2PClient = new CSocket();
 	theApp.m_P2PClient->Socket();
 	theApp.m_P2PClient->Bind(P2P_CLIENT_PORT);
+
+	//设定网络的接收延迟为800ms
+	int nNetTimeout = 800;
+	BOOL bDontLinger = FALSE;
+	BOOL bReuseaddr=TRUE;
+
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&nNetTimeout, sizeof(int));
+	//发送延迟为400ms
+	nNetTimeout = 400;
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_SNDTIMEO, (char *)&nNetTimeout, sizeof(int));
+	//connect 关闭
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_DONTLINGER, (const char*)&bDontLinger, sizeof(BOOL));
+	//close后重新使用
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
 
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -266,6 +280,9 @@ void CNodePlatApp::ServerShutDown(void)
 	//客户端清空
 	theApp.m_ClientMap.clear();
 	
+	BOOL bReuseaddr=FALSE;
+	//close后重新使用关闭
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
 	//关闭监听
 	theApp.m_P2PSocket->Close();
 	//释放监听端资源
@@ -391,9 +408,6 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 			pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
 			theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
 			::LeaveCriticalSection(&(theApp.g_cs));
-			
-			//Set 信号量，同步数据
-			::SetEvent(theApp.hEvent);
 			break;
 		}
 	default:

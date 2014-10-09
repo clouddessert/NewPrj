@@ -16,7 +16,6 @@
 
 #include "MsgSocket.h"
 #include "MySocket.h"
-#include "ClientSocket.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatApp:
@@ -111,7 +110,7 @@ public:
 	//p2p socket服务器
 	CMsgSocket* m_P2PSocket;
 	//p2p socket客户端
-	CClientSocket* m_P2PClient;
+	CSocket* m_P2PClient;
 
 	//客户端
 	CMsgSocket* pClient;
