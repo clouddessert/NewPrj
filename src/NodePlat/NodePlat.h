@@ -134,6 +134,9 @@ public:
 	//viewµÄÖ¸Õë
 	void* pXview;
 
+private:
+	void SetIPLib(void);
+
 public:
 	//common
 	void ClientAccept(void);

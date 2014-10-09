@@ -179,8 +179,64 @@ void CNodePlatApp::OnAppAbout()
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatApp message handlers
 
+void CNodePlatApp::SetIPLib(void)
+{
+	//读取临时路径
+	CString strTmp,strTmpA;
+	CString	sPath;
+	
+	char host_name[255];
+	//获取本地主机名称
+	if (gethostname(host_name, sizeof(host_name)) == SOCKET_ERROR) 
+	{
+		//error
+	}
+	struct hostent *phe = gethostbyname(host_name);
+	
+	struct in_addr addr;
+    memcpy(&addr,phe->h_addr_list[0],sizeof(struct in_addr));
+	CString strLocalIP;
+	strLocalIP.Format("%s", inet_ntoa(addr));
+	
+	//获得工程文件夹路径
+	::GetCurrentDirectory(_MAX_PATH,sPath.GetBuffer(_MAX_PATH));
+	sPath.ReleaseBuffer();
+	sPath = sPath+_T("\\NetConfig.ini");
+	
+	//获取IP,如果IP地址和本机IP一致,不添加!
+	if (::GetPrivateProfileString(_T("编队IP"), _T("A船IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
+	{
+		strTmp.ReleaseBuffer();
+		if (strTmp.Compare(strLocalIP))
+		{
+			theApp.IpMap.insert(make_pair(0, strTmp));
+		}		
+	}
+	
+	if (::GetPrivateProfileString(_T("编队IP"), _T("B船IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
+	{
+		strTmp.ReleaseBuffer();
+		if (strTmp.Compare(strLocalIP))
+		{
+			theApp.IpMap.insert(make_pair(1, strTmp));
+		}
+	}
+	if (::GetPrivateProfileString(_T("编队IP"), _T("C船IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
+	{
+		strTmp.ReleaseBuffer();
+		if (strTmp.Compare(strLocalIP))
+		{
+			theApp.IpMap.insert(make_pair(2, strTmp));
+		}
+	}
+}
+
+
 void CNodePlatApp::ServerCreate(void)
 {
+	//从ini文件加载IP库
+	SetIPLib();
+
 	//创建p2p模式socket的服务端//开始监听
 	theApp.m_P2PSocket = new CMsgSocket();
 	theApp.m_P2PSocket->Socket();
@@ -224,6 +280,9 @@ void CNodePlatApp::ServerShutDown(void)
 
 	//关闭信号量
 	::CloseHandle(hEvent);
+
+	//清空IP库
+	theApp.IpMap.clear();
 }
 
 void CNodePlatApp::ClientAccept(void)
