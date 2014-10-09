@@ -614,6 +614,10 @@ void CNodePlatDoc::OnSendmsg()
 		//调用算法
 		//GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
     	//MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
+
+		//清空接收信息
+		theApp.m_BackMsg.clear();
+
 		//此处，应将航迹融合的数据存储起来，方便评估，可存入文件中
 
 
