@@ -572,8 +572,9 @@ void CNodePlatDoc::OnSendmsg()
 			conreval = theApp.m_P2PClient->Connect(iteMap->second, P2P_SERVER_PORT);
 			
 			//发送请求
-	//		theApp.m_P2PClient->AsyncSelect(FD_WRITE);
 			SendCoopReq(NULL);
+			//等待读事件
+			theApp.m_P2PClient->AsyncSelect(FD_READ);
 
 			//超时判断（已经写好了，使用信号量。如果500ms以内收到数据，正常接收。500ms超时，跳出!
 			::WaitForSingleObject(theApp.hEvent, 500);	

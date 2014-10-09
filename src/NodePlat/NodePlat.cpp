@@ -190,7 +190,8 @@ void CNodePlatApp::ServerCreate(void)
 
 	//p2p客户端socket初始化
 	theApp.m_P2PClient = new CClientSocket();
-	theApp.m_P2PClient->Create(P2P_CLIENT_PORT);
+	theApp.m_P2PClient->Socket();
+	theApp.m_P2PClient->Bind(P2P_CLIENT_PORT);
 
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
