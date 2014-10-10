@@ -595,7 +595,7 @@ void CNodePlatDoc::OnSendmsg()
 							stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
 							stBackCooper.vctEsm.push_back(stEsm);
 						}
-						for (int j=0; i< iteBack->BackCOMN; j++)
+						for (int j=0; j< iteBack->BackCOMN; j++)
 						{
 							stCom.lTargetNumber = iteBack->lComTargetNumber[j];
 							stCom.dComZaiPin = iteBack->dComZaiPin[j];
@@ -947,7 +947,7 @@ void CNodePlatDoc::OnSendToMateall()
 							stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
 							stBackCooper.vctEsm.push_back(stEsm);
 						}
-						for (int j=0; i< iteBack->BackCOMN; j++)
+						for (int j=0; j< iteBack->BackCOMN; j++)
 						{
 							stCom.lTargetNumber = iteBack->lComTargetNumber[j];
 							stCom.dComZaiPin = iteBack->dComZaiPin[j];
