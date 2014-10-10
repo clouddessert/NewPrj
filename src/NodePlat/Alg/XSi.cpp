@@ -46,6 +46,7 @@ void Object_Radar_Transform(double Lt,double Bt,double Ht,double L0,double B0,do
 //请求信息：有航迹的聚类信息，综合批号大于7999
 void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All_NUM& stUniAll, VCT_Request_Cooperative_Msg::iterator & iteRequestMsg,/*VCT_Request_Cooperative_Msg& vctRequestCooperative,*/ VCT_BACK_Cooperative_Msg& vctBackCooperative)
 {
+//测试 	int a = iteRequestMsg->lAutonum;
 	double Xt = 0.0;        //定义变量时，不要定义在IF 与for循环中，定义到外部，作为全局变量
 	double Yt = 0.0;
 	double Zt = 0.0;
@@ -112,11 +113,11 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 // 		iteBackMsg->dAzimuth = NULL;
 // 		iteBackMsg->dElevationAngle = NULL;
 // 		iteBackMsg->dRange = NULL;
-		iteBackMsg->BackTrackN = 0;
-		iteBackMsg->BackESMN = 0;
-		iteBackMsg->BackCOMN = 0;
+		iteBackMsg->BackTrackN = NULL;
+		iteBackMsg->BackESMN = NULL;
+		iteBackMsg->BackCOMN = NULL;
 		memset(&iteBackMsg->stBackShipPosi,0 ,sizeof(iteBackMsg->stBackShipPosi));
-		memset(&(*iteBackMsg), 0, sizeof(TRACKSTATUS_MARK));
+		memset(&iteBackMsg->stTrace, 0, sizeof(TRACKSTATUS_MARK));
 		for ( iteEsm = iteBackMsg->vctEsm.begin(); iteEsm != iteBackMsg->vctEsm.end(); iteEsm++)
 		{
 			memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
@@ -131,52 +132,53 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 	}
 	vctBackCooperative.clear();
 	
-	for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
-		  {   double dSumCorr = 0.0;
-	Get_Coordinate_Conversion_Module(iteUnin->structTrace.dRange,iteUnin->structTrace.dAzimuth,iteUnin->structTrace.dElevationAngle,
+    for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
+	{   
+	    double dSumCorr = 0.0;
+		Get_Coordinate_Conversion_Module(iteUnin->structTrace.dRange,iteUnin->structTrace.dAzimuth,iteUnin->structTrace.dElevationAngle,
 		iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
 		stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
 		iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
 		Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
-	// 			  VctCorr.push_back(dSumCorr_xyz); 
-	// 			  //对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
-	//            Mf_SPA(iteUnin->structTrace.dRange,Rdt,corrRd);
-	// 			  VctCorr.push_back(dcorrRd);
-	// 			  Mf_SPA(iteUnin->structTrace.dAzimuth,Azt,corrAz);
-	// 			  VctCorr.push_back(dcorrAz);
-	// 			  Mf_SPA(iteUnin->structTrace.dElevationAngle,Ezt,corrEz); 
-	// 			  VctCorr.push_back(dcorrEz);
-	//各方向坐标下的绝对速度Vx,Vy,Vz未转换，直接做集对分析处理
-	Mf_SPA(iteUnin->structTrace.dTSpeedX,iteRequestMsg->stTrace.dTSpeedX,dcorrVx);
-	VctCorr.push_back(dcorrVx);
-	Mf_SPA(iteUnin->structTrace.dTSpeedY,iteRequestMsg->stTrace.dTSpeedY,dcorrVy);
-	VctCorr.push_back(dcorrVy);
-	Mf_SPA(iteUnin->structTrace.dTSpeedZ,iteRequestMsg->stTrace.dTSpeedZ,dcorrVz);
-	VctCorr.push_back(dcorrVz);
-	//对相关系数容器处理，取容器中数据的平均值
-	for (iteCorr = VctCorr.begin(); iteCorr != VctCorr.end(); iteCorr++)
-	{
-		dSumCorr = dSumCorr + *iteCorr;  
-	}
-	dAverCorr = dSumCorr/VctCorr.size();  //取相关系数的平均值
-	//下次存放集对系数前先清空VctCorr容器
-	VctCorr.clear();
-	//与阈值比较（如何设定阈值，相关系数大于某阈值时，认为航迹是可以关联的????????????????????? 测试时修改）
-	if (dAverCorr > 0.8) //0.8为阈值，测试时可调节
-	{//航迹信息可以关联，将信息放入vctBackCooperative返回信息容器中，
-		//将同一合批号下（即相同方位下）的一条航迹信息，还有N条ESM与Com信息放入vctBackCooperative中
-		//测试输出			
-		//				cout<<"综合批号"<< iteUnin->lAutonum<<endl;
-		//				cout<<"返回信息初始化的综合批号"<<iteBackMsg->lAutonum<<endl;
-		//存请求信息的综合批号到返回信息中
-		stBackMsg.lAutonum = iteRequestMsg->lAutonum;    //将请求信息的综合批号记录在返回信息中
-		//				cout<<"修改后返回信息综合批号"<<stBackMsg.lAutonum<<endl;
-		//存本舰经纬高到返回信息中
-		memcpy(&stBackMsg.stBackShipPosi,&stSelfPosi,sizeof(stBackMsg.stBackShipPosi));  //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
-		//存航迹信息
-		memcpy(&stBackMsg.stTrace,&iteUnin->structTrace,sizeof(stBackMsg.stTrace));	
+	    //VctCorr.push_back(dSumCorr_xyz); 
+		////对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
+		//Mf_SPA(iteUnin->structTrace.dRange,Rdt,corrRd);
+		//VctCorr.push_back(dcorrRd);
+		//Mf_SPA(iteUnin->structTrace.dAzimuth,Azt,corrAz);
+		//VctCorr.push_back(dcorrAz);
+		//Mf_SPA(iteUnin->structTrace.dElevationAngle,Ezt,corrEz); 
+		//VctCorr.push_back(dcorrEz);
+		//各方向坐标下的绝对速度Vx,Vy,Vz未转换，直接做集对分析处理
+	    Mf_SPA(iteUnin->structTrace.dTSpeedX,iteRequestMsg->stTrace.dTSpeedX,dcorrVx);
+		VctCorr.push_back(dcorrVx);
+		Mf_SPA(iteUnin->structTrace.dTSpeedY,iteRequestMsg->stTrace.dTSpeedY,dcorrVy);
+		VctCorr.push_back(dcorrVy);
+		Mf_SPA(iteUnin->structTrace.dTSpeedZ,iteRequestMsg->stTrace.dTSpeedZ,dcorrVz);
+		VctCorr.push_back(dcorrVz);
+	    //对相关系数容器处理，取容器中数据的平均值
+	    for (iteCorr = VctCorr.begin(); iteCorr != VctCorr.end(); iteCorr++)
+		{
+		   dSumCorr = dSumCorr + *iteCorr;  
+		}
+		dAverCorr = dSumCorr/VctCorr.size();  //取相关系数的平均值
+		//下次存放集对系数前先清空VctCorr容器
+		VctCorr.clear();
+		//与阈值比较（如何设定阈值，相关系数大于某阈值时，认为航迹是可以关联的????????????????????? 测试时修改）
+		if (dAverCorr > 0.8) //0.8为阈值，测试时可调节
+		{	//航迹信息可以关联，将信息放入vctBackCooperative返回信息容器中，
+			//将同一合批号下（即相同方位下）的一条航迹信息，还有N条ESM与Com信息放入vctBackCooperative中
+			//测试输出			
+			//				cout<<"综合批号"<< iteUnin->lAutonum<<endl;
+			//				cout<<"返回信息初始化的综合批号"<<iteBackMsg->lAutonum<<endl;
+			//存请求信息的综合批号到返回信息中
+			stBackMsg.lAutonum = iteRequestMsg->lAutonum;    //将请求信息的综合批号记录在返回信息中
+			//				cout<<"修改后返回信息综合批号"<<stBackMsg.lAutonum<<endl;
+			//存本舰经纬高到返回信息中
+			memcpy(&stBackMsg.stBackShipPosi,&stSelfPosi,sizeof(stBackMsg.stBackShipPosi));  //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
+			//存航迹信息
+			memcpy(&stBackMsg.stTrace,&iteUnin->structTrace,sizeof(stBackMsg.stTrace));	
 		
-		//存ESM信息
+			//存ESM信息
 			    	if (iteUnin->vctEsm.size() !=0)
 					{
 						for (iteEs = iteUnin->vctEsm.begin(); iteEs != iteUnin->vctEsm.end(); iteEs++)
@@ -199,25 +201,28 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 					//将查找到的信息存入vctBackCooperative容器中
 					vctBackCooperative.push_back(stBackMsg);
 					//测试输出     				
-					//  			    	for (iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++)
-					// 					{
-					// 				        cout<<"返回信息综合批号"<<iteBackMsg->lAutonum<<endl;
-					// 				    	cout<<"       &返回信息的航迹信息....& 目标绝对速度 Vx: "<< iteBackMsg->stTrace.dTSpeedX <<"   Vy: "<<iteBackMsg->stTrace.dTSpeedY << "   Vz:"<<iteBackMsg->stTrace.dTSpeedZ <<endl;
-					// 				    	cout<<"       &返回信息的识别信息....&"<<"　　　"<< iteBackMsg->stTrace.sPlatType <<"    " <<iteBackMsg->stTrace.cDWAttribute <<"   " <<iteBackMsg->stTrace.dConfidence<<endl;
-					// 					    cout<<"       &返回的航迹信息："<< iteBackMsg->BackTrackN <<" 条"<< endl;
-					// 						cout<<"       &返回的ESM信息："<< iteBackMsg->BackESMN <<" 条"<<endl;
-					// 						cout<<"       &返回的COM信息： "<< iteBackMsg->BackCOMN <<" 条"<<endl;
-					// 					}
+				    //for (iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++)
+				    //{
+						//int PiHao = iteBackMsg->lAutonum;
+						//int Ts = iteBackMsg->BackTrackN;
+						//int Es = iteBackMsg->BackESMN;
+						//int Cs = iteBackMsg->BackCOMN;
+					    //cout<<"返回信息综合批号"<<iteBackMsg->lAutonum<<endl;
+					    //cout<<"       &返回信息的航迹信息....& 目标绝对速度 Vx: "<< iteBackMsg->stTrace.dTSpeedX <<"   Vy: "<<iteBackMsg->stTrace.dTSpeedY << "   Vz:"<<iteBackMsg->stTrace.dTSpeedZ <<endl;
+					    //cout<<"       &返回信息的识别信息....&"<<"　　　"<< iteBackMsg->stTrace.sPlatType <<"    " <<iteBackMsg->stTrace.cDWAttribute <<"   " <<iteBackMsg->stTrace.dConfidence<<endl;
+					    //cout<<"       &返回的航迹信息："<< iteBackMsg->BackTrackN <<" 条"<< endl;
+					    //cout<<"       &返回的ESM信息："<< iteBackMsg->BackESMN <<" 条"<<endl;
+					    //cout<<"       &返回的COM信息： "<< iteBackMsg->BackCOMN <<" 条"<<endl;
+					//}
 					iteRequestMsg->nCorrFlag = 1; // 直到找到与请求信息相关联的信息,将标志信息该为1，若一直找不到则标志始终为0；
 					break;//找到，跳出循环
 					//至此，从聚类表里取出关联信息【同一综合批号下（即相同方位下）的TRACE,ESM和COM信息】，存入vctBackCooperative容器中 
-	}//0.8为阈值，测试时可调节
-	//			  else 
-	//			  {   
-	//				continue;
-	//			  }//未找到关联信息
-	
-		  }//for  iteUnin 遍历有航迹聚类表（根据航迹坐标转换和集对分析）
+		}//0.8为阈值，测试时可调节
+		//else 
+		//{   
+		//continue;
+		//}//未找到关联信息	
+	}//for  iteUnin 遍历有航迹聚类表（根据航迹坐标转换和集对分析）
 	
 	
 	//一：<2> 
@@ -1586,7 +1591,7 @@ void Mf_SPA(double s, double t,double& corr)
 void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& stSendRequest, SendBack_Msg& stSendBackMsg)
 {
 	//将请求信息的结构体先转化成小容器的结构体, 将该结构体放入容器中push back到vctRequestCooperative将舰的位置信息单独存放,
-	
+	int i ,j;
     //根据请求信息结构体的综合批号,选择需要调用的函数,再将子函数调用的结果转化为主函数SendBack_Msg数组的容器形式
 	Request_Cooperative_Msg stReqCooperMsg;
 	VCT_Request_Cooperative_Msg vctReqCoopMsg;
@@ -1607,7 +1612,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 	//	cout<<" 经纬高"<< stSelfPosi.dHeight <<endl;
 	memcpy(&stReqCooperMsg.stReqShipPosi, &stSendRequest.stReqShipPosi, sizeof(stReqCooperMsg.stReqShipPosi)); //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
 	memcpy(&stReqCooperMsg.stTrace, &stSendRequest.stTrace,sizeof(stReqCooperMsg.stTrace));
-    for (int i=0; i< stSendRequest.nRequestEsmN; i++)
+    for ( i=0; i< stSendRequest.nRequestEsmN; i++)
     {
 		stEsm.lTargetNumber = stSendRequest.lEsmTargetNumber[i];
 		stEsm.dZaiPin = stSendRequest.dEsmZaiPin[i];
@@ -1615,7 +1620,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 		stEsm.dTianXianScan = stSendRequest.dEsmTianXianScan[i];
 		stReqCooperMsg.vctEsm.push_back(stEsm);
     }
-	for (int j=0; i< stSendRequest.nRequestComN; j++)
+	for ( j=0; j< stSendRequest.nRequestComN; j++)
 	{
 		stCom.lTargetNumber = stSendRequest.lComTargetNumber[j];
 		stCom.dComZaiPin = stSendRequest.dComZaiPin[j];
@@ -1678,7 +1683,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 			//esm
 			if ( stSendBackMsg.BackESMN != 0)
 			{
-				for ( int i = 0 ; i < stSendBackMsg.BackESMN; i++)
+				for (  i = 0 ; i < stSendBackMsg.BackESMN; i++)
 				{
 					stSendBackMsg.lEsmTargetNumber[i] = iteBackMsg->vctEsm.at(i).lTargetNumber;
 					stSendBackMsg.dEsmZaiPin[i] =  iteBackMsg->vctEsm.at(i).dZaiPin;
@@ -1694,7 +1699,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
             //com
 			if ( stSendBackMsg.BackCOMN != 0)
 			{
-				for ( int i = 0 ; i < stSendBackMsg.BackCOMN; i++)
+				for (  i = 0 ; i < stSendBackMsg.BackCOMN; i++)
 				{
 					stSendBackMsg.lComTargetNumber[i] = iteBackMsg->vctComm.at(i).lTargetNumber;
 					stSendBackMsg.dComZaiPin[i] =  iteBackMsg->vctComm.at(i).dComZaiPin;
@@ -1709,6 +1714,8 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 			//有航迹
 			if (iteBackMsg->lAutonum >= 8000)
 			{
+				stSendBackMsg.BackTraceN = 1;
+
 				//				cout<< "返回信息的航迹信息"<<iteBackMsg->lAutonum<<endl;
 				memcpy( &stSendBackMsg.stTrace,&iteBackMsg->stTrace,sizeof(stSendBackMsg.stTrace));
 				//			    cout<< "返回信息的航迹信息"<<stSendBackMsg.stTrace.sPlatType<<endl;

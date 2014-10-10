@@ -125,8 +125,8 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 			if (iteBackMsg->lAutonum == iteRequestMsg->lAutonum)  //综合批号相同
 			{
 				//将返回信息的每类信息放入合并信息容器中
-			//	if ( iteBackMsg->lAutonum >7999 ) //返回信息
-                if ( iteBackMsg->BackTrackN !=0  ) //返回信息
+				if ( iteBackMsg->lAutonum >7999 ) //返回信息
+            //  if ( iteBackMsg->BackTrackN !=0  ) //返回信息
 				{	
 					//转换航迹信息，将坐标，经纬度替换
 	               Get_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
@@ -141,7 +141,13 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 				   iteBackMsg->stTrace.dAzimuth = Azt;
 				   iteBackMsg->stTrace.dElevationAngle = Ezt;
 				   stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
+//测试 航迹信息的条数
+		    int Tsize = stCooperMsg.vctTrace.size();
 				}
+//测试 航迹信息的条数
+				    int Esize = stCooperMsg.vctEsm.size();
+					int Csize = stCooperMsg.vctComm.size();
+
 					if ( iteBackMsg->vctEsm.size() != 0)
 					{
 						for (iteEsm = iteBackMsg->vctEsm.begin(); iteEsm != iteBackMsg->vctEsm.end(); iteEsm++)
@@ -149,12 +155,15 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 							stCooperMsg.vctEsm.push_back(*iteEsm);
 						}
 					}
+//测试 返回的Comm的信息条数
+		            int Csizea = iteBackMsg->vctComm.size();
 					if ( iteBackMsg->vctComm.size() != 0)
 					{
 						for (iteComm = iteBackMsg->vctComm.begin(); iteComm != iteBackMsg->vctComm.end(); iteComm++)
 						{
 							stCooperMsg.vctComm.push_back(*iteComm);
 						}
+
 					}
 /*
 // 				if ( iteBackMsg->lAutonum < 8000 && iteBackMsg->lAutonum > 6999)
@@ -206,13 +215,13 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 		 iteBackMsg->BackCOMN = NULL;
 		 iteBackMsg->BackESMN= NULL;
 		 iteBackMsg->BackTrackN = NULL;
-		 iteBackMsg->dAzimuth = NULL;
-		 iteBackMsg->dElevationAngle = NULL;
-		 iteBackMsg->dRange = NULL;
+// 		 iteBackMsg->dAzimuth = NULL;
+// 		 iteBackMsg->dElevationAngle = NULL;
+// 		 iteBackMsg->dRange = NULL;
 		 iteBackMsg->lAutonum = NULL;
 		 iteBackMsg->nStampTime =NULL;
-		 memset(iteBackMsg->stBackShipPosi, 0, sizeof(SHIP_POSITION));
-		 memset(iteBackMsg->stTrace, 0, sizeof( TRACKSTATUS_MARK));
+		 memset(&iteBackMsg->stBackShipPosi, 0, sizeof(SHIP_POSITION));
+		 memset(&iteBackMsg->stTrace, 0, sizeof( TRACKSTATUS_MARK));
 		 for (iteEsm = iteBackMsg->vctEsm.begin(); iteEsm != iteBackMsg->vctEsm.end(); iteEsm++)
 		 {
 			memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
@@ -225,7 +234,6 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 	     iteBackMsg->vctEsm.clear();	 
 	 }
 	  vctBackCooperative.clear();
-    
 }
 
 

@@ -499,14 +499,16 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 {
 	
 	VCT_COOPER_MSG::iterator iteCoorMsg;
+	VCT_COOPER_MSG::iterator iteCoMessage;
 	VCT_TRACE_MSG::iterator iteTrack;
 	VCT_ESM_MSG::iterator iteEsm;
 	VCT_COMM_MSG::iterator iteComm;
 	VCT_sPlatType::iterator iteCPType1;
 	VCT_sPlatType::iterator iteCPType2;
-
 	VCT_sPlatType vctCooperPlatType; //合并信息的所有平台类型 
 	VCT_sPlatType vctPlatType;      //筛选后，存放不同的平台类型
+
+
 	VCT_CON vctcon;                 //关系矩阵存储容器
 	int NumType,NumMsg;             //合并信息的所有平台类型数，证据条数
 	int i;
@@ -518,12 +520,19 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 
 	vctMidentiinforMsg.clear();//清空联合识别结果
 
+ 
+
 	for (iteCoorMsg = vctCooperMsg.begin(); iteCoorMsg != vctCooperMsg.end();iteCoorMsg++)
 	{   
 		vctCooperPlatType.clear();
 		vctPlatType.clear();
 		tpflag = 0;
 		//将同批号合并后的所有信息的平台类型都放到同一容器1中
+        //以下三行: 测试合并信息的航迹,Comm,ESM的信息条数		
+	    int TS = iteCoorMsg->vctTrace.size();  //若接收端相同,则信息条数为原请求信息的两倍
+		int ES = iteCoorMsg->vctEsm.size();
+		int CS = iteCoorMsg->vctComm.size();
+
 		if ( iteCoorMsg->vctTrace.size() != 0 )
 		{
 			for ( iteTrack = iteCoorMsg->vctTrace.begin(); iteTrack != iteCoorMsg->vctTrace.end(); iteTrack++)
@@ -569,10 +578,23 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 		}
 		
 		NumType = vctPlatType.size();  //识别类型数
+		//test 以下8行测试 平台类型容器
+		//test
+		 	    VCT_sPlatType testVctPlatType;
+		 		VCT_sPlatType::iterator iteCPType3test;
+				testVctPlatType.clear();
+				for ( iteCPType3test = vctPlatType.begin(); iteCPType3test != vctPlatType.end(); iteCPType3test++ )
+				{
+		 			int i = 1;
+					testVctPlatType.push_back(*iteCPType3test);  	
+				}
+
 		NumMsg = iteCoorMsg->vctComm.size() + iteCoorMsg->vctEsm.size() + iteCoorMsg->vctTrace.size();//发射源证据数
 		vctcon.clear(); //清空关系矩阵存储容器
+//10.10
+		iteCoMessage = iteCoorMsg;
 
-		Coefficient(con, iteCoorMsg, vctPlatType);//关系矩阵
+		Coefficient(con, iteCoMessage, vctPlatType);//关系矩阵
 
 		for (i = 0; i < NumType; i++)
 		{
@@ -583,7 +605,8 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 
 		MidentStr.lAutonum = iteCoorMsg->lAutonum;
 		MidentStr.dConfidence = CPdere;
-		MidentStr.sPlatType = vctPlatType.at(Seri[0] -1);
+  //        int b = Seri[0] -1;
+		MidentStr.sPlatType = vctPlatType[Seri[0] -1];
 		vctMidentiinforMsg.push_back(MidentStr);//存入联合识别结果
    }
 
