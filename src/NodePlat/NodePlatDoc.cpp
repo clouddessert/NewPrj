@@ -616,7 +616,30 @@ void CNodePlatDoc::OnSendmsg()
     	//MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
 
 		//清空接收信息
-		theApp.m_BackMsg.clear();
+		for (theApp.iteBackMsg = theApp.m_BackMsg.begin(); theApp.iteBackMsg != theApp.m_BackMsg.end(); theApp.iteBackMsg++)
+		{
+			theApp.iteBackMsg->BackCOMN = NULL;
+		    theApp.iteBackMsg->BackESMN= NULL;
+		    theApp.iteBackMsg->BackTrackN = NULL;
+		//  theApp.iteBackMsg->dAzimuth = NULL;
+		// 	theApp.iteBackMsg->dElevationAngle = NULL;
+		// 	theApp.iteBackMsg->dRange = NULL;
+	    	theApp.iteBackMsg->lAutonum = NULL;
+		    theApp.iteBackMsg->nStampTime =NULL;
+		    memset(&theApp.iteBackMsg->stBackShipPosi, 0, sizeof(SHIP_POSITION));
+		    memset(&theApp.iteBackMsg->stTrace, 0, sizeof( TRACKSTATUS_MARK));
+		    for (iteEsm = theApp.iteBackMsg->vctEsm.begin(); iteEsm != theApp.iteBackMsg->vctEsm.end(); iteEsm++)
+			{
+			    memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
+			}
+		    for (iteComm = theApp.iteBackMsg->vctComm.begin(); iteComm != theApp.iteBackMsg->vctComm.end(); iteComm++)
+			{
+			    memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
+			}
+		    theApp.iteBackMsg->vctComm.clear();
+		    theApp.iteBackMsg->vctEsm.clear();	 
+		}
+	    theApp.m_BackMsg.clear();
 
 		//此处，应将航迹融合的数据存储起来，方便评估，可存入文件中
 

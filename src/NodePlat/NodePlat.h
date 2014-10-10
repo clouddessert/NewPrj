@@ -97,6 +97,7 @@ public:
 	VCT_Request_Cooperative_Msg m_RequestMsg;
 	//各舰返回的所有匹配信息
 	VCT_BACK_Cooperative_Msg m_BackMsg;
+	VCT_BACK_Cooperative_Msg::iterator iteBackMsg;
     //本舰和各舰的合并信息
 	VCT_COOPER_MSG m_CooperMsg;
 
