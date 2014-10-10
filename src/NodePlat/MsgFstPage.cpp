@@ -44,7 +44,6 @@ BEGIN_MESSAGE_MAP(CMsgFstPage, CPropertyPage)
 	ON_WM_SIZE()
 	ON_MESSAGE(WM_ESM_MSG, OnEsmMessage) 
 	ON_NOTIFY(NM_RCLICK, IDC_LIST_ESM, OnRclickListEsm)
-	ON_NOTIFY(NM_CLICK, IDC_LIST_ESM, OnClickListEsm)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -259,8 +258,7 @@ void CMsgFstPage::OnRclickListEsm(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 /*右击弹出菜单*/
 	CMenu menu;
-	VERIFY( menu.LoadMenu(IDR_MENU2) );       //IDR_MENU2是新建菜单ID
-//	VERIFY( menu.LoadMenu(IDM_SENDMSG) );
+	VERIFY(menu.LoadMenu(IDR_SENDREQUEST));       //IDR_SENDQUEST是新建菜单ID
 	CMenu* popup = menu.GetSubMenu(0);        //取得被指定菜单激活的下拉式菜单或子菜单的句柄
 	CPoint oPoint;//定义一个用于确定光标位置的位置  
     GetCursorPos(&oPoint);//获取当前光标的位置，以便使得菜单可以跟随光标
@@ -273,30 +271,7 @@ void CMsgFstPage::OnRclickListEsm(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void CMsgFstPage::OnClickListEsm(NMHDR* pNMHDR, LRESULT* pResult) 
-{
-	// TODO: Add your control notification handler code here
 
-	/*获得行列号*/
-// 	DWORD dwPos = GetMessagePos();
-// 	CPoint point( LOWORD(dwPos), HIWORD(dwPos) );
-// 	
-// 	m_click_esm.ScreenToClient(&point);
-// 	
-// 	LVHITTESTINFO lvinfo;
-// 	lvinfo.pt = point;
-// 	lvinfo.flags = LVHT_ABOVE;
-// 	
-// 	int nItem = m_click_esm.SubItemHitTest(&lvinfo);
-// 	if(nItem != -1)
-// 	{
-// 		CString strtemp;
-// 		strtemp.Format("单击的是第%d行第%d列", lvinfo.iItem, lvinfo.iSubItem);
-// 		AfxMessageBox(strtemp);
-// 	}
-	
-	*pResult = 0;
-}
 
 // void CMsgFstPage::OnSendmsg() //响应弹出菜单
 // {

@@ -19,6 +19,7 @@
 #define IDD_DIALOG1                     144
 #define IDR_MENU1                       145
 #define IDR_MENU2                       147
+#define IDR_SENDREQUEST                 147
 #define IDD_MSG_DLG_SIXTH               148
 #define IDD_MSG_DLG_SEVENTH             149
 #define IDD_MSG_DLG_EIGHTH              150
@@ -50,6 +51,12 @@
 #define IDM_DISCONNECT_SERVICE          32782
 #define IDM_EVA_SIN                     32784
 #define IDM_EVA_MUL                     32785
+#define IDM_MATEA                       32786
+#define IDM_MATEB                       32787
+#define IDM_MATEC                       32788
+#define IDM_MATED                       32789
+#define IDM_MATEE                       32790
+#define IDM_MATEALL                     32791
 
 // Next default values for new objects
 // 
@@ -57,7 +64,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        154
-#define _APS_NEXT_COMMAND_VALUE         32786
+#define _APS_NEXT_COMMAND_VALUE         32792
 #define _APS_NEXT_CONTROL_VALUE         1021
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

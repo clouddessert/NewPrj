@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CClientSocket
+LastClass=CNodePlatDoc
 LastTemplate=CSocket
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
@@ -27,26 +27,27 @@ Class15=CNodePlatView
 Class16=CParamFstPage
 Class17=CParamSecondPage
 
-ResourceCount=15
+ResourceCount=16
 Resource1=IDR_MENU2
 Resource2=IDD_ABOUTBOX
-Resource3=IDD_MSG_DLG_SEVENTH
-Resource4=IDD_MSG_DLG_SECOND
-Resource5=IDD_MSG_DLG_FIFTH
+Resource3=IDD_MSG_DLG_SIXTH
+Resource4=IDD_MSG_DLG_THREE
+Resource5=IDD_MSG_DLG_FOURTH
 Resource6=IDR_MENU1
-Resource7=IDD_MSG_DLG_THREE
+Resource7=IDD_PARAM_DLG_FIRST
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_EIGHTH
+Resource8=IDD_MSG_DLG_SEVENTH
 Class19=CMsgFifthPage
-Resource9=IDD_MSG_DLG_FIRST
-Resource10=IDD_PARAM_DLG_FIRST
-Resource11=IDD_MSG_DLG_SIXTH
+Resource9=IDD_MSG_DLG_SECOND
+Resource10=IDD_PARAM_DLG_SECOND
+Resource11=IDD_MSG_DLG_FIFTH
 Resource12=IDR_MAINFRAME
-Resource13=IDD_MSG_DLG_FOURTH
+Resource13=IDD_MSG_DLG_FIRST
 Class20=CNetworkSetting
-Resource14=IDD_PARAM_DLG_SECOND
+Resource14=IDR_SENDREQUEST
 Class21=CClientSocket
-Resource15=IDD_NETWORKDLG
+Resource15=IDD_MSG_DLG_EIGHTH
+Resource16=IDD_NETWORKDLG
 
 [CLS:CAllParamSheet]
 Type=0
@@ -313,5 +314,16 @@ ImplementationFile=ClientSocket.cpp
 BaseClass=CSocket
 Filter=N
 VirtualFilter=uq
-LastObject=CClientSocket
+LastObject=IDM_MATEALL
+
+[MNU:IDR_SENDREQUEST]
+Type=1
+Class=?
+Command1=IDM_MATEA
+Command2=IDM_MATEB
+Command3=IDM_MATEC
+Command4=IDM_MATED
+Command5=IDM_MATEE
+Command6=IDM_MATEALL
+CommandCount=6
 

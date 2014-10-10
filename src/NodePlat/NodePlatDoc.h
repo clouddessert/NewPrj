@@ -49,10 +49,15 @@ protected:
 	afx_msg void OnConnectService();
 	afx_msg void OnTeamServiceStart();
 	afx_msg void OnTeamServiceStop();
-	afx_msg void OnSendmsg();
 	afx_msg void OnDisconnectService();
 	afx_msg void OnEvaSin();
 	afx_msg void OnEvaMul();
+	afx_msg void OnSendToMateall();
+	afx_msg void OnSendToMateA();
+	afx_msg void OnSendToMateB();
+	afx_msg void OnSendToMateC();
+	afx_msg void OnSendToMateD();
+	afx_msg void OnSendToMateE();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

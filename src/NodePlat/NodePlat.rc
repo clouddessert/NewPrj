@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Chinese (中国) resources
+// Chinese (P.R.C.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -99,11 +99,19 @@ BEGIN
     END
 END
 
-IDR_MENU2 MENU DISCARDABLE 
+IDR_SENDREQUEST MENU DISCARDABLE 
 BEGIN
     POPUP "POP_UP"
     BEGIN
-        MENUITEM "发送请求",                    IDM_SENDMSG
+        POPUP "发送请求"
+        BEGIN
+            MENUITEM "A舰",                         IDM_MATEA
+            MENUITEM "B舰",                         IDM_MATEB
+            MENUITEM "C舰",                         IDM_MATEC
+            MENUITEM "D舰",                         IDM_MATED
+            MENUITEM "E舰",                         IDM_MATEE
+            MENUITEM "所有邻舰",                    IDM_MATEALL
+        END
     END
 END
 
@@ -304,7 +312,7 @@ IDB_MAP                 BITMAP  DISCARDABLE     "res\\捕获.bmp"
 IDB_PLANE               BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
 IDB_MISSILE             BITMAP  DISCARDABLE     "res\\missile.bmp"
 IDB_SHIP1               BITMAP  DISCARDABLE     "res\\ship1.bmp"
-#endif    // Chinese (中国) resources
+#endif    // Chinese (P.R.C.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
