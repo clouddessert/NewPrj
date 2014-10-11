@@ -563,7 +563,7 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 		}
 		
 		/*处理COMM信息*/
-		for (iteC = iteUni->vctComm.begin(); iteC != iteUni->vctComm.end(); iteC++)//有批号一样的Comm更新
+		for (iteC = iteNoTrace->vctComm.begin(); iteC != iteNoTrace->vctComm.end(); iteC++)//有批号一样的Comm更新
 		{
 			for (iteComm = AllMessage.stComm.begin(); iteComm != AllMessage.stComm.end(); iteComm++)
 			{
