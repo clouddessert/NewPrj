@@ -1691,10 +1691,13 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 					stSendBackMsg.dEsmMaiKuan[i] = iteBackMsg->vctEsm.at(i).dMaiKuan;
 					stSendBackMsg.dEsmTianXianScan[i] = iteBackMsg->vctEsm.at(i).dTianXianScan;
 					stSendBackMsg.dEsmConfidence[i] = iteBackMsg->vctEsm.at(i).dConfidence;
-					stSendBackMsg.sEsmPlatType[i] = iteBackMsg->vctEsm.at(i).sPlatType;
-					
-				}
-				
+					//stSendBackMsg.sEsmPlatType[32][i] = iteBackMsg->vctEsm.at(i).sPlatType;
+					for ( int k = 0; k<32; k++)
+					{
+						stSendBackMsg.sEsmPlatType[i][k] = iteBackMsg->vctEsm.at(i).sPlatType[k];
+
+					}	
+				}	
 			}
             //com
 			if ( stSendBackMsg.BackCOMN != 0)
@@ -1708,7 +1711,12 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 					stSendBackMsg.dComBand[i] = iteBackMsg->vctComm.at(i).dComBand;// 信号带宽(MHz)
 					stSendBackMsg.dComJPN[i] = iteBackMsg->vctComm.at(i).dComJPN; // 跳步次数
 					stSendBackMsg.dComConfidence[i] = iteBackMsg->vctComm.at(i).dConfidence;
-                    stSendBackMsg.sComPlatType[i] = iteBackMsg->vctComm.at(i).sPlatType;
+                    //stSendBackMsg.sComPlatType[32][i] = iteBackMsg->vctComm.at(i).sPlatType;
+					for ( int k = 0; k<32; k++)
+					{
+						stSendBackMsg.sComPlatType[i][k] = iteBackMsg->vctComm.at(i).sPlatType[k];
+						
+					}
 				}
 			}
 			//有航迹

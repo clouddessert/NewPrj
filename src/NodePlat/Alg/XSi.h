@@ -158,7 +158,8 @@ typedef struct __SendBack_Msg
 	double dChongPin[10];                      //重频信息结构
 	double dEsmMaiKuan[10];                    //脉宽信息结构..
 	double dEsmTianXianScan[10];               //天线扫描信息结构..
-    char *sEsmPlatType[10];                    //F117,F118,F119
+//1011 改
+    char sEsmPlatType[32][10];                    //F117,F118,F119
 	double dEsmConfidence[10];                 //可信度
 //COM
 	//需补充//通信信号电平[数组]
@@ -168,7 +169,8 @@ typedef struct __SendBack_Msg
 	double dComFre[10];                       // 中心频率(MHz)
 	double dComBand[10];                      // 信号带宽(MHz)
 	double dComJPN[10];                       // 跳步次数
-	char *sComPlatType[10];                     //F117,F118,F119
+//1011改
+	char sComPlatType[32][10];                     //F117,F118,F119
 	double dComConfidence[10];                  //可信度
 	
 	int nCorrFlag;                            //是否找到关联信息的标志
