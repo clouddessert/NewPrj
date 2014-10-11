@@ -241,19 +241,11 @@ void CNodePlatDoc::OnConnectService()
 
 	//创建连接
 	m_ReceiveSocket = new CMySocket();
-	m_ReceiveSocket->Create(CLIENTPORT);
+	m_ReceiveSocket->Socket();
+
+	BOOL res = m_ReceiveSocket->Connect(strTmp, SERVERPORT);
 	
-	BOOL res;
-	for (int i = 0; i < 5; ++i)
-	{
-		res = m_ReceiveSocket->Connect(strTmp, SERVERPORT);
-		if (res)
-		{
-			break;
-		}
-	}
-	
-	if (i != 5)
+	if (res)
 	{
 		//开始
 		theApp.m_RecvMsg.stComm.clear();
@@ -284,6 +276,7 @@ void CNodePlatDoc::OnDisconnectService()
 	theApp.m_RecvMsg.stTrace.clear();
 	theApp.m_SPosition.clear();
 
+	m_ReceiveSocket->ShutDown(2);
 	m_ReceiveSocket->Close();
 	delete m_ReceiveSocket;
 }
