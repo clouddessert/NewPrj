@@ -289,22 +289,6 @@ void CNodePlatApp::ServerCreate(void)
 
 	//p2p客户端socket初始化
 	theApp.m_P2PClient = new CSocket();
-	theApp.m_P2PClient->Socket();
-	theApp.m_P2PClient->Bind(P2P_CLIENT_PORT);
-
-	//设定网络的接收延迟为800ms
-	int nNetTimeout = 800;
-	BOOL bDontLinger = FALSE;
-	BOOL bReuseaddr=TRUE;
-
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&nNetTimeout, sizeof(int));
-	//发送延迟为400ms
-	nNetTimeout = 400;
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_SNDTIMEO, (char *)&nNetTimeout, sizeof(int));
-	//connect 关闭
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_DONTLINGER, (const char*)&bDontLinger, sizeof(BOOL));
-	//close后重新使用
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
 
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -332,8 +316,6 @@ void CNodePlatApp::ServerShutDown(void)
 	delete theApp.m_P2PSocket;
 	theApp.m_P2PSocket = NULL;
 
-	//关闭发送客户端
-	theApp.m_P2PClient->Close();
 	//释放监听端资源
 	delete theApp.m_P2PClient;
 	theApp.m_P2PClient = NULL;

@@ -570,6 +570,7 @@ void CNodePlatDoc::OnSendmsg()
 				//等待数据 
 				ReceiveData(theApp.m_P2PClient);
 				//关闭socket,等待重新使用!
+				theApp.m_P2PClient->ShutDown(2);
 				theApp.m_P2PClient->Close();
 
 				//判断接收缓冲区vector是否为空
@@ -620,7 +621,7 @@ void CNodePlatDoc::OnSendmsg()
 		//调用算法
 		//GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
     	//MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
-
+/*
 		//清空接收信息
 		for (theApp.iteBackMsg = theApp.m_BackMsg.begin(); theApp.iteBackMsg != theApp.m_BackMsg.end(); theApp.iteBackMsg++)
 		{
@@ -648,7 +649,7 @@ void CNodePlatDoc::OnSendmsg()
 	    theApp.m_BackMsg.clear();
 
 		//此处，应将航迹融合的数据存储起来，方便评估，可存入文件中
-
+*/
 
 		AfxMessageBox("calucate ok!");
 	}
@@ -674,13 +675,11 @@ void CNodePlatDoc::OnSendToMateB()
 void CNodePlatDoc::OnSendToMateC() 
 {
 	// TODO: Add your command handler code here
-	
 }
 
 void CNodePlatDoc::OnSendToMateD() 
 {
 	// TODO: Add your command handler code here
-	
 }
 
 void CNodePlatDoc::OnSendToMateE() 
@@ -817,6 +816,24 @@ void CNodePlatDoc::OnSendToMateall()
 	//如果不为空,接收的数据参与运算!
 	//参与运算,先copy一份当前的容器;清空接收的buffer容器
 
+	//create socket---------------------------------------------/
+	theApp.m_P2PClient->Socket();
+
+	//设定网络的接收延迟为800ms
+	int nNetTimeout = 800;
+	BOOL bDontLinger = FALSE;
+	BOOL bReuseaddr=TRUE;
+	
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&nNetTimeout, sizeof(int));
+	//发送延迟为400ms
+	nNetTimeout = 400;
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_SNDTIMEO, (char *)&nNetTimeout, sizeof(int));
+	//connect关闭
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_DONTLINGER, (const char*)&bDontLinger, sizeof(BOOL));
+	//close后重新使用
+	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
+	//over
+
 	VCT_SendBack_Msg::iterator iteBack;
 	BACK_Cooperative_Msg stBackCooper;
 //	TRACKSTATUS_MARK stTrace;
@@ -922,7 +939,8 @@ void CNodePlatDoc::OnSendToMateall()
 				//等待数据 
 				ReceiveData(theApp.m_P2PClient);
 				//关闭socket,等待重新使用!
-				theApp.m_P2PClient->Close();
+				theApp.m_P2PClient->ShutDown(2);
+				theApp.m_P2PClient->Close();			
 
 				//判断接收缓冲区vector是否为空
 				//if (sizeof(theApp.m_SendBackMsg))//如果不为空,接收的数据参与运算!这个永远是为true.
