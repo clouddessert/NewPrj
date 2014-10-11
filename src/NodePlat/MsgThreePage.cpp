@@ -256,6 +256,8 @@ void CMsgThreePage::OnRclickListTrace(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	// TODO: Add your control notification handler code here
 //#if 0
+	bool num[5] = {TRUE,TRUE,TRUE,TRUE,TRUE};
+
 	DWORD dwPos = GetMessagePos();
 	CPoint point( LOWORD(dwPos), HIWORD(dwPos) ); 
 	/*获得行列号*/
@@ -272,9 +274,45 @@ void CMsgThreePage::OnRclickListTrace(NMHDR* pNMHDR, LRESULT* pResult)
 		//AfxMessageBox(strtemp);
 		theApp.m_iline = lvinfo.iItem;
 	}
+	/*获取本舰*/
+	switch (theApp.m_ThisNumber)
+	{
+	case 0:
+		{
+			num[0] = FALSE;
+			break;
+		}
+	case 1:
+		{
+			num[1] = FALSE;
+			break;
+		}
+	case 2:
+		{
+			num[2] = FALSE;
+			break;
+		}
+	case 3:
+		{
+			num[3] = FALSE;
+			break;
+		}
+	case 4:
+		{
+			num[4] = FALSE;
+			break;
+		}
+	default:
+		break;
+	}
 	/*右击弹出菜单*/
 	CMenu menu;
 	VERIFY(menu.LoadMenu(IDR_SENDREQUEST));    //IDR_SENDQUEST是新建菜单ID
+	if (!num[0]) menu.EnableMenuItem(IDM_MATEA, MF_GRAYED);//如果为本舰，则子菜单变灰
+	if (!num[1]) menu.EnableMenuItem(IDM_MATEB, MF_GRAYED);
+	if (!num[2]) menu.EnableMenuItem(IDM_MATEC, MF_GRAYED);
+	if (!num[3]) menu.EnableMenuItem(IDM_MATED, MF_GRAYED);
+	if (!num[4]) menu.EnableMenuItem(IDM_MATEE, MF_GRAYED);
 	CMenu* popup = menu.GetSubMenu(0);        //取得被指定菜单激活的下拉式菜单或子菜单的句柄
 	CPoint oPoint;//定义一个用于确定光标位置的位置  
     GetCursorPos(&oPoint);//获取当前光标的位置，以便使得菜单可以跟随光标

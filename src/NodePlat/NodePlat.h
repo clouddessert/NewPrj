@@ -42,6 +42,9 @@ public:
 	VCT_TRACE_MSG m_Trace_Dat;
 	VCT_SHIP_POSITION m_Ship_Position;
 
+	//本舰编号
+	int m_ThisNumber;
+
 	//输入结构体
 	ALL_MSG_INPUT m_RecvMsg;
 	VCT_SHIP_POSITION m_SPosition;

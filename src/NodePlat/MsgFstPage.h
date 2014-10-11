@@ -41,8 +41,6 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg LRESULT OnEsmMessage(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnRclickListEsm(NMHDR* pNMHDR, LRESULT* pResult);
-	
-	//afx_msg void OnSendmsg();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

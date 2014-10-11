@@ -204,31 +204,74 @@ void CNodePlatApp::SetIPLib(void)
 	sPath = sPath+_T("\\NetConfig.ini");
 	
 	//获取IP,如果IP地址和本机IP一致,不添加!
-	if (::GetPrivateProfileString(_T("编队IP"), _T("A船IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
+	if (::GetPrivateProfileString(_T("编队IP"), _T("A船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
 	{
 		strTmp.ReleaseBuffer();
 		if (strTmp.Compare(strLocalIP))
 		{
 			theApp.IpMap.insert(make_pair(0, strTmp));
-		}		
+		}
+		else
+		{
+			m_ThisNumber = 0;
+
+		}
 	}
 	
-	if (::GetPrivateProfileString(_T("编队IP"), _T("B船IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
+	if (::GetPrivateProfileString(_T("编队IP"), _T("B船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
 	{
 		strTmp.ReleaseBuffer();
 		if (strTmp.Compare(strLocalIP))
 		{
 			theApp.IpMap.insert(make_pair(1, strTmp));
 		}
+		else
+		{
+			m_ThisNumber = 1;
+			
+		}
 	}
-	if (::GetPrivateProfileString(_T("编队IP"), _T("C船IP地址"), _T("127.0.0.1"), strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
+	if (::GetPrivateProfileString(_T("编队IP"), _T("C船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
 	{
 		strTmp.ReleaseBuffer();
 		if (strTmp.Compare(strLocalIP))
 		{
 			theApp.IpMap.insert(make_pair(2, strTmp));
 		}
+		else
+		{
+			m_ThisNumber = 2;
+			
+		}
 	}
+	if (::GetPrivateProfileString(_T("编队IP"), _T("D船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
+	{
+		//strTmp.ReleaseBuffer();
+		if (strTmp.Compare(strLocalIP))
+		{
+			theApp.IpMap.insert(make_pair(3, strTmp));
+		}
+		else
+		{
+			m_ThisNumber = 3;
+			
+		}
+	}
+	strTmp.ReleaseBuffer();
+	if (::GetPrivateProfileString(_T("编队IP"), _T("E船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
+	{
+		//strTmp.ReleaseBuffer();
+		if (strTmp.Compare(strLocalIP))
+		{
+			theApp.IpMap.insert(make_pair(4, strTmp));
+		}
+		else
+		{
+			m_ThisNumber = 4;
+			
+		}
+	}
+	strTmp.ReleaseBuffer();
 }
 
 

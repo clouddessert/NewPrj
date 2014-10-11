@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CNodePlatDoc
+LastClass=CMsgFstPage
 LastTemplate=CSocket
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
@@ -29,24 +29,24 @@ Class17=CParamSecondPage
 
 ResourceCount=16
 Resource1=IDR_MENU2
-Resource2=IDD_ABOUTBOX
-Resource3=IDD_MSG_DLG_SIXTH
-Resource4=IDD_MSG_DLG_THREE
-Resource5=IDD_MSG_DLG_FOURTH
+Resource2=IDD_PARAM_DLG_FIRST
+Resource3=IDD_MSG_DLG_EIGHTH
+Resource4=IDD_MSG_DLG_FIRST
+Resource5=IDD_MSG_DLG_SIXTH
 Resource6=IDR_MENU1
-Resource7=IDD_PARAM_DLG_FIRST
+Resource7=IDD_MSG_DLG_SECOND
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_SEVENTH
+Resource8=IDR_MAINFRAME
 Class19=CMsgFifthPage
-Resource9=IDD_MSG_DLG_SECOND
-Resource10=IDD_PARAM_DLG_SECOND
-Resource11=IDD_MSG_DLG_FIFTH
-Resource12=IDR_MAINFRAME
-Resource13=IDD_MSG_DLG_FIRST
+Resource9=IDD_MSG_DLG_FOURTH
+Resource10=IDD_MSG_DLG_THREE
+Resource11=IDD_MSG_DLG_SEVENTH
+Resource12=IDD_ABOUTBOX
+Resource13=IDD_MSG_DLG_FIFTH
 Class20=CNetworkSetting
-Resource14=IDR_SENDREQUEST
+Resource14=IDD_PARAM_DLG_SECOND
 Class21=CClientSocket
-Resource15=IDD_MSG_DLG_EIGHTH
+Resource15=IDR_SENDREQUEST
 Resource16=IDD_NETWORKDLG
 
 [CLS:CAllParamSheet]
@@ -98,6 +98,8 @@ BaseClass=CPropertyPage
 HeaderFile=MsgFstPage.h
 ImplementationFile=MsgFstPage.cpp
 LastObject=CMsgFstPage
+Filter=D
+VirtualFilter=idWC
 
 [CLS:CMsgListView]
 Type=0
@@ -149,7 +151,7 @@ Type=0
 BaseClass=CDocument
 HeaderFile=NodePlatDoc.h
 ImplementationFile=NodePlatDoc.cpp
-LastObject=CNodePlatDoc
+LastObject=IDM_MATEB
 Filter=N
 VirtualFilter=DC
 
@@ -167,6 +169,9 @@ Type=0
 BaseClass=CPropertyPage
 HeaderFile=ParamFstPage.h
 ImplementationFile=ParamFstPage.cpp
+Filter=D
+VirtualFilter=idWC
+LastObject=CParamFstPage
 
 [CLS:CParamSecondPage]
 Type=0

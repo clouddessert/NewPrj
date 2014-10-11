@@ -970,8 +970,8 @@ void CNodePlatDoc::OnSendToMateall()
 	if ( theApp.m_BackMsg.size() != 0)
 	{
 		//调用算法
-		//GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
-    	//MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
+		GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
+    	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
 
 		//清空接收信息
 		for (theApp.iteBackMsg = theApp.m_BackMsg.begin(); theApp.iteBackMsg != theApp.m_BackMsg.end(); theApp.iteBackMsg++)
