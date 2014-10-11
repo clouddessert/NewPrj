@@ -51,6 +51,9 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
    for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
    { 
 	   iteCooperMsg->lAutonum = NULL;
+	   iteCooperMsg->nComN = NULL;
+	   iteCooperMsg->nEsmN = NULL;
+	   iteCooperMsg->nComN = NULL;
 	   for (iteTrack = iteCooperMsg->vctTrace.begin(); iteTrack != iteCooperMsg->vctTrace.end(); iteTrack++)
 	   {
 		    memset(&(*iteTrack), 0, sizeof(TRACKSTATUS_MARK));
@@ -143,10 +146,15 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 				   stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
 //测试 航迹信息的条数
 		    int Tsize = stCooperMsg.vctTrace.size();
+//非测试
+			stCooperMsg.nTraceN = stCooperMsg.vctTrace.size();
 				}
 //测试 航迹信息的条数
 				    int Esize = stCooperMsg.vctEsm.size();
 					int Csize = stCooperMsg.vctComm.size();
+//非测试
+					stCooperMsg.nEsmN = stCooperMsg.vctEsm.size();
+		            stCooperMsg.nComN = stCooperMsg.vctComm.size();
 
 					if ( iteBackMsg->vctEsm.size() != 0)
 					{

@@ -71,7 +71,10 @@ typedef struct __Cooperative_Msg     //请求和返回信息汇总数据结构
 	unsigned long lAutonum;                  //请求信息的综合批号
     VCT_TRACE_MSG vctTrace;                  //存放请求和返回的航迹信息
 	VCT_ESM_MSG vctEsm;                     
-	VCT_COMM_MSG vctComm;   
+	VCT_COMM_MSG vctComm; 
+	int nTraceN;
+	int nEsmN;
+	int nComN;
 }Cooperative_Msg;
 typedef vector<Cooperative_Msg> VCT_COOPER_MSG;
 //平台类型容器

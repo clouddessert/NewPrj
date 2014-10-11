@@ -945,6 +945,8 @@ void CNodePlatDoc::OnSendToMateall()
 							stEsm.dZaiPin = iteBack->dEsmZaiPin[i];
 							stEsm.dMaiKuan = iteBack->dEsmZaiPin[i];
 							stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
+							//stEsm.sPlatType = iteBack->sEsmPlatType[i];
+							//strcpy(stEsm.sPlatType , iteBack->sEsmPlatType[i]);
 							stBackCooper.vctEsm.push_back(stEsm);
 						}
 						for (int j=0; j< iteBack->BackCOMN; j++)
@@ -955,6 +957,8 @@ void CNodePlatDoc::OnSendToMateall()
 							stCom.dComFre = iteBack->dComFre[j];
 							stCom.dComBand = iteBack->dComBand[j];
 							stCom.dComJPN = iteBack->dComJPN[j];
+							//stCom.sPlatType = iteBack->sComPlatType[j]; 
+							//strcpy(stCom.sPlatType , iteBack->sComPlatType[j]);
 							stBackCooper.vctComm.push_back(stCom);
 						}
 						theApp.m_BackMsg.push_back(stBackCooper);

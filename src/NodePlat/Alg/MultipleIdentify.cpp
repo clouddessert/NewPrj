@@ -330,26 +330,29 @@ void Coefficient(double *con, VCT_COOPER_MSG::iterator ite_CooperMsg, VCT_sPlatT
 	}//else 求相关系数
 	
 	//输出二维矩阵
-	for ( int t = 0; t< i;t++)
-	{
-		for (int k=0; k< vctPlatType.size(); k++)
-		{
-			printf("%.8f\t", conn[t][k]);
-		}
-		cout<<endl;
-	}
+// 	for ( int t = 0; t< i;t++)
+// 	{
+// 		for (int k=0; k< vctPlatType.size(); k++)
+// 		{
+// 			printf("%.8f\t", conn[t][k]);
+// 		}
+// 		cout<<endl;
+// 	}
 	
 	//将二位矩阵conn[i][j]转化为一维矩阵con[]
 	int a =0;
-	for (int p = 0 ;p < i; p++)
+	int p=0;
+	int n=0;
+
+	for ( p = 0 ;p < i; p++)
 	{
-		for (int n = 0; n < vctPlatType.size() ; n++)
+		for ( n = 0; n < vctPlatType.size() ; n++)
 		{
 			con[a] = conn[p][n];
 			a++;
 		}
  	}
-
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -523,7 +526,8 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
  
 
 	for (iteCoorMsg = vctCooperMsg.begin(); iteCoorMsg != vctCooperMsg.end();iteCoorMsg++)
-	{   
+	{  
+		
 		vctCooperPlatType.clear();
 		vctPlatType.clear();
 		tpflag = 0;
@@ -556,46 +560,55 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 		}
 		//定义容器1的两个迭代器a,b 迭代器a用来遍历平台容器，迭代器b用来比较平台容器中迭代器a当前值和之前值是否有相同的
 		//将不同的放入平台容器2中，平台容器2就是所求平台类型数
+		int nsize = vctCooperPlatType.size();
 		for ( iteCPType1 = vctCooperPlatType.begin(); iteCPType1 != vctCooperPlatType.end(); iteCPType1++)
 		{
-			for( iteCPType2 = vctCooperPlatType.begin(); iteCPType2 != iteCPType1; iteCPType2++)
-			{
-				//判断合并容器中前一个和后一个的平台类型是否相同，有相同，结束循环，循环结束若都不相同则放入平台容器中
-				if (strcmp(*iteCPType1, *iteCPType2) == 0)
-				{   
-					tpflag = 1; //标志找到有相同的
-					break;
-				}
-			}//结束循环未找到相同的
-			if (tpflag == 0)
+			if (iteCPType1 == vctCooperPlatType.begin())
 			{
 				vctPlatType.push_back(*iteCPType1);
-			}
+			} 
 			else
 			{
-				tpflag = 0;
-			}
-		}
+				for( iteCPType2 = vctPlatType.begin(); iteCPType2 != vctPlatType.end(); iteCPType2++)
+				{
+					//判断合并容器中前一个和后一个的平台类型是否相同，有相同，结束循环，循环结束若都不相同则放入平台容器中
+					if (iteCPType2 != vctPlatType.end() && (strcmp(*iteCPType1, *iteCPType2) == 0))
+					{
+						//在合并容器中找到该平台类型，直接跳出循环
+						break;
+					}
+					else if (iteCPType2 == vctPlatType.end())
+					{
+						//合并后的容器中没有找到，应该把该平台类型存入合并后的容器
+						vctPlatType.push_back(*iteCPType2);
+					}
+				}//结束循环未找到相同的
+			}	
+		} 
 		
 		NumType = vctPlatType.size();  //识别类型数
 		//test 以下8行测试 平台类型容器
 		//test
-		 	    VCT_sPlatType testVctPlatType;
-		 		VCT_sPlatType::iterator iteCPType3test;
-				testVctPlatType.clear();
-				for ( iteCPType3test = vctPlatType.begin(); iteCPType3test != vctPlatType.end(); iteCPType3test++ )
-				{
-		 			int i = 1;
-					testVctPlatType.push_back(*iteCPType3test);  	
-				}
+		VCT_sPlatType testVctPlatType;
 
-		NumMsg = iteCoorMsg->vctComm.size() + iteCoorMsg->vctEsm.size() + iteCoorMsg->vctTrace.size();//发射源证据数
-		vctcon.clear(); //清空关系矩阵存储容器
-//10.10
+		testVctPlatType.clear();
+		// 		for ( iteCPType3test = vctPlatType.begin(); iteCPType3test != vctPlatType.end(); iteCPType3test++ )
+		// 		{
+		// 		 	int p = 1;
+		// 			testVctPlatType.push_back(*iteCPType3test);  	
+        // 		}
+
+
+		//10.10
 		iteCoMessage = iteCoorMsg;
+//		NumType = testVctPlatType.size();  //识别类型数
 
-		Coefficient(con, iteCoMessage, vctPlatType);//关系矩阵
+		NumMsg = iteCoMessage->vctComm.size() + iteCoMessage->vctEsm.size() + iteCoMessage->vctTrace.size();//发射源证据数
+//		NumMsg = iteCoMessage->nTraceN + iteCoMessage->nEsmN + iteCoMessage->nComN;//发射源证据数
+		vctcon.clear(); //清空关系矩阵存储容器
+		copy(vctPlatType.begin(),vctPlatType.end(),testVctPlatType.begin());  //将v1复制到v2
 
+		Coefficient(con, iteCoMessage, testVctPlatType);//关系矩阵
 		for (i = 0; i < NumType; i++)
 		{
 			Seri[i] = i+1;
@@ -605,8 +618,8 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 
 		MidentStr.lAutonum = iteCoorMsg->lAutonum;
 		MidentStr.dConfidence = CPdere;
-  //        int b = Seri[0] -1;
-		MidentStr.sPlatType = vctPlatType[Seri[0] -1];
+        int b = Seri[0] -1;
+		MidentStr.sPlatType = vctPlatType[Seri[0]-1];
 		vctMidentiinforMsg.push_back(MidentStr);//存入联合识别结果
    }
 
