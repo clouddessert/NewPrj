@@ -590,13 +590,13 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 		//test 以下8行测试 平台类型容器
 		//test
 		VCT_sPlatType testVctPlatType;
-
+		VCT_sPlatType::iterator iteCPType3test;
 		testVctPlatType.clear();
-		// 		for ( iteCPType3test = vctPlatType.begin(); iteCPType3test != vctPlatType.end(); iteCPType3test++ )
-		// 		{
+		 		for ( iteCPType3test = vctPlatType.begin(); iteCPType3test != vctPlatType.end(); iteCPType3test++ )
+		 		{
 		// 		 	int p = 1;
-		// 			testVctPlatType.push_back(*iteCPType3test);  	
-        // 		}
+		 			testVctPlatType.push_back(*iteCPType3test);  	
+         		}
 
 
 		//10.10
@@ -606,7 +606,7 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 		NumMsg = iteCoMessage->vctComm.size() + iteCoMessage->vctEsm.size() + iteCoMessage->vctTrace.size();//发射源证据数
 //		NumMsg = iteCoMessage->nTraceN + iteCoMessage->nEsmN + iteCoMessage->nComN;//发射源证据数
 		vctcon.clear(); //清空关系矩阵存储容器
-		copy(vctPlatType.begin(),vctPlatType.end(),testVctPlatType.begin());  //将v1复制到v2
+//		copy(vctPlatType.begin(),vctPlatType.end(),testVctPlatType.begin());  //将v1复制到v2
 
 		Coefficient(con, iteCoMessage, testVctPlatType);//关系矩阵
 		for (i = 0; i < NumType; i++)

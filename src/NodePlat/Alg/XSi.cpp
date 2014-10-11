@@ -1714,8 +1714,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
                     //stSendBackMsg.sComPlatType[32][i] = iteBackMsg->vctComm.at(i).sPlatType;
 					for ( int k = 0; k<32; k++)
 					{
-						stSendBackMsg.sComPlatType[i][k] = iteBackMsg->vctComm.at(i).sPlatType[k];
-						
+						stSendBackMsg.sComPlatType[i][k] = iteBackMsg->vctComm.at(i).sPlatType[k];	
 					}
 				}
 			}
