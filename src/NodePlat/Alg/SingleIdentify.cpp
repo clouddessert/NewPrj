@@ -365,65 +365,65 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 	}
 
 
-	for (iteComm = AllMessage.stComm.begin(); iteComm != AllMessage.stComm.end(); iteComm++)//对未聚类的COMM信息进行处理
-	{
-		if (iteComm->cJfFlag == 0)
-		{
-			/*清空StCluNo*/
-			StCluNo.lAutonum = NULL;
-			for (iteE = StCluNo.vctEsm.begin(); iteE != StCluNo.vctEsm.end(); iteE++)
-			{
-				memset(&(*iteE), 0, sizeof(ESMSTATUS_MARK));
-			}
-			for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
-			{
-				memset(&(*iteC), 0, sizeof(COMSTATUS_MARK));
-			}
-			StCluNo.vctEsm.clear();
-			StCluNo.vctComm.clear();
-			
-			fReachA = iteComm->dReachAzimuth; // ESM提供的方位角
-// 			StCluNo.lAutonum = NN;
-// 			NN++;
-			iteComm->cJfFlag = '1';//聚类标志
-			iteComm->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
-			/*对未聚类的COMM信息进行处理*/
-			iteC = iteComm;
-			for (iteC++; iteC != AllMessage.stComm.end(); iteC++)
-			{
-				if (iteC->cJfFlag == 0)
-				{
-					fA = fabs(fReachA - iteC->dReachAzimuth);
-					/*聚为一类*/
-					if ((fA < Acc.dirAcc*2)/* && (detElevation < stComAcc.dirAcc*2)*/)
-					{
-						iteC->cJfFlag = '1';//聚类标志
-						iteC->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
-						iteC->lAutonum = NN;//编批
-						StCluNo.vctComm.push_back(*iteC);//存储COMM信息
-					} 
-				}
-			}
-			/*聚类结果StCluNo存储*/
-			if (StCluNo.vctComm.size()<2)//只有COMM信息
-			{
-				iteComm->lAutonum = 0;
-				SingleComm.push_back(*iteComm);//放入未聚类的单一COMM中存储
-			} 
-			else
-			{
-				StCluNo.lAutonum = NN;
-				iteComm->lAutonum = NN;
-				StCluNo.vctComm.push_back(*iteComm);
-// 				for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
+// 	for (iteComm = AllMessage.stComm.begin(); iteComm != AllMessage.stComm.end(); iteComm++)//对未聚类的COMM信息进行处理
+// 	{
+// 		if (iteComm->cJfFlag == 0)
+// 		{
+// 			/*清空StCluNo*/
+// 			StCluNo.lAutonum = NULL;
+// 			for (iteE = StCluNo.vctEsm.begin(); iteE != StCluNo.vctEsm.end(); iteE++)
+// 			{
+// 				memset(&(*iteE), 0, sizeof(ESMSTATUS_MARK));
+// 			}
+// 			for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
+// 			{
+// 				memset(&(*iteC), 0, sizeof(COMSTATUS_MARK));
+// 			}
+// 			StCluNo.vctEsm.clear();
+// 			StCluNo.vctComm.clear();
+// 			
+// 			fReachA = iteComm->dReachAzimuth; // ESM提供的方位角
+// // 			StCluNo.lAutonum = NN;
+// // 			NN++;
+// 			iteComm->cJfFlag = '1';//聚类标志
+// 			iteComm->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
+// 			/*对未聚类的COMM信息进行处理*/
+// 			iteC = iteComm;
+// 			for (iteC++; iteC != AllMessage.stComm.end(); iteC++)
+// 			{
+// 				if (iteC->cJfFlag == 0)
 // 				{
-// 					iteC->lAutonum = NN;
+// 					fA = fabs(fReachA - iteC->dReachAzimuth);
+// 					/*聚为一类*/
+// 					if ((fA < Acc.dirAcc*2)/* && (detElevation < stComAcc.dirAcc*2)*/)
+// 					{
+// 						iteC->cJfFlag = '1';//聚类标志
+// 						iteC->lFlag = 3;//累加标志：消失一次lFlag--,3次不出现则为0
+// 						iteC->lAutonum = NN;//编批
+// 						StCluNo.vctComm.push_back(*iteC);//存储COMM信息
+// 					} 
 // 				}
-				NN++;
-				UniNoTrace.push_back(StCluNo);//存入无航迹聚类信息
-			}
-		}
-	}
+// 			}
+// 			/*聚类结果StCluNo存储*/
+// 			if (StCluNo.vctComm.size()<2)//只有COMM信息
+// 			{
+// 				iteComm->lAutonum = 0;
+// 				SingleComm.push_back(*iteComm);//放入未聚类的单一COMM中存储
+// 			} 
+// 			else
+// 			{
+// 				StCluNo.lAutonum = NN;
+// 				iteComm->lAutonum = NN;
+// 				StCluNo.vctComm.push_back(*iteComm);
+// // 				for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
+// // 				{
+// // 					iteC->lAutonum = NN;
+// //				}
+// 				NN++;
+// 				UniNoTrace.push_back(StCluNo);//存入无航迹聚类信息
+// 			}
+// 		}
+// 	}
 }
 
 
@@ -528,11 +528,11 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			iteE = iteNoTrace->vctEsm.begin();
 			fA = iteE->dReachAzimuth;//取方位
 		}
-		else
-		{
-			iteC = iteNoTrace->vctComm.begin();
-			fA = iteC->dReachAzimuth;//取方位
-		}
+// 		else
+// 		{
+// 			iteC = iteNoTrace->vctComm.begin();
+// 			fA = iteC->dReachAzimuth;//取方位
+// 		}
 		/*处理ESM信息*/
 		for (iteE = iteNoTrace->vctEsm.begin(); iteE != iteNoTrace->vctEsm.end(); iteE++)//有批号一样的esm更新
 		{
@@ -809,9 +809,9 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 //			iteE->lAutonum = StClu.lAutonum;
 			StClu.vctEsm.push_back(*iteE);
 			StClu.structTrace.lAutonum = TN;
-			for (iteE = StClu.vctEsm.begin(); iteE != StClu.vctEsm.end(); iteE++)
+			for (iteEsm = StClu.vctEsm.begin(); iteEsm != StClu.vctEsm.end(); iteEsm++)
 			{
-				iteE->lAutonum = TN;
+				iteEsm->lAutonum = TN;
 			}
 			for (iteC = StClu.vctComm.begin(); iteC != StClu.vctComm.end(); iteC++)
 			{
@@ -855,9 +855,9 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 			{
 				StCluNo.vctEsm.push_back(*iteE);
 				StCluNo.lAutonum = NN;
-				for (iteE = StCluNo.vctEsm.begin(); iteE != StCluNo.vctEsm.end(); iteE++)
+				for (iteEsm = StCluNo.vctEsm.begin(); iteEsm != StCluNo.vctEsm.end(); iteEsm++)
 				{
-					iteE->lAutonum = NN;
+					iteEsm->lAutonum = NN;
 				}
 				for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
 				{
@@ -956,13 +956,14 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 				}
 			}
 			StClu.vctComm.push_back(*iteC);
+			StClu.lAutonum = TN;
 			for (iteE = StClu.vctEsm.begin(); iteE != StClu.vctEsm.end(); iteE++)
 			{
 				iteE->lAutonum = TN;
 			}
-			for (iteC = StClu.vctComm.begin(); iteC != StClu.vctComm.end(); iteC++)
+			for (iteComm = StClu.vctComm.begin(); iteComm != StClu.vctComm.end(); iteComm++)
 			{
-				iteC->lAutonum = TN;
+				iteComm->lAutonum = TN;
 			}
 			TN ++;
 			UniMsg.push_back(StClu);
@@ -995,18 +996,22 @@ void ClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRAC
 					}
 				}
 			}
-			if (StClu.vctComm.empty()&&StClu.vctEsm.empty())
+			if (/*StClu.vctComm.empty()&&*/StCluNo.vctEsm.empty())
 			{
 			} 
 			else
 			{
+				StCluNo.vctComm.push_back(*iteC);
 				StCluNo.lAutonum = NN;
-				for (iteC = StCluNo.vctComm.begin(); iteC != StCluNo.vctComm.end(); iteC++)
+				for (iteE = StCluNo.vctEsm.begin(); iteE != StCluNo.vctEsm.end(); iteE++)
 				{
-					iteC->lAutonum = NN;
+					iteE->lAutonum = NN;
+				}
+				for (iteComm = StCluNo.vctComm.begin(); iteComm != StCluNo.vctComm.end(); iteComm++)
+				{
+					iteComm->lAutonum = NN;
 				}
 				NN ++;
-				StClu.vctComm.push_back(*iteC);
 				UniNoTrace.push_back(StCluNo);//存入无航迹聚类信息
 			}
 		}
@@ -1147,10 +1152,10 @@ void Delete(VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRACE_MSG& UniNoTrace, VCT_TRACE_MS
 			{
 				SingleComm.push_back(*(itnt->vctComm.begin()));
 			}
-			else if (!itnt->vctEsm.empty())
-			{
-				SingleEsm.push_back(*(itnt->vctEsm.begin()));
-			}
+// 			else if (!itnt->vctEsm.empty())
+// 			{
+// 				SingleEsm.push_back(*(itnt->vctEsm.begin()));
+// 			}
 			//删除无航迹聚类信息里此批号所有信息
 			UniNoTrace.erase(itnt);
 			itnt--;
