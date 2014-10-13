@@ -572,16 +572,18 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 			else
 			{  
 				for( iteCPType2 = vctPlatType.begin(); iteCPType2 != vctPlatType.end(); iteCPType2++)
-				{
+				{  
 					//判断合并容器中前一个和后一个的平台类型是否相同，有相同，结束循环，循环结束若都不相同则放入平台容器中
 					if (iteCPType2 != vctPlatType.end()&&(strcmp(*iteCPType1, *iteCPType2) == 0) )
 					{	
 						break;
 					}
-					else if (iteCPType2 == vctPlatType.end())
+
+					else if (*iteCPType2 == vctPlatType.back())
 					{
 						//合并后的容器中没有找到，应该把该平台类型存入合并后的容器
 						vctPlatType.push_back(*iteCPType1);
+						break;
 					}	
 	
 				}//结束循环未找到相同的
