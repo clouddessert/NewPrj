@@ -586,6 +586,8 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 		for (pESM_Dat = theApp.m_ESM_Dat.begin(); pESM_Dat != theApp.m_ESM_Dat.end(); pESM_Dat++)
 		{
 			pESM_Dat->dReachAzimuth = pESM_Dat->dReachAzimuth + 0.0001;
+			pESM_Dat->lSignalReachTime = pESM_Dat->lSignalReachTime + 1;
+//			pESM_Dat->dReachAzimuth = pESM_Dat->dReachAzimuth + 0.0001;
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 1;
@@ -597,6 +599,7 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 		for (pComm_Dat = theApp.m_Comm_Dat.begin(); pComm_Dat != theApp.m_Comm_Dat.end(); pComm_Dat++)
 		{
 			pComm_Dat->dReachAzimuth =  pComm_Dat->dReachAzimuth + 0.00015;
+			pComm_Dat->lSignalReachTime =  pComm_Dat->lSignalReachTime + 1;
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 2;

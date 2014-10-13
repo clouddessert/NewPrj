@@ -425,7 +425,6 @@ void CCommandPlatApp::OnStartJq()
 	stShipPosition.dLonti = 116.5;
 	stShipPosition.dLati = 22.0;
 	theApp.m_Ship_Position.push_back(stShipPosition); //舰2
-
 	stShipPosition.dHeight = 0.0;
 	stShipPosition.dLonti = 121.5;
 	stShipPosition.dLati = 26.0;
@@ -438,10 +437,27 @@ void CCommandPlatApp::OnStartJq()
     strcpy(stEsmStatus.sPlatType,_T("F117")); 
 	stEsmStatus.dConfidence = (float)0.8;
 	stEsmStatus.cJfFlag = 0;
+//10.13	//载频//脉宽//天线扫描
+	stEsmStatus.dChongPin = 2;
+	stEsmStatus.dMaiKuan = 5;
+	stEsmStatus.dTianXianScan = 2;
 	strcpy(stEsmStatus.cPlatName,_T("飞机"));       //平台名称
 	strcpy(stEsmStatus.cPlatNumber,_T("50"));   //平台编号
     strcpy(stEsmStatus.cEquipmentNumber,_T("001")); //设备编号
 	strcpy(stEsmStatus.cEquipmentType,_T("ESM")); //设备类型
+//10.13 信号到达时间,威胁等级,有效辐射频率,国家/地区,敌我属性,雷达用途,雷达名称, 
+	stEsmStatus.dThreatLevel = 2;
+	stEsmStatus.lSignalReachTime = 1500;
+	stEsmStatus.dERPower = 10;
+	strcpy(stEsmStatus.cCountry,_T("中国"));
+	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
+	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
+//10.13 载频信息，脉冲幅度，仰角，脉冲特征
+	stEsmStatus.dZaiPin = 8.1;
+	stEsmStatus.dPulseExtent = 2.5;
+	stEsmStatus.dElevationAngle = 45.3;
+	stEsmStatus.dMaiChongFeature = 3.0;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
    	stEsmStatus.lTargetNumber = 3002;
@@ -450,10 +466,27 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.4;
 	stEsmStatus.cJfFlag = 0;
+//10.13	//载频//脉宽//天线扫描
+	stEsmStatus.dChongPin = 3;
+	stEsmStatus.dMaiKuan = 5;
+    stEsmStatus.dTianXianScan = 2;
 	strcpy(stEsmStatus.cPlatName,_T("导弹"));       //平台名称
 	strcpy(stEsmStatus.cPlatNumber,_T("51"));   //平台编号
     strcpy(stEsmStatus.cEquipmentNumber,_T("002")); //设备编号
 	strcpy(stEsmStatus.cEquipmentType,_T("ESM")); //设备类型
+//10.13 信号到达时间,威胁等级,有效辐射频率,国家/地区,敌我属性,雷达用途,雷达名称,
+	stEsmStatus.dThreatLevel = 3;
+	stEsmStatus.lSignalReachTime = 1500;
+	stEsmStatus.dERPower = 12;
+	strcpy(stEsmStatus.cCountry,_T("中国"));
+	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
+	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
+//10.13 载频信息，脉冲幅度，仰角，脉冲特征
+	stEsmStatus.dZaiPin = 9.1;
+	stEsmStatus.dPulseExtent = 1.5;
+	stEsmStatus.dElevationAngle = 35.3;
+	stEsmStatus.dMaiChongFeature = 2.0;
     theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
    	stEsmStatus.lTargetNumber = 3003;
@@ -462,10 +495,27 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F119")); 
 	stEsmStatus.dConfidence = (float)0.6;
 	stEsmStatus.cJfFlag = 0;
+//10.13	//载频//脉宽//天线扫描
+	stEsmStatus.dChongPin = 2;
+	stEsmStatus.dMaiKuan = 5;
+    stEsmStatus.dTianXianScan = 6;
 	strcpy(stEsmStatus.cPlatName,_T("舰艇"));       //平台名称
 	strcpy(stEsmStatus.cPlatNumber,_T("52"));   //平台编号
     strcpy(stEsmStatus.cEquipmentNumber,_T("003")); //设备编号
 	strcpy(stEsmStatus.cEquipmentType,_T("ESM")); //设备类型
+//10.13 信号到达时间,威胁等级,有效辐射频率,国家/地区,敌我属性,雷达用途,雷达名称,
+	stEsmStatus.dThreatLevel = 5;
+	stEsmStatus.lSignalReachTime = 1500;
+	stEsmStatus.dERPower = 11;
+	strcpy(stEsmStatus.cCountry,_T("中国"));
+	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
+	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
+//10.13 载频信息，脉冲幅度，仰角，脉冲特征
+	stEsmStatus.dZaiPin = 7.1;
+	stEsmStatus.dPulseExtent = 2.7;
+	stEsmStatus.dElevationAngle = 40.3;
+	stEsmStatus.dMaiChongFeature = 2.7;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
    	stEsmStatus.lTargetNumber = 3004;
@@ -474,10 +524,27 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.8;
 	stEsmStatus.cJfFlag = 0;
+//10.13	//载频//脉宽//天线扫描
+	stEsmStatus.dChongPin = 2;
+	stEsmStatus.dMaiKuan = 6;
+    stEsmStatus.dTianXianScan = 2;
 	strcpy(stEsmStatus.cPlatName,_T("飞机"));       //平台名称
 	strcpy(stEsmStatus.cPlatNumber,_T("53"));   //平台编号
     strcpy(stEsmStatus.cEquipmentNumber,_T("004")); //设备编号
 	strcpy(stEsmStatus.cEquipmentType,_T("ESM")); //设备类型
+//10.13 信号到达时间,威胁等级,有效辐射频率,国家/地区,敌我属性,雷达用途,雷达名称,
+	stEsmStatus.dThreatLevel = 3;
+	stEsmStatus.lSignalReachTime = 1500;
+	stEsmStatus.dERPower = 10;
+	strcpy(stEsmStatus.cCountry,_T("中国"));
+	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
+	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
+//10.13 载频信息，脉冲幅度，仰角，脉冲特征
+	stEsmStatus.dZaiPin = 8.5;
+	stEsmStatus.dPulseExtent = 2.7;
+	stEsmStatus.dElevationAngle = 40.3;
+	stEsmStatus.dMaiChongFeature = 2.9;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
    	stEsmStatus.lTargetNumber = 3005;
@@ -486,10 +553,27 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F120")); 
 	stEsmStatus.dConfidence = (float)0.3;
 	stEsmStatus.cJfFlag = 0;
+//10.13	//载频//脉宽//天线扫描
+	stEsmStatus.dChongPin = 3;
+	stEsmStatus.dMaiKuan = 4;
+    stEsmStatus.dTianXianScan = 4;
 	strcpy(stEsmStatus.cPlatName,_T("舰艇"));       //平台名称
 	strcpy(stEsmStatus.cPlatNumber,_T("54"));   //平台编号
     strcpy(stEsmStatus.cEquipmentNumber,_T("005")); //设备编号
 	strcpy(stEsmStatus.cEquipmentType,_T("ESM")); //设备类型
+// 10.13信号到达时间,威胁等级,有效辐射频率,国家/地区,敌我属性,雷达用途,雷达名称,
+	stEsmStatus.dThreatLevel = 4;
+	stEsmStatus.lSignalReachTime = 1500;
+	stEsmStatus.dERPower = 15;
+	strcpy(stEsmStatus.cCountry,_T("中国"));
+	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
+	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
+//10.13 载频信息，脉冲幅度，仰角，脉冲特征
+	stEsmStatus.dZaiPin = 7.8;
+	stEsmStatus.dPulseExtent = 1.8;
+	stEsmStatus.dElevationAngle = 38.3;
+	stEsmStatus.dMaiChongFeature = 4.0;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
    	stEsmStatus.lTargetNumber = 3006;
@@ -498,10 +582,27 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.5;
 	stEsmStatus.cJfFlag = 0;
+//10.13	//载频//脉宽//天线扫描
+	stEsmStatus.dChongPin = 5;
+	stEsmStatus.dMaiKuan = 4;
+    stEsmStatus.dTianXianScan = 6;
 	strcpy(stEsmStatus.cPlatName,_T("导弹"));       //平台名称
 	strcpy(stEsmStatus.cPlatNumber,_T("55"));   //平台编号
     strcpy(stEsmStatus.cEquipmentNumber,_T("006")); //设备编号
 	strcpy(stEsmStatus.cEquipmentType,_T("ESM")); //设备类型
+//10.13 信号到达时间,威胁等级,有效辐射频率,国家/地区,敌我属性,雷达用途,雷达名称,
+	stEsmStatus.dThreatLevel = 5;
+	stEsmStatus.lSignalReachTime = 1500;
+	stEsmStatus.dERPower = 13;
+	strcpy(stEsmStatus.cCountry,_T("中国"));
+	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
+	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
+//10.13 载频信息，脉冲幅度，仰角，脉冲特征
+	stEsmStatus.dZaiPin = 5.5;
+	stEsmStatus.dPulseExtent = 3.5;
+	stEsmStatus.dElevationAngle = 38.3;
+	stEsmStatus.dMaiChongFeature = 3.0;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
 //COM	
@@ -511,10 +612,21 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stComStatus.sPlatType,_T("F117")); 
 	stComStatus.dConfidence = (float)0.5;
 	stComStatus.cJfFlag = 0;
+//10.13载频,脉冲幅度
+	stComStatus.dComZaiPin = 3.5;
+	stComStatus.dPulseExtent = 2.0;
 	strcpy(stComStatus.cPlatName,_T("舰艇"));       //平台名称
 	strcpy(stComStatus.cPlatNumber,_T("50"));   //平台编号
     strcpy(stComStatus.cEquipmentNumber,_T("001")); //设备编号
 	strcpy(stComStatus.cEquipmentType,_T("COM")); //设备类型
+//10.13信号到达时间,信号类型,调制样式,敌我属性,国家/地区
+	stComStatus.lSignalReachTime = 1500;
+	strcpy(stComStatus.cSignalType,_T(" 脉冲信号"));
+	strcpy(stComStatus.cModulationStyle ,_T("A样式")); 
+	strcpy(stComStatus.cDWAttribute ,_T("我方")); 
+	strcpy(stComStatus.cCountry  ,_T("中国")); 
+
+
 	theApp.m_Comm_Dat.push_back(stComStatus);
 	
 	stComStatus.lTargetNumber = 4002;
@@ -523,10 +635,20 @@ void CCommandPlatApp::OnStartJq()
     strcpy(stComStatus.sPlatType,_T("F119")); 
 	stComStatus.dConfidence = (float)0.6;
 	stEsmStatus.cJfFlag = 0;
+//10.13载频,脉冲幅度
+	stComStatus.dComZaiPin = 4.0;
+	stComStatus.dPulseExtent = 2.0;
 	strcpy(stComStatus.cPlatName,_T("飞机"));       //平台名称
 	strcpy(stComStatus.cPlatNumber,_T("51"));   //平台编号
     strcpy(stComStatus.cEquipmentNumber,_T("002")); //设备编号
 	strcpy(stComStatus.cEquipmentType,_T("COM")); //设备类型
+	//10.13信号到达时间,信号类型,调制样式,敌我属性,国家/地区
+	stComStatus.lSignalReachTime = 1500;
+	strcpy(stComStatus.cSignalType,_T(" 脉冲信号"));
+	strcpy(stComStatus.cModulationStyle ,_T("B样式")); 
+	strcpy(stComStatus.cDWAttribute ,_T("我方")); 
+	strcpy(stComStatus.cCountry  ,_T("中国")); 
+
 	theApp.m_Comm_Dat.push_back(stComStatus);
 	
 	stComStatus.lTargetNumber = 4003;
@@ -535,10 +657,21 @@ void CCommandPlatApp::OnStartJq()
     strcpy(stComStatus.sPlatType,_T("F119")); 
 	stComStatus.dConfidence = (float)0.3;
 	stEsmStatus.cJfFlag = 0;
+//10.13载频,脉冲幅度
+	stComStatus.dComZaiPin = 3.5;
+	stComStatus.dPulseExtent = 3.0;
 	strcpy(stComStatus.cPlatName,_T("导弹"));       //平台名称
 	strcpy(stComStatus.cPlatNumber,_T("52"));   //平台编号
     strcpy(stComStatus.cEquipmentNumber,_T("003")); //设备编号
 	strcpy(stComStatus.cEquipmentType,_T("COM")); //设备类型
+	//10.13信号到达时间,信号类型,调制样式,敌我属性,国家/地区
+	stComStatus.lSignalReachTime = 1500;
+	strcpy(stComStatus.cSignalType,_T(" 脉冲信号"));
+	strcpy(stComStatus.cModulationStyle ,_T("C样式")); 
+	strcpy(stComStatus.cDWAttribute ,_T("我方")); 
+	strcpy(stComStatus.cCountry  ,_T("中国")); 
+
+
 	theApp.m_Comm_Dat.push_back(stComStatus);
 
 //TRACK	
