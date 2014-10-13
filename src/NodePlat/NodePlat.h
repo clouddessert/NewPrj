@@ -42,8 +42,6 @@ public:
 	VCT_TRACE_MSG m_Trace_Dat;
 	VCT_SHIP_POSITION m_Ship_Position;
 
-	//本舰编号
-	int m_ThisNumber;
 
 	//输入结构体
 	ALL_MSG_INPUT m_RecvMsg;
@@ -63,10 +61,12 @@ public:
 	SendRequest_Msg m_StReceiveRequest;       //接收请求的结构体
 
 	SendBack_Msg m_SendBackMsg;               //发送返回信息
-	SendBack_Msg m_ReceiveBackMsg;               //接收返回信息
+	SendBack_Msg m_ReceiveBackMsg;            //接收返回信息
 
-	
-	map<int, CString> IpMap;                //存放所有邻舰IP地址
+
+	int m_ThisNumber;	                     //本舰编号
+	map<int, CString> IpMap;                 //存放所有邻舰IP地址
+	map<int, CString> SendToIpMap;           //存放协同邻舰IP地址（舰编号，IP地址）
 	
 	//消息类型
 	unsigned char cMsgType;	//5 所有信息请求，Track,Esm,Com

@@ -23,6 +23,7 @@ public:
 	void OnReceiveMsg();
 	void SendCoopReq(CSocket* pThis);
 	void ReceiveData(CSocket* pThis);
+	void SendMsg(map<int, CString> SendToIpMap);
 
 // Overrides
 	// ClassWizard generated virtual function overrides
