@@ -550,7 +550,7 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis)
 
 	ProtcolHeader stHeader;                  //报头信息
 	//判断返回信息不为空,进行发送
-	if ( (stSendBackMsg.BackTraceN + stSendBackMsg.BackESMN +stSendBackMsg.BackESMN) != 0)
+	if ( (stSendBackMsg.BackTraceN + stSendBackMsg.BackESMN +stSendBackMsg.BackCOMN) != 0)
     {
 		//准备完成，发送数据返回
 		stHeader.nMsgType = 12;

@@ -712,7 +712,7 @@ void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 	VCT_UNINUM_MSG::iterator iteUnin;
 	//有航迹 两个容器（Esm,Com）的迭代器
 	VCT_ESM_MSG::iterator iteUninEs;
-//	VCT_ESM_MSG::iterator iteUninEs1;
+	VCT_ESM_MSG::iterator iteUninEs1;
 	VCT_COMM_MSG::iterator iteUninCo;
 	VCT_COMM_MSG::iterator iteUninCo1;
 	
@@ -795,9 +795,9 @@ void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 						//将找到的ESM与同一综合批号下的COM信息存入vctBackCooperative容器中
 						stBackMsg.lAutonum = iteRequestMsg->lAutonum;  //将请求信息的综合批号记录在返回信息中
 						//存ESM信息
-						for ( iteUninEs = iteUnin->vctEsm.begin();iteUninEs !=iteUnin->vctEsm.end(); iteUninEs++)
+						for ( iteUninEs1 = iteUnin->vctEsm.begin();iteUninEs1 !=iteUnin->vctEsm.end(); iteUninEs1++)
 						{
-							stBackMsg.vctEsm.push_back(*iteUninEs);
+							stBackMsg.vctEsm.push_back(*iteUninEs1);
 						}
 						//存被请求协同舰的经纬高
 						memcpy(&stBackMsg.stBackShipPosi,&stSelfPosi,sizeof(stBackMsg.stBackShipPosi));  //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
@@ -835,78 +835,83 @@ void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 	
 	if (iteRequestMsg->nCorrFlag == 0) //请求信息ESM 在有聚类表中的有ESM 信息的结构体中未找到相关信息，那么在聚类表中结构体中的COM 中比较查找
 	{
-		for ( re_iteCo = iteRequestMsg->vctComm.begin(); re_iteCo != iteRequestMsg->vctComm.end(); re_iteCo++) 
-		{     //在有航迹的聚类表中查找 
-			for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
-			{ 
-				//判断聚类信息中iteUnin中是否有Com信息
-				if (iteUnin->vctComm.size() !=0 ) //聚类信息表中有COM信息
-				{
-					for (iteUninCo = iteUnin->vctComm.begin(); iteUninCo != iteUnin->vctComm.end(); iteUninCo++)
+		if (  iteRequestMsg->vctComm.size() !=0 )
+		{
+			for ( re_iteCo = iteRequestMsg->vctComm.begin(); re_iteCo != iteRequestMsg->vctComm.end(); re_iteCo++) 
+			{     //在有航迹的聚类表中查找 
+				for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
+				{ 
+					//判断聚类信息中iteUnin中是否有Com信息
+					if (iteUnin->vctComm.size() !=0 ) //聚类信息表中有COM信息
 					{
-						double SumCorr = 0.0;
-						Mf_SPA(iteUninCo->dComZaiPin,re_iteCo->dComZaiPin,dcorrComZaiPin); //载频
-						VctCorr.push_back(dcorrComZaiPin);
-						Mf_SPA(iteUninCo->dPulseExtent,re_iteCo->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
-						VctCorr.push_back(dcorrdPulseExtent);
-						//0909修改:增加COM的集对分析数据:  带宽和跳频次数	 
-						Mf_SPA(iteUninCo->dComBand,re_iteCo->dComBand,dcorrBand);//带宽
-						VctCorr.push_back(dcorrBand);
-						Mf_SPA(iteUninCo->dComJPN,re_iteCo->dComJPN,dcorrJPN);//跳频次数
-						VctCorr.push_back(dcorrJPN);
-						//对相关系数容器处理，取容器中数据的平均值
-						for (iteCorr = VctCorr.begin(); iteCorr != VctCorr.end(); iteCorr++)
+						for (iteUninCo = iteUnin->vctComm.begin(); iteUninCo != iteUnin->vctComm.end(); iteUninCo++)
 						{
-							SumCorr = SumCorr + *iteCorr;  
-						}
-						dAverCorr = SumCorr/VctCorr.size();  //取相关系数的平均值
-						//下次存放集对系数前先清空VctCorr容器
-						VctCorr.clear();
-						//与阈值比较（设定阈值，相关系数大于某阈值时，认为COM是可以关联的）
-						if (dAverCorr > 0.8) 
-						{ //COM信息可以关联，将信息放入vctBackCooperative返回信息容器中
-							stBackMsg.lAutonum = iteRequestMsg->lAutonum;  //将请求信息的综合批号记录在返回信息中
-							//存COM
-							for (iteUninCo1 = iteUnin->vctComm.begin();iteUninCo1 !=iteUnin->vctComm.end(); iteUninCo1++)
+							double SumCorr = 0.0;
+							Mf_SPA(iteUninCo->dComZaiPin,re_iteCo->dComZaiPin,dcorrComZaiPin); //载频
+							VctCorr.push_back(dcorrComZaiPin);
+							Mf_SPA(iteUninCo->dPulseExtent,re_iteCo->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
+							VctCorr.push_back(dcorrdPulseExtent);
+							//0909修改:增加COM的集对分析数据:  带宽和跳频次数	 
+							Mf_SPA(iteUninCo->dComBand,re_iteCo->dComBand,dcorrBand);//带宽
+							VctCorr.push_back(dcorrBand);
+							Mf_SPA(iteUninCo->dComJPN,re_iteCo->dComJPN,dcorrJPN);//跳频次数
+							VctCorr.push_back(dcorrJPN);
+							//对相关系数容器处理，取容器中数据的平均值
+							for (iteCorr = VctCorr.begin(); iteCorr != VctCorr.end(); iteCorr++)
 							{
-								stBackMsg.vctComm.push_back(*iteUninCo1);
+								SumCorr = SumCorr + *iteCorr;  
 							}
-							//存ESM
-							if (iteUnin->vctEsm.size() != 0 )
-							{
-								for ( iteUninEs = iteUnin->vctEsm.begin();iteUninEs !=iteUnin->vctEsm.end(); iteUninEs++)
+							dAverCorr = SumCorr/VctCorr.size();  //取相关系数的平均值
+							//下次存放集对系数前先清空VctCorr容器
+							VctCorr.clear();
+							//与阈值比较（设定阈值，相关系数大于某阈值时，认为COM是可以关联的）
+							if (dAverCorr > 0.8) 
+							{ //COM信息可以关联，将信息放入vctBackCooperative返回信息容器中
+								stBackMsg.lAutonum = iteRequestMsg->lAutonum;  //将请求信息的综合批号记录在返回信息中
+								//存COM
+								for (iteUninCo1 = iteUnin->vctComm.begin();iteUninCo1 !=iteUnin->vctComm.end(); iteUninCo1++)
 								{
-									stBackMsg.vctEsm.push_back(*iteUninEs);
+									stBackMsg.vctComm.push_back(*iteUninCo1);
 								}
-							}
-							//存被请求协同舰的经纬高
-							memcpy(&stBackMsg.stBackShipPosi,&stSelfPosi,sizeof(stBackMsg.stBackShipPosi));  //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
-							//存航迹信息
-							memcpy(&stBackMsg.stTrace,&iteUnin->structTrace,sizeof(stBackMsg.stTrace));	
-							//	memcpy(&sttCom,&iteCo,sizeof(sttCom));	
-							//									stBackMsg.lAutonum = iteCo->lTargetNumber;
-							//									stBackMsg.vctComm.push_back(sttCom);
-							
-							stBackMsg.BackTrackN = 1;
-							stBackMsg.BackESMN = stBackMsg.vctEsm.size();
-							stBackMsg.BackCOMN = stBackMsg.vctComm.size();
-							vctBackCooperative.push_back(stBackMsg);
-							iteRequestMsg->nCorrFlag = 1;
-							break; //找到，跳出循环
-						}//if
-					}//for iteUninCo
-				}// if 聚类表中iteUnin所代表的结构体中有COM信息
-				
-				if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束iteUnin的循环。
+								//存ESM
+								if (iteUnin->vctEsm.size() != 0 )
+								{
+									for ( iteUninEs = iteUnin->vctEsm.begin();iteUninEs !=iteUnin->vctEsm.end(); iteUninEs++)
+									{
+										stBackMsg.vctEsm.push_back(*iteUninEs);
+									}
+								}
+								//存被请求协同舰的经纬高
+								memcpy(&stBackMsg.stBackShipPosi,&stSelfPosi,sizeof(stBackMsg.stBackShipPosi));  //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
+								//存航迹信息
+								memcpy(&stBackMsg.stTrace,&iteUnin->structTrace,sizeof(stBackMsg.stTrace));	
+								//	memcpy(&sttCom,&iteCo,sizeof(sttCom));	
+								//									stBackMsg.lAutonum = iteCo->lTargetNumber;
+								//									stBackMsg.vctComm.push_back(sttCom);
+								
+								stBackMsg.BackTrackN = 1;
+								stBackMsg.BackESMN = stBackMsg.vctEsm.size();
+								stBackMsg.BackCOMN = stBackMsg.vctComm.size();
+								vctBackCooperative.push_back(stBackMsg);
+								iteRequestMsg->nCorrFlag = 1;
+								break; //找到，跳出循环
+							}//if
+						}//for iteUninCo
+					}// if 聚类表中iteUnin所代表的结构体中有COM信息
+					
+					if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束iteUnin的循环。
+					{
+						break;
+					}
+				}// for iteUnin
+				if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束re_iteCo 的循环。
 				{
 					break;
-				}
-			}// for iteUnin
-			if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束re_iteCo 的循环。
-			{
-				break;
-			} //否则，用请求信息中vctCom中的下一条Com与聚类表中的Com比较
-		}//for re_iteCo
+				} //否则，用请求信息中vctCom中的下一条Com与聚类表中的Com比较
+			}//for re_iteCo
+		 
+		}//if 请求信息有COM信息
+
 	}// if 在聚类表中的结构体中有COM信息
 	
 	
@@ -975,68 +980,78 @@ void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 	}// if iteRequestMsg->nCorrFlag == 0 
 	
 	if (iteRequestMsg->nCorrFlag == 0) //请求信息ESM 在无航迹的聚类表中ESM 信息的结构体中未找到相关信息，那么在无航迹的聚类表中结构体中的COM 中比较查找
-	{
-	   for ( re_iteCo = iteRequestMsg->vctComm.begin(); re_iteCo != iteRequestMsg->vctComm.end(); re_iteCo++) 
-		{     //在无航迹的聚类表中查找 
-			for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
-			{ 
-				for (iteUninCo = iteUnin->vctComm.begin(); iteUninCo != iteUnin->vctComm.end(); iteUninCo++)
-				{
-					double SumCorr = 0.0;
-					Mf_SPA(iteUninCo->dComZaiPin,re_iteCo->dComZaiPin,dcorrComZaiPin); //载频
-					VctCorr.push_back(dcorrComZaiPin);
-					Mf_SPA(iteUninCo->dPulseExtent,re_iteCo->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
-					VctCorr.push_back(dcorrdPulseExtent);
-					//0909修改:增加COM的集对分析数据:  带宽和跳频次数	 
-					Mf_SPA(iteUninCo->dComBand,re_iteCo->dComBand,dcorrBand);//带宽
-					VctCorr.push_back(dcorrBand);
-					Mf_SPA(iteUninCo->dComJPN,re_iteCo->dComJPN,dcorrJPN);//跳频次数
-					VctCorr.push_back(dcorrJPN);
-					//对相关系数容器处理，取容器中数据的平均值
-					for (iteCorr = VctCorr.begin(); iteCorr != VctCorr.end(); iteCorr++)
+	{ 
+		if (  iteRequestMsg->vctComm.size() != 0 )
+		{
+			for ( re_iteCo = iteRequestMsg->vctComm.begin(); re_iteCo != iteRequestMsg->vctComm.end(); re_iteCo++) 
+			{     //在无航迹的聚类表中查找 
+				for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
+				{ 
+					if ( iteUnin->vctComm.size() != 0)
 					{
-						SumCorr = SumCorr + *iteCorr;  
+						for (iteUninCo = iteUnin->vctComm.begin(); iteUninCo != iteUnin->vctComm.end(); iteUninCo++)
+						{
+							double SumCorr = 0.0;
+							Mf_SPA(iteUninCo->dComZaiPin,re_iteCo->dComZaiPin,dcorrComZaiPin); //载频
+							VctCorr.push_back(dcorrComZaiPin);
+							Mf_SPA(iteUninCo->dPulseExtent,re_iteCo->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
+							VctCorr.push_back(dcorrdPulseExtent);
+							//0909修改:增加COM的集对分析数据:  带宽和跳频次数	 
+							Mf_SPA(iteUninCo->dComBand,re_iteCo->dComBand,dcorrBand);//带宽
+							VctCorr.push_back(dcorrBand);
+							Mf_SPA(iteUninCo->dComJPN,re_iteCo->dComJPN,dcorrJPN);//跳频次数
+							VctCorr.push_back(dcorrJPN);
+							//对相关系数容器处理，取容器中数据的平均值
+							for (iteCorr = VctCorr.begin(); iteCorr != VctCorr.end(); iteCorr++)
+							{
+								SumCorr = SumCorr + *iteCorr;  
+							}
+							dAverCorr = SumCorr/VctCorr.size();  //取相关系数的平均值
+							//下次存放集对系数前先清空VctCorr容器
+							VctCorr.clear();
+							//与阈值比较（设定阈值，相关系数大于某阈值时，认为Com是可以关联的）
+							if (dAverCorr > 0.8) 
+							{ //Com信息可以关联，将信息放入vctBackCooperative返回信息容器中
+								//										   memcpy(&sttCom,&iteCo,sizeof(sttCom));	
+								//										   stBackMsg.lAutonum = iteCo->lTargetNumber;
+								//										   stBackMsg.vctComm.push_back(sttCom);
+								//将找到的ESM与同一综合批号下的COM信息存入vctBackCooperative容器中
+								stBackMsg.lAutonum = iteRequestMsg->lAutonum;  //将请求信息的综合批号记录在返回信息中
+								//存ESM信息
+								for ( iteNoTraceEs = iteNoTraceUnin->vctEsm.begin();iteNoTraceEs !=iteNoTraceUnin->vctEsm.end(); iteNoTraceEs++)
+								{
+									stBackMsg.vctEsm.push_back(*iteNoTraceEs);
+								}
+								//存COM 信息
+								for (iteNoTraceCo = iteNoTraceUnin->vctComm.begin();iteNoTraceCo !=iteNoTraceUnin->vctComm.end(); iteNoTraceCo++)
+								{
+									stBackMsg.vctComm.push_back(*iteNoTraceCo);
+								} 
+								stBackMsg.BackTrackN = 0;
+								stBackMsg.BackESMN = stBackMsg.vctEsm.size();
+								stBackMsg.BackCOMN = stBackMsg.vctComm.size();
+								vctBackCooperative.push_back(stBackMsg);
+								
+								iteRequestMsg->nCorrFlag = 1;
+								break; //找到，跳出循环
+							}//if
+						}//for iteUninCo
+
+					}// 无航迹聚类信息中有Com信息
+
+					if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束iteUnin的循环。
+					{
+						break;
 					}
-					dAverCorr = SumCorr/VctCorr.size();  //取相关系数的平均值
-					//下次存放集对系数前先清空VctCorr容器
-					VctCorr.clear();
-					//与阈值比较（设定阈值，相关系数大于某阈值时，认为Com是可以关联的）
-					if (dAverCorr > 0.8) 
-					{ //Com信息可以关联，将信息放入vctBackCooperative返回信息容器中
-						//										   memcpy(&sttCom,&iteCo,sizeof(sttCom));	
-						//										   stBackMsg.lAutonum = iteCo->lTargetNumber;
-						//										   stBackMsg.vctComm.push_back(sttCom);
-						//将找到的ESM与同一综合批号下的COM信息存入vctBackCooperative容器中
-						stBackMsg.lAutonum = iteRequestMsg->lAutonum;  //将请求信息的综合批号记录在返回信息中
-						//存ESM信息
-						for ( iteNoTraceEs = iteNoTraceUnin->vctEsm.begin();iteNoTraceEs !=iteNoTraceUnin->vctEsm.end(); iteNoTraceEs++)
-						{
-							stBackMsg.vctEsm.push_back(*iteNoTraceEs);
-						}
-						//存COM 信息
-						for (iteNoTraceCo = iteNoTraceUnin->vctComm.begin();iteNoTraceCo !=iteNoTraceUnin->vctComm.end(); iteNoTraceCo++)
-						{
-							stBackMsg.vctComm.push_back(*iteNoTraceCo);
-						} 
-						stBackMsg.BackTrackN = 0;
-						stBackMsg.BackESMN = stBackMsg.vctEsm.size();
-						stBackMsg.BackCOMN = stBackMsg.vctComm.size();
-						vctBackCooperative.push_back(stBackMsg);
-						
-						iteRequestMsg->nCorrFlag = 1;
-						break; //找到，跳出循环
-					}//if
-				}//for iteUninCo
-				if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束iteUnin的循环。
+				}// for iteUnin
+				if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束re_iteCo 的循环。
 				{
 					break;
-				}
-			}// for iteUnin
-			if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束re_iteCo 的循环。
-			{
-				break;
-			} //否则，用请求信息中vctCom中的下一条Com与聚类表中的Com比较
-		}//for re_iteCo
+				} //否则，用请求信息中vctCom中的下一条Com与聚类表中的Com比较
+			}//for re_iteCo
+
+		}// 请求信息中有COM信息
+
 	}// if 在聚类表中结构体中的COM 中比较查找
 	
 	
@@ -1080,49 +1095,53 @@ void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 				break;
 			}
 		}// for re_iteEs
-					   
-					   
-	    for ( re_iteCo = iteRequestMsg->vctComm.begin(); re_iteCo != iteRequestMsg->vctComm.end(); re_iteCo++) 
+		
+		//请求信息中有Comm信息
+		if ( iteRequestMsg->vctComm.size() != 0  )
 		{
-		   for (iteCo = stUniAll.vctSingleCom.begin(); iteCo != stUniAll.vctSingleCom.end(); iteCo++)
+			for ( re_iteCo = iteRequestMsg->vctComm.begin(); re_iteCo != iteRequestMsg->vctComm.end(); re_iteCo++) 
 			{
-			   double SumCorr = 0.0;
-			   Mf_SPA(iteCo->dComZaiPin,re_iteCo->dComZaiPin,dcorrComZaiPin); //载频
-			   VctCorr.push_back(dcorrComZaiPin);
-			   Mf_SPA(iteCo->dPulseExtent,re_iteCo->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
-			   VctCorr.push_back(dcorrdPulseExtent);
-			   //0909修改:增加COM的集对分析数据:  带宽和跳频次数	 
-			   Mf_SPA(iteCo->dComBand,re_iteCo->dComBand,dcorrBand);//带宽
-			   VctCorr.push_back(dcorrBand);
-			   Mf_SPA(iteCo->dComJPN,re_iteCo->dComJPN,dcorrJPN);//跳频次数
-			   VctCorr.push_back(dcorrJPN);
-			   //对相关系数容器处理，取容器中数据的平均值
-			   for (iteCorr = VctCorr.begin(); iteCorr != VctCorr.end(); iteCorr++)
-			   {
-				   SumCorr = SumCorr + *iteCorr;  
-			   }
-			   dAverCorr = SumCorr/VctCorr.size();  //取相关系数的平均值
-			   //下次存放集对系数前先清空VctCorr容器
-			   VctCorr.clear();
-			   //与阈值比较（设定阈值，相关系数大于某阈值时，认为Com是可以关联的）
-			   if (dAverCorr > 0.8) 
-			   { //Com信息可以关联，将信息放入vctBackCooperative返回信息容器中
-				   memcpy(&sttCom,&(*iteCo),sizeof(sttCom));	
-				   stBackMsg.lAutonum = iteCo->lTargetNumber;
-				   stBackMsg.vctComm.push_back(sttCom);
-				   
-				   stBackMsg.BackCOMN = 1;
-				   
-				   vctBackCooperative.push_back(stBackMsg);
-				   iteRequestMsg->nCorrFlag = 1;
-				   break; //找到，跳出循环
-			   }//if     
-		   }//for iteEs  
-		   if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束re_iteCo 的循环。
-		   {
-			   break;
-		   }
-		}// for re_iteCo				   
+				for (iteCo = stUniAll.vctSingleCom.begin(); iteCo != stUniAll.vctSingleCom.end(); iteCo++)
+				{
+					double SumCorr = 0.0;
+					Mf_SPA(iteCo->dComZaiPin,re_iteCo->dComZaiPin,dcorrComZaiPin); //载频
+					VctCorr.push_back(dcorrComZaiPin);
+					Mf_SPA(iteCo->dPulseExtent,re_iteCo->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
+					VctCorr.push_back(dcorrdPulseExtent);
+					//0909修改:增加COM的集对分析数据:  带宽和跳频次数	 
+					Mf_SPA(iteCo->dComBand,re_iteCo->dComBand,dcorrBand);//带宽
+					VctCorr.push_back(dcorrBand);
+					Mf_SPA(iteCo->dComJPN,re_iteCo->dComJPN,dcorrJPN);//跳频次数
+					VctCorr.push_back(dcorrJPN);
+					//对相关系数容器处理，取容器中数据的平均值
+					for (iteCorr = VctCorr.begin(); iteCorr != VctCorr.end(); iteCorr++)
+					{
+						SumCorr = SumCorr + *iteCorr;  
+					}
+					dAverCorr = SumCorr/VctCorr.size();  //取相关系数的平均值
+					//下次存放集对系数前先清空VctCorr容器
+					VctCorr.clear();
+					//与阈值比较（设定阈值，相关系数大于某阈值时，认为Com是可以关联的）
+					if (dAverCorr > 0.8) 
+					{ //Com信息可以关联，将信息放入vctBackCooperative返回信息容器中
+						memcpy(&sttCom,&(*iteCo),sizeof(sttCom));	
+						stBackMsg.lAutonum = iteCo->lTargetNumber;
+						stBackMsg.vctComm.push_back(sttCom);
+						
+						stBackMsg.BackCOMN = 1;
+						
+						vctBackCooperative.push_back(stBackMsg);
+						iteRequestMsg->nCorrFlag = 1;
+						break; //找到，跳出循环
+					}//if     
+				}//for iteEs  
+				if (iteRequestMsg->nCorrFlag == 1) //标志位1，代表有找到相关信息，则结束re_iteCo 的循环。
+				{
+					break;
+				}
+			}// for re_iteCo
+		}
+								   
 	}// if iteRequestMsg->nCorrFlag == 0
 	
 }//void ReqNoTraceUnin_COOP_Find_Information_To_MainShip()结束
