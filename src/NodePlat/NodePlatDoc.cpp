@@ -585,7 +585,7 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 			{
 				stEsm.lTargetNumber = iteBack->lEsmTargetNumber[i];
 				stEsm.dZaiPin = iteBack->dEsmZaiPin[i];
-				stEsm.dMaiKuan = iteBack->dEsmZaiPin[i];
+				stEsm.dMaiKuan = iteBack->dEsmMaiKuan[i];
 				stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
 				//stEsm.sPlatType = iteBack->sEsmPlatType[i];
 				for ( int k = 0; k<32; k++)
@@ -1014,7 +1014,7 @@ void CNodePlatDoc::OnSendToMateall()
 						{
 							stEsm.lTargetNumber = iteBack->lEsmTargetNumber[i];
 							stEsm.dZaiPin = iteBack->dEsmZaiPin[i];
-							stEsm.dMaiKuan = iteBack->dEsmZaiPin[i];
+							stEsm.dMaiKuan = iteBack->dEsmMaiKuan[i];
 							stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
 							//stEsm.sPlatType = iteBack->sEsmPlatType[i];
 							for ( int k = 0; k<32; k++)

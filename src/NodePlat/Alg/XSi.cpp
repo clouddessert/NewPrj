@@ -1643,7 +1643,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
     {
 		stEsm.lTargetNumber = stSendRequest.lEsmTargetNumber[i];
 		stEsm.dZaiPin = stSendRequest.dEsmZaiPin[i];
-		stEsm.dMaiKuan = stSendRequest.dEsmZaiPin[i];
+		stEsm.dMaiKuan = stSendRequest.dEsmMaiKuan[i];
 		stEsm.dTianXianScan = stSendRequest.dEsmTianXianScan[i];
 		stReqCooperMsg.vctEsm.push_back(stEsm);
     }

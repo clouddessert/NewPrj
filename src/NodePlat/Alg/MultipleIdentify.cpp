@@ -96,7 +96,7 @@ void Coefficient(double *con, VCT_COOPER_MSG::iterator ite_CooperMsg, VCT_sPlatT
 	int j = 0;
 	double dcorrAz = 0.0;
 	double dMaxCorr = 0.0;
-	double dcorrChongPin = 0.0;  //重频
+	double dcorrZaiPin = 0.0;  //重频
     double dcorrMaiKuan = 0.0;   //脉宽
 	double dcorrTianXianScan = 0.0;  //天线扫描周期
 	double dcorrComZaiPin = 0.0;   // 载频
@@ -209,10 +209,10 @@ void Coefficient(double *con, VCT_COOPER_MSG::iterator ite_CooperMsg, VCT_sPlatT
 					{   //找出识别该平台类型的Esm信息
 						if (0 == strcmp(ite_EsmM->sPlatType, *ite_PlatType))
 						{
-							Mf_SPA(ite_EsmM->dChongPin, ite_EsmMsg->dChongPin,dcorrChongPin); //频率
+							Mf_SPA(ite_EsmM->dZaiPin, ite_EsmMsg->dZaiPin,dcorrZaiPin); //频率
 							Mf_SPA(ite_EsmM->dMaiKuan,ite_EsmMsg->dMaiKuan,dcorrMaiKuan); //脉宽
 							Mf_SPA(ite_EsmM->dTianXianScan,ite_EsmMsg->dTianXianScan,dcorrTianXianScan); //天线扫描周期
-							dAverCorr = ( dcorrChongPin + dcorrMaiKuan +dcorrTianXianScan )/3;
+							dAverCorr = ( dcorrZaiPin + dcorrMaiKuan +dcorrTianXianScan )/3;
 							vctCorr.push_back(dAverCorr);
 						}
 					}// for
@@ -601,22 +601,14 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 		VCT_sPlatType testVctPlatType;
 		VCT_sPlatType::iterator iteCPType3test;
 		testVctPlatType.clear();
-		 		for ( iteCPType3test = vctPlatType.begin(); iteCPType3test != vctPlatType.end(); iteCPType3test++ )
-		 		{
-		// 		 	int p = 1;
-		 			testVctPlatType.push_back(*iteCPType3test);  	
-         		}
-
-
+		for ( iteCPType3test = vctPlatType.begin(); iteCPType3test != vctPlatType.end(); iteCPType3test++ )
+		{
+		 	testVctPlatType.push_back(*iteCPType3test);  	
+        }
 		//10.10
 		iteCoMessage = iteCoorMsg;
-//		NumType = testVctPlatType.size();  //识别类型数
-
 		NumMsg = iteCoMessage->vctComm.size() + iteCoMessage->vctEsm.size() + iteCoMessage->vctTrace.size();//发射源证据数
-//		NumMsg = iteCoMessage->nTraceN + iteCoMessage->nEsmN + iteCoMessage->nComN;//发射源证据数
 		vctcon.clear(); //清空关系矩阵存储容器
-//		copy(vctPlatType.begin(),vctPlatType.end(),testVctPlatType.begin());  //将v1复制到v2
-
 		Coefficient(con, iteCoMessage, testVctPlatType);//关系矩阵
 		for (i = 0; i < NumType; i++)
 		{
