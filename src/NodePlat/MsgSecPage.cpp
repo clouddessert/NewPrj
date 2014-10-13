@@ -173,22 +173,31 @@ LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)
 			fTmp = pComm_Dat->dReachAzimuth;//方位
 			strTmp.Format("%.4f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 7, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fLati;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 5, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fHeight;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 6, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fSpeed;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 7, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fAngle;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 8, strTmp);
+
+			fTmp = pComm_Dat->dComZaiPin;  //载频
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 8, strTmp);
+			
+			fTmp = pComm_Dat->lSignalReachTime;//信号到达时间
+			strTmp.Format("%d",(int)fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 9, strTmp);
+			
+			fTmp = pComm_Dat->dPulseExtent;  //脉冲幅度
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 10, strTmp);
+			
+			strTmp.Format("%s",pComm_Dat->cSignalType); //信号类型
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 11, strTmp);
+			
+			strTmp.Format("%s",pComm_Dat->cModulationStyle); //调制样式
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 12, strTmp);
+			
+			strTmp.Format("%s",pComm_Dat->cDWAttribute); //敌我属性
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 13, strTmp);
+			
+			strTmp.Format("%s",pComm_Dat->cCountry); //国家/地区
+			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 14, strTmp);
+
 		}
 		((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetRedraw();//启动
 	}

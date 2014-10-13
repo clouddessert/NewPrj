@@ -210,21 +210,57 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 			strTmp.Format("%.4f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 7, strTmp);
 			
-	// 		fTmp = m_pTmpTrackIter->second.fLati;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 5, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fHeight;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 6, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fSpeed;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 7, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fAngle;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 8, strTmp);
+			fTmp = pESM_Dat->dZaiPin; //载频
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 8, strTmp);
+			
+			fTmp = pESM_Dat->dChongPin; //重频
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 9, strTmp);
+			
+			fTmp = pESM_Dat->dMaiKuan; //脉宽
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 10, strTmp);
+			
+			fTmp = pESM_Dat->lSignalReachTime;//信号到达时间
+			strTmp.Format("%d",(int)fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 11, strTmp);
+			
+			fTmp = pESM_Dat->dPulseExtent;//脉冲幅度
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 12, strTmp);
+			
+			fTmp = pESM_Dat->dElevationAngle;//仰角
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 13, strTmp);
+			
+			fTmp = pESM_Dat->dTianXianScan; //天线扫描周期
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 14, strTmp);
+			
+			fTmp = pESM_Dat->dMaiChongFeature;//脉冲特征
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 15, strTmp);
+			
+			strTmp.Format("%s",pESM_Dat->cRadarPurpose);//雷达用途
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 16, strTmp);
+			
+			strTmp.Format("%s",pESM_Dat->cRadarName);//雷达名称
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 17, strTmp);
+			
+			fTmp = pESM_Dat->dThreatLevel; //威胁等级
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 18, strTmp);
+			
+			fTmp = pESM_Dat->dERPower; //有效辐射功率
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 19, strTmp);
+			
+			strTmp.Format("%s",pESM_Dat->cDWAttribute);//敌我属性
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 20, strTmp);
+			
+			strTmp.Format("%s",pESM_Dat->cCountry);//国家/地区
+			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 21, strTmp);
 		}
 		((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetRedraw();//启动
 	}

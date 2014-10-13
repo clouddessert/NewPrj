@@ -50,7 +50,7 @@ typedef struct __ESMSTATUS_MARK
 	 char sPlatType[32];  
 	 char cPlatName[32];                 //平台名称  飞机 导弹 轰炸机 战斗机
 
-	 char cDWAttribute;                  //敌我属性
+	 char cDWAttribute[32];                  //敌我属性
 	 double dConfidence;                 //可信度
      char cCountry[32];                  //国家（地区）
 
@@ -88,7 +88,7 @@ typedef struct __COMSTATUS_MARK           //通信侦查信息
 	char cModulationStyle[32];            //调制样式     
     char sPlatType[32];                   //平台类型  F117  (F117； F118； F119； F120； F121)
 	char cPlatName[32];			          //平台名称    
-	char cDWAttribute;					  //敌我属性
+	char cDWAttribute[32];					  //敌我属性
 	double dConfidence;  			      //可信度
     char cCountry[32];			          //国家（地区）
 	char cJfFlag;
