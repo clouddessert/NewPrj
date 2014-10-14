@@ -493,7 +493,7 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 					theApp.m_StSendRequest.dEsmZaiPin[i] = iteYes->vctEsm.at(i).dZaiPin;//载频
 					theApp.m_StSendRequest.dEsmMaiKuan[i] = iteYes->vctEsm.at(i).dMaiKuan;////脉宽
 					theApp.m_StSendRequest.dEsmTianXianScan[i] = iteYes->vctEsm.at(i).dTianXianScan;//天线扫描信息
-					theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
+//					theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
 
 				}
 				for (i = 0; i < iteYes->vctComm.size();i++)//请求协同COMM信息
@@ -501,7 +501,7 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 					theApp.m_StSendRequest.lComTargetNumber[i] = iteYes->vctComm.at(i).lTargetNumber;//目标comm批号
 					theApp.m_StSendRequest.dComZaiPin[i] = iteYes->vctComm.at(i).dComZaiPin;//载频信息
 					theApp.m_StSendRequest.dComPulseExtent[i] = iteYes->vctComm.at(i).dPulseExtent;//脉冲幅度
-					theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
+//					theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
 
 				}
 				//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高
@@ -531,7 +531,7 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 					theApp.m_StSendRequest.dEsmZaiPin[i] = iteNo->vctEsm.at(i).dZaiPin;//载频
 					theApp.m_StSendRequest.dEsmMaiKuan[i] = iteNo->vctEsm.at(i).dMaiKuan;////脉宽
 					theApp.m_StSendRequest.dEsmTianXianScan[i] = iteNo->vctEsm.at(i).dTianXianScan;//天线扫描信息
-					theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
+//					theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
 
 				}
 				for (i = 0; i < iteNo->vctComm.size();i++)//请求协同COMM信息
@@ -542,7 +542,7 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 					theApp.m_StSendRequest.dComFre[i] = iteNo->vctComm.at(i).dComFre; // 中心频率(MHz)
 					theApp.m_StSendRequest.dComBand[i] = iteNo->vctComm.at(i).dComBand; // 信号带宽(MHz)
 					theApp.m_StSendRequest.dComJPN[i] = iteNo->vctComm.at(i).dComJPN; // 跳步次数    
-					theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
+//					theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
 
 				}
 				//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高
@@ -962,7 +962,7 @@ void CNodePlatDoc::OnSendToMateall()
 						theApp.m_StSendRequest.dEsmZaiPin[i] = iteNo->vctEsm.at(i).dZaiPin;//载频
 						theApp.m_StSendRequest.dEsmMaiKuan[i] = iteNo->vctEsm.at(i).dMaiKuan;////脉宽
 						theApp.m_StSendRequest.dEsmTianXianScan[i] = iteNo->vctEsm.at(i).dTianXianScan;//天线扫描信息
-						theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
+//						theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
 					}
 					for (i = 0; i < iteNo->vctComm.size();i++)//请求协同COMM信息
 					{
@@ -972,7 +972,7 @@ void CNodePlatDoc::OnSendToMateall()
 						theApp.m_StSendRequest.dComFre[i] = iteNo->vctComm.at(i).dComFre; // 中心频率(MHz)
 						theApp.m_StSendRequest.dComBand[i] = iteNo->vctComm.at(i).dComBand; // 信号带宽(MHz)
 						theApp.m_StSendRequest.dComJPN[i] = iteNo->vctComm.at(i).dComJPN; // 跳步次数
-						theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
+//						theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
 
 					}
 					//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高

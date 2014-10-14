@@ -1645,6 +1645,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 		stEsm.dZaiPin = stSendRequest.dEsmZaiPin[i];
 		stEsm.dMaiKuan = stSendRequest.dEsmMaiKuan[i];
 		stEsm.dTianXianScan = stSendRequest.dEsmTianXianScan[i];
+//		stEsm.dConfidence = stSendRequest.dEsmConfidence[i];
 		stReqCooperMsg.vctEsm.push_back(stEsm);
     }
 	for ( j=0; j< stSendRequest.nRequestComN; j++)
@@ -1655,6 +1656,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 		stCom.dComFre = stSendRequest.dComFre[j];
 		stCom.dComBand = stSendRequest.dComBand[j];
 		stCom.dComJPN = stSendRequest.dComJPN[j];
+	//	stCom.dConfidence = stSendRequest.dComConfidence[i];
 		stReqCooperMsg.vctComm.push_back(stCom);
 	}
 	//清空vctReqCoopMsg
@@ -1718,7 +1720,6 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 					stSendBackMsg.dEsmMaiKuan[i] = iteBackMsg->vctEsm.at(i).dMaiKuan;
 					stSendBackMsg.dEsmTianXianScan[i] = iteBackMsg->vctEsm.at(i).dTianXianScan;
 					stSendBackMsg.dEsmConfidence[i] = iteBackMsg->vctEsm.at(i).dConfidence;
-					//stSendBackMsg.sEsmPlatType[32][i] = iteBackMsg->vctEsm.at(i).sPlatType;
 					for ( int k = 0; k<32; k++)
 					{
 						stSendBackMsg.sEsmPlatType[i][k] = iteBackMsg->vctEsm.at(i).sPlatType[k];
@@ -1738,7 +1739,6 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 					stSendBackMsg.dComBand[i] = iteBackMsg->vctComm.at(i).dComBand;// 信号带宽(MHz)
 					stSendBackMsg.dComJPN[i] = iteBackMsg->vctComm.at(i).dComJPN; // 跳步次数
 					stSendBackMsg.dComConfidence[i] = iteBackMsg->vctComm.at(i).dConfidence;
-                    //stSendBackMsg.sComPlatType[32][i] = iteBackMsg->vctComm.at(i).sPlatType;
 					for ( int k = 0; k<32; k++)
 					{
 						stSendBackMsg.sComPlatType[i][k] = iteBackMsg->vctComm.at(i).sPlatType[k];	
