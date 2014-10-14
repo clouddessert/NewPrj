@@ -284,7 +284,7 @@ void Coefficient(double *con, VCT_COOPER_MSG::iterator ite_CooperMsg, VCT_sPlatT
 					
 					for ( ite_CommM = ite_CooperMsg->vctComm.begin(); ite_CommM != ite_CooperMsg->vctComm.end();ite_CommM++)
 					{   //找出识别该平台类型的Comm信息
-						if (0 == strcmp(*ite_PlatType, ite_EsmM->sPlatType))
+						if (0 == strcmp(*ite_PlatType, ite_CommM->sPlatType))
 						{
 							Mf_SPA(ite_CommM->dComZaiPin, ite_CommMsg->dComZaiPin,dcorrComZaiPin); //载频
 							Mf_SPA(ite_CommM->dPulseExtent,ite_CommMsg->dPulseExtent,dcorrPulseExtent); //脉冲幅度

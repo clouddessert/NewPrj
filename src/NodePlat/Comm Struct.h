@@ -50,7 +50,7 @@ typedef struct __ESMSTATUS_MARK
 	 char sPlatType[32];  
 	 char cPlatName[32];                 //平台名称  飞机 导弹 轰炸机 战斗机
 
-	 char cDWAttribute[32];                  //敌我属性
+	 char cDWAttribute[32];              //敌我属性
 	 double dConfidence;                 //可信度
      char cCountry[32];                  //国家（地区）
 

@@ -118,11 +118,13 @@ typedef struct __SendRequest_Msg     //ĞèÒª·¢ËÍµÄÇëÇóĞÅÏ¢£¬Ö÷½¢ÇëÇóĞ­Í¬µÄĞÅÏ¢Êı¾
 	double dEsmZaiPin[10];                     //ÔØÆµĞÅÏ¢½á¹¹..
 	double dEsmMaiKuan[10];                    //Âö¿íĞÅÏ¢½á¹¹..
 	double dEsmTianXianScan[10];               //ÌìÏßÉ¨ÃèĞÅÏ¢½á¹¹..
+	double dEsmConfidence[10];                 //¿ÉĞÅ¶È
 
 //COM
 	unsigned long lComTargetNumber[10];			//Ä¿±êCOMMÅúºÅ
     double dComZaiPin[10];                      //ÔØÆµĞÅÏ¢½á¹¹
 	double dComPulseExtent[10];                 //Âö³å·ù¶È 
+	double dComConfidence[10];
 //0909²¹³ä:
 	double dComFre[10];                       // ÖĞĞÄÆµÂÊ(MHz)
 	double dComBand[10];                      // ĞÅºÅ´ø¿í(MHz)
