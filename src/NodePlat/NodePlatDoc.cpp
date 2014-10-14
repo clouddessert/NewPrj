@@ -567,11 +567,15 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 			//发送请求
 			SendCoopReq(theApp.m_P2PClient);
 			//等待数据 
-			ReceiveData(theApp.m_P2PClient);
-			//关闭socket,等待重新使用!
-			theApp.m_P2PClient->ShutDown(2);
-			theApp.m_P2PClient->Close();								
-		}				
+			ReceiveData(theApp.m_P2PClient);							
+		}
+		else
+		{
+			//connect失败!
+		}
+		//关闭socket,等待重新使用!
+		theApp.m_P2PClient->ShutDown(2);
+		theApp.m_P2PClient->Close();	
 	}
 
 	//判断接收缓冲区vector是否为空
