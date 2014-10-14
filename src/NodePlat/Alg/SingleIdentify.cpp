@@ -424,6 +424,16 @@ void FirstClusterUni(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNIN
 // 			}
 // 		}
 // 	}
+
+	for (iteComm = AllMessage.stComm.begin(); iteComm != AllMessage.stComm.end(); iteComm++)//对未聚类的COMM信息进行处理
+	{
+		if (iteComm->cJfFlag == 0)
+		{
+			iteComm->lAutonum = 0;
+			SingleComm.push_back(*iteComm);//放入未聚类的单一COMM中存储
+		}
+	}
+
 }
 
 
