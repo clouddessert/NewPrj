@@ -161,7 +161,7 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetItemText(nTmp, 1, strTmp);
 			
 			fTmp = iterator->dConfidence;  //ÖÃÐÅ¶È
-			strTmp.Format("%.2f", fTmp);
+			strTmp.Format("%.4f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetItemText(nTmp, 2, strTmp);	
 		
 		}

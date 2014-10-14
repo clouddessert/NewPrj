@@ -516,6 +516,7 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 	VCT_CON vctcon;                 //关系矩阵存储容器
 	int NumType,NumMsg;             //合并信息的所有平台类型数，证据条数
 	int i;
+	double p = 1.0;
 	int tpflag;
 	int Seri[10]={0};
 	double con[50];
@@ -618,9 +619,33 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 		D_S(NumMsg, NumType, con, Seri, &CPdere);//DS证据识别
 
 		MidentStr.lAutonum = iteCoorMsg->lAutonum;
-		MidentStr.dConfidence = CPdere;
+		//MidentStr.dConfidence = CPdere;
         int b = Seri[0] -1;
 		MidentStr.sPlatType = vctPlatType[Seri[0]-1];
+		//P = 1 - (1 - p1)(1 - p2)(1 - p3)(1 - p4)(1 - p5)综合置信度
+		for (iteTrack = iteCoorMsg->vctTrace.begin(); iteTrack != iteCoorMsg->vctTrace.end(); iteTrack++)
+		{
+			if (!strcmp(iteTrack->sPlatType, MidentStr.sPlatType))
+			{
+				p = p*(1-iteTrack->dConfidence);
+			}
+		} 
+		
+		for (iteEsm = iteCoorMsg->vctEsm.begin(); iteEsm != iteCoorMsg->vctEsm.end();iteEsm++)
+		{
+			if (!strcmp(iteEsm->sPlatType, MidentStr.sPlatType))
+			{
+				p = p*(1-iteEsm->dConfidence);
+			}		
+		}			
+		for ( iteComm = iteCoorMsg->vctComm.begin(); iteComm != iteCoorMsg->vctComm.end(); iteComm++)
+		{
+			if (!strcmp(iteComm->sPlatType, MidentStr.sPlatType))
+			{
+				p = p*(1-iteComm->dConfidence);
+			}
+		}
+		MidentStr.dConfidence = 1 - p;
 		vctMidentiinforMsg.push_back(MidentStr);//存入联合识别结果
    }
 
