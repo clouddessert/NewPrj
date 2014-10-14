@@ -584,7 +584,9 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 		{	
 			//先将当前结构体中数组转化成容器
 			for (iteBack = theApp.m_RecvBackMsg_Dat.begin(); iteBack != theApp.m_RecvBackMsg_Dat.end(); iteBack++)
-			{
+			{	
+				stBackCooper.vctComm.clear();
+				stBackCooper.vctEsm.clear();
 				stBackCooper.lAutonum = iteBack->lAutonum;
 				stBackCooper.nCorrFlag = iteBack->nCorrFlag;
 				stBackCooper.nStampTime = iteBack->nStampTime;

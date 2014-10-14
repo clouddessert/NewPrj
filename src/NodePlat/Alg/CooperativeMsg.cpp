@@ -34,59 +34,59 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 	double Ezt = 0.0;
 	double dSumCorr_xyz = 0.0;
 	SHIP_POSITION stSelfPosi;
-
+	
 	Cooperative_Msg stCooperMsg;   //按请求信息的综合批号进行合并
-//	VCT_COOPER_MSG vctCooperMsg;   //存放请求和返回的合并信息
+	//	VCT_COOPER_MSG vctCooperMsg;   //存放请求和返回的合并信息
 	VCT_COOPER_MSG::iterator iteCooperMsg; 
-
-// 统计主舰的需要识别的各类信息数以及邻舰发送过来的各类信息的ESM，COM, 航迹信息条数
+	
+	// 统计主舰的需要识别的各类信息数以及邻舰发送过来的各类信息的ESM，COM, 航迹信息条数
 	VCT_BACK_Cooperative_Msg::iterator iteBackMsg;
 	BACK_Cooperative_Msg stBackMsg;
 	VCT_Request_Cooperative_Msg::iterator iteRequestMsg;
 	VCT_TRACE_MSG::iterator iteTrack;
 	VCT_ESM_MSG::iterator iteEsm;                
 	VCT_COMM_MSG::iterator iteComm;
-
-//清空合并信息容器
-   for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
-   { 
-	   iteCooperMsg->lAutonum = NULL;
-	   iteCooperMsg->nComN = NULL;
-	   iteCooperMsg->nEsmN = NULL;
-	   iteCooperMsg->nComN = NULL;
-	   for (iteTrack = iteCooperMsg->vctTrace.begin(); iteTrack != iteCooperMsg->vctTrace.end(); iteTrack++)
-	   {
-		    memset(&(*iteTrack), 0, sizeof(TRACKSTATUS_MARK));
-	   }
-	   for (iteEsm = iteCooperMsg->vctEsm.begin(); iteEsm != iteCooperMsg->vctEsm.end();iteEsm++)
-	   {
-		   memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
-	   }
-       for(iteComm = iteCooperMsg->vctComm.begin(); iteComm != iteCooperMsg->vctComm.end();iteComm++)
-	   {
-		   memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
-	   }
-	   iteCooperMsg->vctTrace.clear();
-	   iteCooperMsg->vctComm.clear();
-	   iteCooperMsg->vctEsm.clear();
-   }
-   vctCooperMsg.clear();
-
-//测试数据
-//    for (iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++)
-//    {
-// 	     cout << "返回信息中COMM条数："<< iteBackMsg->vctComm.size() <<endl;
-// 		 cout << "返回信息中ESM条数："<< iteBackMsg->vctEsm.size() <<endl;
-//    }
-
-//将请求信息,返回信息放入合并容器中， 
+	
+	//清空合并信息容器
+	for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
+	{ 
+		iteCooperMsg->lAutonum = NULL;
+		iteCooperMsg->nComN = NULL;
+		iteCooperMsg->nEsmN = NULL;
+		iteCooperMsg->nComN = NULL;
+		for (iteTrack = iteCooperMsg->vctTrace.begin(); iteTrack != iteCooperMsg->vctTrace.end(); iteTrack++)
+		{
+			memset(&(*iteTrack), 0, sizeof(TRACKSTATUS_MARK));
+		}
+		for (iteEsm = iteCooperMsg->vctEsm.begin(); iteEsm != iteCooperMsg->vctEsm.end();iteEsm++)
+		{
+			memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
+		}
+		for(iteComm = iteCooperMsg->vctComm.begin(); iteComm != iteCooperMsg->vctComm.end();iteComm++)
+		{
+			memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
+		}
+		iteCooperMsg->vctTrace.clear();
+		iteCooperMsg->vctComm.clear();
+		iteCooperMsg->vctEsm.clear();
+	}
+	vctCooperMsg.clear();
+	
+	//测试数据
+	//    for (iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++)
+	//    {
+	// 	     cout << "返回信息中COMM条数："<< iteBackMsg->vctComm.size() <<endl;
+	// 		 cout << "返回信息中ESM条数："<< iteBackMsg->vctEsm.size() <<endl;
+	//    } 90
+	
+	//将请求信息,返回信息放入合并容器中， 
 	for ( iteRequestMsg = vctRequestCooperative.begin(); iteRequestMsg != vctRequestCooperative.end(); iteRequestMsg++ )
 	{   
         stSelfPosi = iteRequestMsg->stReqShipPosi;  // 请求舰即为本舰
 		if ( iteRequestMsg->lAutonum > 7999) //请求信息的中，综合批号大于等于8000，即为有聚类过的航迹信息
 		{
 			stCooperMsg.lAutonum = iteRequestMsg->lAutonum;
-		    stCooperMsg.vctTrace.push_back(iteRequestMsg->stTrace);
+			stCooperMsg.vctTrace.push_back(iteRequestMsg->stTrace);
 			if (iteRequestMsg->vctEsm.size() != 0)
 			{
 				for(iteEsm = iteRequestMsg->vctEsm.begin(); iteEsm != iteRequestMsg->vctEsm.end(); iteEsm++)
@@ -109,139 +109,110 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 			{
 				stCooperMsg.vctEsm.push_back(*iteEsm);
 			}
-
+			
 			for (iteComm = iteRequestMsg->vctComm.begin();iteComm != iteRequestMsg->vctComm.end();iteComm++)
 			{
 				stCooperMsg.vctComm.push_back(*iteComm);
 			}
 		}
-
+		
 		if (iteRequestMsg->lAutonum < 6000)
 		{
 			stCooperMsg.lAutonum =  iteRequestMsg->lAutonum;
 			stCooperMsg.vctTrace.push_back(iteRequestMsg->stTrace);
 		}
-//		vctCooperMsg.push_back(stCooperMsg);
+		//		vctCooperMsg.push_back(stCooperMsg);
 		//将返回信息放入合并信息中
 		for ( iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++)
 		{
+			int Csizea = iteBackMsg->vctComm.size();
 			if (iteBackMsg->lAutonum == iteRequestMsg->lAutonum)  //综合批号相同
 			{
 				//将返回信息的每类信息放入合并信息容器中
 				if ( iteBackMsg->lAutonum >7999 ) //返回信息
-            //  if ( iteBackMsg->BackTrackN !=0  ) //返回信息
+					//  if ( iteBackMsg->BackTrackN !=0  ) //返回信息
 				{	
 					//转换航迹信息，将坐标，经纬度替换
-	               Get_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
-	                                   iteBackMsg->stTrace.dRange,iteBackMsg->stTrace.dAzimuth,iteBackMsg->stTrace.dElevationAngle,  
-									   stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
-									   iteBackMsg->stBackShipPosi.dLati,iteBackMsg->stBackShipPosi.dLonti,iteBackMsg->stBackShipPosi.dHeight,
-				                       Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
-				   iteBackMsg->stTrace.dTX = Xt;
-				   iteBackMsg->stTrace.dTY = Yt;
-				   iteBackMsg->stTrace.dTZ = Zt;
-				   iteBackMsg->stTrace.dRange = Rdt;
-				   iteBackMsg->stTrace.dAzimuth = Azt;
-				   iteBackMsg->stTrace.dElevationAngle = Ezt;
-				   stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
-//测试 航迹信息的条数
-		    int Tsize = stCooperMsg.vctTrace.size();
-//非测试
-			stCooperMsg.nTraceN = stCooperMsg.vctTrace.size();
+					Get_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
+						iteBackMsg->stTrace.dRange,iteBackMsg->stTrace.dAzimuth,iteBackMsg->stTrace.dElevationAngle,  
+						stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
+						iteBackMsg->stBackShipPosi.dLati,iteBackMsg->stBackShipPosi.dLonti,iteBackMsg->stBackShipPosi.dHeight,
+						Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
+					iteBackMsg->stTrace.dTX = Xt;
+					iteBackMsg->stTrace.dTY = Yt;
+					iteBackMsg->stTrace.dTZ = Zt;
+					iteBackMsg->stTrace.dRange = Rdt;
+					iteBackMsg->stTrace.dAzimuth = Azt;
+					iteBackMsg->stTrace.dElevationAngle = Ezt;
+					stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
+					//测试 航迹信息的条数
+					int Tsize = stCooperMsg.vctTrace.size();
+					//非测试
+					stCooperMsg.nTraceN = stCooperMsg.vctTrace.size();
 				}
-//测试 航迹信息的条数
-				    int Esize = stCooperMsg.vctEsm.size();
-					int Csize = stCooperMsg.vctComm.size();
-//非测试
-					stCooperMsg.nEsmN = stCooperMsg.vctEsm.size();
-		            stCooperMsg.nComN = stCooperMsg.vctComm.size();
-
-					if ( iteBackMsg->vctEsm.size() != 0)
+				//测试 航迹信息的条数
+				int Esize = stCooperMsg.vctEsm.size();
+				int Csize = stCooperMsg.vctComm.size();
+				//非测试
+				stCooperMsg.nEsmN = stCooperMsg.vctEsm.size();
+				stCooperMsg.nComN = stCooperMsg.vctComm.size();
+				
+				if ( iteBackMsg->vctEsm.size() != 0)
+				{
+					for (iteEsm = iteBackMsg->vctEsm.begin(); iteEsm != iteBackMsg->vctEsm.end(); iteEsm++)
 					{
-						for (iteEsm = iteBackMsg->vctEsm.begin(); iteEsm != iteBackMsg->vctEsm.end(); iteEsm++)
-						{
-							stCooperMsg.vctEsm.push_back(*iteEsm);
-						}
+						stCooperMsg.vctEsm.push_back(*iteEsm);
 					}
-//测试 返回的Comm的信息条数
-		            int Csizea = iteBackMsg->vctComm.size();
-					if ( iteBackMsg->vctComm.size() != 0)
+				}
+				//测试 返回的Comm的信息条数
+				Csizea = iteBackMsg->vctComm.size();
+				if ( iteBackMsg->vctComm.size() != 0)
+				{
+					for (iteComm = iteBackMsg->vctComm.begin(); iteComm != iteBackMsg->vctComm.end(); iteComm++)
 					{
-						for (iteComm = iteBackMsg->vctComm.begin(); iteComm != iteBackMsg->vctComm.end(); iteComm++)
-						{
-							stCooperMsg.vctComm.push_back(*iteComm);
-						}
-
+						stCooperMsg.vctComm.push_back(*iteComm);
 					}
-/*
-// 				if ( iteBackMsg->lAutonum < 8000 && iteBackMsg->lAutonum > 6999)
-// 				{
-// 					for(iteEsm = iteBackMsg->vctEsm.begin(); iteEsm != iteBackMsg->vctEsm.end(); iteEsm++)
-// 					{
-// 						stCooperMsg.vctEsm.push_back(*iteEsm);
-// 					}	
-// 					for (iteComm = iteBackMsg->vctComm.begin();iteComm != iteBackMsg->vctComm.end();iteComm++)
-// 					{
-// 						stCooperMsg.vctComm.push_back(*iteComm);
-// 					}
-// 				}
-// 				if ( iteBackMsg->lAutonum < 6000)
-// 				{
-//                     //转换航迹信息,将坐标，经纬度替换后放入
-// 	               Get_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
-// 	                                   iteBackMsg->stTrace.dRange,iteBackMsg->stTrace.dAzimuth,iteBackMsg->stTrace.dElevationAngle,  
-// 									   stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
-// 									   iteBackMsg->stBackShipPosi.dLati,iteBackMsg->stBackShipPosi.dLonti,iteBackMsg->stBackShipPosi.dHeight,
-// 				                       Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
-// 				   iteBackMsg->stTrace.dTX = Xt;
-// 				   iteBackMsg->stTrace.dTY = Yt;
-// 				   iteBackMsg->stTrace.dTZ = Zt;
-// 				   iteBackMsg->stTrace.dRange = Rdt;
-// 				   iteBackMsg->stTrace.dAzimuth = Azt;
-// 				   iteBackMsg->stTrace.dElevationAngle = Ezt;
-// 
-// 				   stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
-// 				}
-*/
-	          	
+					
+				}
+				
 			}//if 综合批号相同 结束
 		}// for iteBackMsg
 		vctCooperMsg.push_back(stCooperMsg);
-
-
+		
+		
 	} //for iteRequestMsg
-//测试数据  合并信息条数
-// for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
-// {
-// 	cout<<"Track: "<< iteCooperMsg->vctTrace.size() << endl;
-// 	cout<<"ESM: "<< iteCooperMsg->vctEsm.size() << endl;
-// 	cout<<"COM: "<< iteCooperMsg->vctComm.size() <<endl;
-// }
-     //清空返回容器
-	 for ( iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++ )
-	 {
-		 iteBackMsg->BackCOMN = NULL;
-		 iteBackMsg->BackESMN= NULL;
-		 iteBackMsg->BackTrackN = NULL;
-// 		 iteBackMsg->dAzimuth = NULL;
-// 		 iteBackMsg->dElevationAngle = NULL;
-// 		 iteBackMsg->dRange = NULL;
-		 iteBackMsg->lAutonum = NULL;
-		 iteBackMsg->nStampTime =NULL;
-		 memset(&iteBackMsg->stBackShipPosi, 0, sizeof(SHIP_POSITION));
-		 memset(&iteBackMsg->stTrace, 0, sizeof( TRACKSTATUS_MARK));
-		 for (iteEsm = iteBackMsg->vctEsm.begin(); iteEsm != iteBackMsg->vctEsm.end(); iteEsm++)
-		 {
+	//测试数据  合并信息条数
+	// for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
+	// {
+	// 	cout<<"Track: "<< iteCooperMsg->vctTrace.size() << endl;
+	// 	cout<<"ESM: "<< iteCooperMsg->vctEsm.size() << endl;
+	// 	cout<<"COM: "<< iteCooperMsg->vctComm.size() <<endl;
+	// }
+	//清空返回容器
+	for ( iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++ )
+	{
+		iteBackMsg->BackCOMN = NULL;
+		iteBackMsg->BackESMN= NULL;
+		iteBackMsg->BackTrackN = NULL;
+		// 		 iteBackMsg->dAzimuth = NULL;
+		// 		 iteBackMsg->dElevationAngle = NULL;
+		// 		 iteBackMsg->dRange = NULL;
+		iteBackMsg->lAutonum = NULL;
+		iteBackMsg->nStampTime =NULL;
+		memset(&iteBackMsg->stBackShipPosi, 0, sizeof(SHIP_POSITION));
+		memset(&iteBackMsg->stTrace, 0, sizeof( TRACKSTATUS_MARK));
+		for (iteEsm = iteBackMsg->vctEsm.begin(); iteEsm != iteBackMsg->vctEsm.end(); iteEsm++)
+		{
 			memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
-		 }
-		 for (iteComm = iteBackMsg->vctComm.begin(); iteComm != iteBackMsg->vctComm.end(); iteComm++)
-		 {
-			 memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
-		 }
-		 iteBackMsg->vctComm.clear();
-	     iteBackMsg->vctEsm.clear();	 
-	 }
-	  vctBackCooperative.clear();
+		}
+		for (iteComm = iteBackMsg->vctComm.begin(); iteComm != iteBackMsg->vctComm.end(); iteComm++)
+		{
+			memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
+		}
+		iteBackMsg->vctComm.clear();
+		iteBackMsg->vctEsm.clear();	 
+	}
+	vctBackCooperative.clear();
 }
 
 
@@ -451,100 +422,100 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 
 
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////
-	///原版   错误，迭代器的问题，容器在变化，不可对迭代器进行写操作   （后面有修改版）////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+///原版   错误，迭代器的问题，容器在变化，不可对迭代器进行写操作   （后面有修改版）////////////////////
 /*	string s1("F111");
-    string sPt("F111");
-	//统计(同一综合批号下)所有信息的平台类型
-	for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
-	{    
-		if ( iteCooperMsg->vctTrace.size() != 0 )
-		{
-			for ( iteTrack = iteCooperMsg->vctTrace.begin(); iteTrack != iteCooperMsg->vctTrace.end(); iteTrack++)
-			{
-				if ( vctPlatType.size() == 0)
-				{
-					sPt.assign(iteTrack->sPlatType);
-					vctPlatType.push_back(sPt);
+string sPt("F111");
+//统计(同一综合批号下)所有信息的平台类型
+for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
+{    
+if ( iteCooperMsg->vctTrace.size() != 0 )
+{
+for ( iteTrack = iteCooperMsg->vctTrace.begin(); iteTrack != iteCooperMsg->vctTrace.end(); iteTrack++)
+{
+if ( vctPlatType.size() == 0)
+{
+sPt.assign(iteTrack->sPlatType);
+vctPlatType.push_back(sPt);
 
-				} // if容器中无平台类型
-				else
-				{
-					for (itePlatType = vctPlatType.begin(); itePlatType != vctPlatType.end(); itePlatType++)
-					{
-    					sPt.assign(iteTrack->sPlatType);
-						s1.assign(*itePlatType);
-                 
-						if ( sPt.compare(s1) != 0) //strcmp (*itePlatType, iteTrack->sPlatType) //   strcmp()对两个字符串进行大小写敏感的比较
-                                                                              //  strcmpi() 对两个字符串进行大小写不敏感的比较
-						{
-							vctPlatType.push_back(sPt);
-						//	vctPlatType.push_back(iteTrack->sPlatType);
-						}
-						cout << "长度"<< vctPlatType.size()<<endl;
-
-					}// for  itePlatType = vctPlatType.begin()
-				} //else 当存在平台类型				
-			} // for iteTrack = iteCooperMsg->vctTrace.begin()
-		}// if iteCooperMsg->vctTrace.size() != 0
-
+  } // if容器中无平台类型
+  else
+  {
+  for (itePlatType = vctPlatType.begin(); itePlatType != vctPlatType.end(); itePlatType++)
+  {
+  sPt.assign(iteTrack->sPlatType);
+  s1.assign(*itePlatType);
+  
+	if ( sPt.compare(s1) != 0) //strcmp (*itePlatType, iteTrack->sPlatType) //   strcmp()对两个字符串进行大小写敏感的比较
+	//  strcmpi() 对两个字符串进行大小写不敏感的比较
+	{
+	vctPlatType.push_back(sPt);
+	//	vctPlatType.push_back(iteTrack->sPlatType);
+	}
+	cout << "长度"<< vctPlatType.size()<<endl;
+	
+	  }// for  itePlatType = vctPlatType.begin()
+	  } //else 当存在平台类型				
+	  } // for iteTrack = iteCooperMsg->vctTrace.begin()
+	  }// if iteCooperMsg->vctTrace.size() != 0
+	  
 		if ( iteCooperMsg->vctComm.size() !=0 )
 		{
-			for ( iteComm = iteCooperMsg->vctComm.begin(); iteComm != iteCooperMsg->vctComm.end(); iteComm++)
-			{
-				if ( vctPlatType.size() ==0 )
-				{
-					sPt.assign(iteComm->sPlatType);
-					vctPlatType.push_back(sPt);
-//					vctPlatType.push_back(iteComm->sPlatType);
-				}
-				else
-				{
-					for (itePlatType = vctPlatType.begin(); itePlatType != vctPlatType.end(); itePlatType++)
-					{
-						s1.assign(*itePlatType);
-						sPt.assign(iteComm->sPlatType);
-						if ( sPt.compare(s1)!= 0)//strcmp(*itePlatType,iteComm->sPlatType)
-						{
-							vctPlatType.push_back(sPt);
-//							vctPlatType.push_back(iteComm->sPlatType);
-						}
-					
-					}
-				}
-			}
-		}
-
-		if (iteCooperMsg->vctEsm.size() !=0 )
+		for ( iteComm = iteCooperMsg->vctComm.begin(); iteComm != iteCooperMsg->vctComm.end(); iteComm++)
 		{
+		if ( vctPlatType.size() ==0 )
+		{
+		sPt.assign(iteComm->sPlatType);
+		vctPlatType.push_back(sPt);
+		//					vctPlatType.push_back(iteComm->sPlatType);
+		}
+		else
+		{
+		for (itePlatType = vctPlatType.begin(); itePlatType != vctPlatType.end(); itePlatType++)
+		{
+		s1.assign(*itePlatType);
+		sPt.assign(iteComm->sPlatType);
+		if ( sPt.compare(s1)!= 0)//strcmp(*itePlatType,iteComm->sPlatType)
+		{
+		vctPlatType.push_back(sPt);
+		//							vctPlatType.push_back(iteComm->sPlatType);
+		}
+		
+		  }
+		  }
+		  }
+		  }
+		  
+			if (iteCooperMsg->vctEsm.size() !=0 )
+			{
 			for (iteEsm = iteCooperMsg->vctEsm.begin(); iteEsm != iteCooperMsg->vctEsm.end();iteEsm++)
 			{
-				if ( vctPlatType.size() == 0)
-				{
-				//	string sPt(iteEsm->sPlatType,4);
-					sPt.assign(iteEsm->sPlatType);
-					vctPlatType.push_back(sPt);
-				
-//					vctPlatType.push_back(iteEsm->sPlatType);
-				}
-				else
-				{
-					for (itePlatType = vctPlatType.begin(); itePlatType != vctPlatType.end(); itePlatType++)
-					{
-						s1.assign(*itePlatType);
-						sPt.assign(iteEsm->sPlatType);
-						if (sPt.compare(s1)!= 0) //strcmp(*itePlatType,iteEsm->sPlatType)
-						{
-							vctPlatType.push_back(sPt);
-//							vctPlatType.push_back(iteEsm->sPlatType);
-						}
-					
-					}
-				}
-			}
+			if ( vctPlatType.size() == 0)
+			{
+			//	string sPt(iteEsm->sPlatType,4);
+			sPt.assign(iteEsm->sPlatType);
+			vctPlatType.push_back(sPt);
 			
-		}
+			  //					vctPlatType.push_back(iteEsm->sPlatType);
+			  }
+			  else
+			  {
+			  for (itePlatType = vctPlatType.begin(); itePlatType != vctPlatType.end(); itePlatType++)
+			  {
+			  s1.assign(*itePlatType);
+			  sPt.assign(iteEsm->sPlatType);
+			  if (sPt.compare(s1)!= 0) //strcmp(*itePlatType,iteEsm->sPlatType)
+			  {
+			  vctPlatType.push_back(sPt);
+			  //							vctPlatType.push_back(iteEsm->sPlatType);
+			  }
+			  
+				}
+				}
+				}
+				
+				  }
 */
 
 /*
@@ -555,68 +526,68 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 //将不同的放入平台容器2中，
 //平台容器2就是所求平台类型数
 
-//将合并后所有平台类型放到容器vctCooperPlatType
-
-		for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
-		{   
-			vctCooperPlatType.clear();
-			vctPlatType.clear();
-	       	int tpflag = 0;
-			if ( iteCooperMsg->vctTrace.size() != 0 )
-			{
+  //将合并后所有平台类型放到容器vctCooperPlatType
+  
+	for (iteCooperMsg = vctCooperMsg.begin(); iteCooperMsg != vctCooperMsg.end(); iteCooperMsg++)
+	{   
+	vctCooperPlatType.clear();
+	vctPlatType.clear();
+	int tpflag = 0;
+	if ( iteCooperMsg->vctTrace.size() != 0 )
+	{
 				for ( iteTrack = iteCooperMsg->vctTrace.begin(); iteTrack != iteCooperMsg->vctTrace.end(); iteTrack++)
 				{
-					vctCooperPlatType.push_back(iteTrack->sPlatType);
+				vctCooperPlatType.push_back(iteTrack->sPlatType);
 				} 
-			} 	
-			if ( iteCooperMsg->vctComm.size() !=0 )
-			{
+				} 	
+				if ( iteCooperMsg->vctComm.size() !=0 )
+				{
 				for ( iteComm = iteCooperMsg->vctComm.begin(); iteComm != iteCooperMsg->vctComm.end(); iteComm++)
 				{
-                  vctCooperPlatType.push_back(iteComm->sPlatType);
+				vctCooperPlatType.push_back(iteComm->sPlatType);
 				}
-			}
-			if (iteCooperMsg->vctEsm.size() !=0 )
-			{
+				}
+				if (iteCooperMsg->vctEsm.size() !=0 )
+				{
 				for (iteEsm = iteCooperMsg->vctEsm.begin(); iteEsm != iteCooperMsg->vctEsm.end();iteEsm++)
 				{
-					vctCooperPlatType.push_back(iteEsm->sPlatType);			
+				vctCooperPlatType.push_back(iteEsm->sPlatType);			
 				}		
-			}
-			for ( iteCPType1 = vctCooperPlatType.begin(); iteCPType1 != vctCooperPlatType.end(); iteCPType1++)
-			{
+				}
+				for ( iteCPType1 = vctCooperPlatType.begin(); iteCPType1 != vctCooperPlatType.end(); iteCPType1++)
+				{
 				for( iteCPType2 = vctCooperPlatType.begin(); iteCPType2 != iteCPType1; iteCPType2++)
 				{
-				  	//判断合并容器中前一个和后一个的平台类型是否相同，有相同，结束循环，循环结束若都不相同则放入平台容器中
-					if (strcmp(*iteCPType1, *iteCPType2) == 0)
-					{   tpflag = 1; //标志找到有相同的
-							break;
-					}
+				//判断合并容器中前一个和后一个的平台类型是否相同，有相同，结束循环，循环结束若都不相同则放入平台容器中
+				if (strcmp(*iteCPType1, *iteCPType2) == 0)
+				{   tpflag = 1; //标志找到有相同的
+				break;
+				}
 				}
 				//结束循环未找到相同的
 				if (tpflag == 0)
 				{
-					vctPlatType.push_back(*iteCPType1);
+				vctPlatType.push_back(*iteCPType1);
 				}
 				else
 				{
-					tpflag = 0;
+				tpflag = 0;
 				}
-			}
-
- //此时，已统计好同一综合批号下的目标类型数
-      int OBjTypeNum; //目标类型数
-      OBjTypeNum = vctPlatType.size();//为目标类型数
-
-//测试平台数和平台类型
-	  cout <<"合并后信息平台类型数： "<<OBjTypeNum << endl;
-	  for (itePlatType = vctPlatType.begin(); itePlatType != vctPlatType.end(); itePlatType++)
-	  {
-		  cout<<"  "<< *itePlatType <<endl;
-	  }
-
-	}
-}
+				}
+				
+				  //此时，已统计好同一综合批号下的目标类型数
+				  int OBjTypeNum; //目标类型数
+				  OBjTypeNum = vctPlatType.size();//为目标类型数
+				  
+					//测试平台数和平台类型
+					cout <<"合并后信息平台类型数： "<<OBjTypeNum << endl;
+					for (itePlatType = vctPlatType.begin(); itePlatType != vctPlatType.end(); itePlatType++)
+					{
+					cout<<"  "<< *itePlatType <<endl;
+					}
+					
+					  }
+					  }
 */
 
 
@@ -624,10 +595,10 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 int a[100][100];
 for (i = 0; i<100;i++)
 {
-	for (j = 0;j<100; j++)
-	{
-		a[i][j] = n + a[i][j-1];
-	}
+for (j = 0;j<100; j++)
+{
+a[i][j] = n + a[i][j-1];
+}
 }
 */
 
@@ -643,18 +614,18 @@ for (i = 0; i<100;i++)
 /*
 void Coefficient(float con[][], int m, int n, VCT_COOPER_MSG::const_iterator ite_CooperMsg, VCT_sPlatType vctPlatType)
 {
-	VCT_sPlatType::iterator ite_PlatType;
-	VCT_TRACE_MSG::const_iterator ite_TrackMsg;
-	VCT_TRACE_MSG::const_iterator ite_TrackM;
-	VCT_ESM_MSG::const_iterator ite_EsmMsg;
-	VCT_ESM_MSG::const_iterator ite_EsmM;
-	VCT_COMM_MSG::const_iterator ite_CommMsg;
-	VCT_COMM_MSG::const_iterator ite_CommM;
+VCT_sPlatType::iterator ite_PlatType;
+VCT_TRACE_MSG::const_iterator ite_TrackMsg;
+VCT_TRACE_MSG::const_iterator ite_TrackM;
+VCT_ESM_MSG::const_iterator ite_EsmMsg;
+VCT_ESM_MSG::const_iterator ite_EsmM;
+VCT_COMM_MSG::const_iterator ite_CommMsg;
+VCT_COMM_MSG::const_iterator ite_CommM;
 
-	typedef vector<double> VCT_CORR;
-	VCT_CORR vctCorr;      // 存放关联系数的容器
-	VCT_CORR::iterator ite_Corr;
-
+  typedef vector<double> VCT_CORR;
+  VCT_CORR vctCorr;      // 存放关联系数的容器
+  VCT_CORR::iterator ite_Corr;
+  
 	int i = 0;
 	int j = 0;
 	double dcorrAz = 0.0;
@@ -665,226 +636,226 @@ void Coefficient(float con[][], int m, int n, VCT_COOPER_MSG::const_iterator ite
 	double dcorrComZaiPin = 0.0;   // 载频
 	double dcorrdPulseExtent =0.0; // 脉冲幅度
 	double dAverCorr = 0.0;
-
 	
-	//TRACK相关系数
-	if (0 == ite_CooperMsg->vctTrace.size())
-	{
+	  
+		//TRACK相关系数
+		if (0 == ite_CooperMsg->vctTrace.size())
+		{
 		//不存在航迹，无航迹的相关系数
-	} 
-	else
-	{
+		} 
+		else
+		{
 		//求相关系数
 		//遍历航迹的vectror
 		for (ite_TrackMsg = ite_CooperMsg->vctTrace.begin(); ite_TrackMsg != ite_CooperMsg->vctTrace.end(); ite_TrackMsg++)
 		{
-			for (ite_PlatType = vctPlatType.begin(); ite_PlatType != vctPlatType.end(); ite_PlatType++)
+		for (ite_PlatType = vctPlatType.begin(); ite_PlatType != vctPlatType.end(); ite_PlatType++)
+		{
+		//航迹的平台类型和平台类型中的类型相同
+		if (ite_TrackMsg->sPlatType == *ite_PlatType)
+		{
+		//直接取置信度作为相关系数
+		con[i][j] = ite_TrackMsg->dConfidence;
+		} 
+		//航迹的平台类型和平台类型中的类型不相同
+		else
+		{
+		//计算相关系数 ，取该航迹信息的方位和航迹的vector的所有信息中识别出平台类型中的该类型的航迹信息方位比较,若未找到则标记为0
+		//清空存放相关系数的容器
+		
+		  vctCorr.clear();
+		  //遍历航迹vector
+		  
+			for ( ite_TrackM = ite_CooperMsg->vctTrace.begin(); ite_TrackM != ite_CooperMsg->vctTrace.end();ite_TrackM++)
+			{   //找出识别该平台类型的航迹信息
+			if (*ite_PlatType == ite_TrackM->sPlatType)
 			{
-				//航迹的平台类型和平台类型中的类型相同
-				if (ite_TrackMsg->sPlatType == *ite_PlatType)
+			Mf_SPA(ite_TrackM->dAzimuth, ite_TrackMsg->dAzimuth, dcorrAz);
+			vctCorr.push_back(dcorrAz);
+			}
+			}// for
+			if (vctCorr.empty())
+			{
+			con[i][j] = 0.0;
+			}
+			//关联容器不为空
+			else
+			{
+			//取关联容器的最大值
+			//关联容器只有一个值
+			if ( vctCorr.size() == 1 )
+			{
+			con[i][j] = vctCorr.front(); 
+			}
+			//关联容器长度大于1
+			if ( vctCorr.size() > 1 )
+			{
+			dMaxCorr = vctCorr.front();
+			for(ite_Corr = vctCorr.begin(); ite_Corr != vctCorr.end(); ite_Corr++)
+			{
+			if ( dMaxCorr < *ite_Corr)
+			{
+			dMaxCorr = *ite_Corr;
+			}
+			}//for
+			con[i][j] = dMaxCorr;	
+			}  // if 容器长度大于1
+			}//else  关联容器不为空
+			
+			  }//else  //航迹的平台类型和平台类型中的类型不相同
+			  j++;
+			  } // for 遍历平台类型的容器 ite_PlatType = vctPlatType.begin()
+			  i++;
+			  } // for 遍历航迹的容器 ite_TrackMsg = ite_CooperMsg->vctTrace.begin()
+			  }
+			  
+				//ESM相关系数
+				if ( 0 == ite_CooperMsg->vctEsm.size())
 				{
-					//直接取置信度作为相关系数
-					con[i][j] = ite_TrackMsg->dConfidence;
-				} 
-				//航迹的平台类型和平台类型中的类型不相同
+				//不存在ESM，无Esm的相关系数
+				}
 				else
 				{
-					//计算相关系数 ，取该航迹信息的方位和航迹的vector的所有信息中识别出平台类型中的该类型的航迹信息方位比较,若未找到则标记为0
-					//清空存放相关系数的容器
-
-					vctCorr.clear();
-					//遍历航迹vector
-
-					for ( ite_TrackM = ite_CooperMsg->vctTrace.begin(); ite_TrackM != ite_CooperMsg->vctTrace.end();ite_TrackM++)
-					{   //找出识别该平台类型的航迹信息
-						if (*ite_PlatType == ite_TrackM->sPlatType)
-						{
-							Mf_SPA(ite_TrackM->dAzimuth, ite_TrackMsg->dAzimuth, dcorrAz);
-					    	vctCorr.push_back(dcorrAz);
-						}
-					}// for
-						if (vctCorr.empty())
-						{
-							con[i][j] = 0.0;
-						}
-						//关联容器不为空
-						else
-						{
-							//取关联容器的最大值
-							//关联容器只有一个值
-							if ( vctCorr.size() == 1 )
-							{
-								con[i][j] = vctCorr.front(); 
-							}
-							//关联容器长度大于1
-							if ( vctCorr.size() > 1 )
-							{
-								dMaxCorr = vctCorr.front();
-								for(ite_Corr = vctCorr.begin(); ite_Corr != vctCorr.end(); ite_Corr++)
-								{
-									if ( dMaxCorr < *ite_Corr)
-									{
-										dMaxCorr = *ite_Corr;
-									}
-								}//for
-								con[i][j] = dMaxCorr;	
-							}  // if 容器长度大于1
-						}//else  关联容器不为空
-				
-				}//else  //航迹的平台类型和平台类型中的类型不相同
-			  j++;
-			} // for 遍历平台类型的容器 ite_PlatType = vctPlatType.begin()
-	      i++;
-		} // for 遍历航迹的容器 ite_TrackMsg = ite_CooperMsg->vctTrace.begin()
-	}
-
-	//ESM相关系数
-    if ( 0 == ite_CooperMsg->vctEsm.size())
-    {
-		//不存在ESM，无Esm的相关系数
-    }
-	else
-	{
-		//求相关系数
-		//遍历Esm的容器
-		for ( ite_EsmMsg = ite_CooperMsg->vctEsm.begin(); ite_EsmMsg != ite_CooperMsg->vctEsm.end(); ite_CooperMsg++)
-		{
-			for (ite_PlatType = vctPlatType.begin(); ite_PlatType != vctPlatType.end(); ite_PlatType++)
-			{
+				//求相关系数
+				//遍历Esm的容器
+				for ( ite_EsmMsg = ite_CooperMsg->vctEsm.begin(); ite_EsmMsg != ite_CooperMsg->vctEsm.end(); ite_CooperMsg++)
+				{
+				for (ite_PlatType = vctPlatType.begin(); ite_PlatType != vctPlatType.end(); ite_PlatType++)
+				{
 				//Esm的平台类型和平台类型中的类型相同
 				if (ite_EsmMsg->sPlatType == *ite_PlatType)
 				{
-					//直接取置信度作为相关系数
-					con[i][j] = ite_EsmMsg->dConfidence;
+				//直接取置信度作为相关系数
+				con[i][j] = ite_EsmMsg->dConfidence;
 				} 
 				//Esm的平台类型和平台类型中的类型不同
 				else
 				{
-					//计算相关系数 ，取该Esm信息的特征参数和Esm的vector的所有信息中识别出平台类型中的该类型的Esm信息的特征参数比较,若未找到则标记为0
-					//清空存放相关系数的容器
-					vctCorr.clear();
-					//遍历Esm的vector
+				//计算相关系数 ，取该Esm信息的特征参数和Esm的vector的所有信息中识别出平台类型中的该类型的Esm信息的特征参数比较,若未找到则标记为0
+				//清空存放相关系数的容器
+				vctCorr.clear();
+				//遍历Esm的vector
+				
+				  for ( ite_EsmM = ite_CooperMsg->vctEsm.begin(); ite_EsmM != ite_CooperMsg->vctEsm.end();ite_EsmM++)
+				  {   //找出识别该平台类型的Esm信息
+				  if (*ite_PlatType == ite_EsmM->sPlatType)
+				  {
+				  Mf_SPA(ite_EsmM->dChongPin, ite_EsmMsg->dChongPin,dcorrChongPin); //频率
+				  Mf_SPA(ite_EsmM->dMaiKuan,ite_EsmMsg->dMaiKuan,dcorrMaiKuan); //脉宽
+				  Mf_SPA(ite_EsmM->dTianXianScan,ite_EsmMsg->dTianXianScan,dcorrTianXianScan); //天线扫描周期
+				  dAverCorr = ( dcorrChongPin + dcorrMaiKuan +dcorrTianXianScan )/3;
+				  vctCorr.push_back(dAverCorr);
+				  }
+				  }// for
+				  if (vctCorr.empty())
+				  {
+				  con[i][j] = 0.0;
+				  }
+				  //关联容器不为空
+				  else
+				  {
+				  //取关联容器的最大值
+				  //关联容器只有一个值
+				  if ( vctCorr.size() == 1 )
+				  {
+				  con[i][j] = vctCorr.front(); 
+				  }
+				  //关联容器长度大于1
+				  if ( vctCorr.size() > 1 )
+				  {
+				  dMaxCorr = vctCorr.front();
+				  for(ite_Corr = vctCorr.begin(); ite_Corr != vctCorr.end(); ite_Corr++)
+				  {
+				  if ( dMaxCorr < *ite_Corr)
+				  {
+				  dMaxCorr = *ite_Corr;
+				  }
+				  }//for
+				  con[i][j] = dMaxCorr;	
+				  }  // if 容器长度大于1
+				  }//else  关联容器不为空
+				  
+					} //else //Esm的平台类型和平台类型中的类型不同
+					j++;
+					}// for 遍历平台类型的容器
+					i++;
+					}// for 遍历Esm的容器
+					}//else 求Esm的相关系数
 					
-					for ( ite_EsmM = ite_CooperMsg->vctEsm.begin(); ite_EsmM != ite_CooperMsg->vctEsm.end();ite_EsmM++)
-					{   //找出识别该平台类型的Esm信息
+					  //COMM相关系数
+					  if ( 0 == ite_CooperMsg->vctComm.size())
+					  {
+					  //不存在Com,无Comm的相关系数
+					  }
+					  else
+					  {
+					  //求相关系数
+					  //遍历Comm的容器
+					  for ( ite_CommMsg = ite_CooperMsg->vctComm.begin(); ite_CommMsg != ite_CooperMsg->vctComm.end(); ite_CommMsg++)
+					  {
+					  for (ite_PlatType = vctPlatType.begin(); ite_PlatType != vctPlatType.end(); ite_PlatType++)
+					  {
+					  //Comm的平台类型和平台类型中的类型相同
+					  if (ite_CommMsg->sPlatType == *ite_PlatType)
+					  {
+					  //直接取置信度作为相关系数
+					  con[i][j] = ite_CommMsg->dConfidence;
+					  } 
+					  //Esm的平台类型和平台类型中的类型不同
+					  else
+					  {
+					  //计算相关系数 ，取该Comm信息的特征参数和Comm的vector的所有信息中识别出平台类型中的该类型的Comm信息的特征参数比较,若未找到则标记为0
+					  //清空存放相关系数的容器
+					  vctCorr.clear();
+					  //遍历Esm的vector
+					  
+						for ( ite_CommM = ite_CooperMsg->vctComm.begin(); ite_CommM != ite_CooperMsg->vctComm.end();ite_CommM++)
+						{   //找出识别该平台类型的Comm信息
 						if (*ite_PlatType == ite_EsmM->sPlatType)
 						{
-							Mf_SPA(ite_EsmM->dChongPin, ite_EsmMsg->dChongPin,dcorrChongPin); //频率
-							Mf_SPA(ite_EsmM->dMaiKuan,ite_EsmMsg->dMaiKuan,dcorrMaiKuan); //脉宽
-							Mf_SPA(ite_EsmM->dTianXianScan,ite_EsmMsg->dTianXianScan,dcorrTianXianScan); //天线扫描周期
-							dAverCorr = ( dcorrChongPin + dcorrMaiKuan +dcorrTianXianScan )/3;
-							vctCorr.push_back(dAverCorr);
+						Mf_SPA(ite_CommM->dComZaiPin, ite_CommMsg->dComZaiPin,dcorrComZaiPin); //载频
+						Mf_SPA(ite_CommM->dPulseExtent,ite_CommMsg->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
+						dAverCorr = ( dcorrComZaiPin + dcorrdPulseExtent )/2;
+						vctCorr.push_back(dAverCorr);
 						}
-					}// for
+						}// for
 						if (vctCorr.empty())
 						{
-							con[i][j] = 0.0;
+						con[i][j] = 0.0;
 						}
 						//关联容器不为空
 						else
 						{
-							//取关联容器的最大值
-							//关联容器只有一个值
-							if ( vctCorr.size() == 1 )
-							{
-								con[i][j] = vctCorr.front(); 
-							}
-							//关联容器长度大于1
-							if ( vctCorr.size() > 1 )
-							{
-								dMaxCorr = vctCorr.front();
-								for(ite_Corr = vctCorr.begin(); ite_Corr != vctCorr.end(); ite_Corr++)
-								{
-									if ( dMaxCorr < *ite_Corr)
-									{
-										dMaxCorr = *ite_Corr;
-									}
-								}//for
-								con[i][j] = dMaxCorr;	
-							}  // if 容器长度大于1
-						}//else  关联容器不为空
-				
-				} //else //Esm的平台类型和平台类型中的类型不同
-		     j++;
-			}// for 遍历平台类型的容器
-         i++;
-		}// for 遍历Esm的容器
-	}//else 求Esm的相关系数
-
-	//COMM相关系数
-	if ( 0 == ite_CooperMsg->vctComm.size())
-	{
-		//不存在Com,无Comm的相关系数
-	}
-	else
-	{
-		//求相关系数
-		//遍历Comm的容器
-		for ( ite_CommMsg = ite_CooperMsg->vctComm.begin(); ite_CommMsg != ite_CooperMsg->vctComm.end(); ite_CommMsg++)
-		{
-			for (ite_PlatType = vctPlatType.begin(); ite_PlatType != vctPlatType.end(); ite_PlatType++)
-			{
-				//Comm的平台类型和平台类型中的类型相同
-				if (ite_CommMsg->sPlatType == *ite_PlatType)
-				{
-					//直接取置信度作为相关系数
-					con[i][j] = ite_CommMsg->dConfidence;
-				} 
-				//Esm的平台类型和平台类型中的类型不同
-				else
-				{
-					//计算相关系数 ，取该Comm信息的特征参数和Comm的vector的所有信息中识别出平台类型中的该类型的Comm信息的特征参数比较,若未找到则标记为0
-					//清空存放相关系数的容器
-					vctCorr.clear();
-					//遍历Esm的vector
-					
-					for ( ite_CommM = ite_CooperMsg->vctComm.begin(); ite_CommM != ite_CooperMsg->vctComm.end();ite_CommM++)
-					{   //找出识别该平台类型的Comm信息
-						if (*ite_PlatType == ite_EsmM->sPlatType)
-						{
-							Mf_SPA(ite_CommM->dComZaiPin, ite_CommMsg->dComZaiPin,dcorrComZaiPin); //载频
-							Mf_SPA(ite_CommM->dPulseExtent,ite_CommMsg->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
-							dAverCorr = ( dcorrComZaiPin + dcorrdPulseExtent )/2;
-							vctCorr.push_back(dAverCorr);
-						}
-					}// for
-					if (vctCorr.empty())
-					{
-						con[i][j] = 0.0;
-					}
-					//关联容器不为空
-					else
-					{
 						//取关联容器的最大值
 						//关联容器只有一个值
 						if ( vctCorr.size() == 1 )
 						{
-							con[i][j] = vctCorr.front(); 
+						con[i][j] = vctCorr.front(); 
 						}
 						//关联容器长度大于1
 						if ( vctCorr.size() > 1 )
 						{
-							dMaxCorr = vctCorr.front();
-							for(ite_Corr = vctCorr.begin(); ite_Corr != vctCorr.end(); ite_Corr++)
-							{
-								if ( dMaxCorr < *ite_Corr)
-								{
-									dMaxCorr = *ite_Corr;
-								}
-							}//for
-							con[i][j] = dMaxCorr;	
+						dMaxCorr = vctCorr.front();
+						for(ite_Corr = vctCorr.begin(); ite_Corr != vctCorr.end(); ite_Corr++)
+						{
+						if ( dMaxCorr < *ite_Corr)
+						{
+						dMaxCorr = *ite_Corr;
+						}
+						}//for
+						con[i][j] = dMaxCorr;	
 						}  // if 容器长度大于1
-					}//else  关联容器不为空
-					
-				} //else //Esm的平台类型和平台类型中的类型不同
-				j++;
-			}// for 遍历平台类型的容器
-			i++;
-		}// for 遍历Esm的容器
-
-	}//else 求相关系数
-	
-}
+						}//else  关联容器不为空
+						
+						  } //else //Esm的平台类型和平台类型中的类型不同
+						  j++;
+						  }// for 遍历平台类型的容器
+						  i++;
+						  }// for 遍历Esm的容器
+						  
+							}//else 求相关系数
+							
+							  }
 */
 
 
@@ -897,26 +868,26 @@ void Coefficient(float con[][], int m, int n, VCT_COOPER_MSG::const_iterator ite
 /*
 void Mf_SPA(double s, double t,double& corr)
 {
-	double spa;
-	double tmp;
-	
-	double a,b,c;
-	
+double spa;
+double tmp;
+
+  double a,b,c;
+  
 	if(s>t)
 	{
-		tmp =s;
-		s=t;
-		t=tmp;
+	tmp =s;
+	s=t;
+	t=tmp;
 	}
 	
-	a=s/t;
-	b=s/t/(t*t-1);
-	c=(t*t-s*t-1)/(t*t-1);
-	
-	spa=a+fabs(b)-fabs(c);
-	
-	corr=spa;                 //带回两数相关系数
-}
+	  a=s/t;
+	  b=s/t/(t*t-1);
+	  c=(t*t-s*t-1)/(t*t-1);
+	  
+		spa=a+fabs(b)-fabs(c);
+		
+		  corr=spa;                 //带回两数相关系数
+		  }
 */
 
 
