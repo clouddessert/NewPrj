@@ -454,7 +454,7 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 	//设定网络的接收延迟为800ms
 	int nNetTimeout = 800;
 	BOOL bDontLinger = FALSE;
-	BOOL bReuseaddr=TRUE;
+	BOOL bReuseaddr=FALSE;
 	
 	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&nNetTimeout, sizeof(int));
 	//发送延迟为400ms
@@ -574,62 +574,65 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 			//connect失败!
 		}
 		//关闭socket,等待重新使用!
-		theApp.m_P2PClient->ShutDown(2);
-		theApp.m_P2PClient->Close();	
-	}
-
-	//判断接收缓冲区vector是否为空
-	if (theApp.m_RecvBackMsg_Dat.size() !=0 )
-	{	
-		//先将当前结构体中数组转化成容器
-		for (iteBack = theApp.m_RecvBackMsg_Dat.begin(); iteBack != theApp.m_RecvBackMsg_Dat.end(); iteBack++)
-		{
-			stBackCooper.lAutonum = iteBack->lAutonum;
-			stBackCooper.nCorrFlag = iteBack->nCorrFlag;
-			stBackCooper.nStampTime = iteBack->nStampTime;
-			stBackCooper.BackESMN = iteBack->BackESMN;
-			stBackCooper.BackCOMN = iteBack->BackCOMN;
-			stBackCooper.BackTrackN = iteBack->BackTraceN;
-			memcpy(&stBackCooper.stBackShipPosi, &(iteBack->stBackShipPosi), sizeof(stBackCooper.stBackShipPosi)); 
-			memcpy(&stBackCooper.stTrace, &(iteBack->stTrace),sizeof(stBackCooper.stTrace));
-			
-			for (int i=0; i< iteBack->BackESMN; i++)
+		::shutdown(theApp.m_P2PClient->m_hSocket, 2);
+		::closesocket(theApp.m_P2PClient->m_hSocket);
+		//theApp.m_P2PClient->ShutDown(2);
+		//theApp.m_P2PClient->Close();
+		
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!这里是单次接收的数据，需要立刻处理!!!!!!!!!!!!!!!!!!!!!!!!!
+		//判断接收缓冲区vector是否为空
+		if (theApp.m_RecvBackMsg_Dat.size() !=0 )
+		{	
+			//先将当前结构体中数组转化成容器
+			for (iteBack = theApp.m_RecvBackMsg_Dat.begin(); iteBack != theApp.m_RecvBackMsg_Dat.end(); iteBack++)
 			{
-				stEsm.lTargetNumber = iteBack->lEsmTargetNumber[i];
-				stEsm.dZaiPin = iteBack->dEsmZaiPin[i];
-				stEsm.dMaiKuan = iteBack->dEsmMaiKuan[i];
-				stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
-				stEsm.dConfidence = iteBack->dEsmConfidence[i];
-				for ( int k = 0; k<32; k++)
+				stBackCooper.lAutonum = iteBack->lAutonum;
+				stBackCooper.nCorrFlag = iteBack->nCorrFlag;
+				stBackCooper.nStampTime = iteBack->nStampTime;
+				stBackCooper.BackESMN = iteBack->BackESMN;
+				stBackCooper.BackCOMN = iteBack->BackCOMN;
+				stBackCooper.BackTrackN = iteBack->BackTraceN;
+				memcpy(&stBackCooper.stBackShipPosi, &(iteBack->stBackShipPosi), sizeof(stBackCooper.stBackShipPosi)); 
+				memcpy(&stBackCooper.stTrace, &(iteBack->stTrace),sizeof(stBackCooper.stTrace));
+				
+				for (int i=0; i< iteBack->BackESMN; i++)
 				{
-					stEsm.sPlatType[k] = iteBack->sEsmPlatType[i][k];	
+					stEsm.lTargetNumber = iteBack->lEsmTargetNumber[i];
+					stEsm.dZaiPin = iteBack->dEsmZaiPin[i];
+					stEsm.dMaiKuan = iteBack->dEsmMaiKuan[i];
+					stEsm.dTianXianScan = iteBack->dEsmTianXianScan[i];
+					stEsm.dConfidence = iteBack->dEsmConfidence[i];
+					for ( int k = 0; k<32; k++)
+					{
+						stEsm.sPlatType[k] = iteBack->sEsmPlatType[i][k];	
+					}
+					stBackCooper.vctEsm.push_back(stEsm);
 				}
-				stBackCooper.vctEsm.push_back(stEsm);
+				for (int j=0; j< iteBack->BackCOMN; j++)
+				{
+					stCom.lTargetNumber = iteBack->lComTargetNumber[j];
+					stCom.dComZaiPin = iteBack->dComZaiPin[j];
+					stCom.dPulseExtent = iteBack->dComPulseExtent[j];
+					stCom.dComFre = iteBack->dComFre[j];
+					stCom.dComBand = iteBack->dComBand[j];
+					stCom.dComJPN = iteBack->dComJPN[j];
+					stCom.dConfidence = iteBack->dComConfidence[j];
+					for ( int k = 0; k<32; k++)
+					{
+						stCom.sPlatType[k] = iteBack->sComPlatType[j][k];	
+					}
+					stBackCooper.vctComm.push_back(stCom);
+				}
+				theApp.m_BackMsg.push_back(stBackCooper);
 			}
-			for (int j=0; j< iteBack->BackCOMN; j++)
+			//清空接收的buffer容器
+			//memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
+			for (iteBack = theApp.m_RecvBackMsg_Dat.begin(); iteBack != theApp.m_RecvBackMsg_Dat.end(); iteBack++)
 			{
-				stCom.lTargetNumber = iteBack->lComTargetNumber[j];
-				stCom.dComZaiPin = iteBack->dComZaiPin[j];
-				stCom.dPulseExtent = iteBack->dComPulseExtent[j];
-				stCom.dComFre = iteBack->dComFre[j];
-				stCom.dComBand = iteBack->dComBand[j];
-				stCom.dComJPN = iteBack->dComJPN[j];
-				stCom.dConfidence = iteBack->dComConfidence[j];
-				for ( int k = 0; k<32; k++)
-				{
-					stCom.sPlatType[k] = iteBack->sComPlatType[j][k];	
-				}
-				stBackCooper.vctComm.push_back(stCom);
+				memset(iteBack, 0, sizeof(SendBack_Msg));
 			}
-			theApp.m_BackMsg.push_back(stBackCooper);
+			theApp.m_RecvBackMsg_Dat.clear();
 		}
-		//清空接收的buffer容器
-		//memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
-		for (iteBack = theApp.m_RecvBackMsg_Dat.begin(); iteBack != theApp.m_RecvBackMsg_Dat.end(); iteBack++)
-		{
-			memset(iteBack, 0, sizeof(SendBack_Msg));
-		}
-		theApp.m_RecvBackMsg_Dat.clear();
 	}
 
 	//判断数据返回
