@@ -114,7 +114,7 @@ public:
 	//p2p socket服务器
 	CMsgSocket* m_P2PSocket;
 	//p2p socket客户端
-	CSocket* m_P2PClient;
+	CSocket* m_P2PClient[5];
 
 	//客户端
 	CMsgSocket* pClient;

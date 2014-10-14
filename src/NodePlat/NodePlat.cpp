@@ -288,7 +288,10 @@ void CNodePlatApp::ServerCreate(void)
 	theApp.m_P2PSocket->AsyncSelect(FD_ACCEPT);
 
 	//p2p客户端socket初始化
-	theApp.m_P2PClient = new CSocket();
+	for (int x = 0; x < 5; ++x)
+	{
+		theApp.m_P2PClient[x] = new CSocket();
+	}
 
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -307,9 +310,6 @@ void CNodePlatApp::ServerShutDown(void)
 	//客户端清空
 	theApp.m_ClientMap.clear();
 	
-	BOOL bReuseaddr=FALSE;
-	//close后重新使用关闭
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
 	//关闭监听
 	theApp.m_P2PSocket->Close();
 	//释放监听端资源
@@ -317,8 +317,11 @@ void CNodePlatApp::ServerShutDown(void)
 	theApp.m_P2PSocket = NULL;
 
 	//释放监听端资源
-	delete theApp.m_P2PClient;
-	theApp.m_P2PClient = NULL;
+	for (int x = 0; x < 5; ++x)
+	{
+		delete theApp.m_P2PClient[x];
+		theApp.m_P2PClient[x] = NULL;
+	}
 
 	//关闭信号量
 	::CloseHandle(hEvent);

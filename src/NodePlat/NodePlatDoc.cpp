@@ -448,24 +448,6 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 	//如果不为空,接收的数据参与运算!
 	//参与运算,先copy一份当前的容器;清空接收的buffer容器
 
-	//create socket---------------------------------------------/
-	theApp.m_P2PClient->Socket();
-
-	//设定网络的接收延迟为800ms
-	int nNetTimeout = 800;
-	BOOL bDontLinger = FALSE;
-	BOOL bReuseaddr = FALSE;
-	
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&nNetTimeout, sizeof(int));
-	//发送延迟为400ms
-	nNetTimeout = 400;
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_SNDTIMEO, (char *)&nNetTimeout, sizeof(int));
-	//connect关闭
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_DONTLINGER, (const char*)&bDontLinger, sizeof(BOOL));
-	//close后重新使用
-	//::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
-	//over
-
 	VCT_SendBack_Msg::iterator iteBack;
 	BACK_Cooperative_Msg stBackCooper;
 //	TRACKSTATUS_MARK stTrace;
@@ -554,28 +536,47 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 		}
 	}
 
+	int nShipNum = 0;
 	//这里面的map是界面传过来的！！不是全局的那个map，全局的map是给你界面用的。比如你选中B舰，这里的vector就是B舰的
-	for (iteMap = SendToIpMap.begin(); iteMap != SendToIpMap.end(); ++iteMap)//遍历界面传来的协同舰ip
-	{	
+	for (iteMap = SendToIpMap.begin(), nShipNum = 0; iteMap != SendToIpMap.end(); ++iteMap, ++nShipNum)//遍历界面传来的协同舰ip
+	{
+		//create socket---------------------------------------------/
+		theApp.m_P2PClient[nShipNum]->Socket();
+		
+		//设定网络的接收延迟为800ms
+		int nNetTimeout = 800;
+		BOOL bDontLinger = FALSE;
+		BOOL bReuseaddr = TRUE;
+		
+		::setsockopt(theApp.m_P2PClient[nShipNum]->m_hSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&nNetTimeout, sizeof(int));
+		//发送延迟为400ms
+		nNetTimeout = 400;
+		::setsockopt(theApp.m_P2PClient[nShipNum]->m_hSocket, SOL_SOCKET, SO_SNDTIMEO, (char *)&nNetTimeout, sizeof(int));
+		//connect关闭
+		::setsockopt(theApp.m_P2PClient[nShipNum]->m_hSocket, SOL_SOCKET, SO_DONTLINGER, (const char*)&bDontLinger, sizeof(BOOL));
+		//close后重新使用
+		::setsockopt(theApp.m_P2PClient[nShipNum]->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
+		//over
+
 		//向相应的节点发送数据包
 		int conreval;
 		CString cstest = iteMap->second;
-		conreval = theApp.m_P2PClient->Connect(iteMap->second, P2P_SERVER_PORT);
+		conreval = theApp.m_P2PClient[nShipNum]->Connect(iteMap->second, P2P_SERVER_PORT);
 		
 		if (conreval)//连接成功
 		{
 			//发送请求
-			SendCoopReq(theApp.m_P2PClient);
+			SendCoopReq(theApp.m_P2PClient[nShipNum]);
 			//等待数据 
-			ReceiveData(theApp.m_P2PClient);							
+			ReceiveData(theApp.m_P2PClient[nShipNum]);							
 		}
 		else
 		{
 			//connect失败!
 		}
 		//关闭socket,等待重新使用!
-		theApp.m_P2PClient->ShutDown(2);
-		theApp.m_P2PClient->Close();
+		theApp.m_P2PClient[nShipNum]->ShutDown(2);
+		theApp.m_P2PClient[nShipNum]->Close();
 		
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!这里是单次接收的数据，需要立刻处理!!!!!!!!!!!!!!!!!!!!!!!!!
 		//判断接收缓冲区vector是否为空
