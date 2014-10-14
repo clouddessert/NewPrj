@@ -454,7 +454,7 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 	//设定网络的接收延迟为800ms
 	int nNetTimeout = 800;
 	BOOL bDontLinger = FALSE;
-	BOOL bReuseaddr=FALSE;
+	BOOL bReuseaddr = FALSE;
 	
 	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_RCVTIMEO, (char *)&nNetTimeout, sizeof(int));
 	//发送延迟为400ms
@@ -463,7 +463,7 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 	//connect关闭
 	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_DONTLINGER, (const char*)&bDontLinger, sizeof(BOOL));
 	//close后重新使用
-	::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
+	//::setsockopt(theApp.m_P2PClient->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
 	//over
 
 	VCT_SendBack_Msg::iterator iteBack;
@@ -574,10 +574,8 @@ void CNodePlatDoc::SendMsg(map<int, CString> SendToIpMap)
 			//connect失败!
 		}
 		//关闭socket,等待重新使用!
-		::shutdown(theApp.m_P2PClient->m_hSocket, 2);
-		::closesocket(theApp.m_P2PClient->m_hSocket);
-		//theApp.m_P2PClient->ShutDown(2);
-		//theApp.m_P2PClient->Close();
+		theApp.m_P2PClient->ShutDown(2);
+		theApp.m_P2PClient->Close();
 		
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!这里是单次接收的数据，需要立刻处理!!!!!!!!!!!!!!!!!!!!!!!!!
 		//判断接收缓冲区vector是否为空
