@@ -52,6 +52,7 @@ END_MESSAGE_MAP()
 CNodePlatDoc::CNodePlatDoc()
 {
 	// TODO: add one-time construction code here
+	theApp.pTmpDocPt = (void*)this;
 }
 
 CNodePlatDoc::~CNodePlatDoc()

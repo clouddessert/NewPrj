@@ -591,10 +591,9 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 	COMSTATUS_MARK stCom;
 	//	SHIP_POSITION stBackShipPosi;            //应答舰的经纬高
 
-	int s,t, m, n;
+	CNodePlatDoc *pTmpDoc = (CNodePlatDoc*)theApp.pTmpDocPt;
 
-	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
-	CNodePlatDoc* pTmpDoc = (CNodePlatDoc*)(pMainFrame->GetActiveDocument());
+	int s,t, m, n;
 
 	//清空
 	m_StRequest.vctEsm.clear();

@@ -37,6 +37,7 @@ public:
 public:
 	CRITICAL_SECTION g_cs;				// 临界区结构对象
 
+	void *pTmpDocPt;
 	//发送数据线程句柄;
 	HANDLE hSendProc;					
 	BOOL bThreadFlag;
