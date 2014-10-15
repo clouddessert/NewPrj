@@ -287,12 +287,6 @@ void CNodePlatApp::ServerCreate(void)
 	theApp.m_P2PSocket->Listen();
 	theApp.m_P2PSocket->AsyncSelect(FD_ACCEPT);
 
-	//p2p客户端socket初始化
-	for (int x = 0; x < 5; ++x)
-	{
-		theApp.m_P2PClient[x] = new CSocket();
-	}
-
 	//创建同步时间
 	hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
@@ -322,13 +316,6 @@ void CNodePlatApp::ServerShutDown(void)
 	//释放监听端资源
 	delete theApp.m_P2PSocket;
 	theApp.m_P2PSocket = NULL;
-
-	//释放监听端资源
-	for (int x = 0; x < 5; ++x)
-	{
-		delete theApp.m_P2PClient[x];
-		theApp.m_P2PClient[x] = NULL;
-	}
 
 	//关闭信号量
 	::CloseHandle(hEvent);
@@ -947,6 +934,14 @@ DWORD WINAPI SendDataProc(LPVOID lParam)
 	map<int, CString> stTmp;
 	map<int, CString>::iterator iter;
 
+	int x = 0;
+
+	//p2p客户端socket初始化
+	for (x = 0; x < 5; ++x)
+	{
+		theApp.m_P2PClient[x] = new CSocket();
+	}
+
 	while (theApp.bThreadFlag)
 	{
 		//Sleep 1000ms
@@ -961,6 +956,13 @@ DWORD WINAPI SendDataProc(LPVOID lParam)
 		::LeaveCriticalSection(&(theApp.g_cs));
 
 		theApp.SendMsg(stTmp);
+	}
+
+	//释放监听端资源
+	for (x = 0; x < 5; ++x)
+	{
+		delete theApp.m_P2PClient[x];
+		theApp.m_P2PClient[x] = NULL;
 	}
 	
 	return 0;
