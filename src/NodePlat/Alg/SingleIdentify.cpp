@@ -1228,8 +1228,8 @@ void ShowOfHands(TYPEVEC& Type, VCT_IDENTIINFOR_MSG& IdentifyVec)
 		int len = Vcst.size();
         for (int i = 0;i < len;i ++)//遍历Vcst
 		{
-			if (Vcst[i].sType == it->sType)
-//			if (strcmp(Vcst[i]->type,(*it)->type) == 0)//目标类型一致
+//			if (Vcst[i].sType == it->sType)
+ 			if (strcmp(Vcst[i].sType,(*it).sType) == 0)//目标类型一致
 			{
 				typenum[i] = typenum[i] + 1;//识别数+1
 				typecon[i] = typecon[i] * (1 - it->con);//计算可信度
