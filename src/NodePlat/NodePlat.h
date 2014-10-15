@@ -36,6 +36,10 @@ public:
 
 public:
 	CRITICAL_SECTION g_cs;				// 临界区结构对象
+
+	//发送数据线程句柄;
+	HANDLE hSendProc;					
+	BOOL bThreadFlag;
 	
 	VCT_ESM_MSG m_ESM_Dat;
 	VCT_COMM_MSG m_Comm_Dat;
@@ -149,6 +153,8 @@ public:
 
 	void ServerCreate(void);
 	void ServerShutDown(void);
+
+	void SendMsg(map<int, CString> SendToIpMap);
 
 // Implementation
 	//{{AFX_MSG(CNodePlatApp)

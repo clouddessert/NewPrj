@@ -6,80 +6,150 @@
 --------------------Configuration: NodePlat - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPD9B4.tmp" with contents
+Creating command line "rc.exe /l 0x804 /fo"Debug/NodePlat.res" /d "_DEBUG" /d "_AFXDLL" "E:\NewPrj\trunk\src\NodePlat\NodePlat.rc"" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP6826.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\NewPrj\trunk\src\NodePlat\AllParamSheet.cpp"
+"E:\NewPrj\trunk\src\NodePlat\Alg\SingleIdentify.cpp"
+]
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP6826.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP6827.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"C:\Documents and Settings\Administrator\×ÀÃæ\NewPrj\trunk\src\NodePlat\NodePlatDoc.cpp"
+"E:\NewPrj\trunk\src\NodePlat\Alg\CooperativeMsg.cpp"
+"E:\NewPrj\trunk\src\NodePlat\DrawView.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MainFrm.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgAllSheet.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgCtlView.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgEighthPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgFifthPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgFourthPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgFstPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgListView.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgSecPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgSeventhPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgSixthPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgSocket.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MsgThreePage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\Alg\MultipleIdentify.cpp"
+"E:\NewPrj\trunk\src\NodePlat\MySocket.cpp"
+"E:\NewPrj\trunk\src\NodePlat\NetworkSetting.cpp"
+"E:\NewPrj\trunk\src\NodePlat\NodePlat.cpp"
+"E:\NewPrj\trunk\src\NodePlat\NodePlatDoc.cpp"
+"E:\NewPrj\trunk\src\NodePlat\NodePlatView.cpp"
+"E:\NewPrj\trunk\src\NodePlat\ParamFstPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\ParamSecondPage.cpp"
+"E:\NewPrj\trunk\src\NodePlat\Alg\XSi.cpp"
 ]
-Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPD9B4.tmp" 
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPD9B5.tmp" with contents
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP6827.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP6828.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\NewPrj\trunk\src\NodePlat\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP6828.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP6829.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/NodePlat.pdb" /debug /machine:I386 /out:"Debug/NodePlat.exe" /pdbtype:sept 
-".\Debug\AllParamSheet.obj"
-".\Debug\CooperativeMsg.obj"
-".\Debug\DrawView.obj"
-".\Debug\MainFrm.obj"
-".\Debug\MsgAllSheet.obj"
-".\Debug\MsgCtlView.obj"
-".\Debug\MsgEighthPage.obj"
-".\Debug\MsgFifthPage.obj"
-".\Debug\MsgFourthPage.obj"
-".\Debug\MsgFstPage.obj"
-".\Debug\MsgListView.obj"
-".\Debug\MsgSecPage.obj"
-".\Debug\MsgSeventhPage.obj"
-".\Debug\MsgSixthPage.obj"
-".\Debug\MsgSocket.obj"
-".\Debug\MsgThreePage.obj"
-".\Debug\MultipleIdentify.obj"
-".\Debug\MySocket.obj"
-".\Debug\NetworkSetting.obj"
-".\Debug\NodePlat.obj"
-".\Debug\NodePlatDoc.obj"
-".\Debug\NodePlatView.obj"
-".\Debug\ParamFstPage.obj"
-".\Debug\ParamSecondPage.obj"
-".\Debug\SingleIdentify.obj"
-".\Debug\StdAfx.obj"
-".\Debug\XSi.obj"
-".\Debug\NodePlat.res"
+.\Debug\AllParamSheet.obj
+.\Debug\CooperativeMsg.obj
+.\Debug\DrawView.obj
+.\Debug\MainFrm.obj
+.\Debug\MsgAllSheet.obj
+.\Debug\MsgCtlView.obj
+.\Debug\MsgEighthPage.obj
+.\Debug\MsgFifthPage.obj
+.\Debug\MsgFourthPage.obj
+.\Debug\MsgFstPage.obj
+.\Debug\MsgListView.obj
+.\Debug\MsgSecPage.obj
+.\Debug\MsgSeventhPage.obj
+.\Debug\MsgSixthPage.obj
+.\Debug\MsgSocket.obj
+.\Debug\MsgThreePage.obj
+.\Debug\MultipleIdentify.obj
+.\Debug\MySocket.obj
+.\Debug\NetworkSetting.obj
+.\Debug\NodePlat.obj
+.\Debug\NodePlatDoc.obj
+.\Debug\NodePlatView.obj
+.\Debug\ParamFstPage.obj
+.\Debug\ParamSecondPage.obj
+.\Debug\SingleIdentify.obj
+.\Debug\StdAfx.obj
+.\Debug\XSi.obj
+.\Debug\NodePlat.res
 ]
-Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPD9B5.tmp"
+Creating command line "link.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP6829.tmp"
 <h3>Output Window</h3>
+Compiling resources...
 Compiling...
+StdAfx.cpp
+Compiling...
+AllParamSheet.cpp
+SingleIdentify.cpp
+Generating Code...
+Compiling...
+CooperativeMsg.cpp
+DrawView.cpp
+MainFrm.cpp
+MsgAllSheet.cpp
+MsgCtlView.cpp
+MsgEighthPage.cpp
+MsgFifthPage.cpp
+MsgFourthPage.cpp
+MsgFstPage.cpp
+MsgListView.cpp
+MsgSecPage.cpp
+MsgSeventhPage.cpp
+MsgSixthPage.cpp
+MsgSocket.cpp
+MsgThreePage.cpp
+MultipleIdentify.cpp
+MySocket.cpp
+NetworkSetting.cpp
+NodePlat.cpp
 NodePlatDoc.cpp
+Generating Code...
+Compiling...
+NodePlatView.cpp
+ParamFstPage.cpp
+ParamSecondPage.cpp
+XSi.cpp
+Generating Code...
 Linking...
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPD9B6.tmp" with contents
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP826E.tmp" with contents
 [
 /nologo /o"Debug/NodePlat.bsc" 
-".\Debug\StdAfx.sbr"
-".\Debug\AllParamSheet.sbr"
-".\Debug\CooperativeMsg.sbr"
-".\Debug\DrawView.sbr"
-".\Debug\MainFrm.sbr"
-".\Debug\MsgAllSheet.sbr"
-".\Debug\MsgCtlView.sbr"
-".\Debug\MsgEighthPage.sbr"
-".\Debug\MsgFifthPage.sbr"
-".\Debug\MsgFourthPage.sbr"
-".\Debug\MsgFstPage.sbr"
-".\Debug\MsgListView.sbr"
-".\Debug\MsgSecPage.sbr"
-".\Debug\MsgSeventhPage.sbr"
-".\Debug\MsgSixthPage.sbr"
-".\Debug\MsgSocket.sbr"
-".\Debug\MsgThreePage.sbr"
-".\Debug\MultipleIdentify.sbr"
-".\Debug\MySocket.sbr"
-".\Debug\NetworkSetting.sbr"
-".\Debug\NodePlat.sbr"
-".\Debug\NodePlatDoc.sbr"
-".\Debug\NodePlatView.sbr"
-".\Debug\ParamFstPage.sbr"
-".\Debug\ParamSecondPage.sbr"
-".\Debug\SingleIdentify.sbr"
-".\Debug\XSi.sbr"]
-Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSPD9B6.tmp"
+.\Debug\StdAfx.sbr
+.\Debug\AllParamSheet.sbr
+.\Debug\CooperativeMsg.sbr
+.\Debug\DrawView.sbr
+.\Debug\MainFrm.sbr
+.\Debug\MsgAllSheet.sbr
+.\Debug\MsgCtlView.sbr
+.\Debug\MsgEighthPage.sbr
+.\Debug\MsgFifthPage.sbr
+.\Debug\MsgFourthPage.sbr
+.\Debug\MsgFstPage.sbr
+.\Debug\MsgListView.sbr
+.\Debug\MsgSecPage.sbr
+.\Debug\MsgSeventhPage.sbr
+.\Debug\MsgSixthPage.sbr
+.\Debug\MsgSocket.sbr
+.\Debug\MsgThreePage.sbr
+.\Debug\MultipleIdentify.sbr
+.\Debug\MySocket.sbr
+.\Debug\NetworkSetting.sbr
+.\Debug\NodePlat.sbr
+.\Debug\NodePlatDoc.sbr
+.\Debug\NodePlatView.sbr
+.\Debug\ParamFstPage.sbr
+.\Debug\ParamSecondPage.sbr
+.\Debug\SingleIdentify.sbr
+.\Debug\XSi.sbr]
+Creating command line "bscmake.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP826E.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 
