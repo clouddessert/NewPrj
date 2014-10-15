@@ -523,7 +523,7 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 	double CPdere;      //综合置信度
 	MIDENTIINFOR MidentStr;          //识别结果
 
-	vctMidentiinforMsg.clear();//清空联合识别结果
+//	vctMidentiinforMsg.clear();//清空联合识别结果
 
  
 
@@ -621,7 +621,9 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 		MidentStr.lAutonum = iteCoorMsg->lAutonum;
 		//MidentStr.dConfidence = CPdere;
         int b = Seri[0] -1;
-		MidentStr.sPlatType = vctPlatType[Seri[0]-1];
+		//MidentStr.sPlatType = vctPlatType[Seri[0]-1];
+		strcpy(MidentStr.sPlatType, vctPlatType[Seri[0]-1]);
+
 		//P = 1 - (1 - p1)(1 - p2)(1 - p3)(1 - p4)(1 - p5)综合置信度
 		for (iteTrack = iteCoorMsg->vctTrace.begin(); iteTrack != iteCoorMsg->vctTrace.end(); iteTrack++)
 		{

@@ -79,7 +79,7 @@ typedef struct __Cooperative_Msg     //请求和返回信息汇总数据结构
 }Cooperative_Msg;
 typedef vector<Cooperative_Msg> VCT_COOPER_MSG;
 //平台类型容器
-typedef vector<char*> VCT_sPlatType;
+typedef vector<string> VCT_sPlatType;
 
 //******************************************************************************************//
 //                          多舰协同综合识别公共模块                                        //
