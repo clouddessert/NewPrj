@@ -308,11 +308,36 @@ void CMsgThreePage::OnRclickListTrace(NMHDR* pNMHDR, LRESULT* pResult)
 	/*右击弹出菜单*/
 	CMenu menu;
 	VERIFY(menu.LoadMenu(IDR_SENDREQUEST));    //IDR_SENDQUEST是新建菜单ID
-	if (!num[0]) menu.EnableMenuItem(IDM_MATEA, MF_GRAYED);//如果为本舰，则子菜单变灰
-	if (!num[1]) menu.EnableMenuItem(IDM_MATEB, MF_GRAYED);
-	if (!num[2]) menu.EnableMenuItem(IDM_MATEC, MF_GRAYED);
-	if (!num[3]) menu.EnableMenuItem(IDM_MATED, MF_GRAYED);
-	if (!num[4]) menu.EnableMenuItem(IDM_MATEE, MF_GRAYED);
+// 	if (!num[0]) menu.EnableMenuItem(IDM_MATEA, MF_GRAYED);//如果为本舰，则子菜单变灰
+// 	if (!num[1]) menu.EnableMenuItem(IDM_MATEB, MF_GRAYED);
+// 	if (!num[2]) menu.EnableMenuItem(IDM_MATEC, MF_GRAYED);
+// 	if (!num[3]) menu.EnableMenuItem(IDM_MATED, MF_GRAYED);
+// 	if (!num[4]) menu.EnableMenuItem(IDM_MATEE, MF_GRAYED);
+	if (!num[0]) 
+	{
+		menu.EnableMenuItem(IDM_SENDA, MF_GRAYED);//如果为本舰，则子菜单变灰
+		menu.EnableMenuItem(IDM_CLOSEA, MF_GRAYED);
+	}
+	if (!num[1]) 
+	{
+		menu.EnableMenuItem(IDM_SENDB, MF_GRAYED);
+		menu.EnableMenuItem(IDM_CLOSEB, MF_GRAYED);
+	}
+	if (!num[2]) 
+	{
+		menu.EnableMenuItem(IDM_SENDC, MF_GRAYED);
+		menu.EnableMenuItem(IDM_CLOSEC, MF_GRAYED);
+	}
+	if (!num[3])
+	{
+		menu.EnableMenuItem(IDM_SENDD, MF_GRAYED);
+		menu.EnableMenuItem(IDM_CLOSED, MF_GRAYED);
+	}
+	if (!num[4]) 
+	{
+		menu.EnableMenuItem(IDM_SENDE, MF_GRAYED);
+		menu.EnableMenuItem(IDM_CLOSEE, MF_GRAYED);
+	}
 	CMenu* popup = menu.GetSubMenu(0);        //取得被指定菜单激活的下拉式菜单或子菜单的句柄
 	CPoint oPoint;//定义一个用于确定光标位置的位置  
     GetCursorPos(&oPoint);//获取当前光标的位置，以便使得菜单可以跟随光标

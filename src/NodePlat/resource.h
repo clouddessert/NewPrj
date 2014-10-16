@@ -57,6 +57,18 @@
 #define IDM_MATED                       32789
 #define IDM_MATEE                       32790
 #define IDM_MATEALL                     32791
+#define IDM_SENDA                       32793
+#define IDM_CLOSEA                      32794
+#define IDM_SENDB                       32795
+#define IDM_CLOSEB                      32796
+#define IDM_SENDD                       32798
+#define IDM_CLOSED                      32799
+#define IDM_SENDC                       32800
+#define IDM_CLOSEC                      32801
+#define IDM_SENDE                       32803
+#define IDM_CLOSEE                      32804
+#define IDM_SENDALL                     32806
+#define IDM_CLOSEALL                    32807
 
 // Next default values for new objects
 // 
@@ -64,7 +76,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        154
-#define _APS_NEXT_COMMAND_VALUE         32792
+#define _APS_NEXT_COMMAND_VALUE         32808
 #define _APS_NEXT_CONTROL_VALUE         1021
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

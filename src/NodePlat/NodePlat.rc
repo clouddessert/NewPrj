@@ -103,14 +103,35 @@ IDR_SENDREQUEST MENU DISCARDABLE
 BEGIN
     POPUP "POP_UP"
     BEGIN
-        POPUP "·¢ËÍÇëÇó"
+        POPUP "A½¢"
         BEGIN
-            MENUITEM "A½¢",                         IDM_MATEA
-            MENUITEM "B½¢",                         IDM_MATEB
-            MENUITEM "C½¢",                         IDM_MATEC
-            MENUITEM "D½¢",                         IDM_MATED
-            MENUITEM "E½¢",                         IDM_MATEE
-            MENUITEM "ËùÓÐÁÚ½¢",                    IDM_MATEALL
+            MENUITEM "·¢ËÍÇëÇó",                    IDM_SENDA
+            MENUITEM "¹Ø±ÕÇëÇó",                    IDM_CLOSEA
+        END
+        POPUP "B½¢"
+        BEGIN
+            MENUITEM "·¢ËÍÇëÇó",                    IDM_SENDB
+            MENUITEM "¹Ø±ÕÇëÇó",                    IDM_CLOSEB
+        END
+        POPUP "C½¢"
+        BEGIN
+            MENUITEM "·¢ËÍÇëÇó",                    IDM_SENDC
+            MENUITEM "¹Ø±ÕÇëÇó",                    IDM_CLOSEC
+        END
+        POPUP "D½¢"
+        BEGIN
+            MENUITEM "·¢ËÍÇëÇó",                    IDM_SENDD
+            MENUITEM "¹Ø±ÕÇëÇó",                    IDM_CLOSED
+        END
+        POPUP "E½¢"
+        BEGIN
+            MENUITEM "·¢ËÍÇëÇó",                    IDM_SENDE
+            MENUITEM "¹Ø±ÕÇëÇó",                    IDM_CLOSEE
+        END
+        POPUP "ËùÓÐ½¢"
+        BEGIN
+            MENUITEM "·¢ËÍÇëÇó",                    IDM_SENDALL
+            MENUITEM "¹Ø±ÕÇëÇó",                    IDM_CLOSEALL
         END
     END
 END

@@ -52,12 +52,24 @@ protected:
 	afx_msg void OnDisconnectService();
 	afx_msg void OnEvaSin();
 	afx_msg void OnEvaMul();
-	afx_msg void OnSendToMateall();
-	afx_msg void OnSendToMateA();
-	afx_msg void OnSendToMateB();
-	afx_msg void OnSendToMateC();
-	afx_msg void OnSendToMateD();
-	afx_msg void OnSendToMateE();
+// 	afx_msg void OnSendToMateall();
+// 	afx_msg void OnSendToMateA();
+// 	afx_msg void OnSendToMateB();
+// 	afx_msg void OnSendToMateC();
+// 	afx_msg void OnSendToMateD();
+// 	afx_msg void OnSendToMateE();
+	afx_msg void OnSendA();
+	afx_msg void OnSendB();
+	afx_msg void OnSendAll();
+	afx_msg void OnSendC();
+	afx_msg void OnSendD();
+	afx_msg void OnSendE();
+	afx_msg void OnCloseA();
+	afx_msg void OnCloseAll();
+	afx_msg void OnCloseB();
+	afx_msg void OnCloseC();
+	afx_msg void OnCloseD();
+	afx_msg void OnCloseE();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
