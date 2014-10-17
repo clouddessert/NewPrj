@@ -318,7 +318,7 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 									  VctCorr.push_back(dcorrComZaiPin);
 									  Mf_SPA(iteCo->dPulseExtent,re_iteCo->dPulseExtent,dcorrdPulseExtent); //脉冲幅度
 									  VctCorr.push_back(dcorrdPulseExtent);
-									  //0909修改:增加COM的集对分析数据:  带宽和跳频次数	 
+								//0909修改:增加COM的集对分析数据:  带宽和跳频次数	 
 									  Mf_SPA(iteCo->dComBand,re_iteCo->dComBand,dcorrBand);//带宽
 									  VctCorr.push_back(dcorrBand);
 									  Mf_SPA(iteCo->dComJPN,re_iteCo->dComJPN,dcorrJPN);//跳频次数

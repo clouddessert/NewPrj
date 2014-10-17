@@ -39,7 +39,7 @@ typedef struct _Accuracy_COM
 //            2║╒хз╨о╨С╣деЗ╨её╛мЁр╩сц╠╬╫╒ио╣дт╜п╜м╛д©╠Й╤тс╕╣д╦ВеЗ╨её╛╟Эю╗╨оеЗ╨е
 //            3║╒об╥╒╦Ьл╛йф╥жнЖдё©И
 /////////////////////////////////////////////////////////////
-
+/*
 //╨╫╪ёхз╨о
 typedef struct __FUS_TRACK
 {
@@ -80,7 +80,7 @@ typedef struct __FUS_COM
     double dFusCOMConfidence;          //COMпе╨е╣дй╤╠П©ипе╤х
 
 }FUS_COM;
-
+*/
 
 typedef struct __Request_Cooperative_Msg     //жВ╫╒гКгСп╜м╛╣дпео╒йЩ╬щ╫А╧╧
 {
@@ -92,8 +92,6 @@ typedef struct __Request_Cooperative_Msg     //жВ╫╒гКгСп╜м╛╣дпео╒йЩ╬щ╫А╧╧
 	VCT_COMM_MSG vctComm;                    //йг╥Яр╙╪с?????????  ╣╠кмЁЖ╣дпео╒ж╩спCOM , гКгСп╜м╛╣дCOMпео╒   
     SHIP_POSITION stReqShipPosi;             //╢Ф╥е╠╬╫╒╬╜нЁ╦ъ
     int nCorrFlag;                           //гКгСпео╒╣д╫А╧╧лЕйг╥Яур╣╫оЮ╧ьа╙пео╒╣д╠Йж╬
-
-
 }Request_Cooperative_Msg;
 
 
@@ -200,21 +198,21 @@ typedef struct __BACK_Cooperative_Msg        //аз╫╒км╦ЬжВ╫╒п╜м╛пео╒╣дйЩ╬щ╫А╧╧
 }BACK_Cooperative_Msg;
 
 
-typedef vector<FUS_TRACK> VCT_FUS_TRACK;      //╢Ф╢╒хз╨о╨С╣дюв╢Ол╫╡Бпео╒ (╨╫╪ёпео╒)
-typedef vector<FUS_ESM> VCT_FUS_ESM;	     //╢Ф╢╒хз╨о╨С╣дюв╢ОуЛ╡Лпео╒ (╦Ы╬щ╧ьа╙о╣йЩё╛╢Ф╢╒╡╩м╛жжюЮ╣дуЛ╡Ипео╒╫А╧╧лЕ)
-typedef vector<FUS_COM> VCT_FUS_COM;         //╢Ф╢╒хз╨о╨С╣дм╗пеуЛ╡Ипео╒ (╦Ы╬щ╧ьа╙о╣йЩё╛╢Ф╢╒╡╩м╛жжюЮ╣дм╗пепео╒╫А╧╧лЕ)
+// typedef vector<FUS_TRACK> VCT_FUS_TRACK;      //╢Ф╢╒хз╨о╨С╣дюв╢Ол╫╡Бпео╒ (╨╫╪ёпео╒)
+// typedef vector<FUS_ESM> VCT_FUS_ESM;	     //╢Ф╢╒хз╨о╨С╣дюв╢ОуЛ╡Лпео╒ (╦Ы╬щ╧ьа╙о╣йЩё╛╢Ф╢╒╡╩м╛жжюЮ╣дуЛ╡Ипео╒╫А╧╧лЕ)
+// typedef vector<FUS_COM> VCT_FUS_COM;         //╢Ф╢╒хз╨о╨С╣дм╗пеуЛ╡Ипео╒ (╦Ы╬щ╧ьа╙о╣йЩё╛╢Ф╢╒╡╩м╛жжюЮ╣дм╗пепео╒╫А╧╧лЕ)
 
-typedef struct __Cooperative_FUSIDENTIINFOR  //п╜м╛╨Сё╛хз╨опео╒сКй╤╠П╫А╧Ш╫А╧╧лЕ
-{
-	unsigned long lAutonum; 	             //вш╨оеЗ╨е
-	unsigned short sPlatType;                //ф╫л╗юЮпм  F117  (F117ё╩ F118ё╩ F119ё╩ F120ё╩ F121)
-	double dConfidence;                      //©ипе╤х	
-	FUS_TRACK stFusTrack;                    //╢Ф╢╒хз╨о╨С╣дюв╢Ол╫╡Бпео╒ё╗╨╫╪ёпео╒ё╘
-//	VCT_FUS_TRACK vctFusTrack;
-	VCT_FUS_ESM vctFusEsm;                   //╢Ф╢╒хз╨о╨С╣дюв╢ОуЛ╡Лпео╒
-    VCT_FUS_COM vctFusCom;                   //╢Ф╢╒хз╨о╨С╣дм╗пеуЛ╡Ипео╒                  
-
-}Cooperative_FUSIDENTIINFOR;
+// typedef struct __Cooperative_FUSIDENTIINFOR  //п╜м╛╨Сё╛хз╨опео╒сКй╤╠П╫А╧Ш╫А╧╧лЕ
+// {
+// 	unsigned long lAutonum; 	             //вш╨оеЗ╨е
+// 	unsigned short sPlatType;                //ф╫л╗юЮпм  F117  (F117ё╩ F118ё╩ F119ё╩ F120ё╩ F121)
+// 	double dConfidence;                      //©ипе╤х	
+// 	FUS_TRACK stFusTrack;                    //╢Ф╢╒хз╨о╨С╣дюв╢Ол╫╡Бпео╒ё╗╨╫╪ёпео╒ё╘
+// //	VCT_FUS_TRACK vctFusTrack;
+// 	VCT_FUS_ESM vctFusEsm;                   //╢Ф╢╒хз╨о╨С╣дюв╢ОуЛ╡Лпео╒
+//     VCT_FUS_COM vctFusCom;                   //╢Ф╢╒хз╨о╨С╣дм╗пеуЛ╡Ипео╒                  
+// 
+// }Cooperative_FUSIDENTIINFOR;
 /*
 typedef struct __STR//╥╫н╩╬шюЮ╨Сё╛м╛╥╫н╩йЩ╬щ╫А╧╧(╨╫╪ёпео╒ц©╦Ж╫А╧╧лЕж╩спр╩лУ)
 {
@@ -261,7 +259,7 @@ typedef vector<Request_Cooperative_Msg> VCT_Request_Cooperative_Msg; //╢Ф╢╒╠╬╫╒г
 
 typedef vector<BACK_Cooperative_Msg> VCT_BACK_Cooperative_Msg;  //╢Ф╢╒аз╫╒км╦ЬжВ╫╒╣дп╜м╛пео╒╫А╧╧лЕ
 
-typedef vector<Cooperative_FUSIDENTIINFOR> VCT_Cooperative_FUSIDENTIINFOR;  //╢Ф╢╒п╜м╛╨Схз╨опео╒╨мй╤╠П╫А╧Ш╣д╫А╧╧лЕ
+//typedef vector<Cooperative_FUSIDENTIINFOR> VCT_Cooperative_FUSIDENTIINFOR;  //╢Ф╢╒п╜м╛╨Схз╨опео╒╨мй╤╠П╫А╧Ш╣д╫А╧╧лЕ
 
 //╠╬╫╒гКгС---п╜м╛й╤╠П╫с©з╨╞йЩ  ╠╬╫╒гКгСп╜м╛╣дпео╒ё╗╤тсз╬шюЮ╠ЮеЗ╣д╫А╧Шё╘ё╛╢Ф╥еаз╫╒с╕╢Пкм╦ЬжВ╫╒п╜м╛╣дпео╒╫А╧╧лЕ╣дхщфВё╛╢Ф╢╒п╜м╛╨Схз╨опео╒╨мй╤╠П╫А╧Ш╫А╧╧лЕ╣дхщфВ║ё
 //void GET_Cooperate_Recognition_Modul(VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative, VCT_Cooperative_FUSIDENTIINFOR& VctFusIdentify);
