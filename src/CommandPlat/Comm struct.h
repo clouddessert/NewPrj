@@ -50,12 +50,14 @@ typedef struct __ESMSTATUS_MARK
 	 char sPlatType[32];  
 	 char cPlatName[32];                 //平台名称  飞机 导弹 轰炸机 战斗机
 
-	 char cDWAttribute[32];                  //敌我属性
+	 char cDWAttribute[32];              //敌我属性
 	 double dConfidence;                 //可信度
      char cCountry[32];                  //国家（地区）
 
 	 char cJfFlag;
 	 unsigned long lFlag;                 //累加标记
+//1016补充
+	unsigned long lFusFlag;                //融合查找标记
 
 }ESMSTATUS_MARK;
  
@@ -80,7 +82,7 @@ typedef struct __COMSTATUS_MARK           //通信侦查信息
 	unsigned long lSignalReachTime;      //信号到达时间
    	double dPulseExtent;                 //脉冲幅度 
 // 0909补充:
-     	double dComFre;                       // 中心频率(MHz)
+    double dComFre;                       // 中心频率(MHz)
 	double dComBand;                      // 信号带宽(MHz)
 	double dComJPN;                       // 跳步次数
 //识别信息 
@@ -88,11 +90,13 @@ typedef struct __COMSTATUS_MARK           //通信侦查信息
 	char cModulationStyle[32];            //调制样式     
     char sPlatType[32];                   //平台类型  F117  (F117； F118； F119； F120； F121)
 	char cPlatName[32];			          //平台名称    
-	char cDWAttribute[32];					  //敌我属性
+	char cDWAttribute[32];				  //敌我属性
 	double dConfidence;  			      //可信度
     char cCountry[32];			          //国家（地区）
 	char cJfFlag;
 	unsigned long lFlag;                  //累加标记
+//1016补充
+	unsigned long lFusFlag;                //融合查找标记
 
 }COMSTATUS_MARK;
 
@@ -112,6 +116,12 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
 	double dRange;                        //距离
 	double dAzimuth;                      //方位
 	double dElevationAngle;               //仰角
+//1017 态势
+	double dHeight;                         //高度
+	double dVSpeed;                        //速度
+    double dAddSpeed;                     //加速度
+	double dThreatLevel;                //威胁等级0--7
+
     double dCourse;                       //绝对航向
 	long lSignalReachTime;                //信号到达时间
 	double dTargetAZSpeed;                //目标方位角速度
@@ -129,9 +139,11 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
     char sPlatType[32];  
 	char cPlatName[32];                  //平台名称  
     double dConfidence;                  //可信度
-    char cDWAttribute;                   //敌我属性 (IFF信息)
+    char cDWAttribute[32];                   //敌我属性 (IFF信息)
 	char cJfFlag;                        //是否进行数据融合标志，0：未融合，1：已融合
 	unsigned long lFlag;                 //累加标记
+//1016补充
+	unsigned long lFusFlag;                //融合查找标记
 
 }TRACKSTATUS_MARK;
 
