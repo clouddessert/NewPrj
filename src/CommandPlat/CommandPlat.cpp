@@ -437,6 +437,7 @@ void CCommandPlatApp::OnStartJq()
     strcpy(stEsmStatus.sPlatType,_T("F117")); 
 	stEsmStatus.dConfidence = (float)0.8;
 	stEsmStatus.cJfFlag = 0;
+	stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 2;
 	stEsmStatus.dMaiKuan = 5;
@@ -466,6 +467,7 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.4;
 	stEsmStatus.cJfFlag = 0;
+	stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 3;
 	stEsmStatus.dMaiKuan = 5;
@@ -495,6 +497,7 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F119")); 
 	stEsmStatus.dConfidence = (float)0.6;
 	stEsmStatus.cJfFlag = 0;
+		stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 2;
 	stEsmStatus.dMaiKuan = 5;
@@ -524,6 +527,7 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.8;
 	stEsmStatus.cJfFlag = 0;
+		stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 2;
 	stEsmStatus.dMaiKuan = 6;
@@ -553,6 +557,7 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F120")); 
 	stEsmStatus.dConfidence = (float)0.3;
 	stEsmStatus.cJfFlag = 0;
+		stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 3;
 	stEsmStatus.dMaiKuan = 4;
@@ -582,6 +587,7 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.5;
 	stEsmStatus.cJfFlag = 0;
+		stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 5;
 	stEsmStatus.dMaiKuan = 4;
@@ -612,6 +618,7 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stComStatus.sPlatType,_T("F117")); 
 	stComStatus.dConfidence = (float)0.5;
 	stComStatus.cJfFlag = 0;
+		stComStatus.lFusFlag = 0;
 //10.13载频,脉冲幅度
 	stComStatus.dComZaiPin = 3.5;
 	stComStatus.dPulseExtent = 2.0;
@@ -634,7 +641,8 @@ void CCommandPlatApp::OnStartJq()
 //	stComStatus.sPlatType = 119;
     strcpy(stComStatus.sPlatType,_T("F119")); 
 	stComStatus.dConfidence = (float)0.6;
-	stEsmStatus.cJfFlag = 0;
+	stComStatus.cJfFlag = 0;
+		stComStatus.lFusFlag = 0;
 //10.13载频,脉冲幅度
 	stComStatus.dComZaiPin = 4.0;
 	stComStatus.dPulseExtent = 2.0;
@@ -656,7 +664,8 @@ void CCommandPlatApp::OnStartJq()
 //	stComStatus.sPlatType = 119;
     strcpy(stComStatus.sPlatType,_T("F119")); 
 	stComStatus.dConfidence = (float)0.3;
-	stEsmStatus.cJfFlag = 0;
+	stComStatus.cJfFlag = 0;
+		stComStatus.lFusFlag = 0;
 //10.13载频,脉冲幅度
 	stComStatus.dComZaiPin = 3.5;
 	stComStatus.dPulseExtent = 3.0;
@@ -681,6 +690,7 @@ void CCommandPlatApp::OnStartJq()
     strcpy(stTrackStatus.sPlatType ,_T("F117"));
 	stTrackStatus.dConfidence = (float)0.3;
 	stTrackStatus.cJfFlag = 0;
+		stTrackStatus.lFusFlag = 0;
 	stTrackStatus.dLonti = (float)118.20;   //目标经度 
 	stTrackStatus.dLati = (float)24.10;     //目标纬度
 	strcpy(stTrackStatus.cPlatName,_T("飞机1"));       //平台名称
@@ -696,6 +706,7 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stTrackStatus.sPlatType,_T("F118")); 
 	stTrackStatus.dConfidence = (float)0.2;
 	stTrackStatus.cJfFlag = 0;
+		stTrackStatus.lFusFlag = 0;
 	stTrackStatus.dLonti = (float)117.30;   //目标经度
 	stTrackStatus.dLati = (float)24.20;     //目标纬度
 	strcpy(stTrackStatus.cPlatName,_T("飞机2"));       //平台名称
