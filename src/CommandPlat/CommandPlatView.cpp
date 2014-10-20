@@ -613,6 +613,17 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 			pTrace_Dat->dAzimuth = pTrace_Dat->dAzimuth + 0.00015;
 			pTrace_Dat->dLonti  = pTrace_Dat->dLonti  + 0.0015;
 			pTrace_Dat->dLati  = pTrace_Dat->dLati  +0.0015;
+			pTrace_Dat->dRange = pTrace_Dat->dRange +15.000;
+			pTrace_Dat->dElevationAngle = pTrace_Dat->dElevationAngle +0.0015;
+			pTrace_Dat->lSignalReachTime = pTrace_Dat->lSignalReachTime +1;
+			pTrace_Dat->dTargetAZSpeed = pTrace_Dat->dTargetAZSpeed +0.001;
+			pTrace_Dat->dTargetEAngleSpeed =pTrace_Dat->dTargetEAngleSpeed +0.001;
+			pTrace_Dat->dTSpeedX = pTrace_Dat->dTSpeedX +0.001;
+			pTrace_Dat->dTSpeedY = pTrace_Dat->dTSpeedY +0.001;
+			pTrace_Dat->dTSpeedZ = pTrace_Dat->dTSpeedZ +0.001;
+			pTrace_Dat->dTX = pTrace_Dat->dTX +0.01;
+			pTrace_Dat->dTY = pTrace_Dat->dTY +0.01;
+			pTrace_Dat->dTZ = pTrace_Dat->dTZ +0.01;
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 3;

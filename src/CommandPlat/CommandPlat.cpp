@@ -690,7 +690,19 @@ void CCommandPlatApp::OnStartJq()
     strcpy(stTrackStatus.sPlatType ,_T("F117"));
 	stTrackStatus.dConfidence = (float)0.3;
 	stTrackStatus.cJfFlag = 0;
-		stTrackStatus.lFusFlag = 0;
+	stTrackStatus.lFusFlag = 0;
+	stTrackStatus.dTSpeedX = 85.0;   //目标绝对速度
+	stTrackStatus.dTSpeedY = 95.0;
+	stTrackStatus.dTSpeedZ = 89.0;
+	stTrackStatus.dRange = 1023.0; //距离
+	stTrackStatus.dElevationAngle = 35.7; //仰角
+	stTrackStatus.dCourse = 39.5;//绝对航向
+	stTrackStatus.dTargetAZSpeed = 32.6;//目标方位角角速度
+	stTrackStatus.dTargetEAngleSpeed = 25.6;//目标仰角角速度
+    stTrackStatus.dTX = 50.8; //目标空间坐标
+	stTrackStatus.dTY = 70.0;
+	stTrackStatus.dTZ = 80.9;
+	stTrackStatus.lSignalReachTime = 700; //信号到达时间
 	stTrackStatus.dLonti = (float)118.20;   //目标经度 
 	stTrackStatus.dLati = (float)24.10;     //目标纬度
 	strcpy(stTrackStatus.cPlatName,_T("飞机1"));       //平台名称
@@ -706,7 +718,19 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stTrackStatus.sPlatType,_T("F118")); 
 	stTrackStatus.dConfidence = (float)0.2;
 	stTrackStatus.cJfFlag = 0;
-		stTrackStatus.lFusFlag = 0;
+	stTrackStatus.lFusFlag = 0;
+	stTrackStatus.dTSpeedX = 80.0;  
+	stTrackStatus.dTSpeedY = 75.0;
+	stTrackStatus.dTSpeedZ = 90.0;
+	stTrackStatus.dRange = 2500.0; //距离
+	stTrackStatus.dElevationAngle = 30.7; //仰角
+	stTrackStatus.dCourse = 38.0;//绝对航向
+	stTrackStatus.dTargetAZSpeed = 18.6;//目标方位角角速度
+	stTrackStatus.dTargetEAngleSpeed = 24.6;//目标仰角角速度
+    stTrackStatus.dTX = 70.8; //目标空间坐标
+	stTrackStatus.dTY = 60.0;
+	stTrackStatus.dTZ = 90.9;
+	stTrackStatus.lSignalReachTime = 700; //信号到达时间
 	stTrackStatus.dLonti = (float)117.30;   //目标经度
 	stTrackStatus.dLati = (float)24.20;     //目标纬度
 	strcpy(stTrackStatus.cPlatName,_T("飞机2"));       //平台名称

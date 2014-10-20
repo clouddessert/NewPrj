@@ -200,22 +200,45 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 			fTmp = pTrace_Dat->dLati; //纬度
 			strTmp.Format("%.4f",fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,9,strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fLati;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 5, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fHeight;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 6, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fSpeed;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 7, strTmp);
-	// 		
-	// 		fTmp = m_pTmpTrackIter->second.fAngle;
-	// 		strTmp.Format("%.4f", fTmp);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 8, strTmp);
+			
+			fTmp = pTrace_Dat->dRange; //距离
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,10,strTmp);
+			
+			fTmp = pTrace_Dat->dElevationAngle; //仰角
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,11,strTmp);
+			fTmp = pTrace_Dat->dCourse; //绝对航向
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,12,strTmp);
+			fTmp = pTrace_Dat->lSignalReachTime; //信号到达时间
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,13,strTmp);
+			fTmp = pTrace_Dat->dTargetAZSpeed; //目标方位角角速度
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,14,strTmp);
+			fTmp = pTrace_Dat->dTargetEAngleSpeed; //目标仰角角速度
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,15,strTmp);
+			fTmp = pTrace_Dat->dTX; //目标空间坐标X
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,16,strTmp);
+			fTmp = pTrace_Dat->dTY; //目标空间坐标Y
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,17,strTmp);
+			fTmp = pTrace_Dat->dTZ; //目标空间坐标Z
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,18,strTmp);
+			fTmp = pTrace_Dat->dTSpeedX; //目标绝对速度X
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,19,strTmp);
+			fTmp = pTrace_Dat->dTSpeedY; //目标绝对速度Y
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,20,strTmp);
+			fTmp = pTrace_Dat->dTSpeedZ; //目标绝对速度z
+			strTmp.Format("%.4f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp,21,strTmp);
+        
 		}
 		((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetRedraw();//启动
 	}
