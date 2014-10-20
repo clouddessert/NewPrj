@@ -40,6 +40,7 @@ protected:
 	//{{AFX_MSG(CMsgSixthPage)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg LRESULT OnFusEsmMessage(WPARAM wParam, LPARAM lParam);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 

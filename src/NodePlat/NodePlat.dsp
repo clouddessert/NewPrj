@@ -111,6 +111,10 @@ SOURCE=.\DrawView.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Alg\FusionCooperativeMsg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MainFrm.cpp
 # End Source File
 # Begin Source File
@@ -246,6 +250,10 @@ SOURCE=.\Alg\CooperativeMsg.h
 # Begin Source File
 
 SOURCE=.\DrawView.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Alg\FusionCooperativeMsg.h
 # End Source File
 # Begin Source File
 

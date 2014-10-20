@@ -97,6 +97,14 @@ public:
 	VCT_IDENTIINFOR_MSG m_IdentifyMsg;
 	//输出:多舰识别结果
 	VCT_MIDENTIINFOR_MSG m_MulIdentifyMsg;
+	//输出:信息融合结果
+	VCT_Cooperative_FUSIDENTIINFOR m_CoopFusIdentify;
+	VCT_ESM_MSG m_MulESM;
+	VCT_COMM_MSG m_MulComm;
+	VCT_TRACE_MSG m_MulTrace;
+	VCT_Cooperative_FUSIDENTIINFOR::iterator iteCoFus1;
+	VCT_ESM_MSG::iterator iteFusEsm1;
+	VCT_COMM_MSG::iterator iteFusCom1;
 
 	//请求行号
 	int m_iline;

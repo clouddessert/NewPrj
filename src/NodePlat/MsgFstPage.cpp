@@ -75,61 +75,27 @@ BOOL CMsgFstPage::OnInitDialog()
 
 	CString ESM_Columns[]=
 	{
-// 		_T("平台编号"),
-// 		_T("设备编号"),
-// 		_T("设备类型"),
- 		_T("合批号"),//0
-// 		
-// 		_T("载频信息"),
-// 		_T("重频信息"),
-// 		_T("脉宽信息"),
-// 		_T("信号到达时间"),
-// 		_T("脉冲幅度"),
-// 		_T("到达方位"),
-// 		_T("仰角"),
-// 		_T("天线扫描信息"),
-// 		_T("脉冲特征信息结构"),
-// 		
-// 		_T("雷达用途"),
-// 		_T("雷达名称"),
-// 		_T("威胁等级"),
-// 		_T("有效辐射功率"),
-// 		_T("平台类型"),
-// 		_T("平台型号"),
-// 		_T("平台名称"),
-// 		_T("敌我属性"),
-// 		_T("可信度"),
-// 		_T("国家"),	
-		    _T("目标批号"),//1
-			
+ 		    _T("合批号"),//0
+		    _T("目标批号"),//1		
 			_T("平台编号"),//2
 			_T("设备编号"),//3
 			_T("设备类型"),//4
-			
-			
 			_T("平台类型"),  //5
 			_T("可信度"),   //6
-			_T("到达方位"), //7
-			
+			_T("到达方位"), //7	
 			_T("载频信息"),
 			_T("重频信息"),
 			_T("脉宽信息"),
 			_T("信号到达时间"),
 			_T("脉冲幅度"),
-			
 			_T("仰角"),
 			_T("天线扫描信息"),
-			_T("脉冲特征信息结构"),
-			
+			_T("脉冲特征信息结构"),	
 			_T("雷达用途"),
 			_T("雷达名称"),
 			_T("威胁等级"),
 			_T("有效辐射功率"),
-			
-//			_T("平台型号"),  
-//			_T("平台名称"),
 			_T("敌我属性"),
-			
 		    _T("国家/地区"),		
 		
 	};
@@ -165,23 +131,6 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 		{
 			strTmp.Format("%s", _T("ESM"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->InsertItem(nTmp, strTmp, 9);
-	// 		
-	// 		strTmp.Format("%s", m_pTmpTrackIter->second.strName);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 1, strTmp);
-	// 		
-	// 		strTmp.Format("%s", m_pTmpTrackIter->second.strType);
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 2, strTmp);
-	// 		
-	// 		iTmpProp = m_pTmpTrackIter->second.iTargetProp;
-	// 		if (iTmpProp)
-	// 		{
-	// 			strTmp = _T("我");
-	// 		}
-	// 		else
-	// 		{
-	// 			strTmp = _T("敌");
-	// 		}
-	// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 3, strTmp);
 			
 			strTmp.Format("%d",pESM_Dat->lAutonum);//合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 0, strTmp);

@@ -50,6 +50,10 @@ CNodePlatApp::CNodePlatApp()
 	hCOMM_wmd = NULL;
 	hTRACE_wmd = NULL;
 	hSigOut_wnd = NULL;
+	hMulOut_wnd = NULL;
+	hMulESM_wmd =NULL;
+	hMulCOMM_wnd = NULL;
+	hMulTRACE_wnd = NULL;
 	
 	//	pOutPt = NULL;	
 	pXview = NULL;
@@ -889,7 +893,34 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 	{
 		//调用算法
 		GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
+		/* 综合识别结果*/
     	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
+		/*融合信息结果*/
+		FusionCooperativeMsg(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_MulIdentifyMsg, theApp.m_CoopFusIdentify);
+		//在界面上显示当前时刻
+		//将返回信息分开存储并显示
+		for ( iteCoFus1 = theApp.m_CoopFusIdentify.begin(); iteCoFus1 != theApp.m_CoopFusIdentify.end(); iteCoFus1++)
+		{
+			if ( iteCoFus1->lAutonum > 7999||(iteCoFus1->lAutonum >4999 && iteCoFus1->lAutonum <6000))
+			{
+				theApp.m_MulTrace.push_back(iteCoFus1->stFusTrack);
+			}
+			
+			if (iteCoFus1->vctFusEsm.size() != 0)
+			{
+				for (iteFusEsm1 = iteCoFus1->vctFusEsm.begin(); iteFusEsm1 !=  iteCoFus1->vctFusEsm.end(); iteFusEsm1++ )
+				{
+					theApp.m_MulESM.push_back(*iteFusEsm1);
+				}
+			}
+			if (iteCoFus1->vctFusCom.size() != 0)
+			{
+				for (iteFusCom1 = iteCoFus1->vctFusCom.begin(); iteFusCom1 !=  iteCoFus1->vctFusCom.end(); iteFusCom1++ )
+				{
+					theApp.m_MulComm.push_back(*iteFusCom1);
+				}
+			}
+		}
 
 		//清空接收信息
 		for (theApp.iteBackMsg = theApp.m_BackMsg.begin(); theApp.iteBackMsg != theApp.m_BackMsg.end(); theApp.iteBackMsg++)

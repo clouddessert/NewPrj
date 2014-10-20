@@ -39,6 +39,7 @@ using namespace std;
 #include "Alg/XSi.h"
 #include "Alg/CooperativeMsg.h"
 #include "Alg/MultipleIdentify.h"
+#include "Alg/FusionCooperativeMsg.h"
 
 //ÏûÏ¢
 #define WM_ESM_MSG WM_USER+101
@@ -47,6 +48,10 @@ using namespace std;
 
 #define WM_SIG_OUT_MSG WM_USER+104
 #define WM_MUL_OUT_MSG WM_USER+105
+#define WM_MULTRACE_MSG WM_USER+106
+#define WM_MULESM_MSG WM_USER+107
+#define WM_MULCOMM_MSG WM_USER+108
+
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

@@ -1,5 +1,4 @@
-#include <vector>
-#include "XSi.h"
+#include "../Comm Struct.h"
 using namespace std;
 //////// 0906 wanghaiying ///////////////////////////////////////////////////
 //
@@ -13,8 +12,7 @@ typedef struct __Cooperative_FUSIDENTIINFOR   //协同后，融合信息与识别结果结构体
 {
     long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
 	unsigned long lAutonum;
-
-	unsigned short sPlatType;                //综合平台类型  F117  (F117； F118； F119； F120； F121)
+    char sPlatType[32];             //综合平台类型  F117  (F117； F118； F119； F120； F121)
 	double dConfidence;                      //综合可信度
 
 	TRACKSTATUS_MARK stFusTrack;            //存储融合后的雷达探测信息（航迹信息）
@@ -30,5 +28,5 @@ typedef vector<Cooperative_FUSIDENTIINFOR> VCT_Cooperative_FUSIDENTIINFOR;  //存
 ///////////      2--对于本舰的协同目标上缺少的相关信息，用融合的补（即协同取到互补作用）
 ///////////      3--融合结果一方面界面显示和更新、保存；另一方面：下发给态势分析模块 
 ////////////////////////////////////////////////////////////////////////////////////
-void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Cooperative_Msg& vctBackMsg, VCT_Cooperative_FUSIDENTIINFOR& vctCoFusMsg);
 
+void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Cooperative_Msg& vctBackMsg, /* 综合识别结果*/VCT_MIDENTIINFOR_MSG& vctMidentiinforMsg, VCT_Cooperative_FUSIDENTIINFOR& vctCoFusMsg);
