@@ -199,6 +199,10 @@ SOURCE=.\ParamSecondPage.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ParamThirdPage.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Alg\SingleIdentify.cpp
 
 !IF  "$(CFG)" == "NodePlat - Win32 Release"
@@ -326,6 +330,10 @@ SOURCE=.\ParamFstPage.h
 # Begin Source File
 
 SOURCE=.\ParamSecondPage.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ParamThirdPage.h
 # End Source File
 # Begin Source File
 

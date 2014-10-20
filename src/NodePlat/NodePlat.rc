@@ -251,6 +251,14 @@ BEGIN
                     96,23,99,14
 END
 
+IDD_PARAM_DLG_THIRD DIALOG DISCARDABLE  0, 0, 187, 94
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    LISTBOX         IDC_LIST_MSGDISPLAY,8,9,48,40,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+END
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////

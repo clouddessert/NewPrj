@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=CNodePlatDoc
-LastTemplate=CSocket
+LastClass=CParamThirdPage
+LastTemplate=CPropertyPage
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "nodeplat.h"
 LastPage=0
 
-ClassCount=21
+ClassCount=22
 Class1=CAllParamSheet
 Class2=CDrawView
 Class3=CMainFrame
@@ -27,27 +27,29 @@ Class15=CNodePlatView
 Class16=CParamFstPage
 Class17=CParamSecondPage
 
-ResourceCount=16
+ResourceCount=17
 Resource1=IDR_MENU2
-Resource2=IDD_PARAM_DLG_SECOND
-Resource3=IDD_MSG_DLG_SIXTH
-Resource4=IDD_PARAM_DLG_FIRST
-Resource5=IDD_MSG_DLG_FOURTH
+Resource2=IDD_MSG_DLG_FIFTH
+Resource3=IDD_ABOUTBOX
+Resource4=IDD_MSG_DLG_SIXTH
+Resource5=IDR_MAINFRAME
 Resource6=IDR_MENU1
-Resource7=IDD_MSG_DLG_THREE
+Resource7=IDD_MSG_DLG_SEVENTH
 Class18=CMsgSocket
-Resource8=IDD_MSG_DLG_EIGHTH
+Resource8=IDD_PARAM_DLG_FIRST
 Class19=CMsgFifthPage
-Resource9=IDD_MSG_DLG_SECOND
-Resource10=IDD_ABOUTBOX
-Resource11=IDD_MSG_DLG_FIFTH
-Resource12=IDD_NETWORKDLG
-Resource13=IDD_MSG_DLG_FIRST
+Resource9=IDD_MSG_DLG_EIGHTH
+Resource10=IDD_MSG_DLG_FOURTH
+Resource11=IDR_SENDREQUEST
+Resource12=IDD_MSG_DLG_THREE
+Resource13=IDD_NETWORKDLG
 Class20=CNetworkSetting
-Resource14=IDR_MAINFRAME
+Resource14=IDD_MSG_DLG_SECOND
 Class21=CClientSocket
-Resource15=IDD_MSG_DLG_SEVENTH
-Resource16=IDR_SENDREQUEST
+Resource15=IDD_PARAM_DLG_SECOND
+Resource16=IDD_MSG_DLG_FIRST
+Class22=CParamThirdPage
+Resource17=IDD_PARAM_DLG_THIRD
 
 [CLS:CAllParamSheet]
 Type=0
@@ -337,4 +339,19 @@ Command10=IDM_CLOSEE
 Command11=IDM_SENDALL
 Command12=IDM_CLOSEALL
 CommandCount=12
+
+[DLG:IDD_PARAM_DLG_THIRD]
+Type=1
+Class=CParamThirdPage
+ControlCount=1
+Control1=IDC_LIST_MSGDISPLAY,listbox,1353777409
+
+[CLS:CParamThirdPage]
+Type=0
+HeaderFile=ParamThirdPage.h
+ImplementationFile=ParamThirdPage.cpp
+BaseClass=CPropertyPage
+Filter=D
+VirtualFilter=idWC
+LastObject=CParamThirdPage
 

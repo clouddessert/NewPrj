@@ -24,6 +24,7 @@
 #define IDD_MSG_DLG_SEVENTH             149
 #define IDD_MSG_DLG_EIGHTH              150
 #define IDD_NETWORKDLG                  151
+#define IDD_PARAM_DLG_THIRD             154
 #define IDC_LIST_ESM                    1000
 #define IDC_LIST_COMMUNICATE            1001
 #define IDC_LIST_TRACE                  1002
@@ -42,6 +43,7 @@
 #define IDC_TEAMLIST                    1015
 #define IDC_BUTTONCLOSE                 1016
 #define IDC_IPADDRESS                   1018
+#define IDC_LIST_MSGDISPLAY             1021
 #define IDM_SYSTEM                      32771
 #define IDM_NETWORK_SETTING             32772
 #define IDM_TEAM_SERVICE_START          32773
@@ -75,9 +77,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        154
+#define _APS_NEXT_RESOURCE_VALUE        155
 #define _APS_NEXT_COMMAND_VALUE         32808
-#define _APS_NEXT_CONTROL_VALUE         1021
+#define _APS_NEXT_CONTROL_VALUE         1022
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

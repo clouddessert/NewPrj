@@ -26,6 +26,7 @@ CAllParamSheet::CAllParamSheet(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelec
 {
 	AddPage(&m_FstPage);
 	AddPage(&m_SecPage);
+	AddPage(&m_ThirdPage);
 }
 
 CAllParamSheet::~CAllParamSheet()
@@ -55,6 +56,8 @@ BOOL CAllParamSheet::OnInitDialog()
 	item.mask = TCIF_TEXT;
 	item.pszText = "敌方配置";
 	GetTabControl()->SetItem(1, &item);
-
+	item.mask = TCIF_TEXT;
+	item.pszText = "命令消息显示";
+	GetTabControl()->SetItem(2, &item);
 	return bResult;
 }
