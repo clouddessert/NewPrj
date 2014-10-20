@@ -33,8 +33,11 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 	double Azt = 0.0;
 	double Ezt = 0.0;
 	double dSumCorr_xyz = 0.0;
-	SHIP_POSITION stSelfPosi;
-	
+	SHIP_POSITION stSelfPosi;  //需要获取本舰的经纬高 
+// 	//假设经纬高:
+// 	stSelfPosi.dHeight = 0.0;
+// 	stSelfPosi.dLonti = 119.1;
+// 	stSelfPosi.dLati = 22.5;	
 	Cooperative_Msg stCooperMsg;   //按请求信息的综合批号进行合并
 	//	VCT_COOPER_MSG vctCooperMsg;   //存放请求和返回的合并信息
 	VCT_COOPER_MSG::iterator iteCooperMsg; 

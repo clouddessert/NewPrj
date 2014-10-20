@@ -618,7 +618,7 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 			iteReqCoopMsg->nCorrFlag = NULL;
 			iteReqCoopMsg->nStampTime = NULL;
 			memset(&iteReqCoopMsg->stTrace, 0, sizeof(TRACKSTATUS_MARK));
-			memset(&iteReqCoopMsg->stReqShipPosi, 0, sizeof(SHIP_POSITION));
+			memset(&iteReqCoopMsg->stReqShipPosi, 0, sizeof(SHIP_POSITION));//本舰经纬高
 			for ( iteEsm = iteReqCoopMsg->vctEsm.begin(); iteEsm != iteReqCoopMsg->vctEsm.end(); iteEsm++)
 			{
 				memset(&(*iteEsm), 0, sizeof(ESMSTATUS_MARK));
@@ -687,9 +687,9 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 						}
 					}
 					//存放本舰经纬高
-					// 				StRequest.stReqShipPosi.dHeight = ;
-					// 				StRequest.stReqShipPosi.dLati = ;
-					// 				StRequest.stReqShipPosi.dLonti = ;
+					// StRequest.stReqShipPosi.dHeight = ;
+					// StRequest.stReqShipPosi.dLati = ;
+					// StRequest.stReqShipPosi.dLonti = ;
 					m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
 					theApp.m_RequestMsg.push_back(m_StRequest);
 					break;
@@ -893,6 +893,7 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 	{
 		//调用算法
 		GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
+		int a =1;
 		/* 综合识别结果*/
     	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
 		/*融合信息结果*/

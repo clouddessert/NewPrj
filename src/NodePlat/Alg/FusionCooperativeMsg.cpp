@@ -95,7 +95,10 @@ void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Coope
 		{
 			memset(&(*iteFusCom),0,sizeof(COMSTATUS_MARK));
 		}
+		iteCoFusionMsg->vctFusEsm.clear();
+		iteCoFusionMsg->vctFusCom.clear();
 	}
+	vctCoFusMsg.clear();
 
     //航迹信息的融合
 	//目标航迹的径距（米）
@@ -186,12 +189,12 @@ void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Coope
 		if ( nNumTrackAz != 0/*sizeof(stCoFusiInfor.stFusTrack) */)//返回信息有航迹信息
 		{
 			//求平均
-			stCoFusiInfor.stFusTrack.dAzimuth /= nNumTrackAz;
-			stCoFusiInfor.stFusTrack.dRange /= nNumTrackRd;
-			stCoFusiInfor.stFusTrack.dElevationAngle /= nNumTrackEz;
-			stCoFusiInfor.stFusTrack.dTSpeedX /= nNumTrackVx;
-			stCoFusiInfor.stFusTrack.dTSpeedY /= nNumTrackVy;
-			stCoFusiInfor.stFusTrack.dTSpeedZ /= nNumTrackVz;
+			stCoFusiInfor.stFusTrack.dAzimuth = stCoFusiInfor.stFusTrack.dAzimuth /nNumTrackAz;
+			stCoFusiInfor.stFusTrack.dRange =  stCoFusiInfor.stFusTrack.dRange /nNumTrackRd;
+			stCoFusiInfor.stFusTrack.dElevationAngle =  stCoFusiInfor.stFusTrack.dElevationAngle /nNumTrackEz;
+			stCoFusiInfor.stFusTrack.dTSpeedX = stCoFusiInfor.stFusTrack.dTSpeedX /nNumTrackVx;
+			stCoFusiInfor.stFusTrack.dTSpeedY =stCoFusiInfor.stFusTrack.dTSpeedY / nNumTrackVy;
+			stCoFusiInfor.stFusTrack.dTSpeedZ = stCoFusiInfor.stFusTrack.dTSpeedZ /nNumTrackVz;
 		}
 		//其他参数赋值, 对综合批号进行判断
 		for( iteBackMsg2 = vctBackMsg.begin(); iteBackMsg2 != vctBackMsg.end(); iteBackMsg2++ )
@@ -208,10 +211,10 @@ void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Coope
 		}
 
 //ESM信息的融合
-
-		 TFlag = 0;
+		TFlag = 0;
 		if( iteReqMsg->vctEsm.size() !=0 )
 		{//遍历请求信息中的ESM的每一条
+		
 			for( iteReEsm = iteReqMsg->vctEsm.begin(); iteReEsm != iteReqMsg->vctEsm.end(); iteReEsm++)
 			{
 				 nNumESMDOAz = 1;//ESM信号的到达方位（弧度）
@@ -235,15 +238,10 @@ void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Coope
 						//(暂不存在该种情况(1),可完善)
 						//(1)若请求信息为无航迹,返回信息中有航迹,则要把融合后的综合批号改为大于等于9000 ,不能按照请求信息的7000来编批
 						//遍历返回信息中的每个结构体的ESM容器的每条ESM的信息
+                          iteBackMsg->vctEsm.size();
 						for( iteBaEsm = iteBackMsg->vctEsm.begin(); iteBaEsm != iteBackMsg->vctEsm.end(); iteBaEsm++)
 						{
 							//集对分析,求关联度
-							//ESM信号的到达方位（弧度）
-							//ESM信号的频率（GHz）
-							//ESM信号的幅度
-							//ESM信号的脉冲宽度（us）
-							//ESM信号的重复间隔（ms）;重复频率PRF=PRI的倒数
-							//ESM信号的侦察雷达天线扫描周期（s）
 							double SumCorr = 0.0;
 							Mf_SPA(iteBaEsm->dReachAzimuth,iteReEsm->dReachAzimuth,dcorrEsmReachAzimuth); //ESM信号的到达方位（弧度）
 							VctCorr.push_back(dcorrEsmReachAzimuth);
@@ -334,6 +332,7 @@ void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Coope
                 stCoFusiInfor.vctFusEsm.push_back(stFusEsm);
 			}//for( iteReEsm = iteReqMsg->vctEsm.begin()
 		}//if( iteReqMsg->vctEsm.size() !=0 )
+
 		//请求信息中的每条信息都遍历完成后或者是请求信息中无ESM信息,若返回信息中还有信息的融合标记不为1,说明未被融合,则补充原来的信息
 // 		for( iteBackMsg1 = vctBackMsg.begin(); iteBackMsg1 != vctBackMsg.end(); iteBackMsg1++ )
 // 		{ //遍历返回信息中的每个结构体的ESM容器的每条ESM的信息
@@ -422,7 +421,7 @@ void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Coope
 							}//for( iteBaEsm = iteBackMsg->vctEsm.begin()	
 						}// if 判断综合批号是否相同
 					}//	for( iteBackMsg = vctBackMsg.begin()
-					//每条请求信息的Esm结束之后,将各特征参数取平均值后,放入融合信息容器中
+					//每条请求信息的COM结束之后,将各特征参数取平均值后,放入融合信息容器中
 					stFusCom.dReachAzimuth  =  stFusEsm.dReachAzimuth/nNumCOMDOAz; 
 					stFusCom.dComFre = stFusCom.dComFre/nNumCOMFre;
 					stFusCom.dPulseExtent = stFusCom.dPulseExtent/nNumCOMPA;
@@ -455,6 +454,7 @@ void FusionCooperativeMsg(VCT_Request_Cooperative_Msg& vctReqMsg, VCT_BACK_Coope
 					}
 
 					stFusCom.lTargetNumber = iteReCom->lTargetNumber; //目标批号
+					stFusCom.dComZaiPin = iteReCom->dComZaiPin;  //载频信息
 					strcpy(stFusCom.cModulationStyle ,iteReCom->cModulationStyle); //调制样式
 					strcpy(stFusCom.cSignalType , iteReCom->cSignalType);  //信号类型
 					strcpy(stFusCom.cEquipmentNumber , iteReCom->cEquipmentNumber);  //设备编号

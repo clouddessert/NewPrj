@@ -112,9 +112,9 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 		//Çå¿Õ vctBackCooperative
 		iteBackMsg->lAutonum = NULL;
 		iteBackMsg->nStampTime = NULL;
-// 		iteBackMsg->dAzimuth = NULL;
-// 		iteBackMsg->dElevationAngle = NULL;
-// 		iteBackMsg->dRange = NULL;
+ 	//	iteBackMsg->dAzimuth = NULL;
+ 	//	iteBackMsg->dElevationAngle = NULL;
+	//	iteBackMsg->dRange = NULL;
 		iteBackMsg->BackTrackN = NULL;
 		iteBackMsg->BackESMN = NULL;
 		iteBackMsg->BackCOMN = NULL;

@@ -105,10 +105,8 @@ typedef struct __SendRequest_Msg     //ĞèÒª·¢ËÍµÄÇëÇóĞÅÏ¢£¬Ö÷½¢ÇëÇóĞ­Í¬µÄĞÅÏ¢Êı¾
 // 	char *ReceiveIp[20];                     //½ÓÊÕ·½IPµØÖ·
 // 	char *SendIp[20];                        //·¢ËÍ·½IPµØÖ·
 	SHIP_POSITION stReqShipPosi;             //±¾½¢¾­Î³¸ß
-	
 	unsigned long lAutomn;                   //ºÏÅúºÅ
 	TRACKSTATUS_MARK stTrace;
-
 	int nRequestEsmN;                         //±¾½¢Ä¿±êËùº¬µÄESMÊı
 	int nRequestComN;                         //±¾½¢Ä¿±êËùº¬µÄCOMÊı
 //ESM
