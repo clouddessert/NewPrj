@@ -306,7 +306,7 @@ void CNodePlatDoc::OnTeamServiceStop()
 	theApp.ServerShutDown();
 }
 
-void CNodePlatDoc::SendCoopReq(CSocket* pThis)
+void CNodePlatDoc::SendCoopReq(CSocket* pThis)   //
 {
 	ProtcolHeader stHeader;                  //报头信息
 
