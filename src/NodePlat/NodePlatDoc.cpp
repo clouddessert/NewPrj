@@ -348,13 +348,28 @@ void CNodePlatDoc::OnSendA()
 	theApp.SendToIpMap.clear();                            //清空协同ip
 	map<int, CString>::iterator iter;
 	iter = theApp.IpMap.find(0);
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("向A舰发送协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
+
+
 	if(iter != theApp.IpMap.end())
 	{
 		::EnterCriticalSection(&(theApp.g_cs));
 		theApp.SendToIpMap.insert(make_pair(0,iter->second));//存入协同IP
+
 		::LeaveCriticalSection(&(theApp.g_cs));
 	}
-	
+
+
 }
 
 void CNodePlatDoc::OnSendB() 
@@ -369,6 +384,17 @@ void CNodePlatDoc::OnSendB()
 		theApp.SendToIpMap.insert(make_pair(0,iter->second));//存入协同IP
 		::LeaveCriticalSection(&(theApp.g_cs));
 	}
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("向B舰发送协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 	
 }
 
@@ -383,7 +409,18 @@ void CNodePlatDoc::OnSendC()
 		::EnterCriticalSection(&(theApp.g_cs));
 		theApp.SendToIpMap.insert(make_pair(0,iter->second));//存入协同IP
 		::LeaveCriticalSection(&(theApp.g_cs));
-	}	
+	}
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("向C舰发送协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 void CNodePlatDoc::OnSendD() 
@@ -397,7 +434,18 @@ void CNodePlatDoc::OnSendD()
 		::EnterCriticalSection(&(theApp.g_cs));
 		theApp.SendToIpMap.insert(make_pair(0,iter->second));//存入协同IP
 		::LeaveCriticalSection(&(theApp.g_cs));
-	}	
+	}
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("向D舰发送协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 void CNodePlatDoc::OnSendE() 
@@ -412,6 +460,17 @@ void CNodePlatDoc::OnSendE()
 		theApp.SendToIpMap.insert(make_pair(0,iter->second));//存入协同IP
 		::LeaveCriticalSection(&(theApp.g_cs));
 	}	
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("向E舰发送协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 void CNodePlatDoc::OnSendAll() 
@@ -426,6 +485,17 @@ void CNodePlatDoc::OnSendAll()
 		theApp.SendToIpMap.insert(*iter);
 	}
 	::LeaveCriticalSection(&(theApp.g_cs));	
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("向所有舰发送协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 void CNodePlatDoc::OnCloseA() 
@@ -434,6 +504,17 @@ void CNodePlatDoc::OnCloseA()
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.SendToIpMap.clear();
 	::LeaveCriticalSection(&(theApp.g_cs));
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("关闭对A舰的协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 	
 }
 
@@ -443,6 +524,17 @@ void CNodePlatDoc::OnCloseB()
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.SendToIpMap.clear();
 	::LeaveCriticalSection(&(theApp.g_cs));	
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("关闭对B舰的协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 void CNodePlatDoc::OnCloseC() 
@@ -451,6 +543,17 @@ void CNodePlatDoc::OnCloseC()
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.SendToIpMap.clear();
 	::LeaveCriticalSection(&(theApp.g_cs));	
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("关闭对C舰的协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 void CNodePlatDoc::OnCloseD() 
@@ -459,6 +562,17 @@ void CNodePlatDoc::OnCloseD()
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.SendToIpMap.clear();
 	::LeaveCriticalSection(&(theApp.g_cs));	
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("关闭对D舰的协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 void CNodePlatDoc::OnCloseE() 
@@ -467,6 +581,17 @@ void CNodePlatDoc::OnCloseE()
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.SendToIpMap.clear();
 	::LeaveCriticalSection(&(theApp.g_cs));	
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("关闭对E舰的协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 void CNodePlatDoc::OnCloseAll() 
@@ -475,6 +600,17 @@ void CNodePlatDoc::OnCloseAll()
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.SendToIpMap.clear();
 	::LeaveCriticalSection(&(theApp.g_cs));	
+
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2;
+	str1.Format("我舰");
+	str2.Format("关闭对所有舰的协同请求");
+	theApp.m_MsgDisplay = str1+"于"+time+str2;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);
 }
 
 // void CNodePlatDoc::OnSendToMateA() 

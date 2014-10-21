@@ -213,7 +213,7 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 		::PostMessage(theApp.hTRACE_wmd, WM_TRACE_MSG, 0, 0);
 		::PostMessage(theApp.hSigOut_wnd, WM_SIG_OUT_MSG, 0, 0);
 		::PostMessage(theApp.hMulOut_wnd, WM_MUL_OUT_MSG, 0, 0);
-                ::PostMessage(theApp.hMulESM_wmd, WM_MULESM_MSG, 0, 0);
+        ::PostMessage(theApp.hMulESM_wmd, WM_MULESM_MSG, 0, 0);
 		::PostMessage(theApp.hMulCOMM_wnd, WM_MULCOMM_MSG, 0, 0);
 		::PostMessage(theApp.hMulTRACE_wnd, WM_MULTRACE_MSG, 0, 0);
                 

@@ -54,6 +54,8 @@ CNodePlatApp::CNodePlatApp()
 	hMulESM_wmd =NULL;
 	hMulCOMM_wnd = NULL;
 	hMulTRACE_wnd = NULL;
+
+	HWND hDISPLAY_wnd = NULL;
 	
 	//	pOutPt = NULL;	
 	pXview = NULL;
@@ -555,10 +557,10 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis)
      {
 		 stUniAllN.vctSingleCom.push_back(*iteSingleCom);
 	 }
-     //调用算法,找出响应请求的返回信息stSendBackMsg /*增加本舰的地理位置*/
+     //调用算法,找出响应请求的返回信息stSendBackMsg
 	CoopFind_Information_To_MainShip(stUniAllN, theApp.tmpRecRequest_Msg, stSendBackMsg);
 
-	ProtcolHeader stHeader;                  //报头信息       
+	ProtcolHeader stHeader;                  //报头信息
 	//判断返回信息不为空,进行发送
 	if ( (stSendBackMsg.BackTraceN + stSendBackMsg.BackESMN +stSendBackMsg.BackCOMN) != 0)
     {

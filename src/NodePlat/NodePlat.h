@@ -135,16 +135,24 @@ public:
 	map<DWORD, CMsgSocket*> m_ClientMap;
 	map<DWORD, CMsgSocket*>::iterator m_pClient;
 
+//	vector<CString> m_MsgDisplayVec;
+	CString m_MsgDisplay;
+
 public:
+	//单舰
 	HWND hESM_wmd;
 	HWND hCOMM_wmd;
 	HWND hTRACE_wmd;
 	HWND hSigOut_wnd;
-	HWND hMulOut_wnd;
+	
 	//多舰
+	HWND hMulOut_wnd;
 	HWND hMulESM_wmd;
 	HWND hMulCOMM_wnd;
 	HWND hMulTRACE_wnd;
+
+	//命令显示窗口
+	HWND hDISPLAY_wnd;
 
 
 	//view的指针

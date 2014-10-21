@@ -13,7 +13,7 @@
 #include <string>
 using namespace std;
 
-#define PI 3.1415926535898
+//#define PI 3.1415926535898
 
 //本舰邻舰都有自身航迹信息时（即都存在距离方位俯仰角时），本舰邻舰经纬高都已知，输出邻舰观测到的目标在本舰上的坐标及相对于本舰的经纬高。
 void Get_Coordinate_Conversion_Module(double Rd1,double Az1,double Ez1,double Rd2,double Az2,double Ez2,double La1,double Ba1,double Ha1,
@@ -34,9 +34,6 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 	double Ezt = 0.0;
 	double dSumCorr_xyz = 0.0;
 	SHIP_POSITION stSelfPosi;  //需要获取本舰的经纬高 
-	double Lt=0.0;                 //目标的地理经度（度），转成弧度
-	double Bt=0.0;                //目标的地理纬（度），转成弧度
-	double Ht=0.0;
 // 	//假设经纬高:
 // 	stSelfPosi.dHeight = 0.0;
 // 	stSelfPosi.dLonti = 119.1;
@@ -139,22 +136,7 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 					//  if ( iteBackMsg->BackTrackN !=0  ) //返回信息
 				{	
 					//转换航迹信息，将坐标，经纬度替换
-					 		stSelfPosi.dLati = 120*PI/180;               //本舰的地理经度（度），转成弧度
-					 		stSelfPosi.dLonti = 20*PI/180;                //本舰的地理纬（度），转成弧度
-					 		stSelfPosi.dHeight = 0;                        //米				
-					 		iteRequestMsg->stReqShipPosi.dLati = 123*PI/180;               //邻舰的地理经度（度），转成弧度
-					 		iteRequestMsg->stReqShipPosi.dLonti = 21*PI/180;                //邻舰的地理纬（度），转成弧度
-					 		iteRequestMsg->stReqShipPosi.dHeight = 0;
-					 		//////////////////////////////////////
-					 		//////////////////////////////////////
-					 		Lt=122*PI/180;                 //目标的地理经度（度），转成弧度
-					 		Bt=21.5*PI/180;                //目标的地理纬（度），转成弧度
-					 	    Ht=20000;
-					    	Object_Radar_Transform(Lt,Bt,Ht, stSelfPosi.dLati, stSelfPosi.dLonti, stSelfPosi.dHeight, iteBackMsg->stTrace.dRange,iteBackMsg->stTrace.dAzimuth,iteBackMsg->stTrace.dElevationAngle);  //目标相对于本舰1的径距方位和俯仰//
-					        Object_Radar_Transform(Lt,Bt,Ht,iteRequestMsg->stReqShipPosi.dLati, iteRequestMsg->stReqShipPosi.dLonti, iteRequestMsg->stReqShipPosi.dHeight, iteRequestMsg->stTrace.dRange, iteRequestMsg->stTrace.dAzimuth,
-					 		iteRequestMsg->stTrace.dElevationAngle);  //目标相对于邻舰2的径距方位和俯仰
-                    	//战情直接下发目标相对于本舰的径距,方位,俯仰,目标相对于请求舰的径距方位俯仰
-				     	Get_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
+					Get_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
 						iteBackMsg->stTrace.dRange,iteBackMsg->stTrace.dAzimuth,iteBackMsg->stTrace.dElevationAngle,  
 						stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
 						iteBackMsg->stBackShipPosi.dLati,iteBackMsg->stBackShipPosi.dLonti,iteBackMsg->stBackShipPosi.dHeight,

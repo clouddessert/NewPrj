@@ -26,7 +26,7 @@ public:
 	//}}AFX_DATA
 
 public:
-	void AddMsgList(CString IP,CString str);
+	//void OnAddMsgList(CString strShow);
 // Overrides
 	// ClassWizard generate virtual function overrides
 	//{{AFX_VIRTUAL(CParamThirdPage)
@@ -40,6 +40,8 @@ protected:
 	//{{AFX_MSG(CParamThirdPage)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg LRESULT OnAddMsgList(WPARAM wParam, LPARAM lParam);
+ 	//afx_msg void OnTimer(UINT nIDEvent);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 

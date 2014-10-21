@@ -9,6 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "ParamThirdPage.h"
+
 class CNodePlatDoc : public CDocument
 {
 protected: // create from serialization only
@@ -17,6 +19,8 @@ protected: // create from serialization only
 
 // Attributes
 public:
+	CParamThirdPage Msg;
+//	extern CListBox	m_AddMsgList;
 
 // Operations
 public:
@@ -30,6 +34,7 @@ public:
 	public:
 	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
+	
 	//}}AFX_VIRTUAL
 
 // Implementation

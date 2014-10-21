@@ -52,6 +52,8 @@ using namespace std;
 #define WM_MULESM_MSG WM_USER+107
 #define WM_MULCOMM_MSG WM_USER+108
 
+#define WM_DISPLAY_MSG WM_USER+109
+
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
