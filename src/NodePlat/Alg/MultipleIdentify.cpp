@@ -621,8 +621,12 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 		MidentStr.lAutonum = iteCoorMsg->lAutonum;
 		//MidentStr.dConfidence = CPdere;
         int b = Seri[0] -1;
+		if (b <0)
+		{
+			b= 1;
+		}
 		//MidentStr.sPlatType = vctPlatType[Seri[0]-1];
-		strcpy(MidentStr.sPlatType, vctPlatType[Seri[0]-1]);
+		strcpy(MidentStr.sPlatType, vctPlatType[b]);
 
 		//P = 1 - (1 - p1)(1 - p2)(1 - p3)(1 - p4)(1 - p5)×ÛºÏÖÃÐÅ¶È
 		for (iteTrack = iteCoorMsg->vctTrace.begin(); iteTrack != iteCoorMsg->vctTrace.end(); iteTrack++)

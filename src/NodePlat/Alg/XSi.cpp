@@ -67,6 +67,9 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
     double dcorrdPulseExtent = 0.0;
 	double dcorrBand = 0.0;
 	double dcorrJPN = 0.0;
+	double Lt= 0.0;                 //目标的地理经度（度），转成弧度
+	double Bt= 0.0;                //目标的地理纬（度），转成弧度
+	double Ht = 0.0;
 	//  double SumCorr = 0.0;
     double dAverCorr = 0.0; //各测量信息，集对分析后，取平均值后的相关系数
 	//  TRACKSTATUS_MARK sttTrack;
@@ -137,11 +140,35 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
     for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
 	{   
 	    double dSumCorr = 0.0;
-		Get_Coordinate_Conversion_Module(iteUnin->structTrace.dRange,iteUnin->structTrace.dAzimuth,iteUnin->structTrace.dElevationAngle,
-		iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
-		stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
-		iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
-		Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
+		//坐标转换需完善,本舰的经纬高,请求舰的经纬高需要战情下发
+
+/*
+// 		stSelfPosi.dLati = 120*PI/180;               //本舰的地理经度（度），转成弧度
+// 		stSelfPosi.dLonti = 20*PI/180;                //本舰的地理纬（度），转成弧度
+// 		stSelfPosi.dHeight = 0;                        //米				
+// 		iteRequestMsg->stReqShipPosi.dLati = 123*PI/180;               //邻舰的地理经度（度），转成弧度
+// 		iteRequestMsg->stReqShipPosi.dLonti = 21*PI/180;                //邻舰的地理纬（度），转成弧度
+// 		iteRequestMsg->stReqShipPosi.dHeight = 0;
+// 		//////////////////////////////////////
+// 		//////////////////////////////////////
+// 		Lt=122*PI/180;                 //目标的地理经度（度），转成弧度
+// 		Bt=21.5*PI/180;                //目标的地理纬（度），转成弧度
+// 	    Ht=20000;
+// 		   //目标的经纬高可完善为 使用战情下发的目标的经纬高
+//         // 	iteUnin->structTrace.dLonti = ;
+//         // 	iteUnin->structTrace.dLati =  ;
+//         // 	iteUnin->structTrace.dHeight = ;
+//    	   Object_Radar_Transform(Lt,Bt,Ht, stSelfPosi.dLati, stSelfPosi.dLonti, stSelfPosi.dHeight, iteUnin->structTrace.dRange,iteUnin->structTrace.dAzimuth,iteUnin->structTrace.dElevationAngle);  //目标相对于本舰1的径距方位和俯仰//
+//         Object_Radar_Transform(Lt,Bt,Ht,iteRequestMsg->stReqShipPosi.dLati, iteRequestMsg->stReqShipPosi.dLonti, iteRequestMsg->stReqShipPosi.dHeight, iteRequestMsg->stTrace.dRange, iteRequestMsg->stTrace.dAzimuth,
+// 		iteRequestMsg->stTrace.dElevationAngle);  //目标相对于邻舰2的径距方位和俯仰
+// 		//战情直接下发目标相对于本舰的径距,方位,俯仰,目标相对于请求舰的径距方位俯仰
+//  		Get_Coordinate_Conversion_Module(iteUnin->structTrace.dRange,iteUnin->structTrace.dAzimuth,iteUnin->structTrace.dElevationAngle,
+//  		iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
+// 		    stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
+//  		iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
+//  		Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
+*/
+
 	    //VctCorr.push_back(dSumCorr_xyz); 
 		////对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
 		//Mf_SPA(iteUnin->structTrace.dRange,Rdt,corrRd);
@@ -165,7 +192,7 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 		dAverCorr = dSumCorr/VctCorr.size();  //取相关系数的平均值
 		//下次存放集对系数前先清空VctCorr容器
 		VctCorr.clear();
-		//与阈值比较（如何设定阈值，相关系数大于某阈值时，认为航迹是可以关联的????????????????????? 测试时修改）
+		//与阈值比较（如何设定阈值，相关系数大于某阈值时，认为航迹是关联的 测试时可完善）
 		if (dAverCorr > 0.8) //0.8为阈值，测试时可调节
 		{	//航迹信息可以关联，将信息放入vctBackCooperative返回信息容器中，
 			//将同一合批号下（即相同方位下）的一条航迹信息，还有N条ESM与Com信息放入vctBackCooperative中
@@ -525,11 +552,11 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 			  //一：<3>a.  //查找stUniAll.vctSingleTrace 存放单一航迹的容器
 			  for (iteTra = stUniAll.vctSingleTrace.begin(); iteTra != stUniAll.vctSingleTrace.end(); iteTra++)
 			  {   double SumCorr = 0.0;
-			  Get_Coordinate_Conversion_Module(iteTra->dRange,iteTra->dAzimuth,iteTra->dElevationAngle,
-				  iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
-				  stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
-				  iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
-				  Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
+// 			      Get_Coordinate_Conversion_Module(iteTra->dRange,iteTra->dAzimuth,iteTra->dElevationAngle,
+// 				  iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
+// 				  stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
+// 				  iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
+// 				  Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
 			  // 				  VctCorr.push_back(dSumCorr_xyz); 
 			  // 				  //对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
 			  // 				  Mf_SPA(iteTra->dRange,Rdt,dcorrRd);
@@ -833,18 +860,18 @@ void ReqNoTraceUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 		} //否则，用请求信息中vctEsm中的下一条Esm与聚类表中的Esm比较
 	}//for  re_iteEs
 	
-	if (iteRequestMsg->nCorrFlag == 0) //请求信息ESM 在有聚类表中的有ESM 信息的结构体中未找到相关信息，那么在聚类表中结构体中的COM 中比较查找
+	if ( iteRequestMsg->nCorrFlag == 0 ) //请求信息ESM 在有聚类表中的有ESM 信息的结构体中未找到相关信息，那么在聚类表中结构体中的COM 中比较查找
 	{
-		if (  iteRequestMsg->vctComm.size() !=0 )
+		if ( iteRequestMsg->vctComm.size() !=0 )
 		{
-			for ( re_iteCo = iteRequestMsg->vctComm.begin(); re_iteCo != iteRequestMsg->vctComm.end(); re_iteCo++) 
+			for ( re_iteCo = iteRequestMsg->vctComm.begin(); re_iteCo != iteRequestMsg->vctComm.end(); re_iteCo++ ) 
 			{     //在有航迹的聚类表中查找 
-				for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
+				for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++ )
 				{ 
 					//判断聚类信息中iteUnin中是否有Com信息
-					if (iteUnin->vctComm.size() !=0 ) //聚类信息表中有COM信息
+					if ( iteUnin->vctComm.size() !=0 ) //聚类信息表中有COM信息
 					{
-						for (iteUninCo = iteUnin->vctComm.begin(); iteUninCo != iteUnin->vctComm.end(); iteUninCo++)
+						for ( iteUninCo = iteUnin->vctComm.begin(); iteUninCo != iteUnin->vctComm.end(); iteUninCo++ )
 						{
 							double SumCorr = 0.0;
 							Mf_SPA(iteUninCo->dComZaiPin,re_iteCo->dComZaiPin,dcorrComZaiPin); //载频
@@ -1245,11 +1272,11 @@ void ReqSingleTrace_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 	for ( iteUnin = stUniAll.vctUnin.begin(); iteUnin != stUniAll.vctUnin.end(); iteUnin++)
 	{     
 		double SumCorr = 0.0;
-		Get_Coordinate_Conversion_Module(iteUnin->structTrace.dRange,iteUnin->structTrace.dAzimuth,iteUnin->structTrace.dElevationAngle,
-			iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
-			stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
-			iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
-			Xt, Yt, Zt, Rdt, Azt, Ezt,dSumCorr_xyz);
+// 		Get_Coordinate_Conversion_Module(iteUnin->structTrace.dRange,iteUnin->structTrace.dAzimuth,iteUnin->structTrace.dElevationAngle,
+// 			iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
+// 			stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
+// 			iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
+// 			Xt, Yt, Zt, Rdt, Azt, Ezt,dSumCorr_xyz);
 		// 			  VctCorr.push_back(dSumCorr_xyz); 
 		// 			  //对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
 		//            Mf_SPA(iteUnin->structTrace.dRange,Rdt,dcorrRd);
@@ -1313,11 +1340,11 @@ void ReqSingleTrace_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 		for ( iteTra = stUniAll.vctSingleTrace.begin(); iteTra != stUniAll.vctSingleTrace.end(); iteTra++)
 		{ 
 			double dSumCorr = 0.0;
-			Get_Coordinate_Conversion_Module(iteTra->dRange,iteTra->dAzimuth,iteTra->dElevationAngle,
-				iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
-				stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
-				iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
-				Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
+// 			Get_Coordinate_Conversion_Module(iteTra->dRange,iteTra->dAzimuth,iteTra->dElevationAngle,
+// 				iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
+// 				stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
+// 				iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
+// 				Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
 			// 				  VctCorr.push_back(dSumCorr_xyz); 
 			// 				  //对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
 			// 				  Mf_SPA(iteTra->dRange,Rdt,dcorrRd);
