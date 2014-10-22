@@ -27,12 +27,12 @@ Class15=CParamSecondPage
 Class16=CParamSetView
 
 ResourceCount=7
-Resource1=IDD_MSG_DLG_FIRST
-Resource2=IDD_PARAM_DLG_FIRST
-Resource3=IDD_ABOUTBOX
-Resource4=IDD_MSG_DLG_THREE
-Resource5=IDD_MSG_DLG_SECOND
-Resource6=IDR_MAINFRAME
+Resource1=IDD_MSG_DLG_SECOND
+Resource2=IDD_MSG_DLG_FIRST
+Resource3=IDD_PARAM_DLG_FIRST
+Resource4=IDD_ABOUTBOX
+Resource5=IDR_MAINFRAME
+Resource6=IDD_MSG_DLG_THREE
 Resource7=IDD_PARAM_DLG_SECOND
 
 [CLS:CAllParamSheet]

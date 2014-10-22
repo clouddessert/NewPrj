@@ -7,14 +7,14 @@
 </h3>
 <h3>Command Lines</h3>
 Creating command line "rc.exe /l 0x804 /fo"Debug/NodePlat.res" /d "_DEBUG" /d "_AFXDLL" "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\NodePlat.rc"" 
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC3F.tmp" with contents
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP7984.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\AllParamSheet.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\Alg\SingleIdentify.cpp"
 ]
-Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC3F.tmp" 
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC40.tmp" with contents
+Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP7984.tmp" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP7985.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\Alg\CooperativeMsg.cpp"
@@ -28,6 +28,7 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC40.tmp" with 
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\MsgFourthPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\MsgFstPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\MsgListView.cpp"
+"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\MsgNinthPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\MsgSecPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\MsgSeventhPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\MsgSixthPage.cpp"
@@ -44,14 +45,14 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC40.tmp" with 
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\ParamThirdPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\Alg\XSi.cpp"
 ]
-Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC40.tmp" 
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC41.tmp" with contents
+Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP7985.tmp" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP7986.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\NodePlat\StdAfx.cpp"
 ]
-Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC41.tmp" 
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC42.tmp" with contents
+Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP7986.tmp" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP7987.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/NodePlat.pdb" /debug /machine:I386 /out:"Debug/NodePlat.exe" /pdbtype:sept 
 .\Debug\AllParamSheet.obj
@@ -66,6 +67,7 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC42.tmp" with 
 .\Debug\MsgFourthPage.obj
 .\Debug\MsgFstPage.obj
 .\Debug\MsgListView.obj
+.\Debug\MsgNinthPage.obj
 .\Debug\MsgSecPage.obj
 .\Debug\MsgSeventhPage.obj
 .\Debug\MsgSixthPage.obj
@@ -85,7 +87,7 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC42.tmp" with 
 .\Debug\XSi.obj
 .\Debug\NodePlat.res
 ]
-Creating command line "link.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPAC42.tmp"
+Creating command line "link.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP7987.tmp"
 <h3>Output Window</h3>
 Compiling resources...
 Compiling...
@@ -106,6 +108,7 @@ MsgFifthPage.cpp
 MsgFourthPage.cpp
 MsgFstPage.cpp
 MsgListView.cpp
+MsgNinthPage.cpp
 MsgSecPage.cpp
 MsgSeventhPage.cpp
 MsgSixthPage.cpp
@@ -114,9 +117,9 @@ MsgThreePage.cpp
 MultipleIdentify.cpp
 MySocket.cpp
 NetworkSetting.cpp
-NodePlat.cpp
 Generating Code...
 Compiling...
+NodePlat.cpp
 NodePlatDoc.cpp
 NodePlatView.cpp
 ParamFstPage.cpp
@@ -125,7 +128,7 @@ ParamThirdPage.cpp
 XSi.cpp
 Generating Code...
 Linking...
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC6B5.tmp" with contents
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP9236.tmp" with contents
 [
 /nologo /o"Debug/NodePlat.bsc" 
 .\Debug\StdAfx.sbr
@@ -141,6 +144,7 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC6B5.tmp" with 
 .\Debug\MsgFourthPage.sbr
 .\Debug\MsgFstPage.sbr
 .\Debug\MsgListView.sbr
+.\Debug\MsgNinthPage.sbr
 .\Debug\MsgSecPage.sbr
 .\Debug\MsgSeventhPage.sbr
 .\Debug\MsgSixthPage.sbr
@@ -157,7 +161,7 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC6B5.tmp" with 
 .\Debug\ParamThirdPage.sbr
 .\Debug\SingleIdentify.sbr
 .\Debug\XSi.sbr]
-Creating command line "bscmake.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC6B5.tmp"
+Creating command line "bscmake.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP9236.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 

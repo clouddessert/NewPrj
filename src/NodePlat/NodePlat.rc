@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Chinese (P.R.C.) resources
+// Chinese (中国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -259,6 +259,14 @@ BEGIN
                     WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
 END
 
+IDD_MSG_DLG_NINTH DIALOG DISCARDABLE  0, 0, 271, 184
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    CONTROL         "List1",IDC_LIST_TAISHI,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,13,13,89,109
+END
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
@@ -328,6 +336,14 @@ BEGIN
     BEGIN
         RIGHTMARGIN, 222
     END
+
+    IDD_MSG_DLG_NINTH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 264
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 177
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -341,7 +357,7 @@ IDB_MAP                 BITMAP  DISCARDABLE     "res\\捕获.bmp"
 IDB_PLANE               BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
 IDB_MISSILE             BITMAP  DISCARDABLE     "res\\missile.bmp"
 IDB_SHIP1               BITMAP  DISCARDABLE     "res\\ship1.bmp"
-#endif    // Chinese (P.R.C.) resources
+#endif    // Chinese (中国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

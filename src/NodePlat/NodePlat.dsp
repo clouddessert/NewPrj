@@ -147,6 +147,10 @@ SOURCE=.\MsgListView.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\MsgNinthPage.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MsgSecPage.cpp
 # End Source File
 # Begin Source File
@@ -286,6 +290,10 @@ SOURCE=.\MsgFstPage.h
 # Begin Source File
 
 SOURCE=.\MsgListView.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgNinthPage.h
 # End Source File
 # Begin Source File
 

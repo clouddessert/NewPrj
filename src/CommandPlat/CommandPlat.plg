@@ -6,35 +6,34 @@
 --------------------Configuration: CommandPlat - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP32CF.tmp" with contents
+Creating command line "rc.exe /l 0x804 /fo"Debug/CommandPlat.res" /d "_DEBUG" /d "_AFXDLL" "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\CommandPlat.rc"" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EC.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/CommandPlat.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\AllParamSheet.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\CommandPlat.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\CommandPlatDoc.cpp"
+"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\CommandPlatView.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\LanStatusView.cpp"
+"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MainFrm.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MessageView.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MsgAllSheet.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MsgFstPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MsgSecPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MsgThreePage.cpp"
+"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MySocket.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\ParamFstPage.cpp"
+"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\ParamSecondPage.cpp"
 "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\ParamSetView.cpp"
 ]
-Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP32CF.tmp" 
-<h3>Output Window</h3>
-Compiling...
-Skipping... (no relevant changes detected)
-CommandPlat.cpp
-CommandPlatDoc.cpp
-LanStatusView.cpp
-MessageView.cpp
-MsgAllSheet.cpp
-MsgFstPage.cpp
-MsgSecPage.cpp
-MsgThreePage.cpp
-ParamFstPage.cpp
-ParamSetView.cpp
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP3639.tmp" with contents
+Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EC.tmp" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3ED.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/CommandPlat.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3ED.tmp" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EE.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/CommandPlat.pdb" /debug /machine:I386 /out:"Debug/CommandPlat.exe" /pdbtype:sept 
 .\Debug\AllParamSheet.obj
@@ -55,12 +54,30 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP3639.tmp" with 
 .\Debug\StdAfx.obj
 .\Debug\CommandPlat.res
 ]
-Creating command line "link.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP3639.tmp"
+Creating command line "link.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EE.tmp"
 <h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+AllParamSheet.cpp
+CommandPlat.cpp
+CommandPlatDoc.cpp
+CommandPlatView.cpp
+LanStatusView.cpp
+MainFrm.cpp
+MessageView.cpp
+MsgAllSheet.cpp
+MsgFstPage.cpp
+MsgSecPage.cpp
+MsgThreePage.cpp
+MySocket.cpp
+ParamFstPage.cpp
+ParamSecondPage.cpp
+ParamSetView.cpp
+Generating Code...
 Linking...
-LINK : fatal error LNK1168: cannot open Debug/CommandPlat.exe for writing
-Ö´ÐÐ link.exe Ê±³ö´í.
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP384D.tmp" with contents
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPD5E9.tmp" with contents
 [
 /nologo /o"Debug/CommandPlat.bsc" 
 .\Debug\StdAfx.sbr
@@ -79,14 +96,14 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP384D.tmp" with 
 .\Debug\ParamFstPage.sbr
 .\Debug\ParamSecondPage.sbr
 .\Debug\ParamSetView.sbr]
-Creating command line "bscmake.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP384D.tmp"
+Creating command line "bscmake.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPD5E9.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 
 
 
 <h3>Results</h3>
-CommandPlat.exe - 1 error(s), 0 warning(s)
+CommandPlat.exe - 0 error(s), 0 warning(s)
 </pre>
 </body>
 </html>
