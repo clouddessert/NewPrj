@@ -144,9 +144,10 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 					iteBackMsg->stTrace.dTX = Xt;
 					iteBackMsg->stTrace.dTY = Yt;
 					iteBackMsg->stTrace.dTZ = Zt;
-					iteBackMsg->stTrace.dRange = Rdt;
-					iteBackMsg->stTrace.dAzimuth = Azt;
-					iteBackMsg->stTrace.dElevationAngle = Ezt;
+					//需重新赋值计算
+					//iteBackMsg->stTrace.dRange = Rdt;
+					//iteBackMsg->stTrace.dAzimuth = Azt;
+					//iteBackMsg->stTrace.dElevationAngle = Ezt;
 					stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
 					//测试 航迹信息的条数
 					int Tsize = stCooperMsg.vctTrace.size();
