@@ -417,18 +417,29 @@ void CCommandPlatApp::OnStartJq()
 
 //Ship Position
 	stShipPosition.dHeight = 0.0;
-	stShipPosition.dLonti = 119.1;
-	stShipPosition.dLati = 22.5;
+	stShipPosition.dLonti = 120.0;
+	stShipPosition.dLati = 22.0;
 	theApp.m_Ship_Position.push_back(stShipPosition); //½¢1
 
 	stShipPosition.dHeight = 0.0;
-	stShipPosition.dLonti = 116.5;
-	stShipPosition.dLati = 22.0;
+	stShipPosition.dLonti = 122.5;
+	stShipPosition.dLati = 23.0;
 	theApp.m_Ship_Position.push_back(stShipPosition); //½¢2
+
 	stShipPosition.dHeight = 0.0;
 	stShipPosition.dLonti = 121.5;
 	stShipPosition.dLati = 26.0;
 	theApp.m_Ship_Position.push_back(stShipPosition); //½¢3
+
+	stShipPosition.dHeight = 0.0;
+	stShipPosition.dLonti = 119.5;
+	stShipPosition.dLati = 24.0;
+	theApp.m_Ship_Position.push_back(stShipPosition); //½¢4
+
+	stShipPosition.dHeight = 0.0;
+	stShipPosition.dLonti = 122;
+	stShipPosition.dLati = 27.0;
+	theApp.m_Ship_Position.push_back(stShipPosition); //½¢5
 
 //ESM	
 	stEsmStatus.lTargetNumber = 3001;
