@@ -635,8 +635,8 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 		for (pShip_Position = theApp.m_Ship_Position.begin(); pShip_Position != theApp.m_Ship_Position.end(); pShip_Position++)
 		{
 			pShip_Position->dHeight = pShip_Position->dHeight ;
-			pShip_Position->dLonti  = pShip_Position->dLonti  + 0.0001;
-			pShip_Position->dLati  = pShip_Position->dLati  + 0.0001;
+			pShip_Position->dLonti  = pShip_Position->dLonti  + 0.00001;
+			pShip_Position->dLati  = pShip_Position->dLati  + 0.00001;
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 4;
