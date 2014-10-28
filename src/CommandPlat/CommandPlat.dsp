@@ -110,6 +110,19 @@ SOURCE=.\CommandPlatView.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\GS.CPP
+
+!IF  "$(CFG)" == "CommandPlat - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "CommandPlat - Win32 Debug"
+
+# SUBTRACT CPP /YX /Yc /Yu
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=.\LanStatusView.cpp
 # End Source File
 # Begin Source File
@@ -180,6 +193,10 @@ SOURCE=.\CommandPlatDoc.h
 # Begin Source File
 
 SOURCE=.\CommandPlatView.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\GS.H
 # End Source File
 # Begin Source File
 

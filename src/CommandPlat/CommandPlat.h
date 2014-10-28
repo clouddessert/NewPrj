@@ -64,8 +64,9 @@ public:
 	VCT_COMM_MSG m_Comm_Dat;
 	VCT_TRACE_MSG m_Trace_Dat;
 	VCT_SHIP_POSITION m_Ship_Position;
+	VCT_SHIP_POSITION::iterator p_CurrentShip;
 
-
+	std::map<DWORD, SHIP_POSITION>	m_ShipRelatePlat;
 
 public:
 	HWND hESM_wmd;

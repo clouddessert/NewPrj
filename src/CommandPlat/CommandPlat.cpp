@@ -8,6 +8,8 @@
 #include "CommandPlatDoc.h"
 #include "CommandPlatView.h"
 
+#include "gs.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -201,8 +203,17 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 	VCT_TRACE_MSG::iterator pTrace_Dat;
 	VCT_SHIP_POSITION::iterator pShip_Position;
 
+	std::map<DWORD, SHIP_POSITION>::iterator pxx_tmp;
+
+	OriginGEO stRef;
+	PositionGEO	stVal;
+	PositionPolar stOut;
+
+	int tmp_val;
+
 	while (theApp.bThreadRun)
 	{
+		::srand(NULL);
 		//如果数据准备好
 		if (WAIT_OBJECT_0 == WaitForSingleObject(theApp.hUpdateDataEvent, INFINITE))
 		{
@@ -215,11 +226,25 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 				stHeader.nMsgLength = theApp.m_ESM_Dat.size();
 				for (theApp.m_pClient = theApp.m_ClientMap.begin(); theApp.m_pClient != theApp.m_ClientMap.end(); theApp.m_pClient++)
 				{
-					theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
-
-					for (pESM_Dat = theApp.m_ESM_Dat.begin(); pESM_Dat != theApp.m_ESM_Dat.end(); pESM_Dat++)
+					pxx_tmp = theApp.m_ShipRelatePlat.find(theApp.m_pClient->first);
+					if ( pxx_tmp == theApp.m_ShipRelatePlat.end() )
 					{
-						theApp.m_pClient->second->Send(&(*pESM_Dat), sizeof(ESMSTATUS_MARK));
+						//none,over
+					}
+					else
+					{
+						theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
+						
+						for (pESM_Dat = theApp.m_ESM_Dat.begin(); pESM_Dat != theApp.m_ESM_Dat.end(); pESM_Dat++)
+						{
+							//Modify the Data
+							tmp_val = rand();
+							pESM_Dat->dElevationAngle += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+							tmp_val = rand();
+							pESM_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+							
+							theApp.m_pClient->second->Send(&(*pESM_Dat), sizeof(ESMSTATUS_MARK));
+						}
 					}
 				}
 				str = _T("发送ESM数据\r\n");
@@ -230,11 +255,25 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 				stHeader.nMsgLength = theApp.m_Comm_Dat.size();
 				for (theApp.m_pClient = theApp.m_ClientMap.begin(); theApp.m_pClient != theApp.m_ClientMap.end(); theApp.m_pClient++)
 				{
-					theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
-					
-					for (pComm_Dat = theApp.m_Comm_Dat.begin(); pComm_Dat != theApp.m_Comm_Dat.end(); pComm_Dat++)
+					pxx_tmp = theApp.m_ShipRelatePlat.find(theApp.m_pClient->first);
+					if ( pxx_tmp == theApp.m_ShipRelatePlat.end() )
 					{
-						theApp.m_pClient->second->Send(&(*pComm_Dat), sizeof(COMSTATUS_MARK));
+						//none,over
+					}
+					else
+					{
+						theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
+						
+						for (pComm_Dat = theApp.m_Comm_Dat.begin(); pComm_Dat != theApp.m_Comm_Dat.end(); pComm_Dat++)
+						{
+							//Modify the Data
+							tmp_val = rand();
+							pComm_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+							tmp_val = rand();
+							pComm_Dat->dElevationAngle += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+							
+							theApp.m_pClient->second->Send(&(*pComm_Dat), sizeof(COMSTATUS_MARK));
+						}
 					}
 				}
 				str = _T("发送通讯数据\r\n");
@@ -245,11 +284,34 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 				stHeader.nMsgLength = theApp.m_Trace_Dat.size();
 				for (theApp.m_pClient = theApp.m_ClientMap.begin(); theApp.m_pClient != theApp.m_ClientMap.end(); theApp.m_pClient++)
 				{
-					theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
-					
-					for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
+					pxx_tmp = theApp.m_ShipRelatePlat.find(theApp.m_pClient->first);
+					if ( pxx_tmp == theApp.m_ShipRelatePlat.end() )
 					{
-						theApp.m_pClient->second->Send(&(*pTrace_Dat), sizeof(TRACKSTATUS_MARK));
+						//none,over
+					}
+					else
+					{
+						theApp.m_pClient->second->Send(&stHeader, sizeof(ProtcolHeader));
+						
+						for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
+						{
+							//Modify the Data
+							stRef.dRefLon_ = pxx_tmp->second.dLonti;
+							stRef.dRefLat_ = pxx_tmp->second.dLati;
+							stRef.dRefAlt_ = pxx_tmp->second.dHeight;
+
+							stVal.dLongitude = pTrace_Dat->dLonti;
+							stVal.dLatitude = pTrace_Dat->dLati;
+							stVal.dAltitude = 0;		//这里应该是目标高度，你们自己添加！！！！重要！！！
+
+							stOut = GEO2Polar(stVal, stRef);
+
+							pTrace_Dat->dRange = stOut.dRDistance;
+							pTrace_Dat->dAzimuth = stOut.dAzimuth;
+							pTrace_Dat->dElevationAngle = stOut.dHLowAngle;
+							
+							theApp.m_pClient->second->Send(&(*pTrace_Dat), sizeof(TRACKSTATUS_MARK));
+						}
 					}
 				}
 				str = _T("发送航迹数据\r\n");
@@ -264,6 +326,8 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 					
 					for (pShip_Position = theApp.m_Ship_Position.begin(); pShip_Position != theApp.m_Ship_Position.end(); pShip_Position++)
 					{
+						//Modify the Data
+
 						theApp.m_pClient->second->Send(&(*pShip_Position), sizeof(SHIP_POSITION));
 					}
 				}
@@ -350,6 +414,16 @@ void CCommandPlatApp::ClientAccept(void)
 	//存入map
 	::EnterCriticalSection(&(theApp.g_cs));
 	theApp.m_ClientMap.insert(map<DWORD, CMySocket*>::value_type(dwClientIP, theApp.pClient));
+
+	//add bu fy 10.28
+	std::map<DWORD, SHIP_POSITION>::iterator pxx;
+	pxx = theApp.m_ShipRelatePlat.find(dwClientIP);
+	if ( pxx == theApp.m_ShipRelatePlat.end() )
+	{
+		theApp.m_ShipRelatePlat.insert(std::map<DWORD, SHIP_POSITION>::value_type(dwClientIP, *p_CurrentShip));
+		++p_CurrentShip;
+	}
+
 	::LeaveCriticalSection(&(theApp.g_cs));
 
 	CString str = _T("什么客户端已经连接进入\r\n");
@@ -401,13 +475,13 @@ void CCommandPlatApp::OnShowMsg()
 void CCommandPlatApp::OnStartJq() 
 {
 	// TODO: Add your command handler code here
-	ServerCreate();
-
 	//clear data
 	theApp.m_ESM_Dat.clear();
 	theApp.m_Comm_Dat.clear();
 	theApp.m_Trace_Dat.clear();
 	theApp.m_Ship_Position.clear();
+
+	theApp.m_ShipRelatePlat.clear();
 
 	//init data
 	ESMSTATUS_MARK stEsmStatus;
@@ -415,31 +489,30 @@ void CCommandPlatApp::OnStartJq()
 	TRACKSTATUS_MARK stTrackStatus;
 	SHIP_POSITION stShipPosition;
 
-//Ship Position
+	//Ship Position(Modify By Clouddessert)
 	stShipPosition.dHeight = 0.0;
-	stShipPosition.dLonti = 120.0;
-	stShipPosition.dLati = 22.0;
+	stShipPosition.dLonti = 119.0;
+	stShipPosition.dLati = 22.5;
 	theApp.m_Ship_Position.push_back(stShipPosition); //舰1
 
 	stShipPosition.dHeight = 0.0;
-	stShipPosition.dLonti = 122.5;
-	stShipPosition.dLati = 23.0;
+	stShipPosition.dLonti = 118.9;
+	stShipPosition.dLati = 22.4;
 	theApp.m_Ship_Position.push_back(stShipPosition); //舰2
-
 	stShipPosition.dHeight = 0.0;
-	stShipPosition.dLonti = 121.5;
-	stShipPosition.dLati = 26.0;
+	stShipPosition.dLonti = 119.1;
+	stShipPosition.dLati = 22.6;
 	theApp.m_Ship_Position.push_back(stShipPosition); //舰3
-
-// 	stShipPosition.dHeight = 0.0;
-// 	stShipPosition.dLonti = 119.5;
-// 	stShipPosition.dLati = 24.0;
-// 	theApp.m_Ship_Position.push_back(stShipPosition); //舰4
-// 
-// 	stShipPosition.dHeight = 0.0;
-// 	stShipPosition.dLonti = 122;
-// 	stShipPosition.dLati = 27.0;
-// 	theApp.m_Ship_Position.push_back(stShipPosition); //舰5
+	stShipPosition.dHeight = 0.0;
+	stShipPosition.dLonti = 119.15;
+	stShipPosition.dLati = 22.7;
+	theApp.m_Ship_Position.push_back(stShipPosition); //舰4
+	stShipPosition.dHeight = 0.0;
+	stShipPosition.dLonti = 118.85;
+	stShipPosition.dLati = 22.2;
+	theApp.m_Ship_Position.push_back(stShipPosition); //舰5
+	//这里注意5条船，不一定用到，但是可以多定义。这里注意，超多5条船，需要添加定义！！！
+	p_CurrentShip = theApp.m_Ship_Position.begin();
 
 //ESM	
 	stEsmStatus.lTargetNumber = 3001;
@@ -448,7 +521,6 @@ void CCommandPlatApp::OnStartJq()
     strcpy(stEsmStatus.sPlatType,_T("F117")); 
 	stEsmStatus.dConfidence = (float)0.8;
 	stEsmStatus.cJfFlag = 0;
-	stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 2;
 	stEsmStatus.dMaiKuan = 5;
@@ -478,7 +550,6 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.4;
 	stEsmStatus.cJfFlag = 0;
-	stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 3;
 	stEsmStatus.dMaiKuan = 5;
@@ -508,7 +579,6 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F119")); 
 	stEsmStatus.dConfidence = (float)0.6;
 	stEsmStatus.cJfFlag = 0;
-		stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 2;
 	stEsmStatus.dMaiKuan = 5;
@@ -538,7 +608,6 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.8;
 	stEsmStatus.cJfFlag = 0;
-		stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 2;
 	stEsmStatus.dMaiKuan = 6;
@@ -568,7 +637,6 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F120")); 
 	stEsmStatus.dConfidence = (float)0.3;
 	stEsmStatus.cJfFlag = 0;
-		stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 3;
 	stEsmStatus.dMaiKuan = 4;
@@ -598,7 +666,6 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stEsmStatus.sPlatType,_T("F118")); 
 	stEsmStatus.dConfidence = (float)0.5;
 	stEsmStatus.cJfFlag = 0;
-		stEsmStatus.lFusFlag = 0;
 //10.13	//载频//脉宽//天线扫描
 	stEsmStatus.dChongPin = 5;
 	stEsmStatus.dMaiKuan = 4;
@@ -629,7 +696,6 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stComStatus.sPlatType,_T("F117")); 
 	stComStatus.dConfidence = (float)0.5;
 	stComStatus.cJfFlag = 0;
-		stComStatus.lFusFlag = 0;
 //10.13载频,脉冲幅度
 	stComStatus.dComZaiPin = 3.5;
 	stComStatus.dPulseExtent = 2.0;
@@ -652,8 +718,7 @@ void CCommandPlatApp::OnStartJq()
 //	stComStatus.sPlatType = 119;
     strcpy(stComStatus.sPlatType,_T("F119")); 
 	stComStatus.dConfidence = (float)0.6;
-	stComStatus.cJfFlag = 0;
-		stComStatus.lFusFlag = 0;
+	stEsmStatus.cJfFlag = 0;
 //10.13载频,脉冲幅度
 	stComStatus.dComZaiPin = 4.0;
 	stComStatus.dPulseExtent = 2.0;
@@ -675,8 +740,7 @@ void CCommandPlatApp::OnStartJq()
 //	stComStatus.sPlatType = 119;
     strcpy(stComStatus.sPlatType,_T("F119")); 
 	stComStatus.dConfidence = (float)0.3;
-	stComStatus.cJfFlag = 0;
-		stComStatus.lFusFlag = 0;
+	stEsmStatus.cJfFlag = 0;
 //10.13载频,脉冲幅度
 	stComStatus.dComZaiPin = 3.5;
 	stComStatus.dPulseExtent = 3.0;
@@ -701,19 +765,6 @@ void CCommandPlatApp::OnStartJq()
     strcpy(stTrackStatus.sPlatType ,_T("F117"));
 	stTrackStatus.dConfidence = (float)0.3;
 	stTrackStatus.cJfFlag = 0;
-	stTrackStatus.lFusFlag = 0;
-	stTrackStatus.dTSpeedX = 85.0;   //目标绝对速度
-	stTrackStatus.dTSpeedY = 95.0;
-	stTrackStatus.dTSpeedZ = 89.0;
-	stTrackStatus.dRange = 1023.0; //距离
-	stTrackStatus.dElevationAngle = 35.7; //仰角
-	stTrackStatus.dCourse = 39.5;//绝对航向
-	stTrackStatus.dTargetAZSpeed = 32.6;//目标方位角角速度
-	stTrackStatus.dTargetEAngleSpeed = 25.6;//目标仰角角速度
-    stTrackStatus.dTX = 50.8; //目标空间坐标
-	stTrackStatus.dTY = 70.0;
-	stTrackStatus.dTZ = 80.9;
-	stTrackStatus.lSignalReachTime = 700; //信号到达时间
 	stTrackStatus.dLonti = (float)118.20;   //目标经度 
 	stTrackStatus.dLati = (float)24.10;     //目标纬度
 	strcpy(stTrackStatus.cPlatName,_T("飞机1"));       //平台名称
@@ -729,19 +780,6 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stTrackStatus.sPlatType,_T("F118")); 
 	stTrackStatus.dConfidence = (float)0.2;
 	stTrackStatus.cJfFlag = 0;
-	stTrackStatus.lFusFlag = 0;
-	stTrackStatus.dTSpeedX = 80.0;  
-	stTrackStatus.dTSpeedY = 75.0;
-	stTrackStatus.dTSpeedZ = 90.0;
-	stTrackStatus.dRange = 2500.0; //距离
-	stTrackStatus.dElevationAngle = 30.7; //仰角
-	stTrackStatus.dCourse = 38.0;//绝对航向
-	stTrackStatus.dTargetAZSpeed = 18.6;//目标方位角角速度
-	stTrackStatus.dTargetEAngleSpeed = 24.6;//目标仰角角速度
-    stTrackStatus.dTX = 70.8; //目标空间坐标
-	stTrackStatus.dTY = 60.0;
-	stTrackStatus.dTZ = 90.9;
-	stTrackStatus.lSignalReachTime = 700; //信号到达时间
 	stTrackStatus.dLonti = (float)117.30;   //目标经度
 	stTrackStatus.dLati = (float)24.20;     //目标纬度
 	strcpy(stTrackStatus.cPlatName,_T("飞机2"));       //平台名称
@@ -789,6 +827,8 @@ void CCommandPlatApp::OnStartJq()
 // 	strcpy(stTrackStatus.cEquipmentType,_T("Track")); //设备类型
 // 	theApp.m_Trace_Dat.push_back(stTrackStatus);
     
+	//后开启网络
+	ServerCreate();
 
 	//create thread 
 	theApp.bThreadRun = TRUE;

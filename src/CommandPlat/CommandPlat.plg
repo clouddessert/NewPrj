@@ -6,40 +6,47 @@
 --------------------Configuration: CommandPlat - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating command line "rc.exe /l 0x804 /fo"Debug/CommandPlat.res" /d "_DEBUG" /d "_AFXDLL" "C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\CommandPlat.rc"" 
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EC.tmp" with contents
+Creating command line "rc.exe /l 0x804 /fo"Debug/CommandPlat.res" /d "_DEBUG" /d "_AFXDLL" "E:\NewPrj\trunk\src\CommandPlat\CommandPlat.rc"" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP5DA.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/CommandPlat.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\AllParamSheet.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\CommandPlat.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\CommandPlatDoc.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\CommandPlatView.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\LanStatusView.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MainFrm.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MessageView.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MsgAllSheet.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MsgFstPage.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MsgSecPage.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MsgThreePage.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\MySocket.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\ParamFstPage.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\ParamSecondPage.cpp"
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\ParamSetView.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\AllParamSheet.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\CommandPlat.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\CommandPlatDoc.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\CommandPlatView.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\LanStatusView.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\MainFrm.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\MessageView.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\MsgAllSheet.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\MsgFstPage.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\MsgSecPage.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\MsgThreePage.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\MySocket.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\ParamFstPage.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\ParamSecondPage.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\ParamSetView.cpp"
 ]
-Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EC.tmp" 
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3ED.tmp" with contents
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP5DA.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP5DB.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\NewPrj\trunk\src\CommandPlat\GS.CPP"
+]
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP5DB.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP5DC.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/CommandPlat.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"C:\Users\xiaohouzi\Desktop\NewPrj\trunk\src\CommandPlat\StdAfx.cpp"
+"E:\NewPrj\trunk\src\CommandPlat\StdAfx.cpp"
 ]
-Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3ED.tmp" 
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EE.tmp" with contents
+Creating command line "cl.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP5DC.tmp" 
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP5DD.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/CommandPlat.pdb" /debug /machine:I386 /out:"Debug/CommandPlat.exe" /pdbtype:sept 
 .\Debug\AllParamSheet.obj
 .\Debug\CommandPlat.obj
 .\Debug\CommandPlatDoc.obj
 .\Debug\CommandPlatView.obj
+.\Debug\GS.OBJ
 .\Debug\LanStatusView.obj
 .\Debug\MainFrm.obj
 .\Debug\MessageView.obj
@@ -54,7 +61,7 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EE.tmp" with 
 .\Debug\StdAfx.obj
 .\Debug\CommandPlat.res
 ]
-Creating command line "link.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPC3EE.tmp"
+Creating command line "link.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP5DD.tmp"
 <h3>Output Window</h3>
 Compiling resources...
 Compiling...
@@ -76,8 +83,10 @@ ParamFstPage.cpp
 ParamSecondPage.cpp
 ParamSetView.cpp
 Generating Code...
+Compiling...
+GS.CPP
 Linking...
-Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPD5E9.tmp" with contents
+Creating temporary file "C:\Users\TinyGift\AppData\Local\Temp\RSP144F.tmp" with contents
 [
 /nologo /o"Debug/CommandPlat.bsc" 
 .\Debug\StdAfx.sbr
@@ -85,6 +94,7 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPD5E9.tmp" with 
 .\Debug\CommandPlat.sbr
 .\Debug\CommandPlatDoc.sbr
 .\Debug\CommandPlatView.sbr
+.\Debug\GS.SBR
 .\Debug\LanStatusView.sbr
 .\Debug\MainFrm.sbr
 .\Debug\MessageView.sbr
@@ -96,7 +106,7 @@ Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSPD5E9.tmp" with 
 .\Debug\ParamFstPage.sbr
 .\Debug\ParamSecondPage.sbr
 .\Debug\ParamSetView.sbr]
-Creating command line "bscmake.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSPD5E9.tmp"
+Creating command line "bscmake.exe @C:\Users\TinyGift\AppData\Local\Temp\RSP144F.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 

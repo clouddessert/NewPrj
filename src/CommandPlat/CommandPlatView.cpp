@@ -579,6 +579,8 @@ BOOL CCommandPlatView::OnEraseBkgnd(CDC* pDC)
 void CCommandPlatView::OnTimer(UINT nIDEvent) 
 {
 	// TODO: Add your message handler code here and/or call default
+	std::map<DWORD, SHIP_POSITION>::iterator pxx_tmp;
+
 	if (nIDEvent == 5)
 	{
 		//updata Data
@@ -640,6 +642,17 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 4;
+
+		//Update the map
+		::EnterCriticalSection(&(theApp.g_cs));
+		for (pxx_tmp = theApp.m_ShipRelatePlat.begin(); pxx_tmp != theApp.m_ShipRelatePlat.end(); ++pxx_tmp)
+		{
+			pxx_tmp->second.dHeight = pxx_tmp->second.dHeight;
+			pxx_tmp->second.dLonti  += 0.00001;
+			pxx_tmp->second.dLati  += 0.00001;
+
+		}
+		::LeaveCriticalSection(&(theApp.g_cs));
 	}
 	else
 	{
