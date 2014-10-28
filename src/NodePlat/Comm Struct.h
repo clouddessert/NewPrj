@@ -4,7 +4,6 @@
 #pragma warning(disable : 4786)
 #include <vector>
 using namespace std;
-
 typedef vector<int> VCT_INT;
 
 typedef struct __SHIP_POSITION           //舰的经纬高
@@ -139,7 +138,6 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
 	int nVSChEvt;                         //速度变化事件
 	int nAddVSChEvt;                      //加速度变化事件
 	int nCuChEvt;                         //航向变化事件
-
     double dCourse;                       //绝对航向
 	long lSignalReachTime;                //信号到达时间
 	double dTargetAZSpeed;                //目标方位角速度
