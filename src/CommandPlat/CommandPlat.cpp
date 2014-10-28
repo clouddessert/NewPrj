@@ -302,7 +302,7 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 
 							stVal.dLongitude = pTrace_Dat->dLonti;
 							stVal.dLatitude = pTrace_Dat->dLati;
-							stVal.dAltitude = 0;		//这里应该是目标高度，你们自己添加！！！！重要！！！
+							stVal.dAltitude = pTrace_Dat->dObjHeight;	//！！！
 
 							stOut = GEO2Polar(stVal, stRef);
 
@@ -767,6 +767,7 @@ void CCommandPlatApp::OnStartJq()
 	stTrackStatus.cJfFlag = 0;
 	stTrackStatus.dLonti = (float)118.20;   //目标经度 
 	stTrackStatus.dLati = (float)24.10;     //目标纬度
+	stTrackStatus.dObjHeight = (float)500.0;	//目标高度
 	strcpy(stTrackStatus.cPlatName,_T("飞机1"));       //平台名称
 	strcpy(stTrackStatus.cPlatNumber,_T("50"));   //平台编号
     strcpy(stTrackStatus.cEquipmentNumber,_T("001")); //设备编号
@@ -782,6 +783,7 @@ void CCommandPlatApp::OnStartJq()
 	stTrackStatus.cJfFlag = 0;
 	stTrackStatus.dLonti = (float)117.30;   //目标经度
 	stTrackStatus.dLati = (float)24.20;     //目标纬度
+	stTrackStatus.dObjHeight = (float)800.0;	//目标高度
 	strcpy(stTrackStatus.cPlatName,_T("飞机2"));       //平台名称
 	strcpy(stTrackStatus.cPlatNumber,_T("51"));   //平台编号
     strcpy(stTrackStatus.cEquipmentNumber,_T("002")); //设备编号
