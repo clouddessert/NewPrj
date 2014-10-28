@@ -22,8 +22,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CMsgEighthPage)
 	enum { IDD = IDD_MSG_DLG_EIGHTH };
-		// NOTE - ClassWizard will add data members here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
+	CListCtrl	m_fusTrace;
 	//}}AFX_DATA
 
 

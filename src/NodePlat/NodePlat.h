@@ -52,24 +52,33 @@ public:
 	ALL_MSG_INPUT m_RecvMsg;
 	VCT_SHIP_POSITION m_SPosition;
 
-	//输入请求信息
-// 	Request_Cooperative_Msg m_RecvReqMsg;  //结构体 报文头中的信息长度就是容器的大小,即结构体的个数
-// 
-//    VCT_SendRequest_Msg m_SendReqMsg_Dat;    //请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
- 	VCT_SendRequest_Msg m_RecvReqMsg_Dat;    //接收请求信息
-// 
-// 	VCT_SendBack_Msg m_SendBackMsg_Dat;      //返回匹配信息
- 	VCT_SendBack_Msg m_RecvBackMsg_Dat;      //接收返回信息
+	//信息交互
+	VCT_SendRequest_Msg m_SendReqMsg_Dat;    //发送的请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
+ 	VCT_SendRequest_Msg m_RecvReqMsg_Dat;    //接收的请求信息
+
+ 	VCT_SendBack_Msg m_SendBackMsg_Dat;      //发送返回匹配信息
+ 	VCT_SendBack_Msg m_RecvBackMsg_Dat;      //接收返回匹配信息
 
 	//信息交互结构体
 	SendRequest_Msg m_StSendRequest;          //发送请求的结构体
-	SendRequest_Msg m_StReceiveRequest;       //接收请求的结构体
+	SendRequest_Msg tmpRecRequest_Msg;        //接收请求的临时结构体
+//	SendRequest_Msg m_StReceiveRequest;       //接收请求的结构体
 
-	SendBack_Msg m_SendBackMsg;               //发送返回信息
-	SendBack_Msg m_ReceiveBackMsg;            //接收返回信息
-
+// 	SendBack_Msg m_SendBackMsg;               //发送返回信息
+// 	SendBack_Msg m_ReceiveBackMsg;            //接收返回信息
+			
+	//本舰请求的信息
+	int m_iline;                               //请求行号
+	vector<int> m_RequestNum_Dat;              //请求协同的批号
+	VCT_Request_Cooperative_Msg m_RequestMsg;  //请求协同信息
+	//各舰返回的所有匹配信息
+	VCT_BACK_Cooperative_Msg m_BackMsg;
+	VCT_BACK_Cooperative_Msg::iterator iteBackMsg;
+    //本舰和各舰的合并信息
+	VCT_COOPER_MSG m_CooperMsg;
 
 	int m_ThisNumber;	                     //本舰编号
+	CString m_strLocalIP;                    //本舰IP
 	map<int, CString> IpMap;                 //存放所有邻舰IP地址
 	map<int, CString> SendToIpMap;           //存放协同邻舰IP地址（舰编号，IP地址）
 	
@@ -106,19 +115,7 @@ public:
 	VCT_ESM_MSG::iterator iteFusEsm1;
 	VCT_COMM_MSG::iterator iteFusCom1;
 
-	//请求行号
-	int m_iline;
- 
-	//本舰请求的信息
-	VCT_Request_Cooperative_Msg m_RequestMsg;
-	//各舰返回的所有匹配信息
-	VCT_BACK_Cooperative_Msg m_BackMsg;
-	VCT_BACK_Cooperative_Msg::iterator iteBackMsg;
-    //本舰和各舰的合并信息
-	VCT_COOPER_MSG m_CooperMsg;
 
-	//接收请求的临时数据
-	SendRequest_Msg tmpRecRequest_Msg;
 	
 	/**********socket communication***************/
 	//同步事件标志位
@@ -151,6 +148,20 @@ public:
 	HWND hMulCOMM_wnd;
 	HWND hMulTRACE_wnd;
 
+	//性能评估
+	HWND hFus_wnd;
+	//指定识别(表格+图形)
+	HWND hZdSb_wnd;
+	HWND hZdSbTu_wnd;
+	//全部识别(表格+图形)
+	HWND hQbSb_wnd;
+	HWND hQbSbTu_wnd;
+	//指定融合(表格+图形)
+	HWND hZdFus_wnd;
+	HWND hZdFusTu_wnd;
+	//全部融合(表格+图形)
+	HWND hQbFus_wnd;
+	HWND hQbFusTu_wnd;
 	//命令显示窗口
 	HWND hDISPLAY_wnd;
 

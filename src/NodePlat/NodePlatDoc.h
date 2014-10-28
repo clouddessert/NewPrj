@@ -10,6 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "ParamThirdPage.h"
+#include "EvaluDlg.h"
 
 class CNodePlatDoc : public CDocument
 {
@@ -20,6 +21,7 @@ protected: // create from serialization only
 // Attributes
 public:
 	CParamThirdPage Msg;
+	CEvaluDlg* pDlg_evalu;		// ÆÀ¹À
 //	extern CListBox	m_AddMsgList;
 
 // Operations
@@ -57,6 +59,7 @@ protected:
 	afx_msg void OnDisconnectService();
 	afx_msg void OnEvaSin();
 	afx_msg void OnEvaMul();
+	afx_msg void OnEvatuate();
 // 	afx_msg void OnSendToMateall();
 // 	afx_msg void OnSendToMateA();
 // 	afx_msg void OnSendToMateB();

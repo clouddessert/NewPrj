@@ -85,9 +85,9 @@ typedef struct __FUS_COM
 typedef struct __Request_Cooperative_Msg     //Ö÷½¢ÇëÇóĞ­Í¬µÄĞÅÏ¢Êı¾İ½á¹¹
 {
 	long int nStampTime;                     //·¢ËÍÇëÇóĞÅÏ¢Ê±µÄµ±Ç°Ê±¼ä £¬ÉÏÊöµÄµ±Ç°Ê±¼ä¿ÉÓÃ·µ»ØĞÅÏ¢µÄµ±Ç°Ê±¼äÀ´´úÌæ	
-//  VCT_TRACE_MSG vctTrace;                  //ÇëÇóĞ­Í¬µÄº½¼£ĞÅÏ¢
+//  VCT_TRACE_MSG vctTrace;                  
 	unsigned long lAutonum;
-	TRACKSTATUS_MARK stTrace;
+	TRACKSTATUS_MARK stTrace;                //ÇëÇóĞ­Í¬µÄº½¼£ĞÅÏ¢
 	VCT_ESM_MSG vctEsm;                      //ÊÇ·ñÒª¼Ó?????????  µ±ËÍ³öµÄĞÅÏ¢Ö»ÓĞESM £¬ÇëÇóĞ­Í¬ESMĞÅÏ¢
 	VCT_COMM_MSG vctComm;                    //ÊÇ·ñÒª¼Ó?????????  µ±ËÍ³öµÄĞÅÏ¢Ö»ÓĞCOM , ÇëÇóĞ­Í¬µÄCOMĞÅÏ¢   
     SHIP_POSITION stReqShipPosi;             //´æ·Å±¾½¢¾­Î³¸ß
@@ -102,8 +102,8 @@ typedef struct __SendRequest_Msg     //ĞèÒª·¢ËÍµÄÇëÇóĞÅÏ¢£¬Ö÷½¢ÇëÇóĞ­Í¬µÄĞÅÏ¢Êı¾
 {
 	long int num;                            //ĞÅÏ¢µ¥ÔªĞòºÅ
     long int nStampTime;                     //·¢ËÍÇëÇóĞÅÏ¢Ê±µÄµ±Ç°Ê±¼ä £¬ÉÏÊöµÄµ±Ç°Ê±¼ä¿ÉÓÃ·µ»ØĞÅÏ¢µÄµ±Ç°Ê±¼äÀ´´úÌæ
-// 	char *ReceiveIp[20];                     //½ÓÊÕ·½IPµØÖ·
-// 	char *SendIp[20];                        //·¢ËÍ·½IPµØÖ·
+  	char sReceiveIp[20];                     //½ÓÊÕ·½IPµØÖ·
+  	char sSendIp[20];                        //·¢ËÍ·½IPµØÖ·
 	SHIP_POSITION stReqShipPosi;             //±¾½¢¾­Î³¸ß
 	unsigned long lAutomn;                   //ºÏÅúºÅ
 	TRACKSTATUS_MARK stTrace;
@@ -134,8 +134,8 @@ typedef struct __SendBack_Msg
 {
 	long int num;                            //ĞÅÏ¢µ¥ÔªĞòºÅ
     long int nStampTime;                     //·¢ËÍÇëÇóĞÅÏ¢Ê±µÄµ±Ç°Ê±¼ä £¬ÉÏÊöµÄµ±Ç°Ê±¼ä¿ÉÓÃ·µ»ØĞÅÏ¢µÄµ±Ç°Ê±¼äÀ´´úÌæ
-	char *SendIp[20];                        //·¢ËÍ·½IPµØÖ·
-	char *ReceiveIp[20];                     //½ÓÊÕ·½IPµØÖ·
+  	char sReceiveIp[20];                     //½ÓÊÕ·½IPµØÖ·
+  	char sSendIp[20];                        //·¢ËÍ·½IPµØÖ·
 	SHIP_POSITION stBackShipPosi;            //Ó¦´ğ½¢µÄ¾­Î³¸ß
 
 	unsigned long lAutonum;
@@ -269,7 +269,7 @@ typedef vector<BACK_Cooperative_Msg> VCT_BACK_Cooperative_Msg;  //´æ´¢ÁÚ½¢ËÍ¸øÖ÷
 //void COOP_Find_INFormation_TO_MainSHOP(SHIP_POSITION& stSelfPosi, UNI_All_NUM& stUniAll,VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative);
 
 //Ö÷º¯Êı½Ó¿Ú:
-void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& stSendRequest, SendBack_Msg& stSendBackMsg);
+void CoopFind_Information_To_MainShip(SHIP_POSITION stSelfPosi, UNI_All_NUM& stUniAll, SendRequest_Msg& stSendRequest, SendBack_Msg& stSendBackMsg);
 
 
 

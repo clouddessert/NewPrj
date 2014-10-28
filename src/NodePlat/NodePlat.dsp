@@ -107,7 +107,59 @@ SOURCE=.\Alg\CooperativeMsg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\DialogCOM.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogCOM1.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogESM.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogESM1.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogFUN.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogPLA.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogSPA.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogTIM.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogTRA.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogTRA1.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\DrawView.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\EIdenFusVALU.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\EmulateBiaoge.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\EvaluDlg.cpp
 # End Source File
 # Begin Source File
 
@@ -144,10 +196,6 @@ SOURCE=.\MsgFstPage.cpp
 # Begin Source File
 
 SOURCE=.\MsgListView.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\MsgNinthPage.cpp
 # End Source File
 # Begin Source File
 
@@ -199,6 +247,10 @@ SOURCE=.\NodePlatView.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ParamFourthPage.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ParamFstPage.cpp
 # End Source File
 # Begin Source File
@@ -208,6 +260,22 @@ SOURCE=.\ParamSecondPage.cpp
 # Begin Source File
 
 SOURCE=.\ParamThirdPage.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBFus.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBFusGraph.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBIdenti.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBIdentiGraph.cpp
 # End Source File
 # Begin Source File
 
@@ -231,6 +299,22 @@ SOURCE=.\StdAfx.cpp
 
 SOURCE=.\Alg\XSi.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\ZDFus.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ZDFusGraph.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ZDIdenti.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ZDIdentiGraph.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -253,7 +337,59 @@ SOURCE=.\Alg\CooperativeMsg.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\DialogCOM.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogCOM1.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogESM.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogESM1.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogFUN.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogPLA.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogSPA.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogTIM.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogTRA.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DialogTRA1.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\DrawView.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\EIdenFusVALU.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\EmulateBiaoge.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\EvaluDlg.h
 # End Source File
 # Begin Source File
 
@@ -290,10 +426,6 @@ SOURCE=.\MsgFstPage.h
 # Begin Source File
 
 SOURCE=.\MsgListView.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\MsgNinthPage.h
 # End Source File
 # Begin Source File
 
@@ -341,6 +473,10 @@ SOURCE=.\NodePlatView.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\ParamFourthPage.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\ParamFstPage.h
 # End Source File
 # Begin Source File
@@ -350,6 +486,22 @@ SOURCE=.\ParamSecondPage.h
 # Begin Source File
 
 SOURCE=.\ParamThirdPage.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBFus.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBFusGraph.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBIdenti.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBIdentiGraph.h
 # End Source File
 # Begin Source File
 
@@ -370,6 +522,22 @@ SOURCE=.\StructHeader.h
 # Begin Source File
 
 SOURCE=.\Alg\XSi.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ZDFus.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ZDFusGraph.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ZDIdenti.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ZDIdentiGraph.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

@@ -10,6 +10,7 @@
 #include "ParamFstPage.h"
 #include "ParamSecondPage.h"
 #include "ParamThirdPage.h"
+#include "ParamFourthPage.h"
 /////////////////////////////////////////////////////////////////////////////
 // CAllParamSheet
 
@@ -27,6 +28,7 @@ private:
 	CParamFstPage m_FstPage;
 	CParamSecondPage m_SecPage;
 	CParamThirdPage m_ThirdPage;
+	CParamFourthPage m_FourthPage;
 
 // Operations
 public:

@@ -45,7 +45,19 @@ CNodePlatApp::CNodePlatApp()
 	m_RecvMsg.stComm.clear();
 	m_RecvMsg.stEsm.clear();
 	m_RecvMsg.stTrace.clear();
+
+	m_SendReqMsg_Dat.clear();          //发送的请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
+	m_RecvReqMsg_Dat.clear();          //接收请求信息
+	m_SendBackMsg_Dat.clear();         //发送返回匹配信息
+	m_RecvBackMsg_Dat.clear();         //接收返回信息
 	
+	m_RequestNum_Dat.clear();          //请求协同的批号
+	m_RequestMsg.clear();              //保存联合识别前信息（所有请求协同信息 容器）	
+	m_BackMsg.clear();                 //各舰返回的所有匹配信息
+	m_CooperMsg.clear();               //本舰和各舰的合并信息
+	
+	SendToIpMap.clear();
+
 	hESM_wmd = NULL;
 	hCOMM_wmd = NULL;
 	hTRACE_wmd = NULL;
@@ -201,8 +213,8 @@ void CNodePlatApp::SetIPLib(void)
 	
 	struct in_addr addr;
     memcpy(&addr,phe->h_addr_list[0],sizeof(struct in_addr));
-	CString strLocalIP;
-	strLocalIP.Format("%s", inet_ntoa(addr));
+//	CString strLocalIP;
+	m_strLocalIP.Format("%s", inet_ntoa(addr));
 	
 	//获得工程文件夹路径
 	::GetCurrentDirectory(_MAX_PATH,sPath.GetBuffer(_MAX_PATH));
@@ -213,7 +225,7 @@ void CNodePlatApp::SetIPLib(void)
 	if (::GetPrivateProfileString(_T("编队IP"), _T("A船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
 	{
 		strTmp.ReleaseBuffer();
-		if (strTmp.Compare(strLocalIP))
+		if (strTmp.Compare(m_strLocalIP))
 		{
 			theApp.IpMap.insert(make_pair(0, strTmp));
 		}
@@ -227,7 +239,7 @@ void CNodePlatApp::SetIPLib(void)
 	if (::GetPrivateProfileString(_T("编队IP"), _T("B船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
 	{
 		strTmp.ReleaseBuffer();
-		if (strTmp.Compare(strLocalIP))
+		if (strTmp.Compare(m_strLocalIP))
 		{
 			theApp.IpMap.insert(make_pair(1, strTmp));
 		}
@@ -240,7 +252,7 @@ void CNodePlatApp::SetIPLib(void)
 	if (::GetPrivateProfileString(_T("编队IP"), _T("C船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
 	{
 		strTmp.ReleaseBuffer();
-		if (strTmp.Compare(strLocalIP))
+		if (strTmp.Compare(m_strLocalIP))
 		{
 			theApp.IpMap.insert(make_pair(2, strTmp));
 		}
@@ -253,7 +265,7 @@ void CNodePlatApp::SetIPLib(void)
 	if (::GetPrivateProfileString(_T("编队IP"), _T("D船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
 	{
 		//strTmp.ReleaseBuffer();
-		if (strTmp.Compare(strLocalIP))
+		if (strTmp.Compare(m_strLocalIP))
 		{
 			theApp.IpMap.insert(make_pair(3, strTmp));
 		}
@@ -267,7 +279,7 @@ void CNodePlatApp::SetIPLib(void)
 	if (::GetPrivateProfileString(_T("编队IP"), _T("E船IP地址"), NULL, strTmp.GetBuffer(MAX_PATH), MAX_PATH, sPath))
 	{
 		//strTmp.ReleaseBuffer();
-		if (strTmp.Compare(strLocalIP))
+		if (strTmp.Compare(m_strLocalIP))
 		{
 			theApp.IpMap.insert(make_pair(4, strTmp));
 		}
@@ -433,20 +445,48 @@ void CNodePlatApp::ReceiveFromClient(CMsgSocket* pThis)
 			theApp.m_RecvReqMsg_Dat.push_back(theApp.tmpRecRequest_Msg);
 			//这里的接收不要用结构体，换成这个结构体的vector，方便后面使用！！！！
 			::LeaveCriticalSection(&(theApp.g_cs));	
+
+			//命令消息生成
+			SYSTEMTIME tm;
+			GetLocalTime(&tm);
+			CString time;
+			time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+			CString str1,str2,str3;
+			str1.Format("我舰");
+			str2.Format("收到IP为 ");
+			str3.Format("的舰的协同请求");
+			theApp.m_MsgDisplay = str1+"于"+time+str2+theApp.tmpRecRequest_Msg.sSendIp+str3;
+			
+			::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);//给显示窗口发送消息
+
 			break;
 		}
 		//代表接收的是数据
-	case 12:
-		//保存到接收的buffer,over
-		{
-			SendBack_Msg tmpRecBack_Msg;
-			::EnterCriticalSection(&(theApp.g_cs));
-			ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
-			pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
-			theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
-			::LeaveCriticalSection(&(theApp.g_cs));
-			break;
-		}
+// 	case 12:
+// 		//保存到接收的buffer,over
+// 		{
+// 			SendBack_Msg tmpRecBack_Msg;
+// 			::EnterCriticalSection(&(theApp.g_cs));
+// 			ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
+// 			pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!
+// 			theApp.m_RecvBackMsg_Dat.push_back(tmpRecBack_Msg);
+// 			::LeaveCriticalSection(&(theApp.g_cs));
+// 
+// 			//命令消息生成
+// 			SYSTEMTIME tm;
+// 			GetLocalTime(&tm);
+// 			CString time;
+// 			time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+// 			CString str1,str2,str3;
+// 			str1.Format("我舰");
+// 			str2.Format("收到IP为 ");
+// 			str3.Format("的舰的协同数据");
+// 			theApp.m_MsgDisplay = str1+"于"+time+str2+theApp.tmpRecRequest_Msg.sSendIp+str3;
+// 			
+// 			::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);//给显示窗口发送消息
+// 
+// 			break;
+// 		}
 	default:
 		break;
 	}		
@@ -464,6 +504,7 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis)
 	VCT_COMM_MSG::iterator iteComm; 
 	UNI_NUM stUni;
 	UNI_NOTRACE_NUM stUniNoT;
+	SHIP_POSITION stSelfPosi;
 	//这里需要写！！！！
 	//这里需要sendto的数据准备好
     //调用算法 准备需要发送出的响应数据 被动发送
@@ -557,19 +598,47 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis)
      {
 		 stUniAllN.vctSingleCom.push_back(*iteSingleCom);
 	 }
+	 //获取本舰的经纬高
+	 if ( m_ThisNumber == 0) //代表A舰 ,或得A舰的经纬高
+	 {
+		 stSelfPosi = theApp.m_Ship_Position.at(0);
+	 }
+	 if ( m_ThisNumber == 1) // 代表B舰获得的经纬高
+	 {
+		 stSelfPosi = theApp.m_Ship_Position.at(1);
+	 }
+	 if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+	 {
+		 stSelfPosi = theApp.m_Ship_Position.at(2);
+	 }
      //调用算法,找出响应请求的返回信息stSendBackMsg
-	CoopFind_Information_To_MainShip(stUniAllN, theApp.tmpRecRequest_Msg, stSendBackMsg);
+	CoopFind_Information_To_MainShip(stSelfPosi,stUniAllN, theApp.tmpRecRequest_Msg, stSendBackMsg);
 
 	ProtcolHeader stHeader;                  //报头信息
 	//判断返回信息不为空,进行发送
 	if ( (stSendBackMsg.BackTraceN + stSendBackMsg.BackESMN +stSendBackMsg.BackCOMN) != 0)
     {
 		//准备完成，发送数据返回
+		strcpy(stSendBackMsg.sReceiveIp, theApp.tmpRecRequest_Msg.sSendIp);//接收方IP
+		strcpy(stSendBackMsg.sSendIp, theApp.tmpRecRequest_Msg.sReceiveIp);//发送方IP
 		stHeader.nMsgType = 12;
 		stHeader.nMsgLength = sizeof(stSendBackMsg);
 		pThis->Send(&stHeader, sizeof(stHeader));
 		pThis->Send(&stSendBackMsg, sizeof(stSendBackMsg));
     }
+
+	//命令消息生成
+	SYSTEMTIME tm;
+	GetLocalTime(&tm);
+	CString time;
+	time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+	CString str1,str2,str3;
+	str1.Format("我舰");
+	str2.Format("向IP为 ");
+	str3.Format("的舰发送协同数据");
+	theApp.m_MsgDisplay = str1+"于"+time+str2+theApp.tmpRecRequest_Msg.sSendIp+str3;
+	
+	::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);//给显示窗口发送消息
 }
 
 /****************************发送数据的函数******************************************/
@@ -583,13 +652,28 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 	VCT_ESM_MSG::iterator iteEsm;
 	VCT_COMM_MSG::iterator iteComm;	
 	map<int, CString>::iterator iteMap;	
+	vector<int>::iterator iteNum;
 	VCT_Request_Cooperative_Msg::iterator iteReqCoopMsg;
+	VCT_SendRequest_Msg::iterator iteSendReq;
 	Request_Cooperative_Msg m_StRequest;      //保存联合识别前此批号的本舰信息
 	int i = 0;
 
 	long int lnum;//请求的合批号
-	lnum = theApp.m_ESM.at(theApp.m_iline).lAutonum;//获取请求协同的批号
-	
+	lnum = m_ESM.at(m_iline).lAutonum;//获取请求协同的批号
+	int flag =0;
+	for (iteNum = m_RequestNum_Dat.begin(); iteNum != m_RequestNum_Dat.end(); iteNum++)
+	{
+		if (lnum == *iteNum)
+		{
+			flag = 1;
+			break;
+		}
+	}
+	if(!flag)
+	{
+		m_RequestNum_Dat.push_back(lnum);//请求协同批号容器
+	}
+
 	VCT_SendBack_Msg::iterator iteBack;
 	BACK_Cooperative_Msg stBackCooper;
 	//	TRACKSTATUS_MARK stTrace;
@@ -628,77 +712,106 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 			for ( iteComm = iteReqCoopMsg->vctComm.begin(); iteComm != iteReqCoopMsg->vctComm.end();iteComm++)
 			{
 				memset(&(*iteComm), 0, sizeof(COMSTATUS_MARK));
-			}		
+			}
+			iteReqCoopMsg->vctEsm.clear();
+			iteReqCoopMsg->vctComm.clear();
 		}
 		theApp.m_RequestMsg.clear();
 		
 		/*取出联合识别前此批号的相关信息并存储Line460-523*/
-		if (lnum >= 8000)
-		{   
-			for (iteYes = theApp.m_ClusterUniMsg.begin(), s=1 ; s <= theApp.m_ClusterUniMsg.size() /*theApp.m_ClusterUniMsg.end()*/; iteYes++ ,s++)
-			{
-				if (iteYes->lAutonum == lnum)
-				{
-					m_StRequest.lAutonum = lnum;//合批号
-					m_StRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
-					if (iteYes->vctEsm.size())//请求协同ESM信息
-					{
-						for (iteEsm = iteYes->vctEsm.begin(),m =1 ; m <= iteYes->vctEsm.size() /*iteEsm = iteYes->vctEsm.end()*/; iteEsm++,m++)
-						{
-							m_StRequest.vctEsm.push_back(*iteEsm);
-
-						}
-					}
-					if (iteYes->vctComm.size())//请求协同COMM信息
-					{
-						for (iteComm = iteYes->vctComm.begin(), n = 1;  n <= iteYes->vctComm.size()  /*iteComm = iteYes->vctComm.end()*/; iteComm++ ,n++)
-						{
-							m_StRequest.vctComm.push_back(*iteComm);
-						}
-					}
-					////存放本舰经纬高
-					//StRequest.stReqShipPosi.dHeight = iteYes->structTrace.d
-					//StRequest.stReqShipPosi.dLati = ;
-					//StRequest.stReqShipPosi.dLonti = ;
-					m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
-					theApp.m_RequestMsg.push_back(m_StRequest);
-					break;
-				}
-			}
-		} 	
-		else
+		for (iteNum = m_RequestNum_Dat.begin(); iteNum != m_RequestNum_Dat.end(); iteNum++)
 		{
-			for (iteNo = theApp.m_ClusterNoTraceMsg.begin() ,t=1; t<=theApp.m_ClusterNoTraceMsg.size()/* iteNo != theApp.m_ClusterNoTraceMsg.end()*/; iteNo++,t++)
-			{
-				if (iteNo->lAutonum == lnum)
+			if ((*iteNum) >= 8000)
+			{   
+				for (iteYes = theApp.m_ClusterUniMsg.begin(), s=1 ; s <= theApp.m_ClusterUniMsg.size() /*theApp.m_ClusterUniMsg.end()*/; iteYes++ ,s++)
 				{
-					m_StRequest.lAutonum = lnum;//合批号
-					//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);
-					if (iteNo->vctEsm.size())//请求协同ESM信息
+					if (iteYes->lAutonum == lnum)
 					{
-						for (iteEsm = iteNo->vctEsm.begin(),m=1; m<=iteNo->vctEsm.size()/* iteEsm = iteNo->vctEsm.end()*/; iteEsm++,m++)
+						m_StRequest.lAutonum = lnum;//合批号
+						m_StRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
+						if (iteYes->vctEsm.size())//请求协同ESM信息
 						{
-							m_StRequest.vctEsm.push_back(*iteEsm);
+							for (iteEsm = iteYes->vctEsm.begin(),m =1 ; m <= iteYes->vctEsm.size() /*iteEsm = iteYes->vctEsm.end()*/; iteEsm++,m++)
+							{
+								m_StRequest.vctEsm.push_back(*iteEsm);
+							}
 						}
+						if (iteYes->vctComm.size())//请求协同COMM信息
+						{
+							for (iteComm = iteYes->vctComm.begin(), n = 1;  n <= iteYes->vctComm.size()  /*iteComm = iteYes->vctComm.end()*/; iteComm++ ,n++)
+							{
+								m_StRequest.vctComm.push_back(*iteComm);
+							}
+						}
+						//取出本舰的经纬高:根据舰的编号来确定
+						if ( m_ThisNumber == 0) //代表A舰 ,或得A舰的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(0);
+						}
+						if ( m_ThisNumber == 1) // 代表B舰获得的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(1);
+						}
+						if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
+						}
+						m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
+						theApp.m_RequestMsg.push_back(m_StRequest);
+						break;
 					}
-					if (iteNo->vctComm.size())//请求协同COMM信息
+				}
+			} 	
+			else
+			{
+				for (iteNo = theApp.m_ClusterNoTraceMsg.begin() ,t=1; t<=theApp.m_ClusterNoTraceMsg.size()/* iteNo != theApp.m_ClusterNoTraceMsg.end()*/; iteNo++,t++)
+				{
+					if (iteNo->lAutonum == lnum)
 					{
-						for (iteComm = iteNo->vctComm.begin(),n=1; n<=iteNo->vctComm.size()/* iteComm = iteNo->vctComm.end()*/; iteComm++,n++)
+						m_StRequest.lAutonum = lnum;//合批号
+						//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);
+						if (iteNo->vctEsm.size())//请求协同ESM信息
 						{
-							m_StRequest.vctComm.push_back(*iteComm);
+							for (iteEsm = iteNo->vctEsm.begin(),m=1; m<=iteNo->vctEsm.size()/* iteEsm = iteNo->vctEsm.end()*/; iteEsm++,m++)
+							{
+								m_StRequest.vctEsm.push_back(*iteEsm);
+							}
 						}
+						if (iteNo->vctComm.size())//请求协同COMM信息
+						{
+							for (iteComm = iteNo->vctComm.begin(),n=1; n<=iteNo->vctComm.size()/* iteComm = iteNo->vctComm.end()*/; iteComm++,n++)
+							{
+								m_StRequest.vctComm.push_back(*iteComm);
+							}
+						}
+						//取出本舰的经纬高:根据舰的编号来确定
+						if ( m_ThisNumber == 0) //代表A舰 ,或得A舰的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(0);
+						}
+						if ( m_ThisNumber == 1) // 代表B舰获得的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(1);
+						}
+						if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
+						}
+						
+						m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
+						theApp.m_RequestMsg.push_back(m_StRequest);
+						break;
 					}
-					//存放本舰经纬高
-					// StRequest.stReqShipPosi.dHeight = ;
-					// StRequest.stReqShipPosi.dLati = ;
-					// StRequest.stReqShipPosi.dLonti = ;
-					m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
-					theApp.m_RequestMsg.push_back(m_StRequest);
-					break;
 				}
 			}
 		} 
+	}
 
+	int nShipNum = 0;
+	//这里面的map是界面传过来的！！不是全局的那个map，全局的map是给你界面用的。比如你选中B舰，这里的vector就是B舰的
+	theApp.m_SendReqMsg_Dat.clear();//清空发送请求数据
+	for (iteMap = SendToIpMap.begin(), nShipNum = 0; iteMap != SendToIpMap.end(); ++iteMap, ++nShipNum)//遍历界面传来的协同舰ip
+	{
 		//流程如下！
 		//组包
 		//向相应的节点发送数据包
@@ -708,97 +821,124 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 		//如果不为空,接收的数据参与运算!
 		//参与运算,先copy一份当前的容器;清空接收的buffer容器
 
-		//组包/*请求结构体*/
-		if (lnum >= 8000)           //????????????????是不是同一时刻的,从容器中转存为数组结构体
+		//组包/*请求结构体*/存容器
+		int n = m_RequestNum_Dat.size();
+		for (iteNum = m_RequestNum_Dat.begin(); iteNum != m_RequestNum_Dat.end(); iteNum++)
 		{
-			for (iteYes = theApp.m_ClusterUniMsg.begin(), s=1 ; s <= theApp.m_ClusterUniMsg.size() /* iteYes != theApp.m_ClusterUniMsg.end()*/; iteYes++,s++)
+			if ((*iteNum) >=8000)//(lnum >= 8000)   //????????????????是不是同一时刻的,从容器中转存为数组结构体
 			{
-				if (iteYes->lAutonum == lnum)
-				{	
-					/*请求结构体*/
-					//StSendRequest.num ++;//信息单元序号???????????????
-					//long int nStampTime;             //发送请求信息时的当前时间??????????
-					theApp.m_StSendRequest.lAutomn = lnum;//合批号
-					theApp.m_StSendRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
-					theApp.m_StSendRequest.nRequestEsmN = iteYes->vctEsm.size();
-					theApp.m_StSendRequest.nRequestComN = iteYes->vctComm.size();
-					for (i = 0; i < iteYes->vctEsm.size();i++)//请求协同ESM信息
-					{
-						theApp.m_StSendRequest.lEsmTargetNumber[i] = iteYes->vctEsm.at(i).lTargetNumber;//目标esm批号
-						theApp.m_StSendRequest.dEsmZaiPin[i] = iteYes->vctEsm.at(i).dZaiPin;//载频
-						theApp.m_StSendRequest.dEsmMaiKuan[i] = iteYes->vctEsm.at(i).dMaiKuan;////脉宽
-						theApp.m_StSendRequest.dEsmTianXianScan[i] = iteYes->vctEsm.at(i).dTianXianScan;//天线扫描信息
-	//					theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
-
-					}
-					for (i = 0; i < iteYes->vctComm.size();i++)//请求协同COMM信息
-					{
-						theApp.m_StSendRequest.lComTargetNumber[i] = iteYes->vctComm.at(i).lTargetNumber;//目标comm批号
-						theApp.m_StSendRequest.dComZaiPin[i] = iteYes->vctComm.at(i).dComZaiPin;//载频信息
-						theApp.m_StSendRequest.dComPulseExtent[i] = iteYes->vctComm.at(i).dPulseExtent;//脉冲幅度
-	//					theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
-
-					}
-					//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高
-					//StSendRequest.stReqShipPosi.dLati = ;
-					//StSendRequest.stReqShipPosi.dLonti = ;
-					theApp.m_StSendRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0					
-					break;
-				}
-			}
-		} 		
-		else
-		{
-			for (iteNo = theApp.m_ClusterNoTraceMsg.begin(),t=1; t<=theApp.m_ClusterNoTraceMsg.size()/* iteNo != theApp.m_ClusterNoTraceMsg.end()*/; iteNo++,t++)
-			{
-				if (iteNo->lAutonum == lnum)
+				for (iteYes = theApp.m_ClusterUniMsg.begin(), s=1 ; s <= theApp.m_ClusterUniMsg.size() /* iteYes != theApp.m_ClusterUniMsg.end()*/; iteYes++,s++)
 				{
-					/*请求结构体*/				
-					//StSendRequest.num ++;//信息单元序号???????????????
-					//long int nStampTime;                     //发送请求信息时的当前时间
-					theApp.m_StSendRequest.lAutomn = lnum;//合批号
-					//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);//请求协同TRACE信息
-					theApp.m_StSendRequest.nRequestEsmN = iteNo->vctEsm.size();
-					theApp.m_StSendRequest.nRequestComN = iteNo->vctComm.size();
-					for (i = 0; i < iteNo->vctEsm.size();i++)//请求协同ESM信息
-					{
-						theApp.m_StSendRequest.lEsmTargetNumber[i] = iteNo->vctEsm.at(i).lTargetNumber;//目标esm批号
-						theApp.m_StSendRequest.dEsmZaiPin[i] = iteNo->vctEsm.at(i).dZaiPin;//载频
-						theApp.m_StSendRequest.dEsmMaiKuan[i] = iteNo->vctEsm.at(i).dMaiKuan;////脉宽
-						theApp.m_StSendRequest.dEsmTianXianScan[i] = iteNo->vctEsm.at(i).dTianXianScan;//天线扫描信息
-	//					theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
-
+					if (iteYes->lAutonum == lnum)
+					{	
+						/*请求结构体*/
+						//StSendRequest.num ++;//信息单元序号???????????????
+						//long int nStampTime;             //发送请求信息时的当前时间??????????
+						strcpy(theApp.m_StSendRequest.sReceiveIp, iteMap->second);//接收方IP
+						strcpy(theApp.m_StSendRequest.sSendIp, theApp.m_strLocalIP);//发送方IP
+						theApp.m_StSendRequest.lAutomn = lnum;//合批号
+						theApp.m_StSendRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
+						theApp.m_StSendRequest.nRequestEsmN = iteYes->vctEsm.size();
+						theApp.m_StSendRequest.nRequestComN = iteYes->vctComm.size();
+						for (i = 0; i < iteYes->vctEsm.size();i++)//请求协同ESM信息
+						{
+							theApp.m_StSendRequest.lEsmTargetNumber[i] = iteYes->vctEsm.at(i).lTargetNumber;//目标esm批号
+							theApp.m_StSendRequest.dEsmZaiPin[i] = iteYes->vctEsm.at(i).dZaiPin;//载频
+							theApp.m_StSendRequest.dEsmMaiKuan[i] = iteYes->vctEsm.at(i).dMaiKuan;////脉宽
+							theApp.m_StSendRequest.dEsmTianXianScan[i] = iteYes->vctEsm.at(i).dTianXianScan;//天线扫描信息
+							//					theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
+							
+						}
+						for (i = 0; i < iteYes->vctComm.size();i++)//请求协同COMM信息
+						{
+							theApp.m_StSendRequest.lComTargetNumber[i] = iteYes->vctComm.at(i).lTargetNumber;//目标comm批号
+							theApp.m_StSendRequest.dComZaiPin[i] = iteYes->vctComm.at(i).dComZaiPin;//载频信息
+							theApp.m_StSendRequest.dComPulseExtent[i] = iteYes->vctComm.at(i).dPulseExtent;//脉冲幅度
+							//					theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
+							
+						}
+						//取出本舰的经纬高:根据舰的编号来确定
+						if ( m_ThisNumber == 0) //代表A舰,获得A舰的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(0);
+						}
+						if ( m_ThisNumber == 1) // 代表B舰获得的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(1);
+						}
+						if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
+						}
+						
+						theApp.m_StSendRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
+						theApp.m_SendReqMsg_Dat.push_back(theApp.m_StSendRequest);
+						break;
 					}
-					for (i = 0; i < iteNo->vctComm.size();i++)//请求协同COMM信息
+				}
+			} 		
+			else
+			{
+				for (iteNo = theApp.m_ClusterNoTraceMsg.begin(),t=1; t<=theApp.m_ClusterNoTraceMsg.size()/* iteNo != theApp.m_ClusterNoTraceMsg.end()*/; iteNo++,t++)
+				{
+					if (iteNo->lAutonum == lnum)
 					{
-						theApp.m_StSendRequest.lComTargetNumber[i] = iteNo->vctComm.at(i).lTargetNumber;//目标comm批号
-						theApp.m_StSendRequest.dComZaiPin[i] = iteNo->vctComm.at(i).dComZaiPin;//载频信息
-						theApp.m_StSendRequest.dComPulseExtent[i] = iteNo->vctComm.at(i).dPulseExtent;//脉冲幅度
-						theApp.m_StSendRequest.dComFre[i] = iteNo->vctComm.at(i).dComFre; // 中心频率(MHz)
-						theApp.m_StSendRequest.dComBand[i] = iteNo->vctComm.at(i).dComBand; // 信号带宽(MHz)
-						theApp.m_StSendRequest.dComJPN[i] = iteNo->vctComm.at(i).dComJPN; // 跳步次数    
-	//					theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
-
+						/*请求结构体*/				
+						//StSendRequest.num ++;//信息单元序号???????????????
+						//long int nStampTime;                     //发送请求信息时的当前时间					
+						strcpy(theApp.m_StSendRequest.sReceiveIp, iteMap->second);//接收方IP
+						strcpy(theApp.m_StSendRequest.sSendIp, theApp.m_strLocalIP);//发送方IP
+						theApp.m_StSendRequest.lAutomn = lnum;//合批号
+						//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);//请求协同TRACE信息
+						theApp.m_StSendRequest.nRequestEsmN = iteNo->vctEsm.size();
+						theApp.m_StSendRequest.nRequestComN = iteNo->vctComm.size();
+						for (i = 0; i < iteNo->vctEsm.size();i++)//请求协同ESM信息
+						{
+							theApp.m_StSendRequest.lEsmTargetNumber[i] = iteNo->vctEsm.at(i).lTargetNumber;//目标esm批号
+							theApp.m_StSendRequest.dEsmZaiPin[i] = iteNo->vctEsm.at(i).dZaiPin;//载频
+							theApp.m_StSendRequest.dEsmMaiKuan[i] = iteNo->vctEsm.at(i).dMaiKuan;////脉宽
+							theApp.m_StSendRequest.dEsmTianXianScan[i] = iteNo->vctEsm.at(i).dTianXianScan;//天线扫描信息
+							//					theApp.m_StSendRequest.dEsmConfidence[i] = iteYes->vctEsm.at(i).dConfidence; //可信度
+							
+						}
+						for (i = 0; i < iteNo->vctComm.size();i++)//请求协同COMM信息
+						{
+							theApp.m_StSendRequest.lComTargetNumber[i] = iteNo->vctComm.at(i).lTargetNumber;//目标comm批号
+							theApp.m_StSendRequest.dComZaiPin[i] = iteNo->vctComm.at(i).dComZaiPin;//载频信息
+							theApp.m_StSendRequest.dComPulseExtent[i] = iteNo->vctComm.at(i).dPulseExtent;//脉冲幅度
+							theApp.m_StSendRequest.dComFre[i] = iteNo->vctComm.at(i).dComFre; // 中心频率(MHz)
+							theApp.m_StSendRequest.dComBand[i] = iteNo->vctComm.at(i).dComBand; // 信号带宽(MHz)
+							theApp.m_StSendRequest.dComJPN[i] = iteNo->vctComm.at(i).dComJPN; // 跳步次数    
+							//					theApp.m_StSendRequest.dComConfidence[i] =  iteYes->vctComm.at(i).dConfidence; //可信度
+							
+						}
+						//本舰经纬高
+						if ( m_ThisNumber == 0) //代表A舰,获得A舰的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(0);
+						}
+						if ( m_ThisNumber == 1) // 代表B舰获得的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(1);
+						}
+						if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
+						}
+						
+						theApp.m_StSendRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0					
+						theApp.m_SendReqMsg_Dat.push_back(theApp.m_StSendRequest);
+						break;
 					}
-					//StSendRequest.stReqShipPosi.dHeight = ;//本舰经纬高
-					//StSendRequest.stReqShipPosi.dLati = ;
-					//StSendRequest.stReqShipPosi.dLonti = ;
-					theApp.m_StSendRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0					
-					break;
 				}
 			}
 		}
-	}
-
-	int nShipNum = 0;
-	//这里面的map是界面传过来的！！不是全局的那个map，全局的map是给你界面用的。比如你选中B舰，这里的vector就是B舰的
-	for (iteMap = SendToIpMap.begin(), nShipNum = 0; iteMap != SendToIpMap.end(); ++iteMap, ++nShipNum)//遍历界面传来的协同舰ip
-	{
+		
 		//create socket---------------------------------------------/
 		theApp.m_P2PClient[nShipNum]->Socket();
 		
-		//设定网络的接收延迟为800ms
-		int nNetTimeout = 800;
+		//设定网络的接收延迟为200ms
+		int nNetTimeout = 200;
 		BOOL bDontLinger = FALSE;
 		BOOL bReuseaddr = TRUE;
 		
@@ -812,6 +952,45 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 		::setsockopt(theApp.m_P2PClient[nShipNum]->m_hSocket, SOL_SOCKET, SO_REUSEADDR, (const char*)&bReuseaddr,sizeof(BOOL));
 		//over
 
+		if ( SendToIpMap.size() > 1 )//所有舰
+		{
+			//命令消息生成
+			SYSTEMTIME tm;
+			GetLocalTime(&tm);
+			CString time;
+			time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+			CString str1,str2,str3;
+			str1.Format("我舰");
+			str2.Format("向所有舰发送协同请求");
+			theApp.m_MsgDisplay = str1+"于"+time+str2;		
+			::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);//给显示窗口发送消息
+		}
+		else
+		{
+			//命令消息生成
+			SYSTEMTIME tm;
+			GetLocalTime(&tm);
+			CString time;
+			time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+			CString str1,str2,str3;
+			str1.Format("我舰");
+			str2.Format("向IP为 ");
+			str3.Format("的舰发送协同请求");
+			theApp.m_MsgDisplay = str1+"于"+time+str2+iteMap->second+str3;		
+			::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);//给显示窗口发送消息
+		}
+// 		//命令消息生成
+// 		SYSTEMTIME tm;
+// 		GetLocalTime(&tm);
+// 		CString time;
+// 		time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+// 		CString str1,str2,str3;
+// 		str1.Format("我舰");
+// 		str2.Format("向IP为 ");
+// 		str3.Format("的舰发送协同请求");
+// 		theApp.m_MsgDisplay = str1+"于"+time+str2+iteMap->second+str3;		
+// 		::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);//给显示窗口发送消息
+
 		//向相应的节点发送数据包
 		int conreval;
 		CString cstest = iteMap->second;
@@ -819,10 +998,15 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 		
 		if (conreval)//连接成功
 		{
-			//发送请求
-			pTmpDoc->SendCoopReq(theApp.m_P2PClient[nShipNum]);
-			//等待数据 
-			pTmpDoc->ReceiveData(theApp.m_P2PClient[nShipNum]);							
+			int m = m_SendReqMsg_Dat.size();
+			for (iteSendReq = m_SendReqMsg_Dat.begin(); iteSendReq != m_SendReqMsg_Dat.end(); iteSendReq++)
+			{
+				theApp.m_StSendRequest = *iteSendReq;
+				//发送请求
+				pTmpDoc->SendCoopReq(theApp.m_P2PClient[nShipNum]);
+				//等待数据 
+				pTmpDoc->ReceiveData(theApp.m_P2PClient[nShipNum]);
+			}										
 		}
 		else
 		{
@@ -879,6 +1063,17 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 					stBackCooper.vctComm.push_back(stCom);
 				}
 				theApp.m_BackMsg.push_back(stBackCooper);
+				//命令消息生成
+				SYSTEMTIME tm;
+				GetLocalTime(&tm);
+				CString time;
+				time.Format(_T(" %d:%02d:%02d"), tm.wHour, tm.wMinute, tm.wSecond);
+				CString str1,str2,str3;
+				str1.Format("我舰");
+				str2.Format("收到IP为 ");
+				str3.Format("的舰的协同数据");
+				theApp.m_MsgDisplay = str1+"于"+time+str2+iteBack->sSendIp+str3;
+				::PostMessage(theApp.hDISPLAY_wnd, WM_DISPLAY_MSG, 0, 0);//给显示窗口发送消息
 			}
 			//清空接收的buffer容器
 			//memset(&theApp.m_SendBackMsg, 0, sizeof(SendBack_Msg));
@@ -894,8 +1089,7 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 	if (theApp.m_BackMsg.size() != 0)
 	{
 		//调用算法
-		GET_CooperateMsg_Modul(theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
-		int a =1;
+		GET_CooperateMsg_Modul(theApp.m_StSendRequest.stReqShipPosi,theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
 		/* 综合识别结果*/
     	MultipleIdentify(theApp.m_CooperMsg, theApp.m_MulIdentifyMsg);
 		/*融合信息结果*/

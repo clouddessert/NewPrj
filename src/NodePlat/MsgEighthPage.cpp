@@ -32,7 +32,7 @@ void CMsgEighthPage::DoDataExchange(CDataExchange* pDX)
 {
 	CPropertyPage::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CMsgEighthPage)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
+	DDX_Control(pDX, IDC_LIST_MulTRACE, m_fusTrace);
 	//}}AFX_DATA_MAP
 }
 
@@ -209,7 +209,7 @@ LRESULT CMsgEighthPage:: OnFusTraceMessage(WPARAM wParam, LPARAM lParam)
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->DeleteAllItems();
 	}
-	
+	m_fusTrace.EnsureVisible(m_fusTrace.GetItemCount()-1,FALSE); //始终显示当前最新信息
 	return 0;  
 } 
 

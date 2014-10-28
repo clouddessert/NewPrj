@@ -34,7 +34,7 @@ void CMsgFifthPage::DoDataExchange(CDataExchange* pDX)
 {
 	CPropertyPage::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CMsgFifthPage)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
+	DDX_Control(pDX, IDC_LIST_UNICLUSTERMSG, m_mulidentify);
 	//}}AFX_DATA_MAP
 }
 
@@ -173,7 +173,7 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->DeleteAllItems();
 	}
 
-
+     m_mulidentify.EnsureVisible(m_mulidentify.GetItemCount()-1,FALSE); //始终显示当前最新信息
 	return 0;
 }
 

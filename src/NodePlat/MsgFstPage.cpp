@@ -217,7 +217,9 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 	{
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->DeleteAllItems();
+
 	}
+	//m_click_esm.EnsureVisible(m_click_esm.GetItemCount()-1,FALSE); //始终显示当前最新信息
 	
 	return 0;  
 } 

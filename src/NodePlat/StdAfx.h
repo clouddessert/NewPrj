@@ -54,6 +54,7 @@ using namespace std;
 
 #define WM_DISPLAY_MSG WM_USER+109
 
+#import "C:\Program Files\Common Files\System\ado\msado15.dll" no_namespace rename("EOF","adoEOF")
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

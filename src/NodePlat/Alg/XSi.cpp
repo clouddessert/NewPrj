@@ -170,11 +170,11 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 		{	//航迹信息可以关联，将信息放入vctBackCooperative返回信息容器中，
 			//将同一合批号下（即相同方位下）的一条航迹信息，还有N条ESM与Com信息放入vctBackCooperative中
 			//测试输出			
-			//				cout<<"综合批号"<< iteUnin->lAutonum<<endl;
-			//				cout<<"返回信息初始化的综合批号"<<iteBackMsg->lAutonum<<endl;
+			//cout<<"综合批号"<< iteUnin->lAutonum<<endl;
+			//cout<<"返回信息初始化的综合批号"<<iteBackMsg->lAutonum<<endl;
 			//存请求信息的综合批号到返回信息中
 			stBackMsg.lAutonum = iteRequestMsg->lAutonum;    //将请求信息的综合批号记录在返回信息中
-			//				cout<<"修改后返回信息综合批号"<<stBackMsg.lAutonum<<endl;
+			//cout<<"修改后返回信息综合批号"<<stBackMsg.lAutonum<<endl;
 			//存本舰经纬高到返回信息中
 			memcpy(&stBackMsg.stBackShipPosi,&stSelfPosi,sizeof(stBackMsg.stBackShipPosi));  //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
 			//存航迹信息
@@ -239,7 +239,8 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 						  //在无航迹的聚类表中查找,无航迹中必有ESM和COM信息
 						  for (iteNoTraceUnin = stUniAll.vctNoTraceUnin.begin(); iteNoTraceUnin != stUniAll.vctNoTraceUnin.end(); iteNoTraceUnin++)
 						  {  //本舰自身无航迹信息时
-							  //是否还需坐标转换........		 Get_NO_SelfTrack_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
+							  //是否还需坐标转换........	
+							  //Get_NO_SelfTrack_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
 							  // 								 stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
 							  // 								 iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
 							  // 								 Xt,Yt,Zt);
@@ -530,14 +531,14 @@ void ReqUnin_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,UNI_All
 				  stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
 				  iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
 				  Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
-			  // 				  VctCorr.push_back(dSumCorr_xyz); 
-			  // 				  //对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
-			  // 				  Mf_SPA(iteTra->dRange,Rdt,dcorrRd);
-			  // 				  VctCorr.push_back(dcorrRd);
-			  // 				  Mf_SPA(iteTra->dAzimuth,Azt,dcorrAz);
-			  // 				  VctCorr.push_back(dcorrAz);
-			  // 				  Mf_SPA(iteTra->dElevationAngle,Ezt,dcorrEz); 
-			  // 				  VctCorr.push_back(dcorrEz);
+			  // VctCorr.push_back(dSumCorr_xyz); 
+			  // //对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
+			  // Mf_SPA(iteTra->dRange,Rdt,dcorrRd);
+			  // VctCorr.push_back(dcorrRd);
+			  // Mf_SPA(iteTra->dAzimuth,Azt,dcorrAz);
+			  // VctCorr.push_back(dcorrAz);
+			  // Mf_SPA(iteTra->dElevationAngle,Ezt,dcorrEz); 
+			  // VctCorr.push_back(dcorrEz);
 			  //各方向坐标下的绝对速度Vx,Vy,Vz未转换，直接做集对分析处理
 			  Mf_SPA(iteTra->dTSpeedX,iteRequestMsg->stTrace.dTSpeedX,dcorrVx);
 			  VctCorr.push_back(dcorrVx);
@@ -1175,12 +1176,7 @@ void ReqSingleTrace_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 	double dcorrdPulseExtent = 0.0;
 	double dcorrBand = 0.0;
 	double dcorrJPN = 0.0;
-	
-	//  double SumCorr = 0.0;
 	double dAverCorr = 0.0; //各测量信息，集对分析后，取平均值后的相关系数
-	//  TRACKSTATUS_MARK sttTrack;
-	//	ESMSTATUS_MARK sttEsm;
-	//	COMSTATUS_MARK sttCom;
 	typedef vector<double> VCT_CORR;
 	VCT_CORR VctCorr;      // 存放关联系数的容器
 	VCT_CORR::iterator iteCorr;
@@ -1191,16 +1187,6 @@ void ReqSingleTrace_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 	VCT_COMM_MSG::iterator iteCom;
 	//有航迹
 	VCT_UNINUM_MSG::iterator iteUnin;
-	//有航迹 两个容器（Esm,Com）的迭代器
-	//	VCT_ESM_MSG::iterator iteUninEs;
-	//	VCT_COMM_MSG::iterator iteUninCo;
-	
-	//无航迹
-	//	VCT_UNINOTRACE_MSG::iterator iteNoTraceUnin;
-	//无航迹 两个容器（ESM，com）的迭代器
-	//	VCT_ESM_MSG::iterator iteNoTraceEs;
-	//	VCT_COMM_MSG::iterator iteNoTraceCo;
-	
 	//未聚类 三个容器（存放每类传感器信息）的迭代器
 	VCT_TRACE_MSG::iterator iteTra;
 	VCT_ESM_MSG::iterator iteEs;
@@ -1250,14 +1236,14 @@ void ReqSingleTrace_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 			stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
 			iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
 			Xt, Yt, Zt, Rdt, Azt, Ezt,dSumCorr_xyz);
-		// 			  VctCorr.push_back(dSumCorr_xyz); 
-		// 			  //对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
-		//            Mf_SPA(iteUnin->structTrace.dRange,Rdt,dcorrRd);
-		// 			  VctCorr.push_back(dcorrRd);
-		// 			  Mf_SPA(iteUnin->structTrace.dAzimuth,Azt,dcorrAz);
-		// 			  VctCorr.push_back(dcorrAz);
-		// 			  Mf_SPA(iteUnin->structTrace.dElevationAngle,Ezt,dcorrEz); 
-		// 			  VctCorr.push_back(dcorrEz);
+		// 	VctCorr.push_back(dSumCorr_xyz); 
+		// 	//对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
+		//  Mf_SPA(iteUnin->structTrace.dRange,Rdt,dcorrRd);
+		// 	VctCorr.push_back(dcorrRd);
+		// 	Mf_SPA(iteUnin->structTrace.dAzimuth,Azt,dcorrAz);
+		// 	VctCorr.push_back(dcorrAz);
+		// 	Mf_SPA(iteUnin->structTrace.dElevationAngle,Ezt,dcorrEz); 
+		//  VctCorr.push_back(dcorrEz);
 		//各方向坐标下的绝对速度Vx,Vy,Vz未转换，直接做集对分析处理
 		Mf_SPA(iteUnin->structTrace.dTSpeedX,iteRequestMsg->stTrace.dTSpeedX,dcorrVx);
 		VctCorr.push_back(dcorrVx);
@@ -1318,14 +1304,14 @@ void ReqSingleTrace_COOP_Find_Information_To_MainShip(SHIP_POSITION& stSelfPosi,
 				stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
 				iteRequestMsg->stReqShipPosi.dLati,iteRequestMsg->stReqShipPosi.dLonti,iteRequestMsg->stReqShipPosi.dHeight,
 				Xt, Yt, Zt, Rdt, Azt, Ezt, dSumCorr_xyz);
-			// 				  VctCorr.push_back(dSumCorr_xyz); 
-			// 				  //对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
-			// 				  Mf_SPA(iteTra->dRange,Rdt,dcorrRd);
-			// 				  VctCorr.push_back(dcorrRd);
-			// 				  Mf_SPA(iteTra->dAzimuth,Azt,dcorrAz);
-			// 				  VctCorr.push_back(dcorrAz);
-			// 				  Mf_SPA(iteTra->dElevationAngle,Ezt,dcorrEz); 
-			// 				  VctCorr.push_back(dcorrEz);
+			// 	VctCorr.push_back(dSumCorr_xyz); 
+			// 	//对航迹结构体中的测量信息进行集对分析,还有 Vx,Vy,Vz(目标在邻舰的坐标系下各坐标方向上的绝对速度需要转换到本舰坐标系下才能用吗????????)
+			// 	Mf_SPA(iteTra->dRange,Rdt,dcorrRd);
+			// 	VctCorr.push_back(dcorrRd);
+			// 	Mf_SPA(iteTra->dAzimuth,Azt,dcorrAz);
+			// 	VctCorr.push_back(dcorrAz);
+			// 	Mf_SPA(iteTra->dElevationAngle,Ezt,dcorrEz); 
+			// 	VctCorr.push_back(dcorrEz);
 			//各方向坐标下的绝对速度Vx,Vy,Vz未转换，直接做集对分析处理
 			Mf_SPA(iteTra->dTSpeedX,iteRequestMsg->stTrace.dTSpeedX,dcorrVx);
 			VctCorr.push_back(dcorrVx);
@@ -1615,7 +1601,7 @@ void Mf_SPA(double s, double t,double& corr)
 	corr=spa;                 //带回两数相关系数
 }
 /* 输入:本舰上聚类后的信息结构体, 请求信息 (结构体), 返回信息(结构体)*/ 
-void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& stSendRequest, SendBack_Msg& stSendBackMsg)
+void CoopFind_Information_To_MainShip(SHIP_POSITION stSelfPosi,UNI_All_NUM& stUniAll, SendRequest_Msg& stSendRequest, SendBack_Msg& stSendBackMsg)
 {
 	//将请求信息的结构体先转化成小容器的结构体, 将该结构体放入容器中push back到vctRequestCooperative将舰的位置信息单独存放,
 	int i ,j;
@@ -1625,42 +1611,16 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 	VCT_BACK_Cooperative_Msg vctBackCooperative1;
 	ESMSTATUS_MARK stEsm;
 	COMSTATUS_MARK stCom;
-    SHIP_POSITION stSelfPosi;
+ // SHIP_POSITION stSelfPosi;
 	VCT_ESM_MSG::iterator iteEsm;
 	VCT_COMM_MSG::iterator iteCom;
 	VCT_Request_Cooperative_Msg::iterator iteReqCoopMsg;
     VCT_Request_Cooperative_Msg::iterator iteRequestMsg1;
 	VCT_BACK_Cooperative_Msg::iterator iteBackMsg;
-	//将请求信息的数组结构体先转化为含容器的结构体
-    stReqCooperMsg.lAutonum = stSendRequest.lAutomn;
-    stReqCooperMsg.nCorrFlag = stSendRequest.nCorrFlag;
-	stReqCooperMsg.nStampTime = stSendRequest.nStampTime;
-    memcpy(&stSelfPosi, &stSendRequest.stReqShipPosi, sizeof(stSelfPosi)); 
-	//	cout<<" 经纬高"<< stSelfPosi.dHeight <<endl;
-	memcpy(&stReqCooperMsg.stReqShipPosi, &stSendRequest.stReqShipPosi, sizeof(stReqCooperMsg.stReqShipPosi)); //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
-	memcpy(&stReqCooperMsg.stTrace, &stSendRequest.stTrace,sizeof(stReqCooperMsg.stTrace));
-    for ( i=0; i< stSendRequest.nRequestEsmN; i++)
-    {
-		stEsm.lTargetNumber = stSendRequest.lEsmTargetNumber[i];
-		stEsm.dZaiPin = stSendRequest.dEsmZaiPin[i];
-		stEsm.dMaiKuan = stSendRequest.dEsmMaiKuan[i];
-		stEsm.dTianXianScan = stSendRequest.dEsmTianXianScan[i];
-//		stEsm.dConfidence = stSendRequest.dEsmConfidence[i];
-		stReqCooperMsg.vctEsm.push_back(stEsm);
-    }
-	for ( j=0; j< stSendRequest.nRequestComN; j++)
-	{
-		stCom.lTargetNumber = stSendRequest.lComTargetNumber[j];
-		stCom.dComZaiPin = stSendRequest.dComZaiPin[j];
-		stCom.dPulseExtent = stSendRequest.dComPulseExtent[j];
-		stCom.dComFre = stSendRequest.dComFre[j];
-		stCom.dComBand = stSendRequest.dComBand[j];
-		stCom.dComJPN = stSendRequest.dComJPN[j];
-	//	stCom.dConfidence = stSendRequest.dComConfidence[i];
-		stReqCooperMsg.vctComm.push_back(stCom);
-	}
+	//清空结构体的容器后再存放
+	stReqCooperMsg.vctComm.clear();
+	stReqCooperMsg.vctEsm.clear();
 	//清空vctReqCoopMsg
-	//将转化后的结构体放入容器中(push back到vctReqCoopMsg)
 	for ( iteReqCoopMsg = vctReqCoopMsg.begin(); iteReqCoopMsg != vctReqCoopMsg.end(); iteReqCoopMsg++)
 	{ 
 		iteReqCoopMsg->lAutonum = NULL;
@@ -1676,8 +1636,39 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 		{
 			memset(&(*iteCom), 0, sizeof(COMSTATUS_MARK));
 		}		
+		iteReqCoopMsg->vctEsm.clear();
+		iteReqCoopMsg->vctComm.clear();
 	}
 	vctReqCoopMsg.clear();
+	//将请求信息的数组结构体先转化为含容器的结构体
+    stReqCooperMsg.lAutonum = stSendRequest.lAutomn;
+    stReqCooperMsg.nCorrFlag = stSendRequest.nCorrFlag;
+	stReqCooperMsg.nStampTime = stSendRequest.nStampTime;
+    memcpy(&stSelfPosi, &stSendRequest.stReqShipPosi, sizeof(stSelfPosi)); 
+	//	cout<<" 经纬高"<< stSelfPosi.dHeight <<endl;
+	memcpy(&stReqCooperMsg.stReqShipPosi, &stSendRequest.stReqShipPosi, sizeof(stReqCooperMsg.stReqShipPosi)); //memcpy(&A,&B,sizeof(A)); 把结构体B给结构体A
+	memcpy(&stReqCooperMsg.stTrace, &stSendRequest.stTrace,sizeof(stReqCooperMsg.stTrace));
+    for ( i=0; i< stSendRequest.nRequestEsmN; i++)
+    {
+		stEsm.lTargetNumber = stSendRequest.lEsmTargetNumber[i];
+		stEsm.dZaiPin = stSendRequest.dEsmZaiPin[i];
+		stEsm.dMaiKuan = stSendRequest.dEsmMaiKuan[i];
+		stEsm.dTianXianScan = stSendRequest.dEsmTianXianScan[i];
+        //stEsm.dConfidence = stSendRequest.dEsmConfidence[i];
+		stReqCooperMsg.vctEsm.push_back(stEsm);
+    }
+	for ( j=0; j< stSendRequest.nRequestComN; j++)
+	{
+		stCom.lTargetNumber = stSendRequest.lComTargetNumber[j];
+		stCom.dComZaiPin = stSendRequest.dComZaiPin[j];
+		stCom.dPulseExtent = stSendRequest.dComPulseExtent[j];
+		stCom.dComFre = stSendRequest.dComFre[j];
+		stCom.dComBand = stSendRequest.dComBand[j];
+		stCom.dComJPN = stSendRequest.dComJPN[j];
+	    //stCom.dConfidence = stSendRequest.dComConfidence[i];
+		stReqCooperMsg.vctComm.push_back(stCom);
+	}
+	//将转化后的结构体放入容器中(push back到vctReqCoopMsg)
 	vctReqCoopMsg.push_back(stReqCooperMsg);
 	
 	for (iteRequestMsg1 = vctReqCoopMsg.begin(); iteRequestMsg1 != vctReqCoopMsg.end(); iteRequestMsg1++)
@@ -1709,6 +1700,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 			stSendBackMsg.lAutonum = iteBackMsg->lAutonum;
 			stSendBackMsg.BackESMN = iteBackMsg->vctEsm.size();
 			stSendBackMsg.BackCOMN = iteBackMsg->vctComm.size();
+			stSendBackMsg.stBackShipPosi = iteBackMsg->stBackShipPosi; //返回舰即协同舰的地理位置
 			//esm
 			if ( stSendBackMsg.BackESMN != 0)
 			{
@@ -1749,10 +1741,7 @@ void CoopFind_Information_To_MainShip(UNI_All_NUM& stUniAll, SendRequest_Msg& st
 			if (iteBackMsg->lAutonum >= 8000)
 			{
 				stSendBackMsg.BackTraceN = 1;
-
-				//				cout<< "返回信息的航迹信息"<<iteBackMsg->lAutonum<<endl;
 				memcpy( &stSendBackMsg.stTrace,&iteBackMsg->stTrace,sizeof(stSendBackMsg.stTrace));
-				//			    cout<< "返回信息的航迹信息"<<stSendBackMsg.stTrace.sPlatType<<endl;
 			}			
 		}
 	}

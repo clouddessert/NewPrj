@@ -51,7 +51,7 @@ typedef struct __ESMSTATUS_MARK
 	double dConfidence;                 //可信度
 	char cCountry[32];                  //国家（地区）
 	
-	char cJfFlag;
+	unsigned long lJfFlag;               //聚类标记
 	unsigned long lFlag;                 //累加标记
 	//1016补充
 	unsigned long lFusFlag;                //融合查找标记
@@ -93,7 +93,7 @@ typedef struct __COMSTATUS_MARK           //通信侦查信息
 	char cDWAttribute[32];				  //敌我属性
 	double dConfidence;  			      //可信度
     char cCountry[32];			          //国家（地区）
-	char cJfFlag;
+	unsigned long lJfFlag;                //聚类标记
 	unsigned long lFlag;                  //累加标记
 //1016补充
 	unsigned long lFusFlag;                //融合查找标记
@@ -156,8 +156,8 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
     char sPlatType[32];						
 	char cPlatName[32];                  //平台名称  
     double dConfidence;                  //可信度
-    char cDWAttribute[32];                   //敌我属性 (IFF信息)
-	char cJfFlag;                        //是否进行数据融合标志，0：未融合，1：已融合
+    char cDWAttribute[32];               //敌我属性 (IFF信息)
+	unsigned long lJfFlag;               //是否进行数据融合标志，0：未融合，1：已融合
 	unsigned long lFlag;                 //累加标记
 //1016补充
 	unsigned long lFusFlag;                //融合查找标记

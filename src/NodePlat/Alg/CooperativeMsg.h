@@ -89,6 +89,6 @@ typedef vector<char*> VCT_sPlatType;
 //******************************************************************************************//
 //本舰请求邻舰协同,接收到邻舰发送的信息后,进行综合识别处理。
 //void GET_CooperateMsg_Modul(SHIP_POSITION& stSelfPosi,VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative, VCT_COOPER_MSG& vctCooperMsg); 
-void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative, VCT_COOPER_MSG& vctCooperMsg);
+void GET_CooperateMsg_Modul(SHIP_POSITION& stSelfPosi,VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative, VCT_COOPER_MSG& vctCooperMsg);
 
 //void Mf_SPA(double s, double t,double& corr); //s,t为相同类型的信息，进行集对分析，将返回的相关系数存入容器VctCorr中

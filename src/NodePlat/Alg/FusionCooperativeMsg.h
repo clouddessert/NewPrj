@@ -7,7 +7,20 @@ using namespace std;
 
 //假如主舰同时向N条邻舰请求信息，主舰收到N条邻舰的返回信息,需要将返回信息进行分类合并存放
 
+//////// 2014 1016 wanghaiying ///////////////////////////////////////////////////
+// typedef struct __Cooperative_FUSIDENTIINFOR   //协同后，融合信息与识别结果结构体
+// {
+//     long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
+// 	unsigned long lAutonum;
+//     char sPlatType[32];             //综合平台类型  F117  (F117； F118； F119； F120； F121)
+// 	double dConfidence;                      //综合可信度
+// 
+// 	TRACKSTATUS_MARK stFusTrack;            //存储融合后的雷达探测信息（航迹信息）
+// 	VCT_ESM_MSG vctFusEsm;                  //存储融合后的雷达侦察信息
+// 	VCT_COMM_MSG vctFusCom;                 //存储融合后的通信侦查信息   
+// }Cooperative_FUSIDENTIINFOR;
 
+typedef vector<Cooperative_FUSIDENTIINFOR> VCT_Cooperative_FUSIDENTIINFOR;  //存储协同后融合信息和识别结果的结构体
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////输入：本舰的请求信息，邻舰相应批号的返回信息(已经综合了不同邻舰返回的信息)

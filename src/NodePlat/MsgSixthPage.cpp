@@ -32,7 +32,7 @@ void CMsgSixthPage::DoDataExchange(CDataExchange* pDX)
 {
 	CPropertyPage::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CMsgSixthPage)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
+	DDX_Control(pDX, IDC_LIST_MulESM, m_fusEsm);
 	//}}AFX_DATA_MAP
 }
 
@@ -227,6 +227,6 @@ LRESULT CMsgSixthPage::OnFusEsmMessage(WPARAM wParam, LPARAM lParam)
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulESM))->DeleteAllItems();
 	}
-	
+	  m_fusEsm.EnsureVisible(m_fusEsm.GetItemCount()-1,FALSE); //始终显示当前最新信息
 	return 0;  
 } 

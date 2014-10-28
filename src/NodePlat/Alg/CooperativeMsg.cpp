@@ -13,7 +13,7 @@
 #include <string>
 using namespace std;
 
-//#define PI 3.1415926535898
+#define PI 3.1415926535898
 
 //±¾½¢ÁÚ½¢¶¼ÓÐ×ÔÉíº½¼£ÐÅÏ¢Ê±£¨¼´¶¼´æÔÚ¾àÀë·½Î»¸©Ñö½ÇÊ±£©£¬±¾½¢ÁÚ½¢¾­Î³¸ß¶¼ÒÑÖª£¬Êä³öÁÚ½¢¹Û²âµ½µÄÄ¿±êÔÚ±¾½¢ÉÏµÄ×ø±ê¼°Ïà¶ÔÓÚ±¾½¢µÄ¾­Î³¸ß¡£
 void Get_Coordinate_Conversion_Module(double Rd1,double Az1,double Ez1,double Rd2,double Az2,double Ez2,double La1,double Ba1,double Ha1,
@@ -24,7 +24,7 @@ void Mf_SPA(double s, double t,double& corr); //s,tÎªÏàÍ¬ÀàÐÍµÄÐÅÏ¢£¬½øÐÐ¼¯¶Ô·ÖÎ
 void Object_Radar_Transform(double Lt,double Bt,double Ht,double L0,double B0,double H0,double& rd,double& az,double& ez);
 
 
-void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative, VCT_COOPER_MSG& vctCooperMsg)
+void GET_CooperateMsg_Modul(SHIP_POSITION& stSelfPosi,VCT_Request_Cooperative_Msg& vctRequestCooperative, VCT_BACK_Cooperative_Msg& vctBackCooperative, VCT_COOPER_MSG& vctCooperMsg)
 {
 	double Xt = 0.0;        
 	double Yt = 0.0;
@@ -33,11 +33,10 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 	double Azt = 0.0;
 	double Ezt = 0.0;
 	double dSumCorr_xyz = 0.0;
-	SHIP_POSITION stSelfPosi;  //ÐèÒª»ñÈ¡±¾½¢µÄ¾­Î³¸ß 
-// 	//¼ÙÉè¾­Î³¸ß:
-// 	stSelfPosi.dHeight = 0.0;
-// 	stSelfPosi.dLonti = 119.1;
-// 	stSelfPosi.dLati = 22.5;	
+	//SHIP_POSITION stSelfPosi;  //ÐèÒª»ñÈ¡±¾½¢µÄ¾­Î³¸ß 
+	double Lt=0.0;                 //Ä¿±êµÄµØÀí¾­¶È£¨¶È£©£¬×ª³É»¡¶È
+	double Bt=0.0;                //Ä¿±êµÄµØÀíÎ³£¨¶È£©£¬×ª³É»¡¶È
+	double Ht=0.0;	
 	Cooperative_Msg stCooperMsg;   //°´ÇëÇóÐÅÏ¢µÄ×ÛºÏÅúºÅ½øÐÐºÏ²¢
 	//	VCT_COOPER_MSG vctCooperMsg;   //´æ·ÅÇëÇóºÍ·µ»ØµÄºÏ²¢ÐÅÏ¢
 	VCT_COOPER_MSG::iterator iteCooperMsg; 
@@ -75,13 +74,6 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 	}
 	vctCooperMsg.clear();
 	
-	//²âÊÔÊý¾Ý
-	//    for (iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++)
-	//    {
-	// 	     cout << "·µ»ØÐÅÏ¢ÖÐCOMMÌõÊý£º"<< iteBackMsg->vctComm.size() <<endl;
-	// 		 cout << "·µ»ØÐÅÏ¢ÖÐESMÌõÊý£º"<< iteBackMsg->vctEsm.size() <<endl;
-	//    } 90
-	
 	//½«ÇëÇóÐÅÏ¢,·µ»ØÐÅÏ¢·ÅÈëºÏ²¢ÈÝÆ÷ÖÐ£¬ 
 	for ( iteRequestMsg = vctRequestCooperative.begin(); iteRequestMsg != vctRequestCooperative.end(); iteRequestMsg++ )
 	{   
@@ -111,8 +103,7 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 			for(iteEsm = iteRequestMsg->vctEsm.begin(); iteEsm != iteRequestMsg->vctEsm.end(); iteEsm++)
 			{
 				stCooperMsg.vctEsm.push_back(*iteEsm);
-			}
-			
+			}	
 			for (iteComm = iteRequestMsg->vctComm.begin();iteComm != iteRequestMsg->vctComm.end();iteComm++)
 			{
 				stCooperMsg.vctComm.push_back(*iteComm);
@@ -124,7 +115,7 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 			stCooperMsg.lAutonum =  iteRequestMsg->lAutonum;
 			stCooperMsg.vctTrace.push_back(iteRequestMsg->stTrace);
 		}
-		//		vctCooperMsg.push_back(stCooperMsg);
+		//vctCooperMsg.push_back(stCooperMsg);
 		//½«·µ»ØÐÅÏ¢·ÅÈëºÏ²¢ÐÅÏ¢ÖÐ
 		for ( iteBackMsg = vctBackCooperative.begin(); iteBackMsg != vctBackCooperative.end(); iteBackMsg++)
 		{
@@ -136,6 +127,22 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 					//  if ( iteBackMsg->BackTrackN !=0  ) //·µ»ØÐÅÏ¢
 				{	
 					//×ª»»º½¼£ÐÅÏ¢£¬½«×ø±ê£¬¾­Î³¶ÈÌæ»»
+									stSelfPosi.dLati = 120*PI/180;               //·µ»ØÐÅÏ¢×ÔÉíµÄB½¢µÄµØÀí¾­¶È£¨¶È£©£¬×ª³É»¡¶È
+									stSelfPosi.dLonti = 20*PI/180;                //µØÀíÎ³£¨¶È£©£¬×ª³É»¡¶È
+									stSelfPosi.dHeight = 0;                        //Ã×				
+									iteRequestMsg->stReqShipPosi.dLati = 123*PI/180;               //±¾½¢¼´ÇëÇó½¢A½¢µÄµØÀí¾­¶È£¨¶È£©£¬×ª³É»¡¶È
+									iteRequestMsg->stReqShipPosi.dLonti = 21*PI/180;                //ÁÚ½¢µÄµØÀíÎ³£¨¶È£©£¬×ª³É»¡¶È
+									iteRequestMsg->stReqShipPosi.dHeight = 0;
+					//////////////////////////////////////
+					//////////////////////////////////////
+					Lt=122*PI/180;                 //Ä¿±êµÄµØÀí¾­¶È£¨¶È£©£¬×ª³É»¡¶È
+					Bt=21.5*PI/180;                //Ä¿±êµÄµØÀíÎ³£¨¶È£©£¬×ª³É»¡¶È
+					Ht=20000;
+					Object_Radar_Transform(Lt,Bt,Ht, stSelfPosi.dLati, stSelfPosi.dLonti, stSelfPosi.dHeight, iteBackMsg->stTrace.dRange,iteBackMsg->stTrace.dAzimuth,iteBackMsg->stTrace.dElevationAngle);  //Ä¿±êÏà¶ÔÓÚ±¾½¢1µÄ¾¶¾à·½Î»ºÍ¸©Ñö//
+					Object_Radar_Transform(Lt,Bt,Ht,iteRequestMsg->stReqShipPosi.dLati, iteRequestMsg->stReqShipPosi.dLonti, iteRequestMsg->stReqShipPosi.dHeight, iteRequestMsg->stTrace.dRange, iteRequestMsg->stTrace.dAzimuth,
+						iteRequestMsg->stTrace.dElevationAngle);  //Ä¿±êÏà¶ÔÓÚÁÚ½¢2µÄ¾¶¾à·½Î»ºÍ¸©Ñö
+					
+                    //Õ½ÇéÖ±½ÓÏÂ·¢Ä¿±êÏà¶ÔÓÚ±¾½¢µÄ¾¶¾à,·½Î»,¸©Ñö,Ä¿±êÏà¶ÔÓÚÇëÇó½¢µÄ¾¶¾à·½Î»¸©Ñö
 					Get_Coordinate_Conversion_Module(iteRequestMsg->stTrace.dRange,iteRequestMsg->stTrace.dAzimuth,iteRequestMsg->stTrace.dElevationAngle,
 						iteBackMsg->stTrace.dRange,iteBackMsg->stTrace.dAzimuth,iteBackMsg->stTrace.dElevationAngle,  
 						stSelfPosi.dLati,stSelfPosi.dLonti,stSelfPosi.dHeight,
@@ -144,9 +151,10 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 					iteBackMsg->stTrace.dTX = Xt;
 					iteBackMsg->stTrace.dTY = Yt;
 					iteBackMsg->stTrace.dTZ = Zt;
+					 //ÐèÖØÐÂ¸³Öµ¼ÆËã
 					iteBackMsg->stTrace.dRange = Rdt;
 					iteBackMsg->stTrace.dAzimuth = Azt;
-					iteBackMsg->stTrace.dElevationAngle = Ezt;
+					iteBackMsg->stTrace.dElevationAngle = fabs(Ezt);
 					stCooperMsg.vctTrace.push_back(iteBackMsg->stTrace);
 					//²âÊÔ º½¼£ÐÅÏ¢µÄÌõÊý
 					int Tsize = stCooperMsg.vctTrace.size();
@@ -174,8 +182,7 @@ void GET_CooperateMsg_Modul(/*SHIP_POSITION& stSelfPosi,*/VCT_Request_Cooperativ
 					for (iteComm = iteBackMsg->vctComm.begin(); iteComm != iteBackMsg->vctComm.end(); iteComm++)
 					{
 						stCooperMsg.vctComm.push_back(*iteComm);
-					}
-					
+					}	
 				}
 				
 			}//if ×ÛºÏÅúºÅÏàÍ¬ ½áÊø
