@@ -4,6 +4,7 @@
 #pragma warning(disable : 4786)
 #include <vector>
 using namespace std;
+typedef vector<int> VCT_INT;
 
 typedef struct __SHIP_POSITION           //½¢µÄ¾­Î³¸ß
 {
