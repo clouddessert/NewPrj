@@ -152,7 +152,7 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
     double dTSpeedZ;                      //目标绝对速度Z
 	double dLonti;                        //目标经度
 	double dLati;                         //目标纬度
-
+        double dObjHeight;		      //目标高度 
 	//识别信息
     char sPlatType[32];						
 	char cPlatName[32];                  //平台名称  

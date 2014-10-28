@@ -124,7 +124,7 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
     double dTSpeedZ;                      //目标绝对速度Z
 	double dLonti;                        //目标经度
 	double dLati;                         //目标纬度
-	//double dObjHeight;					  //目标高度（需要添加！！！！把两个平台都添加一下。我这里注视掉）
+	double dObjHeight;		      //目标高度 
 //识别信息
 //	unsigned short sPlatType;            //平台类型  F117  (F117； F118； F119；F120； F121)
     char sPlatType[32];  
