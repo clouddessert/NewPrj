@@ -112,12 +112,13 @@ BOOL CMsgFstPage::OnInitDialog()
 
 LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)  
 { 
-	VCT_ESM_MSG::iterator pESM_Dat;
+	VCT_ESM_MSG::reverse_iterator pESM_Dat;
 
 	int nTmp = 0;
 	int iTmpProp = 0;
 	float fTmp = 0.0;
 	CString strTmp;
+    int nesm=1;
 
 	if (0 == wParam)
 	{
@@ -127,8 +128,11 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->DeleteAllItems();
 		
 		//显示数据
-		for (pESM_Dat = theApp.m_ESM/*theApp.m_ESM_Dat*/.begin(); pESM_Dat != theApp.m_ESM/*theApp.m_ESM_Dat*/.end(); pESM_Dat++,++nTmp)
+		//for (pESM_Dat = theApp.m_ESM/*theApp.m_ESM_Dat*/.begin(); pESM_Dat != theApp.m_ESM/*theApp.m_ESM_Dat*/.end(); pESM_Dat++,++nTmp)
+		//逆序显示
+		for (pESM_Dat = theApp.m_ESM.rbegin(), nesm=1; pESM_Dat != theApp.m_ESM.rend(), nesm<7; ++pESM_Dat,++nTmp,++nesm)
 		{
+
 			strTmp.Format("%s", _T("ESM"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->InsertItem(nTmp, strTmp, 9);
 			

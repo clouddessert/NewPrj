@@ -123,8 +123,8 @@ void CMsgFifthPage::OnSize(UINT nType, int cx, int cy)
 
 LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam) 
 {
-	//这里使用iterator去显示
-	VCT_MIDENTIINFOR_MSG::iterator iterator;
+	//这里使用reverse_iterator逆序显示
+	VCT_MIDENTIINFOR_MSG::reverse_iterator iterator;
 // 	VCT_ESM_MSG::iterator iteEsm;
 // 	VCT_COMM_MSG::iterator iteComm;
 	
@@ -141,13 +141,8 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->DeleteAllItems();
 		
 		//显示数据
-//		int m = theApp.m_IdentifyMsg.size();
-// 		for (iterator = theApp.m_ClusterUniMsg.begin(); iterator != theApp.m_ClusterUniMsg.end(); iterator++,++nTmp)
-// 		{
-// 			fTmp = iterator->lAutonum;//综合批号
-// 			strTmp.Format("%d", (int)fTmp);
-// 			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->InsertItem(nTmp, strTmp, 9);
-		for (iterator = theApp.m_MulIdentifyMsg.begin(); iterator != theApp.m_MulIdentifyMsg.end(); iterator++,++nTmp)
+		//for (iterator = theApp.m_MulIdentifyMsg.begin(); iterator != theApp.m_MulIdentifyMsg.end(); iterator++,++nTmp)
+	    for (iterator = theApp.m_MulIdentifyMsg.rbegin(); iterator != theApp.m_MulIdentifyMsg.rend(); ++iterator,++nTmp)
 		{
 			//strTmp.Format("%s", _T("8000"));
 			//((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertItem(nTmp, strTmp, 9);				
@@ -155,8 +150,8 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 			strTmp.Format("%d", (int)fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->InsertItem(nTmp, strTmp, 9);
 			
-//			fTmp = iterator->sPlatType;  //短整型  //平台类型
-//			strTmp.Format("%d", (int)fTmp);
+            //fTmp = iterator->sPlatType;  //短整型  //平台类型
+            //strTmp.Format("%d", (int)fTmp);
 			strTmp.Format("%s", iterator->sPlatType);
 			((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->SetItemText(nTmp, 1, strTmp);
 			
@@ -172,8 +167,7 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->DeleteAllItems();
 	}
-
-     m_mulidentify.EnsureVisible(m_mulidentify.GetItemCount()-1,FALSE); //始终显示当前最新信息
+     //m_mulidentify.EnsureVisible(m_mulidentify.GetItemCount()-1,FALSE); //始终显示当前最新信息
 	return 0;
 }
 

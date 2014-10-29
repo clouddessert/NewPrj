@@ -116,12 +116,13 @@ void CMsgThreePage::OnSize(UINT nType, int cx, int cy)
 
 LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)  
 {
-	VCT_TRACE_MSG::iterator pTrace_Dat;
+	VCT_TRACE_MSG::reverse_iterator pTrace_Dat;
 
 	int nTmp = 0;
 	int iTmpProp = 0;
 	float fTmp = 0.0;
 	CString strTmp;
+	int ntrace = 1;
 
 	if (0 == wParam)
 	{
@@ -131,7 +132,9 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->DeleteAllItems();
 		
 		//显示数据
-		for (pTrace_Dat = theApp.m_Trace.begin(); pTrace_Dat != theApp.m_Trace.end(); pTrace_Dat++,++nTmp)
+		//for (pTrace_Dat = theApp.m_Trace.begin(); pTrace_Dat != theApp.m_Trace.end(); pTrace_Dat++,++nTmp)
+		//逆序显示
+		for (pTrace_Dat = theApp.m_Trace.rbegin(),ntrace =1; pTrace_Dat != theApp.m_Trace.rend(),ntrace <= 2; ++pTrace_Dat,++nTmp, ++ntrace)
 		{
 			strTmp.Format("%s", _T("Trace"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->InsertItem(nTmp, strTmp, 9);

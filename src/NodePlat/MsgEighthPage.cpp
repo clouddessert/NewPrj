@@ -109,9 +109,7 @@ BOOL CMsgEighthPage::OnInitDialog()
 }
 LRESULT CMsgEighthPage:: OnFusTraceMessage(WPARAM wParam, LPARAM lParam)
 {
-	//VCT_Cooperative_FUSIDENTIINFOR::iterator pCoFusIdentify_Dat;
-	VCT_TRACE_MSG::iterator pFusTrace_Dat;
-	
+	VCT_TRACE_MSG::reverse_iterator pFusTrace_Dat;	
 	int nTmp = 0;
 	int iTmpProp = 0;
 	float fTmp = 0.0;
@@ -125,81 +123,82 @@ LRESULT CMsgEighthPage:: OnFusTraceMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->DeleteAllItems();
 		
 		//显示数据
-		for (pFusTrace_Dat = theApp.m_MulTrace.begin(); pFusTrace_Dat != theApp.m_MulTrace.end(); pFusTrace_Dat++,++nTmp)
+		//for (pFusTrace_Dat = theApp.m_MulTrace.begin(); pFusTrace_Dat != theApp.m_MulTrace.end(); pFusTrace_Dat++,++nTmp)
+		//逆序显示
+		for (pFusTrace_Dat = theApp.m_MulTrace.rbegin(); pFusTrace_Dat != theApp.m_MulTrace.rend(); pFusTrace_Dat++,++nTmp)
 		{
-
-		    	strTmp.Format("%s", _T("Trace"));
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->InsertItem(nTmp, strTmp, 9);
-				
-				strTmp.Format("%d",pFusTrace_Dat->lAutonum); //合批号
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 0, strTmp);
-				
-				fTmp = pFusTrace_Dat->lTargetNumber;//目标批号
-				strTmp.Format("%d",(int)fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 1, strTmp);
-				
-				strTmp.Format("%s",pFusTrace_Dat->cPlatNumber); //平台编号
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 2, strTmp);
-				
-				strTmp.Format("%s",pFusTrace_Dat->cEquipmentNumber); //设备编号
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 3, strTmp);
-				
-				strTmp.Format("%s",pFusTrace_Dat->cEquipmentType); //设备类型
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 4, strTmp);
-				
-				strTmp.Format("%s",pFusTrace_Dat->sPlatType);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 5, strTmp);
-				
-				fTmp = pFusTrace_Dat->dConfidence;  //置信度
-				strTmp.Format("%.2f",fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 6, strTmp);			
-				
-				fTmp = pFusTrace_Dat->dAzimuth;
-				strTmp.Format("%.4f", fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 7, strTmp);
-				
-				strTmp.Format("%s",pFusTrace_Dat->cPlatName);  //平台名称
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 8, strTmp);
-				
-				// 				fTmp = pCoFusIdentify_Dat->stFusTrack.dLonti; //经度
-				// 				strTmp.Format("%.4f",fTmp);
-				// 				((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 9, strTmp);
-				// 				
-				// 				fTmp = pCoFusIdentify_Dat->stFusTrack.dLati; //纬度
-				// 				strTmp.Format("%.4f",fTmp);
-				// 				((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 10, strTmp);
-				
-				fTmp = pFusTrace_Dat->dRange; //距离
-				strTmp.Format("%.2f",fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 9, strTmp);	
-				
-				fTmp = pFusTrace_Dat->dElevationAngle;  //仰角
-				strTmp.Format("%.2f",fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 10, strTmp);	
-				
-				fTmp = pFusTrace_Dat->dCourse;  //绝对航向
-				strTmp.Format("%.2f",fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 11, strTmp);	
-				
-				fTmp = pFusTrace_Dat->dTargetAZSpeed;  //目标方位角角速度
-				strTmp.Format("%.2f",fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 12, strTmp);	
-				
-				fTmp = pFusTrace_Dat->dTargetEAngleSpeed;  //目标仰角角速度
-				strTmp.Format("%.2f",fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 13, strTmp);			
-				
-				fTmp = pFusTrace_Dat->dTSpeedX;  //目标绝对速度X
-				strTmp.Format("%.2f",fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 14, strTmp);			
-				
-				fTmp = pFusTrace_Dat->dTSpeedY;  //目标绝对速度Y
-				strTmp.Format("%.2f",fTmp);
-				((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 15, strTmp);			
-				
-				fTmp = pFusTrace_Dat->dTSpeedZ;  //目标绝对速度z
-				strTmp.Format("%.2f",fTmp);
-			    ((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 16, strTmp);
+			strTmp.Format("%s", _T("Trace"));
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->InsertItem(nTmp, strTmp, 9);
+			
+			strTmp.Format("%d",pFusTrace_Dat->lAutonum); //合批号
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 0, strTmp);
+			
+			fTmp = pFusTrace_Dat->lTargetNumber;//目标批号
+			strTmp.Format("%d",(int)fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 1, strTmp);
+			
+			strTmp.Format("%s",pFusTrace_Dat->cPlatNumber); //平台编号
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 2, strTmp);
+			
+			strTmp.Format("%s",pFusTrace_Dat->cEquipmentNumber); //设备编号
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 3, strTmp);
+			
+			strTmp.Format("%s",pFusTrace_Dat->cEquipmentType); //设备类型
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 4, strTmp);
+			
+			strTmp.Format("%s",pFusTrace_Dat->sPlatType);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 5, strTmp);
+			
+			fTmp = pFusTrace_Dat->dConfidence;  //置信度
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 6, strTmp);			
+			
+			fTmp = pFusTrace_Dat->dAzimuth;
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 7, strTmp);
+			
+			strTmp.Format("%s",pFusTrace_Dat->cPlatName);  //平台名称
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 8, strTmp);
+			
+			// 				fTmp = pCoFusIdentify_Dat->stFusTrack.dLonti; //经度
+			// 				strTmp.Format("%.4f",fTmp);
+			// 				((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 9, strTmp);
+			// 				
+			// 				fTmp = pCoFusIdentify_Dat->stFusTrack.dLati; //纬度
+			// 				strTmp.Format("%.4f",fTmp);
+			// 				((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 10, strTmp);
+			
+			fTmp = pFusTrace_Dat->dRange; //距离
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 9, strTmp);	
+			
+			fTmp = pFusTrace_Dat->dElevationAngle;  //仰角
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 10, strTmp);	
+			
+			fTmp = pFusTrace_Dat->dCourse;  //绝对航向
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 11, strTmp);	
+			
+			fTmp = pFusTrace_Dat->dTargetAZSpeed;  //目标方位角角速度
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 12, strTmp);	
+			
+			fTmp = pFusTrace_Dat->dTargetEAngleSpeed;  //目标仰角角速度
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 13, strTmp);			
+			
+			fTmp = pFusTrace_Dat->dTSpeedX;  //目标绝对速度X
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 14, strTmp);			
+			
+			fTmp = pFusTrace_Dat->dTSpeedY;  //目标绝对速度Y
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 15, strTmp);			
+			
+			fTmp = pFusTrace_Dat->dTSpeedZ;  //目标绝对速度z
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetItemText(nTmp, 16, strTmp);
 
 		}
     	((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->SetRedraw();//启动
@@ -209,7 +208,7 @@ LRESULT CMsgEighthPage:: OnFusTraceMessage(WPARAM wParam, LPARAM lParam)
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->DeleteAllItems();
 	}
-	m_fusTrace.EnsureVisible(m_fusTrace.GetItemCount()-1,FALSE); //始终显示当前最新信息
+	//m_fusTrace.EnsureVisible(m_fusTrace.GetItemCount()-1,FALSE); //始终显示当前最新信息
 	return 0;  
 } 
 

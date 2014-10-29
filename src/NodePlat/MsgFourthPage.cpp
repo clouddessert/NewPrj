@@ -124,7 +124,7 @@ void CMsgFourthPage::OnSize(UINT nType, int cx, int cy)
 LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam) 
 {
 	//这里使用iterator去显示
-	VCT_IDENTIINFOR_MSG::iterator iterator;
+	VCT_IDENTIINFOR_MSG::reverse_iterator iterator;
 	
 	int nTmp = 0;
 	int iTmpProp = 0;
@@ -139,8 +139,11 @@ LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->DeleteAllItems();
 		
 		//显示数据
-//		int m = theApp.m_IdentifyMsg.size();
-		for (iterator = theApp.m_IdentifyMsg.begin(); iterator != theApp.m_IdentifyMsg.end(); iterator++,++nTmp)
+        //int m = theApp.m_IdentifyMsg.size();
+		
+        //for (iterator = theApp.m_IdentifyMsg.begin(); iterator != theApp.m_IdentifyMsg.end(); iterator++,++nTmp)
+	 	//逆序显示
+		for (iterator = theApp.m_IdentifyMsg.rbegin(); iterator != theApp.m_IdentifyMsg.rend(); ++iterator,++nTmp)
 		{
 			//strTmp.Format("%s", _T("8000"));
 			//((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertItem(nTmp, strTmp, 9);				
@@ -148,8 +151,8 @@ LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 			strTmp.Format("%d", (int)fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->InsertItem(nTmp, strTmp, 9);
 			
-//			fTmp = iterator->sPlatType;  //短整型  //平台类型
-//			strTmp.Format("%d", (int)fTmp);
+            //fTmp = iterator->sPlatType;  //短整型  //平台类型
+            //strTmp.Format("%d", (int)fTmp);
 			strTmp.Format("%s", iterator->sPlatType);
 			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->SetItemText(nTmp, 1, strTmp);
 			
@@ -157,12 +160,6 @@ LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 			strTmp.Format("%.2f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->SetItemText(nTmp, 2, strTmp);	
 			
-// 			fTmp = m;
-// 			strTmp.Format("%d", (int)fTmp);
-// 			((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetItemText(nTmp, 3, strTmp);	
-			// 		fTmp = m_pTmpTrackIter->second.fLati;
-			// 		strTmp.Format("%.4f", fTmp);
-			// 		((CListCtrl*)GetDlgItem(IDC_LIST1))->SetItemText(nTmp, 5, strTmp);		
 		}
 		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetRedraw();//启动
 	}

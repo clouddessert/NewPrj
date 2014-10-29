@@ -112,9 +112,7 @@ BOOL CMsgSeventhPage::OnInitDialog()
 
 LRESULT CMsgSeventhPage::OnFusCommMessage(WPARAM wParam, LPARAM lParam)  
 {
-//	VCT_Cooperative_FUSIDENTIINFOR::iterator pCoFusIdentify_Dat;
-	VCT_COMM_MSG::iterator pFusComm_Dat;
-	
+	VCT_COMM_MSG::reverse_iterator pFusComm_Dat;
 	int nTmp = 0;
 	int iTmpProp = 0;
 	float fTmp = 0.0;
@@ -128,61 +126,63 @@ LRESULT CMsgSeventhPage::OnFusCommMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->DeleteAllItems();
 		
 		//显示数据
-		for (pFusComm_Dat = theApp.m_MulComm.begin(); pFusComm_Dat != theApp.m_MulComm.end(); pFusComm_Dat++,++nTmp)
+		//for (pFusComm_Dat = theApp.m_MulComm.begin(); pFusComm_Dat != theApp.m_MulComm.end(); pFusComm_Dat++,++nTmp)
+		//逆序显示	
+		for (pFusComm_Dat = theApp.m_MulComm.rbegin(); pFusComm_Dat != theApp.m_MulComm.rend(); pFusComm_Dat++,++nTmp)
 		{					
-					strTmp.Format("%s", _T("Comm"));
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->InsertItem(nTmp, strTmp, 9);
-					
-					strTmp.Format("%d",pFusComm_Dat->lAutonum);//合批号
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 0, strTmp);
-					
-					fTmp = pFusComm_Dat->lTargetNumber;//目标批号
-					strTmp.Format("%d",(int)fTmp);
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 1, strTmp);
-					
-					strTmp.Format("%s",pFusComm_Dat->cPlatNumber);//平台编号
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 2, strTmp);
-					
-					strTmp.Format("%s",pFusComm_Dat->cEquipmentNumber); //设备编号
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 3, strTmp);
-					
-					strTmp.Format("%s",pFusComm_Dat->cEquipmentType); //设备类型
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 4, strTmp);
-					
-					strTmp.Format("%s",pFusComm_Dat->sPlatType); //平台类型
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 5, strTmp);
-					
-					fTmp = pFusComm_Dat->dConfidence;  //置信度
-					strTmp.Format("%.2f",fTmp);
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 6, strTmp);
-					
-					fTmp = pFusComm_Dat->dReachAzimuth;//方位
-					strTmp.Format("%.4f", fTmp);
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 7, strTmp);
-					
-					fTmp = pFusComm_Dat->dComZaiPin;  //载频
-					strTmp.Format("%.4f", fTmp);
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 8, strTmp);
-					
-					// 			fTmp = pFusComm_Dat->lSignalReachTime;//信号到达时间
-					// 			strTmp.Format("%d",(int)fTmp);
-					// 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 9, strTmp);
-					
-					fTmp = pFusComm_Dat->dPulseExtent;  //脉冲幅度
-					strTmp.Format("%.4f", fTmp);
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 9, strTmp);
-					
-					strTmp.Format("%s",pFusComm_Dat->cSignalType); //信号类型
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 10, strTmp);
-					
-					strTmp.Format("%s",pFusComm_Dat->cModulationStyle); //调制样式
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 11, strTmp);
-					
-					strTmp.Format("%s",pFusComm_Dat->cDWAttribute); //敌我属性
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 12, strTmp);
-					
-					strTmp.Format("%s",pFusComm_Dat->cCountry); //国家/地区
-					((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 13, strTmp);
+			strTmp.Format("%s", _T("Comm"));
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->InsertItem(nTmp, strTmp, 9);
+			
+			strTmp.Format("%d",pFusComm_Dat->lAutonum);//合批号
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 0, strTmp);
+			
+			fTmp = pFusComm_Dat->lTargetNumber;//目标批号
+			strTmp.Format("%d",(int)fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 1, strTmp);
+			
+			strTmp.Format("%s",pFusComm_Dat->cPlatNumber);//平台编号
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 2, strTmp);
+			
+			strTmp.Format("%s",pFusComm_Dat->cEquipmentNumber); //设备编号
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 3, strTmp);
+			
+			strTmp.Format("%s",pFusComm_Dat->cEquipmentType); //设备类型
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 4, strTmp);
+			
+			strTmp.Format("%s",pFusComm_Dat->sPlatType); //平台类型
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 5, strTmp);
+			
+			fTmp = pFusComm_Dat->dConfidence;  //置信度
+			strTmp.Format("%.2f",fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 6, strTmp);
+			
+			fTmp = pFusComm_Dat->dReachAzimuth;//方位
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 7, strTmp);
+			
+			fTmp = pFusComm_Dat->dComZaiPin;  //载频
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 8, strTmp);
+			
+			// 			fTmp = pFusComm_Dat->lSignalReachTime;//信号到达时间
+			// 			strTmp.Format("%d",(int)fTmp);
+			// 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 9, strTmp);
+			
+			fTmp = pFusComm_Dat->dPulseExtent;  //脉冲幅度
+			strTmp.Format("%.4f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 9, strTmp);
+			
+			strTmp.Format("%s",pFusComm_Dat->cSignalType); //信号类型
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 10, strTmp);
+			
+			strTmp.Format("%s",pFusComm_Dat->cModulationStyle); //调制样式
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 11, strTmp);
+			
+			strTmp.Format("%s",pFusComm_Dat->cDWAttribute); //敌我属性
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 12, strTmp);
+			
+			strTmp.Format("%s",pFusComm_Dat->cCountry); //国家/地区
+			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetItemText(nTmp, 13, strTmp);
 		}
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->SetRedraw();//启动
 	}
@@ -191,6 +191,6 @@ LRESULT CMsgSeventhPage::OnFusCommMessage(WPARAM wParam, LPARAM lParam)
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->DeleteAllItems();
 	}
-	m_fusCom.EnsureVisible(m_fusCom.GetItemCount()-1,FALSE); //始终显示当前最新信息 
+	//m_fusCom.EnsureVisible(m_fusCom.GetItemCount()-1,FALSE); //始终显示当前最新信息 
 	return 0;  
 } 
