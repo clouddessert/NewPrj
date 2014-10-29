@@ -238,6 +238,20 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 						for (pESM_Dat = theApp.m_ESM_Dat.begin(); pESM_Dat != theApp.m_ESM_Dat.end(); pESM_Dat++)
 						{
 							//Modify the Data
+							tmp_val = pESM_Dat->lAutonum;
+							for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
+							{
+								if ( tmp_val == pTrace_Dat->lTargetNumber )
+								{
+									break;
+								}
+							}
+							if (pTrace_Dat != theApp.m_Trace_Dat.end())
+							{
+								pESM_Dat->dElevationAngle = pTrace_Dat->dElevationAngle;
+								pESM_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
+							}
+
 							tmp_val = rand();
 							pESM_Dat->dElevationAngle += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
 							tmp_val = rand();
@@ -267,6 +281,21 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 						for (pComm_Dat = theApp.m_Comm_Dat.begin(); pComm_Dat != theApp.m_Comm_Dat.end(); pComm_Dat++)
 						{
 							//Modify the Data
+							tmp_val = pESM_Dat->lAutonum;
+							for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
+							{
+								if ( tmp_val == pTrace_Dat->lTargetNumber )
+								{
+									break;
+								}
+							}
+							
+							if (pTrace_Dat != theApp.m_Trace_Dat.end())
+							{
+								pComm_Dat->dElevationAngle = pTrace_Dat->dElevationAngle;
+								pComm_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
+							}
+
 							tmp_val = rand();
 							pComm_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
 							tmp_val = rand();
@@ -514,7 +543,8 @@ void CCommandPlatApp::OnStartJq()
 	//这里注意5条船，不一定用到，但是可以多定义。这里注意，超多5条船，需要添加定义！！！
 	p_CurrentShip = theApp.m_Ship_Position.begin();
 
-//ESM	
+//ESM
+	stEsmStatus.lAutonum = 5001;
 	stEsmStatus.lTargetNumber = 3001;
     stEsmStatus.dReachAzimuth =(float)35.0;
 //	stEsmStatus.sPlatType = 117;   //1表示F117,2表示F118,3表示F119,4表示F120
@@ -544,6 +574,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dMaiChongFeature = 3.0;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
+	stEsmStatus.lAutonum = 5001;
    	stEsmStatus.lTargetNumber = 3002;
 	stEsmStatus.dReachAzimuth =(float)50.0;
 //	stEsmStatus.sPlatType = 118;
@@ -573,6 +604,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dMaiChongFeature = 2.0;
     theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
+	stEsmStatus.lAutonum = 5002;
    	stEsmStatus.lTargetNumber = 3003;
 	stEsmStatus.dReachAzimuth =(float)40.0;
 //	stEsmStatus.sPlatType = 119;
@@ -602,6 +634,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dMaiChongFeature = 2.7;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
+	stEsmStatus.lAutonum = 5002;
    	stEsmStatus.lTargetNumber = 3004;
 	stEsmStatus.dReachAzimuth =(float)34.2;
 //	stEsmStatus.sPlatType = 118;
@@ -631,6 +664,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dMaiChongFeature = 2.9;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
+	stEsmStatus.lAutonum = 5001;
    	stEsmStatus.lTargetNumber = 3005;
 	stEsmStatus.dReachAzimuth =(float)35.0;
 //	stEsmStatus.sPlatType = 120;
@@ -660,6 +694,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dMaiChongFeature = 4.0;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
+	stEsmStatus.lAutonum = 5002;
    	stEsmStatus.lTargetNumber = 3006;
 	stEsmStatus.dReachAzimuth =(float)35.0;
 //	stEsmStatus.sPlatType = 118;
@@ -689,7 +724,8 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dMaiChongFeature = 3.0;
 	theApp.m_ESM_Dat.push_back(stEsmStatus);
 	
-//COM	
+//COM
+	stComStatus.lAutonum = 5001;
 	stComStatus.lTargetNumber = 4001;
 	stComStatus.dReachAzimuth =(float)35.0;
 //	stComStatus.sPlatType = 117;
@@ -710,9 +746,9 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stComStatus.cDWAttribute ,_T("我方")); 
 	strcpy(stComStatus.cCountry  ,_T("中国")); 
 
-
 	theApp.m_Comm_Dat.push_back(stComStatus);
 	
+	stComStatus.lAutonum = 5001;
 	stComStatus.lTargetNumber = 4002;
 	stComStatus.dReachAzimuth =(float)20.0;
 //	stComStatus.sPlatType = 119;
@@ -735,6 +771,7 @@ void CCommandPlatApp::OnStartJq()
 
 	theApp.m_Comm_Dat.push_back(stComStatus);
 	
+	stComStatus.lAutonum = 5002;
 	stComStatus.lTargetNumber = 4003;
 	stComStatus.dReachAzimuth =(float)40.0;
 //	stComStatus.sPlatType = 119;
@@ -754,7 +791,6 @@ void CCommandPlatApp::OnStartJq()
 	strcpy(stComStatus.cModulationStyle ,_T("C样式")); 
 	strcpy(stComStatus.cDWAttribute ,_T("我方")); 
 	strcpy(stComStatus.cCountry  ,_T("中国")); 
-
 
 	theApp.m_Comm_Dat.push_back(stComStatus);
 
