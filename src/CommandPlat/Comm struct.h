@@ -114,6 +114,7 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
 	char cPlatNumber[32];                //平台编号
     char cEquipmentNumber[32];           //设备编号
     char cEquipmentType[32];             //设备类型
+	int nTgtType;                        //目标类型  10.21添加，按上面的6个大类区分
     unsigned long lTargetNumber;         //目标批号	 
 //测量信息
 	double dRange;                        //距离
