@@ -692,6 +692,12 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 					}
 				}
 
+				if (pTrace_Dat != theApp.m_Trace_Dat.end())
+				{
+					pComm_Dat->dElevationAngle = pTrace_Dat->dElevationAngle;
+					pComm_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
+				}
+
 				tmp_val = rand();
 				pComm_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
 				tmp_val = rand();
