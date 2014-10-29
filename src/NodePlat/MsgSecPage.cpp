@@ -134,7 +134,8 @@ LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)
 			strTmp.Format("%s", _T("Comm"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->InsertItem(nTmp, strTmp, 9);
 			
-			strTmp.Format("%d",pComm_Dat->lAutonum);//合批号
+		    fTmp = pComm_Dat->lAutonum;
+			strTmp.Format("%d",(int)fTmp);//合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 0, strTmp);
 
 			fTmp = pComm_Dat->lTargetNumber;//目标批号

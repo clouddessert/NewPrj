@@ -139,7 +139,8 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 			strTmp.Format("%s", _T("Trace"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->InsertItem(nTmp, strTmp, 9);
 			
-			strTmp.Format("%d",pTrace_Dat->lAutonum); //合批号
+			fTmp = pTrace_Dat->lAutonum;
+			strTmp.Format("%d",(int)fTmp); //合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 0, strTmp);
 
 		    fTmp = pTrace_Dat->lTargetNumber;//目标批号

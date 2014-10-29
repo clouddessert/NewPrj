@@ -135,8 +135,9 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 
 			strTmp.Format("%s", _T("ESM"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->InsertItem(nTmp, strTmp, 9);
-			
-			strTmp.Format("%d",pESM_Dat->lAutonum);//合批号
+
+			fTmp = pESM_Dat->lAutonum;
+			strTmp.Format("%d",(int)fTmp);//合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 0, strTmp);
 
 			fTmp = pESM_Dat->lTargetNumber;//目标批号

@@ -131,6 +131,7 @@ LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 	float fTmp = 0.0;
 	CString strTmp;
 	
+	
 	if (0 == wParam)
 	{
 		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetRedraw(FALSE);//¹Ø±ÕÖØ»æ
