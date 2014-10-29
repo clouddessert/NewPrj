@@ -281,7 +281,7 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 						for (pComm_Dat = theApp.m_Comm_Dat.begin(); pComm_Dat != theApp.m_Comm_Dat.end(); pComm_Dat++)
 						{
 							//Modify the Data
-							tmp_val = pESM_Dat->lAutonum;
+							tmp_val = pComm_Dat->lAutonum;
 							for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
 							{
 								if ( tmp_val == pTrace_Dat->lTargetNumber )
