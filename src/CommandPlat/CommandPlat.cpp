@@ -238,20 +238,6 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 						for (pESM_Dat = theApp.m_ESM_Dat.begin(); pESM_Dat != theApp.m_ESM_Dat.end(); pESM_Dat++)
 						{
 							//Modify the Data
-							tmp_val = pESM_Dat->lAutonum;
-							for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
-							{
-								if ( tmp_val == pTrace_Dat->lTargetNumber )
-								{
-									break;
-								}
-							}
-							if (pTrace_Dat != theApp.m_Trace_Dat.end())
-							{
-								pESM_Dat->dElevationAngle = pTrace_Dat->dElevationAngle;
-								pESM_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
-							}
-
 							tmp_val = rand();
 							pESM_Dat->dElevationAngle += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
 							tmp_val = rand();
@@ -281,21 +267,6 @@ DWORD WINAPI UdpDataThread(LPVOID lParam)
 						for (pComm_Dat = theApp.m_Comm_Dat.begin(); pComm_Dat != theApp.m_Comm_Dat.end(); pComm_Dat++)
 						{
 							//Modify the Data
-							tmp_val = pComm_Dat->lAutonum;
-							for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
-							{
-								if ( tmp_val == pTrace_Dat->lTargetNumber )
-								{
-									break;
-								}
-							}
-							
-							if (pTrace_Dat != theApp.m_Trace_Dat.end())
-							{
-								pComm_Dat->dElevationAngle = pTrace_Dat->dElevationAngle;
-								pComm_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
-							}
-
 							tmp_val = rand();
 							pComm_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
 							tmp_val = rand();

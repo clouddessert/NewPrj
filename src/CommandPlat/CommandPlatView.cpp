@@ -580,6 +580,10 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 {
 	// TODO: Add your message handler code here and/or call default
 	std::map<DWORD, SHIP_POSITION>::iterator pxx_tmp;
+	
+	VCT_ESM_MSG::iterator pESM_Dat;
+	VCT_COMM_MSG::iterator pComm_Dat;
+	VCT_TRACE_MSG::iterator pTrace_Dat;
 
 	if (nIDEvent == 5)
 	{
@@ -587,6 +591,20 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 		::EnterCriticalSection(&(theApp.g_cs));
 		for (pESM_Dat = theApp.m_ESM_Dat.begin(); pESM_Dat != theApp.m_ESM_Dat.end(); pESM_Dat++)
 		{
+			tmp_val = pESM_Dat->lAutonum;
+			for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
+			{
+				if ( tmp_val == pTrace_Dat->lTargetNumber )
+				{
+					break;
+				}
+			}
+			if (pTrace_Dat != theApp.m_Trace_Dat.end())
+			{
+				pESM_Dat->dElevationAngle = pTrace_Dat->dElevationAngle;
+				pESM_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
+			}
+		
 			pESM_Dat->dReachAzimuth = pESM_Dat->dReachAzimuth + 0.0001;
 			pESM_Dat->lSignalReachTime = pESM_Dat->lSignalReachTime + 1;
 //			pESM_Dat->dReachAzimuth = pESM_Dat->dReachAzimuth + 0.0001;
@@ -600,6 +618,21 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 		::EnterCriticalSection(&(theApp.g_cs));
 		for (pComm_Dat = theApp.m_Comm_Dat.begin(); pComm_Dat != theApp.m_Comm_Dat.end(); pComm_Dat++)
 		{
+			tmp_val = pComm_Dat->lAutonum;
+			for (pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
+			{
+				if ( tmp_val == pTrace_Dat->lTargetNumber )
+				{
+					break;
+				}
+			}
+			
+			if (pTrace_Dat != theApp.m_Trace_Dat.end())
+			{
+				pComm_Dat->dElevationAngle = pTrace_Dat->dElevationAngle;
+				pComm_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
+			}
+		
 			pComm_Dat->dReachAzimuth =  pComm_Dat->dReachAzimuth + 0.00015;
 			pComm_Dat->lSignalReachTime =  pComm_Dat->lSignalReachTime + 1;
 		}
