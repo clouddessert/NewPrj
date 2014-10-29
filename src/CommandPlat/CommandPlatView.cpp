@@ -7,6 +7,8 @@
 #include "CommandPlatDoc.h"
 #include "CommandPlatView.h"
 
+#include "gs.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -585,6 +587,14 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 	VCT_COMM_MSG::iterator pComm_Dat;
 	VCT_TRACE_MSG::iterator pTrace_Dat;
 
+	std::map<DWORD, ST_ALL_MSG>::iterator p_tmp_it;
+
+	OriginGEO stRef;
+	PositionGEO	stVal;
+	PositionPolar stOut;
+	
+	int tmp_val;
+
 	if (nIDEvent == 5)
 	{
 		//updata Data
@@ -605,9 +615,38 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 				pESM_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
 			}
 		
-			pESM_Dat->dReachAzimuth = pESM_Dat->dReachAzimuth + 0.0001;
+			tmp_val = rand();
+			pESM_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+			tmp_val = rand();
+			pESM_Dat->dElevationAngle += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
 			pESM_Dat->lSignalReachTime = pESM_Dat->lSignalReachTime + 1;
-//			pESM_Dat->dReachAzimuth = pESM_Dat->dReachAzimuth + 0.0001;
+		}
+
+		//update data for all ship
+		for (p_tmp_it = theApp.m_AllShipMsg.begin(); p_tmp_it != theApp.m_AllShipMsg.end(); p_tmp_it++)
+		{
+			for (pESM_Dat = p_tmp_it->second.m_ESM_Dat.begin(); pESM_Dat != p_tmp_it->second.m_ESM_Dat.end(); pESM_Dat++)
+			{
+				tmp_val = pESM_Dat->lAutonum;
+				for (pTrace_Dat = p_tmp_it->second.m_Trace_Dat.begin(); pTrace_Dat != p_tmp_it->second.m_Trace_Dat.end(); pTrace_Dat++)
+				{
+					if ( tmp_val == pTrace_Dat->lTargetNumber )
+					{
+						break;
+					}
+				}
+				if (pTrace_Dat != theApp.m_Trace_Dat.end())
+				{
+					pESM_Dat->dElevationAngle = pTrace_Dat->dElevationAngle;
+					pESM_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
+				}
+				
+				tmp_val = rand();
+				pESM_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+				tmp_val = rand();
+				pESM_Dat->dElevationAngle += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+				pESM_Dat->lSignalReachTime = pESM_Dat->lSignalReachTime + 1;
+			}	
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 1;
@@ -633,8 +672,31 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 				pComm_Dat->dReachAzimuth = pTrace_Dat->dAzimuth;
 			}
 		
-			pComm_Dat->dReachAzimuth =  pComm_Dat->dReachAzimuth + 0.00015;
-			pComm_Dat->lSignalReachTime =  pComm_Dat->lSignalReachTime + 1;
+			tmp_val = rand();
+			pComm_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+			tmp_val = rand();
+			pComm_Dat->dElevationAngle += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+		}
+
+		//update data for all ship
+		for (p_tmp_it = theApp.m_AllShipMsg.begin(); p_tmp_it != theApp.m_AllShipMsg.end(); p_tmp_it++)
+		{
+			for (pComm_Dat = p_tmp_it->second.m_Comm_Dat.begin(); pComm_Dat != p_tmp_it->second.m_Comm_Dat.end(); pComm_Dat++)
+			{
+				tmp_val = pComm_Dat->lAutonum;
+				for (pTrace_Dat = p_tmp_it->second.m_Trace_Dat.begin(); pTrace_Dat != p_tmp_it->second.m_Trace_Dat.end(); pTrace_Dat++)
+				{
+					if ( tmp_val == pTrace_Dat->lTargetNumber )
+					{
+						break;
+					}
+				}
+
+				tmp_val = rand();
+				pComm_Dat->dReachAzimuth += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+				tmp_val = rand();
+				pComm_Dat->dElevationAngle += (tmp_val>(RAND_MAX/2)?(0.01*tmp_val/RAND_MAX):(-0.01*tmp_val/RAND_MAX));
+			}	
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 2;
@@ -659,6 +721,47 @@ void CCommandPlatView::OnTimer(UINT nIDEvent)
 			pTrace_Dat->dTX = pTrace_Dat->dTX +0.01;
 			pTrace_Dat->dTY = pTrace_Dat->dTY +0.01;
 			pTrace_Dat->dTZ = pTrace_Dat->dTZ +0.01;
+		}
+
+		//update data for all ship
+		for (p_tmp_it = theApp.m_AllShipMsg.begin(); p_tmp_it != theApp.m_AllShipMsg.end(); p_tmp_it++)
+		{
+			for (pTrace_Dat = p_tmp_it->second.m_Trace_Dat.begin(); pTrace_Dat != p_tmp_it->second.m_Trace_Dat.end(); pTrace_Dat++)
+			{
+				pTrace_Dat->dAzimuth = pTrace_Dat->dAzimuth + 0.00015;
+				pTrace_Dat->dLonti  = pTrace_Dat->dLonti  + 0.0015;
+				pTrace_Dat->dLati  = pTrace_Dat->dLati  +0.0015;
+				pTrace_Dat->dRange = pTrace_Dat->dRange +15.000;
+				pTrace_Dat->dElevationAngle = pTrace_Dat->dElevationAngle +0.0015;
+				pTrace_Dat->lSignalReachTime = pTrace_Dat->lSignalReachTime +1;
+				pTrace_Dat->dTargetAZSpeed = pTrace_Dat->dTargetAZSpeed +0.001;
+				pTrace_Dat->dTargetEAngleSpeed =pTrace_Dat->dTargetEAngleSpeed +0.001;
+				pTrace_Dat->dTSpeedX = pTrace_Dat->dTSpeedX +0.001;
+				pTrace_Dat->dTSpeedY = pTrace_Dat->dTSpeedY +0.001;
+				pTrace_Dat->dTSpeedZ = pTrace_Dat->dTSpeedZ +0.001;
+				pTrace_Dat->dTX = pTrace_Dat->dTX +0.01;
+				pTrace_Dat->dTY = pTrace_Dat->dTY +0.01;
+				pTrace_Dat->dTZ = pTrace_Dat->dTZ +0.01;
+				
+				//calculate the rd
+				pxx_tmp = theApp.m_ShipRelatePlat.find(p_tmp_it->first);
+				if (pxx_tmp != theApp.m_ShipRelatePlat.end())
+				{
+					stRef.dRefLon_ = pxx_tmp->second.dLonti;
+					stRef.dRefLat_ = pxx_tmp->second.dLati;
+					stRef.dRefAlt_ = pxx_tmp->second.dHeight;
+					
+					stVal.dLongitude = pTrace_Dat->dLonti;
+					stVal.dLatitude = pTrace_Dat->dLati;
+					stVal.dAltitude = pTrace_Dat->dObjHeight;	//£¡£¡£¡
+					
+					stOut = GEO2Polar(stVal, stRef);
+					
+					pTrace_Dat->dRange = stOut.dRDistance;
+					pTrace_Dat->dAzimuth = stOut.dAzimuth;
+					pTrace_Dat->dElevationAngle = stOut.dHLowAngle;
+				}
+			}	
 		}
 		::LeaveCriticalSection(&(theApp.g_cs));
 		theApp.cMsgType = 3;

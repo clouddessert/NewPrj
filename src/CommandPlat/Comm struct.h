@@ -35,7 +35,7 @@ typedef struct __ESMSTATUS_MARK
 	 double dPulseExtent;                //脉冲幅度
 	 long lSignalReachTime;              //信号到达时间
 	 double dReachAzimuth;               //到达方位
-         double dElevationAngle;             //仰角
+     double dElevationAngle;             //仰角
 
 //识别信息
 	 char cRadarPurpose[32];             //雷达用途

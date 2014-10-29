@@ -16,6 +16,13 @@
 
 #include "MySocket.h"
 
+typedef struct _ST_ALL_MSG
+{
+	VCT_ESM_MSG m_ESM_Dat;
+	VCT_COMM_MSG m_Comm_Dat;
+	VCT_TRACE_MSG m_Trace_Dat;	
+}ST_ALL_MSG;
+
 /////////////////////////////////////////////////////////////////////////////
 // CCommandPlatApp:
 // See CommandPlat.cpp for the implementation of this class
@@ -67,6 +74,8 @@ public:
 	VCT_SHIP_POSITION::iterator p_CurrentShip;
 
 	std::map<DWORD, SHIP_POSITION>	m_ShipRelatePlat;
+
+	std::map<DWORD, ST_ALL_MSG>	m_AllShipMsg;
 
 public:
 	HWND hESM_wmd;
