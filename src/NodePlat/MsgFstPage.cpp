@@ -112,15 +112,13 @@ BOOL CMsgFstPage::OnInitDialog()
 
 LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)  
 { 
-	//VCT_ESM_MSG::reverse_iterator pESM_Dat;
 	VCT_ESM_MSG::iterator pESM_Dat;
-
 
 	int nTmp = 0;
 	int iTmpProp = 0;
 	float fTmp = 0.0;
 	CString strTmp;
-    int nesm=1;
+ 	unsigned long lTmp;
 
 	if (0 == wParam)
 	{
@@ -130,20 +128,21 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->DeleteAllItems();
 		
 		//显示数据
-		for (pESM_Dat = theApp.m_ESM/*theApp.m_ESM_Dat*/.begin(); pESM_Dat != theApp.m_ESM/*theApp.m_ESM_Dat*/.end(); pESM_Dat++,++nTmp)
-		//逆序显示
-		//for (pESM_Dat = theApp.m_ESM.rbegin(), nesm=1; pESM_Dat != theApp.m_ESM.rend(), nesm<7; ++pESM_Dat,++nTmp,++nesm)
+		for (pESM_Dat = theApp.m_ESM.begin(); pESM_Dat != theApp.m_ESM.end(); pESM_Dat++,++nTmp)
 		{
 
 			strTmp.Format("%s", _T("ESM"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->InsertItem(nTmp, strTmp, 9);
 
-			fTmp = pESM_Dat->lAutonum;
-			strTmp.Format("%d",(int)fTmp);//合批号
+			lTmp = pESM_Dat->lAutonum;
+			strTmp.Format("%d",(int)lTmp);//合批号
+		//	strTmp.Format("%d",pESM_Dat->lAutonum);//合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 0, strTmp);
 
-			fTmp = pESM_Dat->lTargetNumber;//目标批号
-			strTmp.Format("%d",(int)fTmp);
+			lTmp = pESM_Dat->lTargetNumber;//目标批号
+			strTmp.Format("%d",(int)lTmp);
+		//	fTmp = pESM_Dat->lTargetNumber;//目标批号
+		//	strTmp.Format("%d",(int)fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 1, strTmp);
 
 			strTmp.Format("%s",pESM_Dat->cPlatNumber);//平台编号
@@ -226,7 +225,7 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->DeleteAllItems();
 
 	}
-	//m_click_esm.EnsureVisible(m_click_esm.GetItemCount()-1,FALSE); //始终显示当前最新信息
+	m_click_esm.EnsureVisible(m_click_esm.GetItemCount()-1,FALSE); //始终显示当前最新信息
 	
 	return 0;  
 } 

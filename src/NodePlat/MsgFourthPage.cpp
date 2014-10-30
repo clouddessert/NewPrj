@@ -124,7 +124,6 @@ void CMsgFourthPage::OnSize(UINT nType, int cx, int cy)
 LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam) 
 {
 	//这里使用iterator去显示
-	//VCT_IDENTIINFOR_MSG::reverse_iterator iterator;
 	VCT_IDENTIINFOR_MSG::iterator iterator;
 	
 	int nTmp = 0;
@@ -144,9 +143,7 @@ LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
         //int m = theApp.m_IdentifyMsg.size();
 		
         for (iterator = theApp.m_IdentifyMsg.begin(); iterator != theApp.m_IdentifyMsg.end(); iterator++,++nTmp)
-	 	//逆序显示
-		//for (iterator = theApp.m_IdentifyMsg.rbegin(); iterator != theApp.m_IdentifyMsg.rend(); ++iterator,++nTmp)
-		{
+	 	{
 			//strTmp.Format("%s", _T("8000"));
 			//((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertItem(nTmp, strTmp, 9);				
 			fTmp = iterator->lAutonum;//综合批号

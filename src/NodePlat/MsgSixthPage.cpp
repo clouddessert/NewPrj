@@ -118,7 +118,6 @@ BOOL CMsgSixthPage::OnInitDialog()
 
 LRESULT CMsgSixthPage::OnFusEsmMessage(WPARAM wParam, LPARAM lParam)
 {
-	//VCT_ESM_MSG::reverse_iterator pFusESM_Dat;
 	VCT_ESM_MSG::iterator pFusESM_Dat;
 
 	int nTmp = 0;
@@ -135,7 +134,6 @@ LRESULT CMsgSixthPage::OnFusEsmMessage(WPARAM wParam, LPARAM lParam)
 		
 		//显示数据
 	    for (pFusESM_Dat = theApp.m_MulESM.begin(); pFusESM_Dat != theApp.m_MulESM.end(); pFusESM_Dat++,++nTmp)
-		//for (pFusESM_Dat = theApp.m_MulESM.rbegin(); pFusESM_Dat != theApp.m_MulESM.rend(); ++pFusESM_Dat,++nTmp)
 		{
 					strTmp.Format("%s", _T("ESM"));
 					((CListCtrl*)GetDlgItem(IDC_LIST_MulESM))->InsertItem(nTmp, strTmp, 9);
@@ -228,6 +226,5 @@ LRESULT CMsgSixthPage::OnFusEsmMessage(WPARAM wParam, LPARAM lParam)
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulESM))->DeleteAllItems();
 	}
-	 // m_fusEsm.EnsureVisible(m_fusEsm.GetItemCount()-1,FALSE); //始终显示当前最新信息
 	return 0;  
 } 

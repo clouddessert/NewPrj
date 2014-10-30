@@ -116,7 +116,6 @@ void CMsgThreePage::OnSize(UINT nType, int cx, int cy)
 
 LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)  
 {
-	//VCT_TRACE_MSG::reverse_iterator pTrace_Dat;
 	VCT_TRACE_MSG::iterator pTrace_Dat;
 
 
@@ -124,7 +123,6 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 	int iTmpProp = 0;
 	float fTmp = 0.0;
 	CString strTmp;
-	int ntrace = 1;
 
 	if (0 == wParam)
 	{
@@ -135,14 +133,13 @@ LRESULT CMsgThreePage::OnTraceMessage(WPARAM wParam, LPARAM lParam)
 		
 		//显示数据
 		for (pTrace_Dat = theApp.m_Trace.begin(); pTrace_Dat != theApp.m_Trace.end(); pTrace_Dat++,++nTmp)
-		//逆序显示
-		//for (pTrace_Dat = theApp.m_Trace.rbegin(),ntrace =1; pTrace_Dat != theApp.m_Trace.rend(),ntrace <= 2; ++pTrace_Dat,++nTmp, ++ntrace)
 		{
 			strTmp.Format("%s", _T("Trace"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->InsertItem(nTmp, strTmp, 9);
 			
 			fTmp = pTrace_Dat->lAutonum;
 			strTmp.Format("%d",(int)fTmp); //合批号
+//			strTmp.Format("%d",pTrace_Dat->lAutonum); //合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_TRACE))->SetItemText(nTmp, 0, strTmp);
 
 		    fTmp = pTrace_Dat->lTargetNumber;//目标批号

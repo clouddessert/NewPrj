@@ -192,6 +192,9 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 		{
 			SingleIdentify(theApp.m_RecvMsg, theApp.m_ClusterUniMsg, theApp.m_ClusterNoTraceMsg, theApp.m_IdentifyMsg, theApp.m_SingleTrace, theApp.m_SingleEsm, theApp.m_SingleComm);
 			//将编批后的信息存入
+			theApp.m_ESM.clear();
+			theApp.m_Comm.clear();
+			theApp.m_Trace.clear();
 			for (ite_Esm = theApp.m_RecvMsg.stEsm.begin(); ite_Esm != theApp.m_RecvMsg.stEsm.end(); ite_Esm++)
 			{
 				theApp.m_ESM.push_back(*ite_Esm);

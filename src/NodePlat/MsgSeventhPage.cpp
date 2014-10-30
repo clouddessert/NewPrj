@@ -112,8 +112,9 @@ BOOL CMsgSeventhPage::OnInitDialog()
 
 LRESULT CMsgSeventhPage::OnFusCommMessage(WPARAM wParam, LPARAM lParam)  
 {
-	//VCT_COMM_MSG::reverse_iterator pFusComm_Dat;
+	
 	VCT_COMM_MSG::iterator pFusComm_Dat;
+
 	int nTmp = 0;
 	int iTmpProp = 0;
 	float fTmp = 0.0;
@@ -128,8 +129,6 @@ LRESULT CMsgSeventhPage::OnFusCommMessage(WPARAM wParam, LPARAM lParam)
 		
 		//显示数据
 		for (pFusComm_Dat = theApp.m_MulComm.begin(); pFusComm_Dat != theApp.m_MulComm.end(); pFusComm_Dat++,++nTmp)
-		//逆序显示	
-		//for (pFusComm_Dat = theApp.m_MulComm.rbegin(); pFusComm_Dat != theApp.m_MulComm.rend(); pFusComm_Dat++,++nTmp)
 		{					
 			strTmp.Format("%s", _T("Comm"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->InsertItem(nTmp, strTmp, 9);
@@ -192,6 +191,5 @@ LRESULT CMsgSeventhPage::OnFusCommMessage(WPARAM wParam, LPARAM lParam)
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulCOMM))->DeleteAllItems();
 	}
-	//m_fusCom.EnsureVisible(m_fusCom.GetItemCount()-1,FALSE); //始终显示当前最新信息 
 	return 0;  
 } 

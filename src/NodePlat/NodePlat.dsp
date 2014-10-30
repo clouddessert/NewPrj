@@ -279,6 +279,10 @@ SOURCE=.\QBIdentiGraph.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\QBsinIdenti.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Alg\SingleIdentify.cpp
 
 !IF  "$(CFG)" == "NodePlat - Win32 Release"
@@ -502,6 +506,10 @@ SOURCE=.\QBIdenti.h
 # Begin Source File
 
 SOURCE=.\QBIdentiGraph.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\QBsinIdenti.h
 # End Source File
 # Begin Source File
 

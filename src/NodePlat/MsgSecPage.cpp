@@ -111,14 +111,13 @@ BOOL CMsgSecPage::OnInitDialog()
 
 LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)  
 {
-	//VCT_COMM_MSG::reverse_iterator pComm_Dat;
 	VCT_COMM_MSG::iterator pComm_Dat;
 
 	int nTmp = 0;
 	int iTmpProp = 0;
 	float fTmp = 0.0;
 	CString strTmp;
-	int ncom = 1;
+ 	unsigned long lTmp;
 
 	if (0 == wParam)
 	{
@@ -128,15 +127,14 @@ LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->DeleteAllItems();
 		
 		//显示数据
-		for (pComm_Dat = theApp.m_Comm/*theApp.m_Comm_Dat*/.begin(); pComm_Dat != theApp.m_Comm/*theApp.m_Comm_Dat*/.end(); pComm_Dat++,++nTmp)
-        //逆序输出
-		//for (pComm_Dat = theApp.m_Comm.rbegin(), ncom =1; pComm_Dat != theApp.m_Comm.rend(), ncom <= 3; ++pComm_Dat,++nTmp,++ncom)
-		{
+		for (pComm_Dat = theApp.m_Comm.begin(); pComm_Dat != theApp.m_Comm.end(); pComm_Dat++,++nTmp)
+        {
 			strTmp.Format("%s", _T("Comm"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->InsertItem(nTmp, strTmp, 9);
 			
-		    fTmp = pComm_Dat->lAutonum;
-			strTmp.Format("%d",(int)fTmp);//合批号
+		    lTmp = pComm_Dat->lAutonum;
+			strTmp.Format("%d",(int)lTmp);//合批号
+		//	strTmp.Format("%d",pComm_Dat->lAutonum);//合批号
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->SetItemText(nTmp, 0, strTmp);
 
 			fTmp = pComm_Dat->lTargetNumber;//目标批号

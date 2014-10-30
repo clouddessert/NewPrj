@@ -123,8 +123,7 @@ void CMsgFifthPage::OnSize(UINT nType, int cx, int cy)
 
 LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam) 
 {
-	//这里使用reverse_iterator逆序显示
-	//VCT_MIDENTIINFOR_MSG::reverse_iterator iterator;
+	//这里使用iterator显示
 	VCT_MIDENTIINFOR_MSG::iterator iterator;
 // 	VCT_ESM_MSG::iterator iteEsm;
 // 	VCT_COMM_MSG::iterator iteComm;
@@ -143,8 +142,7 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 		
 		//显示数据
 		for (iterator = theApp.m_MulIdentifyMsg.begin(); iterator != theApp.m_MulIdentifyMsg.end(); iterator++,++nTmp)
-	    //for (iterator = theApp.m_MulIdentifyMsg.rbegin(); iterator != theApp.m_MulIdentifyMsg.rend(); ++iterator,++nTmp)
-		{
+	    {
 			//strTmp.Format("%s", _T("8000"));
 			//((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertItem(nTmp, strTmp, 9);				
 			fTmp = iterator->lAutonum;//综合批号
@@ -168,8 +166,7 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 		//清除显示列表
 		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->DeleteAllItems();
 	}
-     //m_mulidentify.EnsureVisible(m_mulidentify.GetItemCount()-1,FALSE); //始终显示当前最新信息
-	return 0;
+     return 0;
 }
 
 
