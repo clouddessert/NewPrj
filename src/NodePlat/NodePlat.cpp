@@ -793,7 +793,7 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 						{
 							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(1);
 						}
-						if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+						if ( m_ThisNumber == 2) // 代表C舰获得的经纬高
 						{
 							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
 						}
@@ -866,7 +866,7 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 						{
 							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(1);
 						}
-						if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+						if ( m_ThisNumber == 2) // 代表c舰获得的经纬高
 						{
 							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
 						}

@@ -14,6 +14,7 @@ class CEvaluDlg : public CDialog
 {
 // Construction
 public:
+	int nmulFlag; //0时为单舰识别,1时为多舰识别
 	CDatabase m_dbfus;
 	CDatabase m_dbidenti;
 	void OpenIdentiDb();

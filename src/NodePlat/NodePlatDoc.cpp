@@ -636,6 +636,7 @@ void CNodePlatDoc::OnEvaSin()
 {
 	// TODO: Add your command handler code here
 	CEvaluDlg dlg;
+	dlg.nmulFlag = 0;  //单舰
 	dlg.DoModal(); //性能评估1
 
 // 	CEIdenFusVALU dlg;
@@ -648,6 +649,7 @@ void CNodePlatDoc::OnEvaMul()
 {
 	// TODO: Add your command handler code here
 	CEvaluDlg dlg;
+	dlg.nmulFlag = 1; //多舰
 	dlg.DoModal();//性能评估1
 
 // 	CEIdenFusVALU dlg;
@@ -657,6 +659,7 @@ void CNodePlatDoc::OnEvaMul()
 void CNodePlatDoc::OnEvatuate()
 {
 	CEvaluDlg dlg;
+	dlg.nmulFlag = 1; //多舰
 	dlg.DoModal();	//性能评估1
 
 // 	CEIdenFusVALU dlg;

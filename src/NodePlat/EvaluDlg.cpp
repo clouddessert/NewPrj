@@ -12,6 +12,7 @@
 #include "QBFus.h"
 #include "ZDFusGraph.h"
 #include "QBFusGraph.h"
+#include "QBsinIdenti.h"
 
 
 #ifdef _DEBUG
@@ -186,15 +187,25 @@ void CEvaluDlg::OnOK()
 			if (pBtn2->GetCheck())
 			{
 				//全部识别精度图形显示 图形类
-				CQBIdentiGraph dlg;
+			//	CQBIdentiGraph dlg;
 				CDialog::OnOK();
-				dlg.DoModal();
+			//	dlg.DoModal();
 			}
 			else
 			{   //全部识别精度表格显示
-				CQBIdenti dlg; 
-				CDialog::OnOK();
-				dlg.DoModal();
+				if (nmulFlag == 0)
+				{
+					CQBsinIdenti dlg;
+					CDialog::OnOK();
+					dlg.DoModal();
+				}
+				if (nmulFlag ==1)
+				{
+					CQBIdenti dlg; 
+					CDialog::OnOK();
+				    dlg.DoModal();
+				}
+
 			}
 
 		}
@@ -301,7 +312,7 @@ void CEvaluDlg::OnSelchangeComboFangshi()
 	{
 		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_HIDE); //不显示表格
+		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW); //不显示表格
 		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW); //图形显示
 	}		
 }
@@ -402,7 +413,7 @@ void CEvaluDlg::OnSelchangeComboLeibie()
 	{
 		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW);
 	}		
 }

@@ -189,33 +189,7 @@ void CZDFus::ShowData(int number)
 		m_dbset.GetFieldValue("RG_deta",str);  
 		str.Format("%.2f",atof(str));
 		((CListCtrl*)GetDlgItem(IDC_LIST_ZDFUS))->SetItemText(nTmp, 12, strTmp);
-		
-// 		m_dbset.GetFieldValue("JJ_loc",str);		
-// 		str.Format("%.2f",atof(str));
-// 		m_msfg_zdloc.SetTextMatrix(i,10,str);
-// 
-// 		m_dbset.GetFieldValue("JJ_d",str);
-// 		double jj_d=atof(str);
-//         double lv=fabs(100.0*jj_d/jj_true);
-// 		str.Format("%.1f%%R",lv);
-// 		m_msfg_zdloc.SetTextMatrix(i,11,str);
-// 
-// 		m_dbset.GetFieldValue("JJ_deta",str);          
-// 		str.Format("%.2f",atof(str));
-// 		m_msfg_zdloc.SetTextMatrix(i,12,str);
-// 
-// 		m_dbset.GetFieldValue("ANGLE_true",str);          
-// 		str.Format("%.2f",atof(str));
-// 		m_msfg_zdloc.SetTextMatrix(i,13,str);
-// 
-// 		m_dbset.GetFieldValue("ANGLE_loc",str);          
-// 		str.Format("%.2f",atof(str));
-// 		m_msfg_zdloc.SetTextMatrix(i,14,str);
-// 
-// 		m_dbset.GetFieldValue("ANGLE_d",str);          
-// 		str.Format("%.2f",atof(str));
-// 		m_msfg_zdloc.SetTextMatrix(i,15,str);
-		
+				
 		m_dbset.MovePrev();
 		i++;
 	    ((CListCtrl*)GetDlgItem(IDC_LIST_ZDFUS))->SetRedraw();//Æô¶¯

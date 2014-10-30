@@ -156,6 +156,7 @@ public:
 	//全部识别(表格+图形)
 	HWND hQbSb_wnd;
 	HWND hQbSbTu_wnd;
+	HWND hQbsinSb_wnd;
 	//指定融合(表格+图形)
 	HWND hZdFus_wnd;
 	HWND hZdFusTu_wnd;

@@ -48,6 +48,7 @@
 #define IDD_DIALOG_QBSHIBIETU           182
 #define IDD_DIALOG_QBFUSTU              183
 #define IDD_DIALOG_ZDFUSTU              184
+#define IDD_DIALOG_QBSINSHIBIE          186
 #define IDC_LIST_ESM                    1000
 #define IDC_LIST_COMMUNICATE            1001
 #define IDC_LIST_TRACE                  1002
@@ -133,6 +134,7 @@
 #define IDC_STATIC_NB                   1105
 #define IDC_STATIC02                    1106
 #define IDC_STATIC12                    1107
+#define IDC_LIST_SIN                    1108
 #define IDM_SYSTEM                      32771
 #define IDM_NETWORK_SETTING             32772
 #define IDM_TEAM_SERVICE_START          32773
@@ -167,9 +169,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        186
+#define _APS_NEXT_RESOURCE_VALUE        187
 #define _APS_NEXT_COMMAND_VALUE         32814
-#define _APS_NEXT_CONTROL_VALUE         1108
+#define _APS_NEXT_CONTROL_VALUE         1109
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
