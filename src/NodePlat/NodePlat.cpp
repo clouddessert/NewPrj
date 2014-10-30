@@ -46,6 +46,7 @@ CNodePlatApp::CNodePlatApp()
 	m_RecvMsg.stEsm.clear();
 	m_RecvMsg.stTrace.clear();
 
+	
 	m_SendReqMsg_Dat.clear();          //发送的请求信息，由多个结构体组成的容器(已经转成含有数组的容器)
 	m_RecvReqMsg_Dat.clear();          //接收请求信息
 	m_SendBackMsg_Dat.clear();         //发送返回匹配信息
@@ -661,6 +662,7 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 	long int lnum;//请求的合批号
 	lnum = m_ESM.at(m_iline).lAutonum;//获取请求协同的批号
 	int flag =0;
+	int l = m_RequestNum_Dat.size();
 	for (iteNum = m_RequestNum_Dat.begin(); iteNum != m_RequestNum_Dat.end(); iteNum++)
 	{
 		if (lnum == *iteNum)
@@ -725,9 +727,9 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 			{   
 				for (iteYes = theApp.m_ClusterUniMsg.begin(), s=1 ; s <= theApp.m_ClusterUniMsg.size() /*theApp.m_ClusterUniMsg.end()*/; iteYes++ ,s++)
 				{
-					if (iteYes->lAutonum == lnum)
+					if (iteYes->lAutonum == *iteNum)
 					{
-						m_StRequest.lAutonum = lnum;//合批号
+						m_StRequest.lAutonum = *iteNum;//合批号
 						m_StRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
 						if (iteYes->vctEsm.size())//请求协同ESM信息
 						{
@@ -766,9 +768,9 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 			{
 				for (iteNo = theApp.m_ClusterNoTraceMsg.begin() ,t=1; t<=theApp.m_ClusterNoTraceMsg.size()/* iteNo != theApp.m_ClusterNoTraceMsg.end()*/; iteNo++,t++)
 				{
-					if (iteNo->lAutonum == lnum)
+					if (iteNo->lAutonum == *iteNum)
 					{
-						m_StRequest.lAutonum = lnum;//合批号
+						m_StRequest.lAutonum = *iteNum;//合批号
 						//memset(&(StRequest.stTrace), 0, sizeof(TRACKSTATUS_MARK);
 						if (iteNo->vctEsm.size())//请求协同ESM信息
 						{
@@ -825,18 +827,19 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 		int n = m_RequestNum_Dat.size();
 		for (iteNum = m_RequestNum_Dat.begin(); iteNum != m_RequestNum_Dat.end(); iteNum++)
 		{
-			if ((*iteNum) >=8000)//(lnum >= 8000)   //????????????????是不是同一时刻的,从容器中转存为数组结构体
+			if (*iteNum >=8000)//(lnum >= 8000)   //????????????????是不是同一时刻的,从容器中转存为数组结构体
 			{
 				for (iteYes = theApp.m_ClusterUniMsg.begin(), s=1 ; s <= theApp.m_ClusterUniMsg.size() /* iteYes != theApp.m_ClusterUniMsg.end()*/; iteYes++,s++)
 				{
-					if (iteYes->lAutonum == lnum)
+					if (iteYes->lAutonum == *iteNum)
+					//if (iteYes->lAutonum == lnum)
 					{	
 						/*请求结构体*/
 						//StSendRequest.num ++;//信息单元序号???????????????
 						//long int nStampTime;             //发送请求信息时的当前时间??????????
 						strcpy(theApp.m_StSendRequest.sReceiveIp, iteMap->second);//接收方IP
 						strcpy(theApp.m_StSendRequest.sSendIp, theApp.m_strLocalIP);//发送方IP
-						theApp.m_StSendRequest.lAutomn = lnum;//合批号
+						theApp.m_StSendRequest.lAutomn = *iteNum;//合批号
 						theApp.m_StSendRequest.stTrace = iteYes->structTrace;//请求协同TRACE信息
 						theApp.m_StSendRequest.nRequestEsmN = iteYes->vctEsm.size();
 						theApp.m_StSendRequest.nRequestComN = iteYes->vctComm.size();
@@ -881,7 +884,8 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 			{
 				for (iteNo = theApp.m_ClusterNoTraceMsg.begin(),t=1; t<=theApp.m_ClusterNoTraceMsg.size()/* iteNo != theApp.m_ClusterNoTraceMsg.end()*/; iteNo++,t++)
 				{
-					if (iteNo->lAutonum == lnum)
+					if (iteNo->lAutonum == *iteNum)
+					//if (iteNo->lAutonum == lnum)
 					{
 						/*请求结构体*/				
 						//StSendRequest.num ++;//信息单元序号???????????????

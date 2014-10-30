@@ -333,6 +333,7 @@ void CNodePlatDoc::ReceiveData(CSocket* pThis)
 		//保存到接收的buffer,over
 		{
 			SendBack_Msg tmpRecBack_Msg;
+			//theApp.m_RecvBackMsg_Dat.clear();
 			::EnterCriticalSection(&(theApp.g_cs));
 			ZeroMemory(&tmpRecBack_Msg, sizeof(SendBack_Msg));
 			pThis->Receive(&tmpRecBack_Msg, sizeof(SendBack_Msg));	//都用vector做缓冲区!!!!!!!

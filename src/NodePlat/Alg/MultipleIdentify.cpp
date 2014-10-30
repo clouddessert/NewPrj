@@ -519,7 +519,7 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 	double p = 1.0;
 	int tpflag;
 	int Seri[10]={0};
-	double con[50];
+	double con[5000];
 	double CPdere;      //综合置信度
 	MIDENTIINFOR MidentStr;          //识别结果
 
@@ -618,7 +618,7 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 
 		D_S(NumMsg, NumType, con, Seri, &CPdere);//DS证据识别
 
-		MidentStr.lAutonum = iteCoorMsg->lAutonum;
+		MidentStr.lAutonum = iteCoMessage->lAutonum;
 		//MidentStr.dConfidence = CPdere;
         int b = Seri[0] -1;
 		//MidentStr.sPlatType = vctPlatType[Seri[0]-1];
