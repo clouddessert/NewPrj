@@ -51,11 +51,16 @@ BOOL CQBIdenti::OnInitDialog()
 	CString QBSB_Columns[]=
 	{
 		_T("合批号"),//0
-			_T("下发类型"),//1		
-			_T("实际类型"),//2
-			_T("综合识别类型"),//3
-			_T("综合识别可信度"),//4
-			_T("识别率"),//5
+			_T("主舰识别类型"),//1	
+			_T("主舰识别可信度"),//2
+			_T("邻舰一识别类型"),//3
+			_T("邻舰一识别可信度"),//4
+			_T("邻舰二识别类型"),//5
+			_T("邻舰二识别可信度"),//6
+            _T("实际类型"),//7
+			_T("综合识别类型"),//8
+			_T("综合识别可信度"),//9
+			_T("识别率"),//10
 			
 	};
 	((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
@@ -101,22 +106,34 @@ void CQBIdenti::ShowData()
 		m_dbset.GetFieldValue("sb_ty",tmp);
 		strTmp.Format("%s",tmp);
 		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 1, strTmp);
-		
-		m_dbset.GetFieldValue("real_ty",tmp);
+
+		m_dbset.GetFieldValue("sb_con",tmp);
 		strTmp.Format("%s",tmp);
 		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 2, strTmp);
+
+		m_dbset.GetFieldValue("lj1_ty",tmp);
+		strTmp.Format("%s",tmp);
+		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 3, strTmp);
+
+		m_dbset.GetFieldValue("lj1_con",tmp);
+		strTmp.Format("%s",tmp);
+		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 4, strTmp);
+
+		m_dbset.GetFieldValue("real_ty",tmp);
+		strTmp.Format("%s",tmp);
+		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 7, strTmp);
 		
 		m_dbset.GetFieldValue("zh_ty",tmp);
 		strTmp.Format("%s",tmp);
-		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 3, strTmp);
+		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 8, strTmp);
 		
 		m_dbset.GetFieldValue("zh_con",tmp);
 		strTmp.Format("%s",tmp);
-		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 4, strTmp);
+		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 9, strTmp);
 		
 		m_dbset.GetFieldValue("sbl",tmp);
 		strTmp.Format("%s",tmp);
-		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 5, strTmp);
+		((CListCtrl*)GetDlgItem(IDC_LIST_QBSB))->SetItemText(nTmp, 10, strTmp);
 		
 		
 		i++;

@@ -112,12 +112,12 @@ void CZDFus::ShowData(int number)
 
 	//CDatabase m_dbesm;
 	GetCurrentDirectory(1024, strFile);
-	strcat(strFile, "\\DB\\Location.mdb\0");
+	strcat(strFile, "\\DB\\Fusion.mdb\0");
 	strDsn.Format("ODBC;DRIVER={%s};UID=sa;PWD=;DBQ=%s",strDriver,strFile);
 	m_db.Open(NULL,false,false,strDsn,false);
 	CString p_query;
 //	int num(8200);
-	p_query.Format("select* from %dLoc",num);
+	p_query.Format("select* from %dFus",num);
     CRecordset m_dbset(&m_db);
 	CString strSQL;
 	if(!m_dbset.Open(CRecordset::dynaset,p_query,CRecordset::readOnly))
