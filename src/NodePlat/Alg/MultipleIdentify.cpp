@@ -519,7 +519,7 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 	double p = 1.0;
 	int tpflag;
 	int Seri[10]={0};
-	double con[5000];
+	double con[50000];
 	double CPdere;      //综合置信度
 	MIDENTIINFOR MidentStr;          //识别结果
 

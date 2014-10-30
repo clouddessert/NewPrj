@@ -1092,6 +1092,10 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 	//判断数据返回
 	if (theApp.m_BackMsg.size() != 0)
 	{
+		theApp.m_MulIdentifyMsg.clear();
+		theApp.m_MulTrace.clear();
+		theApp.m_MulESM.clear();
+		theApp.m_MulComm.clear();
 		//调用算法
 		GET_CooperateMsg_Modul(theApp.m_StSendRequest.stReqShipPosi,theApp.m_RequestMsg, theApp.m_BackMsg, theApp.m_CooperMsg);
 		/* 综合识别结果*/
