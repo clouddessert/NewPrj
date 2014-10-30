@@ -209,7 +209,7 @@ void CParamFourthPage::OnInitADOConn()
 		
 	//	pConn->ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\1021 NodePlat\\db\\Database.mdb;Persist Security Info=False";
 	//  pConn->ConnectionString="Provider=MSDASQL.1;Persist Security Info=False;User ID=Admin;Data Source=MS Access Database;Initial Catalog=..\\1023 NodePlat 完善命令显示 加库 添加本舰的经纬高\\db\\Database.mdb";
-	    pConn->ConnectionString="Provider=MSDASQL.1;Persist Security Info=False;User ID=sa;Data Source=MS Access Database;Initial Catalog=..\\NodePlat\\db\\Database.mdb";
+	    pConn->ConnectionString="Provider=MSDASQL.1;Persist Security Info=False;User ID=sa;Data Source=MS Access Database;Initial Catalog=db\\Database.mdb";
 		pConn->Open("","","",adConnectUnspecified);
 	}catch(_com_error e)
 	{
