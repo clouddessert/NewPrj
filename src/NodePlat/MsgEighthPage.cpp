@@ -109,7 +109,8 @@ BOOL CMsgEighthPage::OnInitDialog()
 }
 LRESULT CMsgEighthPage:: OnFusTraceMessage(WPARAM wParam, LPARAM lParam)
 {
-	VCT_TRACE_MSG::reverse_iterator pFusTrace_Dat;	
+	//VCT_TRACE_MSG::reverse_iterator pFusTrace_Dat;	
+	VCT_TRACE_MSG::iterator pFusTrace_Dat;	
 	int nTmp = 0;
 	int iTmpProp = 0;
 	float fTmp = 0.0;
@@ -123,9 +124,9 @@ LRESULT CMsgEighthPage:: OnFusTraceMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->DeleteAllItems();
 		
 		//显示数据
-		//for (pFusTrace_Dat = theApp.m_MulTrace.begin(); pFusTrace_Dat != theApp.m_MulTrace.end(); pFusTrace_Dat++,++nTmp)
+		for (pFusTrace_Dat = theApp.m_MulTrace.begin(); pFusTrace_Dat != theApp.m_MulTrace.end(); pFusTrace_Dat++,++nTmp)
 		//逆序显示
-		for (pFusTrace_Dat = theApp.m_MulTrace.rbegin(); pFusTrace_Dat != theApp.m_MulTrace.rend(); pFusTrace_Dat++,++nTmp)
+		//for (pFusTrace_Dat = theApp.m_MulTrace.rbegin(); pFusTrace_Dat != theApp.m_MulTrace.rend(); pFusTrace_Dat++,++nTmp)
 		{
 			strTmp.Format("%s", _T("Trace"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_MulTRACE))->InsertItem(nTmp, strTmp, 9);

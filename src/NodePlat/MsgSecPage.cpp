@@ -111,7 +111,8 @@ BOOL CMsgSecPage::OnInitDialog()
 
 LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)  
 {
-	VCT_COMM_MSG::reverse_iterator pComm_Dat;
+	//VCT_COMM_MSG::reverse_iterator pComm_Dat;
+	VCT_COMM_MSG::iterator pComm_Dat;
 
 	int nTmp = 0;
 	int iTmpProp = 0;
@@ -127,9 +128,9 @@ LRESULT CMsgSecPage::OnCommMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->DeleteAllItems();
 		
 		//显示数据
-		//for (pComm_Dat = theApp.m_Comm/*theApp.m_Comm_Dat*/.begin(); pComm_Dat != theApp.m_Comm/*theApp.m_Comm_Dat*/.end(); pComm_Dat++,++nTmp)
+		for (pComm_Dat = theApp.m_Comm/*theApp.m_Comm_Dat*/.begin(); pComm_Dat != theApp.m_Comm/*theApp.m_Comm_Dat*/.end(); pComm_Dat++,++nTmp)
         //逆序输出
-		for (pComm_Dat = theApp.m_Comm.rbegin(), ncom =1; pComm_Dat != theApp.m_Comm.rend(), ncom <= 3; ++pComm_Dat,++nTmp,++ncom)
+		//for (pComm_Dat = theApp.m_Comm.rbegin(), ncom =1; pComm_Dat != theApp.m_Comm.rend(), ncom <= 3; ++pComm_Dat,++nTmp,++ncom)
 		{
 			strTmp.Format("%s", _T("Comm"));
 			((CListCtrl*)GetDlgItem(IDC_LIST_COMMUNICATE))->InsertItem(nTmp, strTmp, 9);

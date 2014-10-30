@@ -118,7 +118,8 @@ BOOL CMsgSixthPage::OnInitDialog()
 
 LRESULT CMsgSixthPage::OnFusEsmMessage(WPARAM wParam, LPARAM lParam)
 {
-	VCT_ESM_MSG::reverse_iterator pFusESM_Dat;
+	//VCT_ESM_MSG::reverse_iterator pFusESM_Dat;
+	VCT_ESM_MSG::iterator pFusESM_Dat;
 
 	int nTmp = 0;
 	int iTmpProp = 0;
@@ -133,8 +134,8 @@ LRESULT CMsgSixthPage::OnFusEsmMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_MulESM))->DeleteAllItems();
 		
 		//ÏÔÊ¾Êý¾Ý
-	    //for (pFusESM_Dat = theApp.m_MulESM.begin(); pFusESM_Dat != theApp.m_MulESM.end(); pFusESM_Dat++,++nTmp)
-		for (pFusESM_Dat = theApp.m_MulESM.rbegin(); pFusESM_Dat != theApp.m_MulESM.rend(); ++pFusESM_Dat,++nTmp)
+	    for (pFusESM_Dat = theApp.m_MulESM.begin(); pFusESM_Dat != theApp.m_MulESM.end(); pFusESM_Dat++,++nTmp)
+		//for (pFusESM_Dat = theApp.m_MulESM.rbegin(); pFusESM_Dat != theApp.m_MulESM.rend(); ++pFusESM_Dat,++nTmp)
 		{
 					strTmp.Format("%s", _T("ESM"));
 					((CListCtrl*)GetDlgItem(IDC_LIST_MulESM))->InsertItem(nTmp, strTmp, 9);

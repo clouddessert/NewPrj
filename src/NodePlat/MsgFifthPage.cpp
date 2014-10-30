@@ -124,7 +124,8 @@ void CMsgFifthPage::OnSize(UINT nType, int cx, int cy)
 LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam) 
 {
 	//这里使用reverse_iterator逆序显示
-	VCT_MIDENTIINFOR_MSG::reverse_iterator iterator;
+	//VCT_MIDENTIINFOR_MSG::reverse_iterator iterator;
+	VCT_MIDENTIINFOR_MSG::iterator iterator;
 // 	VCT_ESM_MSG::iterator iteEsm;
 // 	VCT_COMM_MSG::iterator iteComm;
 	
@@ -141,8 +142,8 @@ LRESULT CMsgFifthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 		((CListCtrl*)GetDlgItem(IDC_LIST_UNICLUSTERMSG))->DeleteAllItems();
 		
 		//显示数据
-		//for (iterator = theApp.m_MulIdentifyMsg.begin(); iterator != theApp.m_MulIdentifyMsg.end(); iterator++,++nTmp)
-	    for (iterator = theApp.m_MulIdentifyMsg.rbegin(); iterator != theApp.m_MulIdentifyMsg.rend(); ++iterator,++nTmp)
+		for (iterator = theApp.m_MulIdentifyMsg.begin(); iterator != theApp.m_MulIdentifyMsg.end(); iterator++,++nTmp)
+	    //for (iterator = theApp.m_MulIdentifyMsg.rbegin(); iterator != theApp.m_MulIdentifyMsg.rend(); ++iterator,++nTmp)
 		{
 			//strTmp.Format("%s", _T("8000"));
 			//((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertItem(nTmp, strTmp, 9);				
