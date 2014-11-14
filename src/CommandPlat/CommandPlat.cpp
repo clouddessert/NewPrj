@@ -546,6 +546,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dERPower = 10;
 	strcpy(stEsmStatus.cCountry,_T("中国"));
 	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	stEsmStatus.dDWConfidence = (float)0.8;
 	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
 	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
 //10.13 载频信息，脉冲幅度，仰角，脉冲特征
@@ -576,6 +577,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dERPower = 12;
 	strcpy(stEsmStatus.cCountry,_T("中国"));
 	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	stEsmStatus.dDWConfidence = (float)0.8;
 	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
 	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
 //10.13 载频信息，脉冲幅度，仰角，脉冲特征
@@ -606,6 +608,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dERPower = 11;
 	strcpy(stEsmStatus.cCountry,_T("中国"));
 	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	stEsmStatus.dDWConfidence = (float)0.8;
 	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
 	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
 //10.13 载频信息，脉冲幅度，仰角，脉冲特征
@@ -636,6 +639,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dERPower = 10;
 	strcpy(stEsmStatus.cCountry,_T("中国"));
 	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	stEsmStatus.dDWConfidence = (float)0.8;
 	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
 	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
 //10.13 载频信息，脉冲幅度，仰角，脉冲特征
@@ -666,6 +670,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dERPower = 15;
 	strcpy(stEsmStatus.cCountry,_T("中国"));
 	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	stEsmStatus.dDWConfidence = (float)0.8;
 	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
 	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
 //10.13 载频信息，脉冲幅度，仰角，脉冲特征
@@ -696,6 +701,7 @@ void CCommandPlatApp::OnStartJq()
 	stEsmStatus.dERPower = 13;
 	strcpy(stEsmStatus.cCountry,_T("中国"));
 	strcpy(	stEsmStatus.cDWAttribute,_T("我方"));
+	stEsmStatus.dDWConfidence = (float)0.8;
 	strcpy(	stEsmStatus.cRadarPurpose,_T("目标探测"));
 	strcpy(	stEsmStatus.cRadarName,_T("目标探测雷达"));
 //10.13 载频信息，脉冲幅度，仰角，脉冲特征
@@ -781,6 +787,8 @@ void CCommandPlatApp::OnStartJq()
 //	stTrackStatus.sPlatType = 117;          //平台类型
     strcpy(stTrackStatus.sPlatType ,_T("F117"));
 	stTrackStatus.dConfidence = (float)0.3;
+	strcpy(	stTrackStatus.cDWAttribute,_T("我方"));
+	stTrackStatus.dDWConfidence = (float)0.8;
 	stTrackStatus.lJfFlag = 0;
 	stTrackStatus.dLonti = (float)118.20;   //目标经度 
 	stTrackStatus.dLati = (float)24.10;     //目标纬度
@@ -797,6 +805,8 @@ void CCommandPlatApp::OnStartJq()
 //	stTrackStatus.sPlatType = 118;
 	strcpy(stTrackStatus.sPlatType,_T("F118")); 
 	stTrackStatus.dConfidence = (float)0.2;
+	strcpy(	stTrackStatus.cDWAttribute,_T("我方"));
+	stTrackStatus.dDWConfidence = (float)0.8;
 	stTrackStatus.lJfFlag = 0;
 	stTrackStatus.dLonti = (float)117.30;   //目标经度
 	stTrackStatus.dLati = (float)24.20;     //目标纬度

@@ -3,8 +3,11 @@
 
 #pragma warning(disable : 4786)
 #include <vector>
+#include <map>
 using namespace std;
 typedef vector<int> VCT_INT;
+typedef vector<VCT_INT> VV_INT;
+typedef vector<double> VCT_DOUBLE;
 
 typedef struct __SHIP_POSITION           //舰的经纬高
 {
@@ -18,38 +21,38 @@ typedef struct __SHIP_POSITION           //舰的经纬高
 typedef struct __ESMSTATUS_MARK   
 {
 
-// 报文信息
-	  char head;				         // 报文头
-// 身份标识	
-	  unsigned long lAutonum;			 //综合批号
-	  char cPlatNumber[32];              //平台编号
-      char cEquipmentNumber[32];         //设备编号
-      char cEquipmentType[32];           //设备类型
-      unsigned long lTargetNumber;       //目标批号 
-// 测量信息
-	 double dZaiPin;                     //载频信息结构
-	 double dChongPin;                   //重频信息结构
-	 double dMaiKuan;                    //脉宽信息结构
-	 double dTianXianScan;               //天线扫描信息结构
-	 double dMaiChongFeature;            //脉冲特征信息结构
-	 double dPulseExtent;                //脉冲幅度
-	 long lSignalReachTime;              //信号到达时间
-	 double dReachAzimuth;               //到达方位
-     double dElevationAngle;             //仰角
-
-//识别信息
-	 char cRadarPurpose[32];             //雷达用途
-	 char cRadarName[32];                //雷达名称
-	 double dThreatLevel;                //威胁等级0--7
-	 double dERPower;                    //有效辐射功率
-// unsigned short sPlatType;             //平台类型   (F117； F118； 'F119； F120；F121)
-	 char sPlatType[32];  
-	 char cPlatName[32];                 //平台名称  飞机 导弹 轰炸机 战斗机
-
-	 char cDWAttribute[32];                  //敌我属性
-	 double dConfidence;                 //可信度
-     char cCountry[32];                  //国家（地区）
-
+	// 报文信息
+	char head;				         // 报文头
+	// 身份标识	
+	unsigned long lAutonum;			 //综合批号
+	char cPlatNumber[32];              //平台编号
+	char cEquipmentNumber[32];         //设备编号
+	char cEquipmentType[32];           //设备类型
+	unsigned long lTargetNumber;       //目标批号 
+	
+	double dZaiPin;                     //载频信息结构
+	double dChongPin;                   //重频信息结构
+	double dMaiKuan;                    //脉宽信息结构
+	double dTianXianScan;               //天线扫描信息结构（天线扫描周期）
+	double dMaiChongFeature;            //脉冲特征信息结构（脉冲频率）
+	double dPulseExtent;                //脉冲幅度
+	long lSignalReachTime;              //信号到达时间
+	double dReachAzimuth;               //到达方位
+	double dElevationAngle;             //仰角
+	
+	//识别信息
+	char cRadarPurpose[32];             //雷达用途
+	char cRadarName[32];                //雷达名称
+	double dThreatLevel;                //威胁等级0--7
+	double dERPower;                    //有效辐射功率
+	// unsigned short sPlatType;             //平台类型   (F117； F118； 'F119； F120；F121)
+	char sPlatType[32];                 //平台型号   (F117； F118； 'F119； F120；F121)
+	char cPlatName[32];                 //平台名称  飞机 导弹 轰炸机 战斗机
+	double dConfidence;                 //平台型号可信度
+    char cDWAttribute[32];              //敌我属性 (IFF信息)
+	double dDWConfidence;               //敌我可信度
+	char cCountry[32];                  //国家（地区）
+	
 	unsigned long lJfFlag;               //聚类标记
 	unsigned long lFlag;                 //累加标记
 	//1016补充
@@ -81,16 +84,17 @@ typedef struct __COMSTATUS_MARK           //通信侦查信息
 	unsigned long lSignalReachTime;      //信号到达时间
    	double dPulseExtent;                 //脉冲幅度 
 // 0909补充:
-     	double dComFre;                       // 中心频率(MHz)
+    double dComFre;                       // 中心频率(MHz)
 	double dComBand;                      // 信号带宽(MHz)
 	double dComJPN;                       // 跳步次数
 //识别信息 
     char cSignalType[32];                 //信号类型
 	char cModulationStyle[32];            //调制样式     
-    char sPlatType[32];                   //平台类型  F117  (F117； F118； F119； F120； F121)
+    char sPlatType[32];                   //平台型号   (F117； F118； 'F119； F120；F121)
 	char cPlatName[32];			          //平台名称    
-	char cDWAttribute[32];					  //敌我属性
-	double dConfidence;  			      //可信度
+    double dConfidence;                  //平台型号可信度
+    char cDWAttribute[32];               //敌我属性 (IFF信息)
+	double dDWConfidence;                //敌我可信度
     char cCountry[32];			          //国家（地区）
 	unsigned long lJfFlag;                //聚类标记
 	unsigned long lFlag;                  //累加标记
@@ -103,6 +107,12 @@ typedef struct __COMSTATUS_MARK           //通信侦查信息
 
 }COMSTATUS_MARK;
 
+// 1战斗机、2 轰炸机、3歼击机 、攻击机 （认为属1类）
+// 4预警机、   （认为属2类）
+// 5侦察机、6干扰机7 直升机(包括反潜机、无人机、不明)   （认为属3类）
+// 8 舰艇             （属4类）
+// 9战术导弹、（属5类）
+// 10制导武器  （属6类）
 
 /*雷达航迹和IFF信息*/
 typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息  
@@ -125,6 +135,7 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
 	double dVSpeed;                       //速度
     double dAddSpeed;                     //加速度
 	double dThreatLevel;                  //威胁等级0--7
+	double dThrDg;                        //综合威胁度
 	int nTrackEvent;                      //航迹基本事件
 	int nModel;                           //模板号
 	int nRdChEvt;                         //径距变化事件
@@ -144,17 +155,18 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
     double dTSpeedZ;                      //目标绝对速度Z
 	double dLonti;                        //目标经度
 	double dLati;                         //目标纬度
-	double dObjHeight;		      //目标高度 
-//识别信息
-//	unsigned short sPlatType;            //平台类型  F117  (F117； F118； F119；F120； F121)
-    char sPlatType[32];  
+        double dObjHeight;		      //目标高度 
+	//识别信息
+    char sPlatType[32];					 //平台型号   (F117； F118； 'F119； F120；F121)	
 	char cPlatName[32];                  //平台名称  
-    double dConfidence;                  //可信度
-    char cDWAttribute[32];                   //敌我属性 (IFF信息)
-	unsigned long lJfFlag;                         //是否进行数据融合标志，0：未融合，1：已融合
+    double dConfidence;                  //平台型号可信度
+    char cDWAttribute[32];               //敌我属性 (IFF信息)
+	double dDWConfidence;                //敌我可信度
+	unsigned long lJfFlag;               //是否进行数据融合标志，0：未融合，1：已融合
 	unsigned long lFlag;                 //累加标记
 //1016补充
 	unsigned long lFusFlag;                //融合查找标记
+
 
 }TRACKSTATUS_MARK;
 
@@ -166,7 +178,7 @@ typedef vector<TRACKSTATUS_MARK> VCT_TRACE_MSG; //存储雷达探测信息
 //////// 2014 1016 wanghaiying ///////////////////////////////////////////////////
 typedef struct __Cooperative_FUSIDENTIINFOR   //协同后，融合信息与识别结果结构体
 {
-    long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
+    long lStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
 	unsigned long lAutonum;
     char sPlatType[32];             //综合平台类型  F117  (F117； F118； F119； F120； F121)
 	double dConfidence;                      //综合可信度
@@ -194,16 +206,17 @@ typedef struct Link_Table_Event
 	VCT_INT vctESMCumulativeN;                //ESM累积值
 	VCT_INT vctESMBasicSituation;             //ESM基本事件
 	
-	int nCOMN;                            //捆邦数
+	int nCOMCount;                            //捆邦数
 	VCT_INT vctCOMMBHao;                      //COM对应的COM模板号
 	VCT_INT vctCOMHao;                        //COM批号
 	
-	VCT_INT nCOMBasicSituation;               //COM基本事件
+	VCT_INT vctCOMBasicSituation;               //COM基本事件
 	
     double dThreatDegree;                 //平台综合威胁度
-	char cTrackType;                      //平台综合识别类型
+	int nTrackType;                      //平台综合识别类型
 	
 }EVENTLINKS;  //放特征层基本事件链表节点数据;
+typedef map<int, EVENTLINKS> MAP_BASIC_EVENT;  //基本事件，//int表示航迹批号
 
 //基本态势：1：匀速直线运动、2：加速直线运行、3：俯冲、4、上升、5、拐弯、6：远离本舰、7：逼近本舰、
 	//          8：：位置固定、9：新目标、10：目标消失、11：不明
@@ -212,7 +225,7 @@ typedef struct Link_Table_Event
 typedef struct BasicEVentBIndexes 
 {
 	int nSeriaN;                        //序号
-	double dTimeStamp;                  //时戳
+	long lTimeStamp;                  //时戳
 	int nTrackHao;                      //航迹批号	
 	
 	//对应的航迹参数(空间聚类要用)
@@ -229,7 +242,7 @@ typedef struct BasicEVentBIndexes
 	VCT_INT vctEventValue;        //航迹参数变化特征
 	
     double dThreatDegree;          //平台综合威胁度
-    char cTrackType;               //航迹综合识别的目标类型
+    int nTrackType;               //航迹综合识别的目标类型
 	
 	//捆邦的异常ESM情况
 	int nESMCount;                 //ESM数
@@ -242,6 +255,26 @@ typedef struct BasicEVentBIndexes
 	VCT_INT vctCOMEvent;               //COM基本事件
 }EVENTBLACK;  //放黑板节点数据;
 
+
+typedef map<int, EVENTBLACK> MAP_EVENT_BLACK;  //黑板，int表示航迹批号
+
+typedef struct DataBase
+{
+	VCT_INT TrackThd;          //Track的阈值,存储顺序为，径距，高度，速度，加速度，方位
+	VCT_INT ESMThd;            //ESM的阈值，存储顺序为 脉冲频率，脉冲幅度，脉冲宽度，重频，天线扫描周期
+	VCT_INT COMThd;            //COM的阈值，存储顺序为 脉冲频率，脉冲幅度，跳频次数
+	VCT_INT TrackModelID;	   //Track的模板号
+	VCT_INT ESMModelID;        //ESM的模板号
+	VCT_INT COMModelID;        //COM的模板号
+	VCT_INT TrackEventID;      //Track基本事件编号
+	VCT_INT ESMEventID;        //ESM的基本事件编号
+	VCT_INT COMEventID;        //COM的基本事件编号
+	VV_INT vctDbTrackKng;      //存放数据库中track的知识的所有内容，该内容在程序初始化的时候读入
+	VV_INT vctDbESMKng;        //存放数据库中ESM的知识的所有内容，该内容在程序初始化的时候读入
+	VV_INT vctDbCOMKng;        //存放数据库中COM的知识的所有内容，该内容在程序初始化的时候读入
+}DB_DATA;
+
+
 //所有消息的头
 typedef struct _X_ALL_RECV_MSG
 {
@@ -249,5 +282,6 @@ typedef struct _X_ALL_RECV_MSG
 	VCT_COMM_MSG stComm;
 	VCT_TRACE_MSG stTrace;
 }ALL_MSG_INPUT;
+
 
 #endif
