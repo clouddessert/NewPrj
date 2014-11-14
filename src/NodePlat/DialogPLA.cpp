@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogPLA dialog
-
+extern CNodePlatApp theApp;
 
 CDialogPLA::CDialogPLA(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogPLA::IDD, pParent)
@@ -164,9 +164,8 @@ BOOL CDialogPLA::OnInitDialog()
 
 void CDialogPLA::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from 平台态势 order by ID desc ",NULL,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from 平台态势 order by ID desc ",NULL,adCmdText);
 //	int uniform,accele,dive,rose,turn,away,approach,fix,search,track,interference,guide,contact,command;
 //	CString suniform,saccele,sdive,srose,sturn,saway,sapproach,sfix,ssearch,strack,sinterference,sguide,scontact,scommand;
 
@@ -182,20 +181,20 @@ void CDialogPLA::AddToGrid()
 	int plat=0;
 
 	CString strackbaseevent,srd,shigh,sspeed,saddspeed,sazimuth,sesmbaseevent,scombaseevent,sgogal,splat;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
 		m_Grid.InsertItem(0,"");
 	
-		trackbaseevent=atoi((_bstr_t)ado.pRst->GetCollect("Track基本事件"));
-		rd=atoi((_bstr_t)ado.pRst->GetCollect("Rd"));
-		high=atoi((_bstr_t)ado.pRst->GetCollect("High"));
-		speed=atoi((_bstr_t)ado.pRst->GetCollect("Speed"));
-		addspeed=atoi((_bstr_t)ado.pRst->GetCollect("AddSpeed"));
-		azimuth=atoi((_bstr_t)ado.pRst->GetCollect("Azimuth"));
-		esmbaseevent=atoi((_bstr_t)ado.pRst->GetCollect("ESM基本事件"));
-		combaseevent=atoi((_bstr_t)ado.pRst->GetCollect("COM基本事件"));
-		gogal=atoi((_bstr_t)ado.pRst->GetCollect("目标类型"));
-		plat=atoi((_bstr_t)ado.pRst->GetCollect("平台态势"));
+		trackbaseevent=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Track基本事件"));
+		rd=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Rd"));
+		high=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("High"));
+		speed=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Speed"));
+		addspeed=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("AddSpeed"));
+		azimuth=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Azimuth"));
+		esmbaseevent=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ESM基本事件"));
+		combaseevent=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("COM基本事件"));
+		gogal=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("目标类型"));
+		plat=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("平台态势"));
 		//trackbaseevent
 		if(trackbaseevent==0)
 		{
@@ -443,7 +442,7 @@ void CDialogPLA::AddToGrid()
 		}
 		
 
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,strackbaseevent);
 		m_Grid.SetItemText(0,2,srd);
 		m_Grid.SetItemText(0,3,shigh);
@@ -456,10 +455,10 @@ void CDialogPLA::AddToGrid()
 		m_Grid.SetItemText(0,10,splat);
 		
 		
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 		
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 
@@ -468,9 +467,8 @@ void CDialogPLA::OnButadd()
 {
 	// TODO: Add your control notification handler code here
 			UpdateData(TRUE);
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst->Open("select * from 平台态势",ado.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst->Open("select * from 平台态势",theApp.m_DataBase.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
 
 	int trackbaseevent=0;
 	int rd=0;
@@ -749,18 +747,19 @@ void CDialogPLA::OnButadd()
 
 
 	int did=0;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
-		int id=atoi((_bstr_t)ado.pRst->GetCollect("ID"));
+		int id=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		if(id==atoi(m_id))
 		{
 			did=1;
 			MessageBox("ID号重复，请重新添加!");
 		}
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 	}
 	//此处可不做判断，由数据库来做唯一性判断
-	try{
+	try
+	{
 		if(m_id=="")
 		{
 			MessageBox("ID号不可为空!");
@@ -771,29 +770,32 @@ void CDialogPLA::OnButadd()
 		}
 		else
 		{	
-		ado.pRst->MoveLast();
-		ado.pRst->AddNew();
+			theApp.m_DataBase.pRst->MoveLast();
+			theApp.m_DataBase.pRst->AddNew();
 
-	ado.pRst->PutCollect("ID",atol(m_id));
-	ado.pRst->PutCollect("Track基本事件",(long)trackbaseevent);
-	ado.pRst->PutCollect("Rd",(long)rd);
-	ado.pRst->PutCollect("Speed",(long)speed);
-	ado.pRst->PutCollect("AddSpeed",(long)addspeed);
-	ado.pRst->PutCollect("Azimuth",(long)azimuth);
-	ado.pRst->PutCollect("High",(long)high);
-	ado.pRst->PutCollect("ESM基本事件",(long)esmbaseevent);
-	ado.pRst->PutCollect("COM基本事件",(long)combaseevent);
-	ado.pRst->PutCollect("目标类型",(long)gogal);
-	ado.pRst->PutCollect("平台态势",(long)plat);
-	ado.pRst->Update();
-	ado.ExitConnect();
+			theApp.m_DataBase.pRst->PutCollect("ID",atol(m_id));
+			theApp.m_DataBase.pRst->PutCollect("Track基本事件",(long)trackbaseevent);
+			theApp.m_DataBase.pRst->PutCollect("Rd",(long)rd);
+			theApp.m_DataBase.pRst->PutCollect("Speed",(long)speed);
+			theApp.m_DataBase.pRst->PutCollect("AddSpeed",(long)addspeed);
+			theApp.m_DataBase.pRst->PutCollect("Azimuth",(long)azimuth);
+			theApp.m_DataBase.pRst->PutCollect("High",(long)high);
+			theApp.m_DataBase.pRst->PutCollect("ESM基本事件",(long)esmbaseevent);
+			theApp.m_DataBase.pRst->PutCollect("COM基本事件",(long)combaseevent);
+			theApp.m_DataBase.pRst->PutCollect("目标类型",(long)gogal);
+			theApp.m_DataBase.pRst->PutCollect("平台态势",(long)plat);
+			theApp.m_DataBase.pRst->Update();
 		}
-	}catch(_com_error e)
+	}
+	catch(_com_error e)
 	{
 		MessageBox(e.Description());
 	}
+	theApp.m_DataBase.pRst->Close();
+
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetPlatEvent();
+	AddToGrid();
 }
 
 void CDialogPLA::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -1244,34 +1246,36 @@ void CDialogPLA::OnButmod()
 		plat=9;
 	}
 	
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update 平台态势 set Track基本事件=%d,Rd=%d,High=%d,Speed=%d,AddSpeed=%d,Azimuth=%d,ESM基本事件=%d,COM基本事件=%d,目标类型=%d,平台态势=%d where ID=%d",trackbaseevent,rd,high,speed,addspeed,azimuth,esmbaseevent,combaseevent,gogal,plat,ids);
-	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+	try
+	{
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetPlatEvent();
+	AddToGrid();
 }
 
 void CDialogPLA::OnButdel() 
 {
 	// TODO: Add your control notification handler code here
 	int id=atoi(m_id);	
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("delete from 平台态势 where ID=%d",id);
-	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+	try
+	{
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetPlatEvent();
+	AddToGrid();
 }

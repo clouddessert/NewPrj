@@ -14,7 +14,7 @@ static char THIS_FILE[] = __FILE__;
 using namespace std;
 /////////////////////////////////////////////////////////////////////////////
 // CDialogCOM dialog
-
+extern CNodePlatApp theApp;
 
 CDialogCOM::CDialogCOM(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogCOM::IDD, pParent)
@@ -95,19 +95,17 @@ BOOL CDialogCOM::OnInitDialog()
 
 void CDialogCOM::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from COM order by ID desc ",NULL,adCmdText);
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from COM order by ID desc ",NULL,adCmdText);
 	int pre,paw,hoop,baseevent;
 	CString spre,spaw,shoop;
 	CString sbaseevent;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
 		m_Grid.InsertItem(0,"");
-		pre=atoi((_bstr_t)ado.pRst->GetCollect("Pre"));
-		paw=atoi((_bstr_t)ado.pRst->GetCollect("PAw"));
-		hoop=atoi((_bstr_t)ado.pRst->GetCollect("Hoop"));
-		baseevent=atoi((_bstr_t)ado.pRst->GetCollect("BaseEvent"));
+		pre=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Pre"));
+		paw=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("PAw"));
+		hoop=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Hoop"));
+		baseevent=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("BaseEvent"));
 
 		//pre
 		if(pre==1)
@@ -170,15 +168,15 @@ void CDialogCOM::AddToGrid()
 		{
 			sbaseevent="指挥";
 		}
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,spre);
 		m_Grid.SetItemText(0,2,spaw);
 		m_Grid.SetItemText(0,3,shoop);
 		m_Grid.SetItemText(0,4,sbaseevent);
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 		
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 
@@ -186,9 +184,7 @@ void CDialogCOM::AddToGrid()
 void CDialogCOM::OnButAdd() 
 {
 	UpdateData(TRUE);
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst->Open("select * from COM",ado.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
+	theApp.m_DataBase.pRst->Open("select * from COM",theApp.m_DataBase.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
 
 	CString spre,spaw,shoop,sbaseevent;
 	int pre,paw,hoop,baseevent;
@@ -261,18 +257,19 @@ void CDialogCOM::OnButAdd()
 	}
 	
 	int did=0;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
-		int id=atoi((_bstr_t)ado.pRst->GetCollect("ID"));
+		int id=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		if(id==atoi(m_id))
 		{
 			did=1;
 			MessageBox("ID号重复，请重新添加!");
 		}
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 	}
 	//此处可不做判断，由数据库来做唯一性判断
-	try{
+	try
+	{
 		if(m_id=="")
 		{
 			MessageBox("ID号不可为空!");
@@ -283,22 +280,25 @@ void CDialogCOM::OnButAdd()
 		}
 		else
 		{	
-		ado.pRst->MoveLast();
-		ado.pRst->AddNew();
-	ado.pRst->PutCollect("ID",atol(m_id));
-	ado.pRst->PutCollect("Pre",(long)pre);
-	ado.pRst->PutCollect("PAw",(long)paw);
-	ado.pRst->PutCollect("Hoop",(long)hoop);
-	ado.pRst->PutCollect("BaseEvent",(long)baseevent);
-	ado.pRst->Update();
-	ado.ExitConnect();
-		}
-	}catch(_com_error e)
+			theApp.m_DataBase.pRst->MoveLast();
+			theApp.m_DataBase.pRst->AddNew();
+			theApp.m_DataBase.pRst->PutCollect("ID",atol(m_id));
+			theApp.m_DataBase.pRst->PutCollect("Pre",(long)pre);
+			theApp.m_DataBase.pRst->PutCollect("PAw",(long)paw);
+			theApp.m_DataBase.pRst->PutCollect("Hoop",(long)hoop);
+			theApp.m_DataBase.pRst->PutCollect("BaseEvent",(long)baseevent);
+			theApp.m_DataBase.pRst->Update();
+		}	
+	}
+	catch(_com_error e)
 	{
 		e.Description();
 	}
+	theApp.m_DataBase.pRst->Close();
+
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetCOMEvent();
+	AddToGrid();
 }
 
 void CDialogCOM::OnButmod() 
@@ -382,18 +382,18 @@ void CDialogCOM::OnButmod()
 	}
 	
 
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update COM set Pre=%d,PAw=%d,Hoop=%d,BaseEvent=%d where ID=%d",pre,paw,hoop,baseevent,ids);
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetCOMEvent();
+	AddToGrid();
 }
 
 void CDialogCOM::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -450,19 +450,19 @@ void CDialogCOM::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 //	m_hoop.DeleteString(4);
 	//BaseEvent
-CString baseevent=m_Grid.GetItemText(pos,4);
-m_baseevent.InsertString(2,baseevent);
-m_baseevent.SetCurSel(2);
-CString sbaseevent;
-for(i=0;;i++)
-{
-	m_baseevent.GetLBText(i,sbaseevent);
-	if(sbaseevent==baseevent)
+	CString baseevent=m_Grid.GetItemText(pos,4);
+	m_baseevent.InsertString(2,baseevent);
+	m_baseevent.SetCurSel(2);
+	CString sbaseevent;
+	for(i=0;;i++)
 	{
-		m_baseevent.DeleteString(i);
-		break;
+		m_baseevent.GetLBText(i,sbaseevent);
+		if(sbaseevent==baseevent)
+		{
+			m_baseevent.DeleteString(i);
+			break;
+		}
 	}
-}
 
 	ids=atoi(m_id);
 	UpdateData(FALSE);
@@ -475,16 +475,17 @@ void CDialogCOM::OnButDel()
 {
 	// TODO: Add your control notification handler code here
 	int id=atoi(m_id);	
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("delete from COM where ID=%d",id);
-	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+	try
+	{
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetCOMEvent();
+	AddToGrid();
 }

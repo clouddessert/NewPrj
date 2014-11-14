@@ -3,8 +3,12 @@
 
 #pragma warning(disable : 4786)
 #include <vector>
+#include <map>
 using namespace std;
 typedef vector<int> VCT_INT;
+typedef vector<VCT_INT> VV_INT;
+typedef vector<double> VCT_DOUBLE;
+typedef vector<VCT_DOUBLE> VV_DOUBLE;
 
 typedef struct __SHIP_POSITION           //舰的经纬高
 {
@@ -13,6 +17,15 @@ typedef struct __SHIP_POSITION           //舰的经纬高
 	double dHeight;
 
 }SHIP_POSITION;
+
+typedef struct _POSITION
+{
+	double dx;
+	double dy;
+	double dz;
+}TARGET_POSITION;
+
+typedef vector<TARGET_POSITION> VCT_POSITION;		//舰船的x，y，z三个方向
 
 /* 雷达侦查信息 */
 typedef struct __ESMSTATUS_MARK   
@@ -43,11 +56,11 @@ typedef struct __ESMSTATUS_MARK
 	double dThreatLevel;                //威胁等级0--7
 	double dERPower;                    //有效辐射功率
 	// unsigned short sPlatType;             //平台类型   (F117； F118； 'F119； F120；F121)
-	char sPlatType[32];  
+	char sPlatType[32];                 //平台型号   (F117； F118； 'F119； F120；F121)
 	char cPlatName[32];                 //平台名称  飞机 导弹 轰炸机 战斗机
-	
-	char cDWAttribute[32];              //敌我属性
-	double dConfidence;                 //可信度
+	double dConfidence;                 //平台型号可信度
+    char cDWAttribute[32];              //敌我属性 (IFF信息)
+	double dDWConfidence;               //敌我可信度
 	char cCountry[32];                  //国家（地区）
 	
 	unsigned long lJfFlag;               //聚类标记
@@ -87,10 +100,11 @@ typedef struct __COMSTATUS_MARK           //通信侦查信息
 //识别信息 
     char cSignalType[32];                 //信号类型
 	char cModulationStyle[32];            //调制样式     
-    char sPlatType[32];                   //平台类型  F117  (F117； F118； F119； F120； F121)
+    char sPlatType[32];                   //平台型号   (F117； F118； 'F119； F120；F121)
 	char cPlatName[32];			          //平台名称    
-	char cDWAttribute[32];				  //敌我属性
-	double dConfidence;  			      //可信度
+    double dConfidence;                  //平台型号可信度
+    char cDWAttribute[32];               //敌我属性 (IFF信息)
+	double dDWConfidence;                //敌我可信度
     char cCountry[32];			          //国家（地区）
 	unsigned long lJfFlag;                //聚类标记
 	unsigned long lFlag;                  //累加标记
@@ -131,6 +145,7 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
 	double dVSpeed;                       //速度
     double dAddSpeed;                     //加速度
 	double dThreatLevel;                  //威胁等级0--7
+	double dThrDg;                        //综合威胁度
 	int nTrackEvent;                      //航迹基本事件
 	int nModel;                           //模板号
 	int nRdChEvt;                         //径距变化事件
@@ -152,10 +167,11 @@ typedef struct __TRACKSTATUS_MARK        //雷达航迹和IFF信息
 	double dLati;                         //目标纬度
         double dObjHeight;		      //目标高度 
 	//识别信息
-    char sPlatType[32];						
+    char sPlatType[32];					 //平台型号   (F117； F118； 'F119； F120；F121)	
 	char cPlatName[32];                  //平台名称  
-    double dConfidence;                  //可信度
+    double dConfidence;                  //平台型号可信度
     char cDWAttribute[32];               //敌我属性 (IFF信息)
+	double dDWConfidence;                //敌我可信度
 	unsigned long lJfFlag;               //是否进行数据融合标志，0：未融合，1：已融合
 	unsigned long lFlag;                 //累加标记
 //1016补充
@@ -172,7 +188,7 @@ typedef vector<TRACKSTATUS_MARK> VCT_TRACE_MSG; //存储雷达探测信息
 //////// 2014 1016 wanghaiying ///////////////////////////////////////////////////
 typedef struct __Cooperative_FUSIDENTIINFOR   //协同后，融合信息与识别结果结构体
 {
-    long int nStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
+    long lStampTime;                     //发送请求信息时的当前时间 ，上述的当前时间可用返回信息的当前时间来代替	
 	unsigned long lAutonum;
     char sPlatType[32];             //综合平台类型  F117  (F117； F118； F119； F120； F121)
 	double dConfidence;                      //综合可信度
@@ -200,16 +216,17 @@ typedef struct Link_Table_Event
 	VCT_INT vctESMCumulativeN;                //ESM累积值
 	VCT_INT vctESMBasicSituation;             //ESM基本事件
 	
-	int nCOMN;                            //捆邦数
+	int nCOMCount;                            //捆邦数
 	VCT_INT vctCOMMBHao;                      //COM对应的COM模板号
 	VCT_INT vctCOMHao;                        //COM批号
 	
-	VCT_INT nCOMBasicSituation;               //COM基本事件
+	VCT_INT vctCOMBasicSituation;               //COM基本事件
 	
     double dThreatDegree;                 //平台综合威胁度
-	char cTrackType;                      //平台综合识别类型
+	int nTrackType;                      //平台综合识别类型
 	
 }EVENTLINKS;  //放特征层基本事件链表节点数据;
+typedef map<int, EVENTLINKS> MAP_BASIC_EVENT;  //基本事件，//int表示航迹批号
 
 //基本态势：1：匀速直线运动、2：加速直线运行、3：俯冲、4、上升、5、拐弯、6：远离本舰、7：逼近本舰、
 	//          8：：位置固定、9：新目标、10：目标消失、11：不明
@@ -218,7 +235,7 @@ typedef struct Link_Table_Event
 typedef struct BasicEVentBIndexes 
 {
 	int nSeriaN;                        //序号
-	double dTimeStamp;                  //时戳
+	long lTimeStamp;                  //时戳
 	int nTrackHao;                      //航迹批号	
 	
 	//对应的航迹参数(空间聚类要用)
@@ -235,7 +252,7 @@ typedef struct BasicEVentBIndexes
 	VCT_INT vctEventValue;        //航迹参数变化特征
 	
     double dThreatDegree;          //平台综合威胁度
-    char cTrackType;               //航迹综合识别的目标类型
+    int nTrackType;               //航迹综合识别的目标类型
 	
 	//捆邦的异常ESM情况
 	int nESMCount;                 //ESM数
@@ -248,6 +265,230 @@ typedef struct BasicEVentBIndexes
 	VCT_INT vctCOMEvent;               //COM基本事件
 }EVENTBLACK;  //放黑板节点数据;
 
+
+typedef map<int, EVENTBLACK> MAP_EVENT_BLACK;  //黑板，int表示航迹批号
+
+
+//单平台态势链表结构
+typedef  struct Link_Table_Situation 
+{
+	int nSerialnum;                    //序号
+	int nPlatHao;                      //平台批号
+    int nPlatMBHao;                    //模板号    
+
+	int nESMHao;                       //平台上起作用的ESM批号
+	
+	int nCOMHao;                       //平台上起作用的COM批号
+
+	int nPlatOBjType;                 //平台综合识别的目标类型	
+	
+	int nESMBasicSituation;           //平台上起作用的ESM基本事件
+    int nCOMBasicSituation;           //平台上起作用的COM基本事件
+    int nPlatCumulativeN;             //累积值
+
+	//知识库中推理获得
+	int nPlatOBJEvent;                 //平台基本态势
+	double dThreatDegree;              //平台综合威胁度
+
+	//对应的航迹参数(空间聚类用)
+	double dRd;                  //径距
+	double dAz;
+	double dEz;
+	double dHigh;               //高度
+	double dSpeed;              //速度
+	double dAddSpeed;           //加速度
+	double dAzimuth;            //航向
+
+}PLATEVENT;
+typedef map<int, PLATEVENT> MAP_PLAT_LINK;
+
+//平台态势黑板模型结构
+typedef struct PlatBlack_Table_Situation
+{
+	int nSerialnum;                       //序号
+    long lTimeStamp;                    //时戳
+
+	int nPlatHao;                         //平台批号
+	int nPlatBasicSituation;             //平台基本态势
+
+	int nESMHao;                          //此态势起作用的ESM批号
+	int nESMBasicSituation;               //此态势起作用的ESM基本事件
+
+	int nCOMHao;                          //此态势起作用的COM批号
+
+	int nCOMBasicSituation;               //此态势起作用的COM基本事件
+	
+    int nTrackOBjType;                  //航迹综合识别的目标类型
+
+	//对应的航迹参数(空间聚类用)
+	double dRd;                  //径距
+	double dAz;
+	double dEz;
+	double dHigh;               //高度
+	double dSpeed;              //速度
+	double dAddSpeed;           //加速度
+	double dAzimuth;            //航向
+
+	double dThreatDegree;              //平台综合威胁度
+}PLATBLACK;
+typedef vector<PLATBLACK> VCT_PLAT_BLACK;
+typedef map<int, PLATBLACK> MAP_PLAT_BLACK;
+
+//空间群目标链表结构
+typedef struct SpaceGroup_PlanLink_Tabel             //空间群结构
+{
+    int nPlanTypeN;                   //空间群数
+	
+    VCT_INT vctPlanGroupN;              //每个群含目标数量
+    VV_INT vvPlanGroupHao;        //每个群含目标的批号
+	
+	int nPlanSpacMBHao;               //空间群推理飞机类模板号
+	
+    VCT_DOUBLE vctPlanThreatDegree;     //每个群综合威胁度
+	
+	VV_INT vvPlanGroupOBjType;  //每个空间群中含的目标类型
+	
+    int nPlanCumulativeN;            //模板累积值
+	//推理获得
+    VV_INT vvPlanEvent;            //每个空间群目标态势
+	
+ }SPACE_TARGET;
+
+//空间群黑板结构
+typedef struct SpaceGroupBlack_Tabel               //空间群黑板结构
+{
+	long lTimeStamp;                  //当前时戳
+	
+	int nPlanTypeN;                   //舰船类空间群数
+    VCT_INT vctPlanGroupN;              //舰船类每个群含目标数量
+    VV_INT vvPlanGroupHao;        //舰船类每个群含目标的批号
+	
+    VCT_DOUBLE vctPlanThreatDegree;     //舰船类每个群综合威胁度
+	
+    VV_INT vvPlanGroupOBjType;  //舰船类每个空间群中含的目标类型
+	
+	//前面推理获得
+	VV_INT vvPlanEvent;            //每个舰船空间群目标态势
+	
+ }SPACE_BLACK;
+
+typedef vector<SPACE_TARGET> VCT_SPACE;
+
+/////////////////////////////////功能层/////////////////////////////////////////////////
+////功能群链表结构
+typedef struct FuncGroup_Link_Tabel             //功能链表群结构
+{
+	int nFuncGroupMBNum;                     //功能群模板数
+	VCT_INT vctFuncMBHao;                  //功能模板号
+	
+	int nFuncGroupN;                 //功能群数
+	VCT_INT vctFuncGpH;                //每个功能群对应的编号
+	VCT_INT vctFuncGroupTrackN;        //每个功能群中含目标数量
+	VV_INT vvFuncGroupHao;        //每个群含目标的批号
+	
+	VCT_DOUBLE vctFuncThreatDegree;     //每个群综合威胁度
+	
+	VV_INT vvFuncGroupOBjType;  //每个功能群中含的目标类型
+	
+	//知识库中推理获得
+	VCT_INT vctFuncGroupEvent;         //每个功能群态势：1警戒、2：巡逻，3：攻击、4：拦截，5：轰炸、6：突防、7：干扰、8：预警,9:侦察、10：不明
+    VCT_INT vctFuncCumulativeN;            //模板累积值
+	
+}FUN_GROUP_LINK;
+
+///功能群黑板数据结构
+typedef struct FuncGroup_Black_Tabel             //功能群黑板结构
+{
+	long lTimeStamp;                //当前时戳
+	
+    int nFuncGroupN;                 //功能群数
+    VCT_INT vctFuncGpHao;            //功能群序号
+	
+    VCT_INT vctFuncGroupTrackN;        //每个功能群中含目标数量
+    VV_INT vvFuncGroupTrackHao;        //每个群含目标的批号
+	
+    VCT_DOUBLE vctFuncThreatDegree;     //每个群综合威胁度
+	
+	VV_INT vvFuncGroupOBjType;  //每个功能群中含的目标类型
+	
+	//知识库中推理获得
+	VCT_INT vctFuncGroupEvent;         //每个功能群态势：1警戒、2：巡逻，3：攻击、4：拦截，5：轰炸、6：突防、7：干扰、8：预警,9:侦察、10：不明
+	
+}FUN_GROUP_BLACK;
+
+
+//////////////////////////////////////////相互作用层////////////////////////////////////////////////
+
+
+
+//相互作用群态链表设计结构
+typedef struct Interaction_Link_Tabel               //相互作用群链表结构
+{
+	int nInteGroupSeriNum;                   //相互作用群序号（自动产生）,假设相互作用群不超过10个
+	
+	int nInteractGroupSGN;                   //相互作用群中含功能群数
+    
+    double dSumThreatDegree;                 //相互作用群的综合威胁度
+	
+    VCT_INT vctInteGroupTrackNum;              //每个子群中的目标数
+    VCT_INT vctInteGroupHao;                   //每个子群号
+    VCT_INT vctInterEvent;                     //每个子群的态势类型
+	
+    VV_INT vvIntertrackHao;					//每个子群中含目标批号
+    VV_INT vvInterOBjType;					//每个子群中含目标类型       
+	
+    int nInteCumulativeN;                    //相互作用群模板累积值
+}INTERGROUP;
+typedef vector<INTERGROUP> INTERGROUPLINK;
+
+//相互作用群黑板设计结构
+typedef struct Interaction_Black_Tabel                  //黑板上的相互作用群结构
+{
+    long lTimeStamp;                           //时戳
+	int nInteGroupSeriNum;                       //相互作用群序号（自动产生）,假设相互作用群不超过20个  (显示)   
+	
+	int nInteractGroupSGN;                      //相互作用群中含功能群数
+    double dSumThreatDegree;                    //相互作用群的综合威胁度  
+	
+    VCT_INT vctInteGroupTrackNum;                //每个子群中的目标数
+    VCT_INT vctInteGroupHao;                     //每个子群号
+    VCT_INT vctInterEvent;                       //每个子群的态势类型
+	
+    VV_INT vvIntertrackHao;               //每个子群中含目标批号
+    VV_INT vvInterOBjType;               //每个子群中含目标类型         
+}INTERBLACKNODE;
+typedef vector<INTERBLACKNODE> INTERGROUPBLACK;
+
+
+///////////////////////////////////数据库数据结构///////////////////////////////////////////////
+
+typedef struct DataBase
+{
+	VCT_INT TrackThd;          //Track的阈值,存储顺序为，径距，高度，速度，加速度，方位
+	VCT_INT ESMThd;            //ESM的阈值，存储顺序为 脉冲频率，脉冲幅度，脉冲宽度，重频，天线扫描周期
+	VCT_INT COMThd;            //COM的阈值，存储顺序为 脉冲频率，脉冲幅度，跳频次数
+	VCT_INT TrackModelID;	   //Track的模板号
+	VCT_INT ESMModelID;        //ESM的模板号
+	VCT_INT COMModelID;        //COM的模板号
+	VCT_INT PlatModelID;       //平台模板号
+	VCT_INT FunModelID;			//功能群模板号
+	VCT_INT InterModelID;		//模板号（序号）
+	VCT_INT TrackEventID;      //Track基本事件编号
+	VCT_INT ESMEventID;        //ESM的基本事件编号
+	VCT_INT COMEventID;        //COM的基本事件编号
+	VCT_INT PlatEventID;       //平台事件编号
+	VCT_INT SpaceGrpID;        //空间群编号
+	VCT_INT FunEventID;			//功能群事件编号
+	VV_INT vctDbTrackKng;      //存放数据库中track的知识的所有内容，该内容在程序初始化的时候读入
+	VV_INT vctDbESMKng;        //存放数据库中ESM的知识的所有内容，该内容在程序初始化的时候读入
+	VV_INT vctDbCOMKng;        //存放数据库中COM的知识的所有内容，该内容在程序初始化的时候读入
+	VV_INT vctDbPlatKng;       //存放数据库中Plat的知识的所有内容，该内容在程序初始化的时候读入
+	VV_INT vctDbSpaceKng;      //存放数据库中Space的知识的所有内容，该内容在程序初始化的时候读入
+	VV_INT vctDbFunKng;			//存放数据库中Fun的知识的所有内容
+	VV_INT vctDbInterKng;      ////编队功能:1警戒、2：巡逻，3：攻击、4：拦截，5：轰炸、6：突防、7：干扰、8：预警,9:侦察
+}DB_DATA;
+
+
 //所有消息的头
 typedef struct _X_ALL_RECV_MSG
 {
@@ -255,5 +496,6 @@ typedef struct _X_ALL_RECV_MSG
 	VCT_COMM_MSG stComm;
 	VCT_TRACE_MSG stTrace;
 }ALL_MSG_INPUT;
+
 
 #endif

@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogTRA1 dialog
-
+extern CNodePlatApp theApp;
 
 CDialogTRA1::CDialogTRA1(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogTRA1::IDD, pParent)
@@ -68,14 +68,13 @@ BOOL CDialogTRA1::OnInitDialog()
 
 void CDialogTRA1::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from Track1 order by ID desc ",NULL,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from Track1 order by ID desc ",NULL,adCmdText);
 	_variant_t str;
 	_bstr_t sty;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
-		str=ado.pRst->GetCollect("类型");
+		str=theApp.m_DataBase.pRst->GetCollect("类型");
 		if(str==(_variant_t)"Rd")
 		{sty="径距（米）";}
 		if(str==(_variant_t)"Speed")
@@ -87,13 +86,13 @@ void CDialogTRA1::AddToGrid()
 		if(str==(_variant_t)"High")
 		{sty="高度（米）";}
 		m_Grid.InsertItem(0,"");
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,sty);
-		m_Grid.SetItemText(0,2,(_bstr_t)ado.pRst->GetCollect("阈值"));
+		m_Grid.SetItemText(0,2,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("阈值"));
 
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 
@@ -109,19 +108,20 @@ void CDialogTRA1::OnButmod()
 		MessageBox("基础信息不能为空");
 		return;
 	}
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update Track1 set 阈值=%f where ID=%d",atof(m_data1),ids);
 	
-	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+	try
+	{
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetTrackThd();
+	AddToGrid();
 }
 
 void CDialogTRA1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult) 

@@ -32,6 +32,11 @@ CMsgAllSheet::CMsgAllSheet(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPag
 	AddPage(&m_SixthPage);
 	AddPage(&m_SeventhPage);
 	AddPage(&m_EighthPage);
+	AddPage(&m_NinthPage);
+	AddPage(&m_TenPage);
+	AddPage(&m_ElethPage);
+	AddPage(&m_TwelthPage);
+	AddPage(&m_ThirtthPage);
 
 }
 
@@ -80,7 +85,15 @@ BOOL CMsgAllSheet::OnInitDialog()
 	item.mask = TCIF_TEXT;
 	item.pszText = "多舰融合航迹信息";
 	GetTabControl()->SetItem(7, &item);
-
-
+	item.pszText = "基本事件";
+	GetTabControl()->SetItem(8, &item);
+	item.pszText = "平台态势";
+	GetTabControl()->SetItem(9, &item);
+	item.pszText = "空间群";
+	GetTabControl()->SetItem(10, &item);
+	item.pszText = "功能群";
+	GetTabControl()->SetItem(11, &item);
+	item.pszText = "相互作用群";
+	GetTabControl()->SetItem(12, &item);
 	return bResult;
 }

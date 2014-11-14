@@ -6,142 +6,156 @@
 --------------------Configuration: NodePlat - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating command line "rc.exe /l 0x804 /fo"Debug/NodePlat.res" /d "_DEBUG" /d "_AFXDLL" "D:\NewPrj\trunk\src\NodePlat\NodePlat.rc"" 
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP121.tmp" with contents
-[
-/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"D:\NewPrj\trunk\src\NodePlat\AllParamSheet.cpp"
-"D:\NewPrj\trunk\src\NodePlat\Alg\SingleIdentify.cpp"
-]
-Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP121.tmp" 
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP122.tmp" with contents
+Creating command line "rc.exe /l 0x804 /fo"Debug/NodePlat.res" /d "_DEBUG" /d "_AFXDLL" "C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\NodePlat.rc"" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP30C5.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"D:\NewPrj\trunk\src\NodePlat\Alg\CooperativeMsg.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogCOM.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogCOM1.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogESM.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogESM1.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogFUN.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogPLA.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogSPA.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogTIM.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogTRA.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DialogTRA1.cpp"
-"D:\NewPrj\trunk\src\NodePlat\DrawView.cpp"
-"D:\NewPrj\trunk\src\NodePlat\EIdenFusVALU.cpp"
-"D:\NewPrj\trunk\src\NodePlat\EmulateBiaoge.cpp"
-"D:\NewPrj\trunk\src\NodePlat\EvaluDlg.cpp"
-"D:\NewPrj\trunk\src\NodePlat\Alg\FusionCooperativeMsg.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MainFrm.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgAllSheet.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgCtlView.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgEighthPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgFifthPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgFourthPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgFstPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgListView.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgSecPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgSeventhPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgSixthPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgSocket.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MsgThreePage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\Alg\MultipleIdentify.cpp"
-"D:\NewPrj\trunk\src\NodePlat\MySocket.cpp"
-"D:\NewPrj\trunk\src\NodePlat\NetworkSetting.cpp"
-"D:\NewPrj\trunk\src\NodePlat\NodePlat.cpp"
-"D:\NewPrj\trunk\src\NodePlat\NodePlatDoc.cpp"
-"D:\NewPrj\trunk\src\NodePlat\NodePlatView.cpp"
-"D:\NewPrj\trunk\src\NodePlat\ParamFourthPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\ParamFstPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\ParamSecondPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\ParamThirdPage.cpp"
-"D:\NewPrj\trunk\src\NodePlat\QBFus.cpp"
-"D:\NewPrj\trunk\src\NodePlat\QBFusGraph.cpp"
-"D:\NewPrj\trunk\src\NodePlat\QBIdenti.cpp"
-"D:\NewPrj\trunk\src\NodePlat\QBIdentiGraph.cpp"
-"D:\NewPrj\trunk\src\NodePlat\QBsinIdenti.cpp"
-"D:\NewPrj\trunk\src\NodePlat\Alg\XSi.cpp"
-"D:\NewPrj\trunk\src\NodePlat\ZDFus.cpp"
-"D:\NewPrj\trunk\src\NodePlat\ZDFusGraph.cpp"
-"D:\NewPrj\trunk\src\NodePlat\ZDIdenti.cpp"
-"D:\NewPrj\trunk\src\NodePlat\ZDIdentiGraph.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\Algorithm.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\Alg\CooperativeMsg.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DataBase.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogCOM.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogCOM1.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogESM.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogESM1.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogFUN.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogPLA.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogSPA.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogTIM.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogTRA.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DialogTRA1.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\DrawView.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\EIdenFusVALU.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\EmulateBiaoge.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\EvaluDlg.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\Alg\FusionCooperativeMsg.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MainFrm.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgAllSheet.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgCtlView.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgEighthPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgElethPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgFifthPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgFourthPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgFstPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgListView.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgNinthPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgSecPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgSeventhPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgSixthPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgSocket.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgTenPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgThirtthPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgThreePage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MsgTwelfthPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\Alg\MultipleIdentify.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\MySocket.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\NetworkSetting.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\NodePlat.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\NodePlatDoc.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\NodePlatView.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\ParamFourthPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\ParamFstPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\ParamSecondPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\ParamThirdPage.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\QBFus.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\QBFusGraph.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\QBIdenti.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\QBIdentiGraph.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\QBsinIdenti.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\Alg\XSi.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\ZDFus.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\ZDFusGraph.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\ZDIdenti.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\ZDIdentiGraph.cpp"
 ]
-Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP122.tmp" 
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP123.tmp" with contents
+Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP30C5.tmp" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP30C6.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\AllParamSheet.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\Alg\SingleIdentify.cpp"
+]
+Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP30C6.tmp" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP30C7.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/NodePlat.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"D:\NewPrj\trunk\src\NodePlat\StdAfx.cpp"
+"C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\StdAfx.cpp"
 ]
-Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP123.tmp" 
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP124.tmp" with contents
+Creating command line "cl.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP30C7.tmp" 
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP30C8.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/NodePlat.pdb" /debug /machine:I386 /out:"Debug/NodePlat.exe" /pdbtype:sept 
-.\Debug\AllParamSheet.obj
-.\Debug\CooperativeMsg.obj
-.\Debug\DialogCOM.obj
-.\Debug\DialogCOM1.obj
-.\Debug\DialogESM.obj
-.\Debug\DialogESM1.obj
-.\Debug\DialogFUN.obj
-.\Debug\DialogPLA.obj
-.\Debug\DialogSPA.obj
-.\Debug\DialogTIM.obj
-.\Debug\DialogTRA.obj
-.\Debug\DialogTRA1.obj
-.\Debug\DrawView.obj
-.\Debug\EIdenFusVALU.obj
-.\Debug\EmulateBiaoge.obj
-.\Debug\EvaluDlg.obj
-.\Debug\FusionCooperativeMsg.obj
-.\Debug\MainFrm.obj
-.\Debug\MsgAllSheet.obj
-.\Debug\MsgCtlView.obj
-.\Debug\MsgEighthPage.obj
-.\Debug\MsgFifthPage.obj
-.\Debug\MsgFourthPage.obj
-.\Debug\MsgFstPage.obj
-.\Debug\MsgListView.obj
-.\Debug\MsgSecPage.obj
-.\Debug\MsgSeventhPage.obj
-.\Debug\MsgSixthPage.obj
-.\Debug\MsgSocket.obj
-.\Debug\MsgThreePage.obj
-.\Debug\MultipleIdentify.obj
-.\Debug\MySocket.obj
-.\Debug\NetworkSetting.obj
-.\Debug\NodePlat.obj
-.\Debug\NodePlatDoc.obj
-.\Debug\NodePlatView.obj
-.\Debug\ParamFourthPage.obj
-.\Debug\ParamFstPage.obj
-.\Debug\ParamSecondPage.obj
-.\Debug\ParamThirdPage.obj
-.\Debug\QBFus.obj
-.\Debug\QBFusGraph.obj
-.\Debug\QBIdenti.obj
-.\Debug\QBIdentiGraph.obj
-.\Debug\QBsinIdenti.obj
-.\Debug\SingleIdentify.obj
-.\Debug\StdAfx.obj
-.\Debug\XSi.obj
-.\Debug\ZDFus.obj
-.\Debug\ZDFusGraph.obj
-.\Debug\ZDIdenti.obj
-.\Debug\ZDIdentiGraph.obj
-.\Debug\NodePlat.res
+".\Debug\Algorithm.obj"
+".\Debug\AllParamSheet.obj"
+".\Debug\CooperativeMsg.obj"
+".\Debug\DataBase.obj"
+".\Debug\DialogCOM.obj"
+".\Debug\DialogCOM1.obj"
+".\Debug\DialogESM.obj"
+".\Debug\DialogESM1.obj"
+".\Debug\DialogFUN.obj"
+".\Debug\DialogPLA.obj"
+".\Debug\DialogSPA.obj"
+".\Debug\DialogTIM.obj"
+".\Debug\DialogTRA.obj"
+".\Debug\DialogTRA1.obj"
+".\Debug\DrawView.obj"
+".\Debug\EIdenFusVALU.obj"
+".\Debug\EmulateBiaoge.obj"
+".\Debug\EvaluDlg.obj"
+".\Debug\FusionCooperativeMsg.obj"
+".\Debug\MainFrm.obj"
+".\Debug\MsgAllSheet.obj"
+".\Debug\MsgCtlView.obj"
+".\Debug\MsgEighthPage.obj"
+".\Debug\MsgElethPage.obj"
+".\Debug\MsgFifthPage.obj"
+".\Debug\MsgFourthPage.obj"
+".\Debug\MsgFstPage.obj"
+".\Debug\MsgListView.obj"
+".\Debug\MsgNinthPage.obj"
+".\Debug\MsgSecPage.obj"
+".\Debug\MsgSeventhPage.obj"
+".\Debug\MsgSixthPage.obj"
+".\Debug\MsgSocket.obj"
+".\Debug\MsgTenPage.obj"
+".\Debug\MsgThirtthPage.obj"
+".\Debug\MsgThreePage.obj"
+".\Debug\MsgTwelfthPage.obj"
+".\Debug\MultipleIdentify.obj"
+".\Debug\MySocket.obj"
+".\Debug\NetworkSetting.obj"
+".\Debug\NodePlat.obj"
+".\Debug\NodePlatDoc.obj"
+".\Debug\NodePlatView.obj"
+".\Debug\ParamFourthPage.obj"
+".\Debug\ParamFstPage.obj"
+".\Debug\ParamSecondPage.obj"
+".\Debug\ParamThirdPage.obj"
+".\Debug\QBFus.obj"
+".\Debug\QBFusGraph.obj"
+".\Debug\QBIdenti.obj"
+".\Debug\QBIdentiGraph.obj"
+".\Debug\QBsinIdenti.obj"
+".\Debug\SingleIdentify.obj"
+".\Debug\StdAfx.obj"
+".\Debug\XSi.obj"
+".\Debug\ZDFus.obj"
+".\Debug\ZDFusGraph.obj"
+".\Debug\ZDIdenti.obj"
+".\Debug\ZDIdentiGraph.obj"
+".\Debug\NodePlat.res"
 ]
-Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP124.tmp"
+Creating command line "link.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP30C8.tmp"
 <h3>Output Window</h3>
 Compiling resources...
 Compiling...
 StdAfx.cpp
 Compiling...
-AllParamSheet.cpp
-SingleIdentify.cpp
-Generating Code...
-Compiling...
+Algorithm.cpp
+C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\Algorithm.cpp(3048) : warning C4101: 'nImFunGNum' : unreferenced local variable
+C:\Users\xiaohouzi\Desktop\联合识别与态势分析\1114 版本\NodePlat\Algorithm.cpp(3047) : warning C4101: 'j' : unreferenced local variable
 CooperativeMsg.cpp
+DataBase.cpp
 DialogCOM.cpp
 DialogCOM1.cpp
 DialogESM.cpp
@@ -159,23 +173,30 @@ EvaluDlg.cpp
 FusionCooperativeMsg.cpp
 MainFrm.cpp
 MsgAllSheet.cpp
-MsgCtlView.cpp
-MsgEighthPage.cpp
 Generating Code...
 Compiling...
+MsgCtlView.cpp
+MsgEighthPage.cpp
+MsgElethPage.cpp
 MsgFifthPage.cpp
 MsgFourthPage.cpp
 MsgFstPage.cpp
 MsgListView.cpp
+MsgNinthPage.cpp
 MsgSecPage.cpp
 MsgSeventhPage.cpp
 MsgSixthPage.cpp
 MsgSocket.cpp
+MsgTenPage.cpp
+MsgThirtthPage.cpp
 MsgThreePage.cpp
+MsgTwelfthPage.cpp
 MultipleIdentify.cpp
 MySocket.cpp
 NetworkSetting.cpp
 NodePlat.cpp
+Generating Code...
+Compiling...
 NodePlatDoc.cpp
 NodePlatView.cpp
 ParamFourthPage.cpp
@@ -183,8 +204,6 @@ ParamFstPage.cpp
 ParamSecondPage.cpp
 ParamThirdPage.cpp
 QBFus.cpp
-Generating Code...
-Compiling...
 QBFusGraph.cpp
 QBIdenti.cpp
 QBIdentiGraph.cpp
@@ -195,63 +214,74 @@ ZDFusGraph.cpp
 ZDIdenti.cpp
 ZDIdentiGraph.cpp
 Generating Code...
+Compiling...
+AllParamSheet.cpp
+SingleIdentify.cpp
+Generating Code...
 Linking...
-Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP126.tmp" with contents
+Creating temporary file "C:\Users\XIAOHO~1\AppData\Local\Temp\RSP663A.tmp" with contents
 [
 /nologo /o"Debug/NodePlat.bsc" 
-.\Debug\StdAfx.sbr
-.\Debug\AllParamSheet.sbr
-.\Debug\CooperativeMsg.sbr
-.\Debug\DialogCOM.sbr
-.\Debug\DialogCOM1.sbr
-.\Debug\DialogESM.sbr
-.\Debug\DialogESM1.sbr
-.\Debug\DialogFUN.sbr
-.\Debug\DialogPLA.sbr
-.\Debug\DialogSPA.sbr
-.\Debug\DialogTIM.sbr
-.\Debug\DialogTRA.sbr
-.\Debug\DialogTRA1.sbr
-.\Debug\DrawView.sbr
-.\Debug\EIdenFusVALU.sbr
-.\Debug\EmulateBiaoge.sbr
-.\Debug\EvaluDlg.sbr
-.\Debug\FusionCooperativeMsg.sbr
-.\Debug\MainFrm.sbr
-.\Debug\MsgAllSheet.sbr
-.\Debug\MsgCtlView.sbr
-.\Debug\MsgEighthPage.sbr
-.\Debug\MsgFifthPage.sbr
-.\Debug\MsgFourthPage.sbr
-.\Debug\MsgFstPage.sbr
-.\Debug\MsgListView.sbr
-.\Debug\MsgSecPage.sbr
-.\Debug\MsgSeventhPage.sbr
-.\Debug\MsgSixthPage.sbr
-.\Debug\MsgSocket.sbr
-.\Debug\MsgThreePage.sbr
-.\Debug\MultipleIdentify.sbr
-.\Debug\MySocket.sbr
-.\Debug\NetworkSetting.sbr
-.\Debug\NodePlat.sbr
-.\Debug\NodePlatDoc.sbr
-.\Debug\NodePlatView.sbr
-.\Debug\ParamFourthPage.sbr
-.\Debug\ParamFstPage.sbr
-.\Debug\ParamSecondPage.sbr
-.\Debug\ParamThirdPage.sbr
-.\Debug\QBFus.sbr
-.\Debug\QBFusGraph.sbr
-.\Debug\QBIdenti.sbr
-.\Debug\QBIdentiGraph.sbr
-.\Debug\QBsinIdenti.sbr
-.\Debug\SingleIdentify.sbr
-.\Debug\XSi.sbr
-.\Debug\ZDFus.sbr
-.\Debug\ZDFusGraph.sbr
-.\Debug\ZDIdenti.sbr
-.\Debug\ZDIdentiGraph.sbr]
-Creating command line "bscmake.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP126.tmp"
+".\Debug\StdAfx.sbr"
+".\Debug\Algorithm.sbr"
+".\Debug\AllParamSheet.sbr"
+".\Debug\CooperativeMsg.sbr"
+".\Debug\DataBase.sbr"
+".\Debug\DialogCOM.sbr"
+".\Debug\DialogCOM1.sbr"
+".\Debug\DialogESM.sbr"
+".\Debug\DialogESM1.sbr"
+".\Debug\DialogFUN.sbr"
+".\Debug\DialogPLA.sbr"
+".\Debug\DialogSPA.sbr"
+".\Debug\DialogTIM.sbr"
+".\Debug\DialogTRA.sbr"
+".\Debug\DialogTRA1.sbr"
+".\Debug\DrawView.sbr"
+".\Debug\EIdenFusVALU.sbr"
+".\Debug\EmulateBiaoge.sbr"
+".\Debug\EvaluDlg.sbr"
+".\Debug\FusionCooperativeMsg.sbr"
+".\Debug\MainFrm.sbr"
+".\Debug\MsgAllSheet.sbr"
+".\Debug\MsgCtlView.sbr"
+".\Debug\MsgEighthPage.sbr"
+".\Debug\MsgElethPage.sbr"
+".\Debug\MsgFifthPage.sbr"
+".\Debug\MsgFourthPage.sbr"
+".\Debug\MsgFstPage.sbr"
+".\Debug\MsgListView.sbr"
+".\Debug\MsgNinthPage.sbr"
+".\Debug\MsgSecPage.sbr"
+".\Debug\MsgSeventhPage.sbr"
+".\Debug\MsgSixthPage.sbr"
+".\Debug\MsgSocket.sbr"
+".\Debug\MsgTenPage.sbr"
+".\Debug\MsgThirtthPage.sbr"
+".\Debug\MsgThreePage.sbr"
+".\Debug\MsgTwelfthPage.sbr"
+".\Debug\MultipleIdentify.sbr"
+".\Debug\MySocket.sbr"
+".\Debug\NetworkSetting.sbr"
+".\Debug\NodePlat.sbr"
+".\Debug\NodePlatDoc.sbr"
+".\Debug\NodePlatView.sbr"
+".\Debug\ParamFourthPage.sbr"
+".\Debug\ParamFstPage.sbr"
+".\Debug\ParamSecondPage.sbr"
+".\Debug\ParamThirdPage.sbr"
+".\Debug\QBFus.sbr"
+".\Debug\QBFusGraph.sbr"
+".\Debug\QBIdenti.sbr"
+".\Debug\QBIdentiGraph.sbr"
+".\Debug\QBsinIdenti.sbr"
+".\Debug\SingleIdentify.sbr"
+".\Debug\XSi.sbr"
+".\Debug\ZDFus.sbr"
+".\Debug\ZDFusGraph.sbr"
+".\Debug\ZDIdenti.sbr"
+".\Debug\ZDIdentiGraph.sbr"]
+Creating command line "bscmake.exe @C:\Users\XIAOHO~1\AppData\Local\Temp\RSP663A.tmp"
 Creating browse info file...
 <h3>Output Window</h3>
 

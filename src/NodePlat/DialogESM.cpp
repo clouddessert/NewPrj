@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogESM dialog
-
+extern CNodePlatApp theApp;
 
 CDialogESM::CDialogESM(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogESM::IDD, pParent)
@@ -110,22 +110,21 @@ BOOL CDialogESM::OnInitDialog()
 
 void CDialogESM::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from ESM order by ID desc ",NULL,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from ESM order by ID desc ",NULL,adCmdText);
 	int esmpre,esmpaw,esmpwz,esmprit,esmscan,esmbaseevent;
 	CString sesmpre,sesmpaw,sesmpwz,sesmprit,sesmscan,sesmbaseevent;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
 		m_Grid.InsertItem(0,"");
 		
 	
-		esmpre=atoi((_bstr_t)ado.pRst->GetCollect("ESMPre"));
-		esmpaw=atoi((_bstr_t)ado.pRst->GetCollect("ESMPAw"));
-		esmpwz=atoi((_bstr_t)ado.pRst->GetCollect("ESMPwz"));
-		esmprit=atoi((_bstr_t)ado.pRst->GetCollect("ESMPRIt"));
-		esmscan=atoi((_bstr_t)ado.pRst->GetCollect("ESMScan"));
-		esmbaseevent=atoi((_bstr_t)ado.pRst->GetCollect("BaseEvent"));
+		esmpre=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ESMPre"));
+		esmpaw=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ESMPAw"));
+		esmpwz=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ESMPwz"));
+		esmprit=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ESMPRIt"));
+		esmscan=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ESMScan"));
+		esmbaseevent=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("BaseEvent"));
 		
 
 
@@ -236,17 +235,17 @@ void CDialogESM::AddToGrid()
 		{
 			sesmbaseevent="火控引导";
 		}
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,sesmpre);
 		m_Grid.SetItemText(0,2,sesmpaw);
 		m_Grid.SetItemText(0,3,sesmpwz);
 		m_Grid.SetItemText(0,4,sesmprit);
 		m_Grid.SetItemText(0,5,sesmscan);
 		m_Grid.SetItemText(0,6,sesmbaseevent);
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 		
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 void CDialogESM::OnButAdd() 
@@ -254,9 +253,8 @@ void CDialogESM::OnButAdd()
 // TODO: Add your control notification handler code here
 		UpdateData(TRUE);
 
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst->Open("select * from ESM",ado.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst->Open("select * from ESM",theApp.m_DataBase.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
 
 	CString sesmpre,sesmpaw,sesmpwz,sesmprit,sesmscan,sesmbaseevent;
 	int esmpre,esmpaw,esmpwz,esmprit,esmscan,esmbaseevent;
@@ -371,15 +369,15 @@ void CDialogESM::OnButAdd()
 	}
 
 	int did=0;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
-		int id=atoi((_bstr_t)ado.pRst->GetCollect("ID"));
+		int id=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		if(id==atoi(m_id))
 		{
 			did=1;
 			MessageBox("ID号重复，请重新添加!");
 		}
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 	}
 	try{
 		if(m_id=="")
@@ -392,26 +390,29 @@ void CDialogESM::OnButAdd()
 		}
 		else
 		{
-			ado.pRst->MoveLast();
-			ado.pRst->AddNew();
+			theApp.m_DataBase.pRst->MoveLast();
+			theApp.m_DataBase.pRst->AddNew();
 			
-			ado.pRst->PutCollect("ID",atol(m_id));
-			ado.pRst->PutCollect("ESMPre",(long)esmpre);
-			ado.pRst->PutCollect("ESMPAw",(long)esmpaw);
-			ado.pRst->PutCollect("ESMPwz",(long)esmpwz);
-			ado.pRst->PutCollect("ESMPRIt",(long)esmprit);
-			ado.pRst->PutCollect("ESMScan",(long)esmscan);
-			ado.pRst->PutCollect("BaseEvent",(long)esmbaseevent);
-			ado.pRst->Update();
-			ado.ExitConnect();
+			theApp.m_DataBase.pRst->PutCollect("ID",atol(m_id));
+			theApp.m_DataBase.pRst->PutCollect("ESMPre",(long)esmpre);
+			theApp.m_DataBase.pRst->PutCollect("ESMPAw",(long)esmpaw);
+			theApp.m_DataBase.pRst->PutCollect("ESMPwz",(long)esmpwz);
+			theApp.m_DataBase.pRst->PutCollect("ESMPRIt",(long)esmprit);
+			theApp.m_DataBase.pRst->PutCollect("ESMScan",(long)esmscan);
+			theApp.m_DataBase.pRst->PutCollect("BaseEvent",(long)esmbaseevent);
+			theApp.m_DataBase.pRst->Update();
 		}
 
 	}catch(_com_error e)
 	{
 		MessageBox(e.Description());
 	}
+
+	theApp.m_DataBase.pRst->Close();
+
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetESMEvent();
+	AddToGrid();
 	
 }
 
@@ -546,18 +547,18 @@ void CDialogESM::OnButMod()
 		baseevent=4;
 	}
 
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update ESM set ESMPre=%d,ESMPAw=%d,ESMPwz=%d,ESMPRIt=%d,ESMScan=%d,BaseEvent=%d where ID=%d",esmpre,esmpaw,esmpwz,esmprit,esmscan,baseevent,ids);
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();	
+	theApp.m_DataBase.GetESMEvent();
+	AddToGrid();	
 }
 
 void CDialogESM::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -617,19 +618,19 @@ void CDialogESM::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 //	m_esmpwz.DeleteString(4);
 	//esmprit
-CString esmprit=m_Grid.GetItemText(pos,4);
-m_esmprit.InsertString(4,esmprit);
-m_esmprit.SetCurSel(4);
-CString sesmprit;
-for(i=0;;i++)
-{
-	m_esmprit.GetLBText(i,sesmprit);
-	if(sesmprit==esmprit)
+	CString esmprit=m_Grid.GetItemText(pos,4);
+	m_esmprit.InsertString(4,esmprit);
+	m_esmprit.SetCurSel(4);
+	CString sesmprit;
+	for(i=0;;i++)
 	{
-		m_esmprit.DeleteString(i);
-			break;
+		m_esmprit.GetLBText(i,sesmprit);
+		if(sesmprit==esmprit)
+		{
+			m_esmprit.DeleteString(i);
+				break;
+		}
 	}
-}
 //	m_esmprit.DeleteString(4);
 	//esmscan
 	CString esmscan=m_Grid.GetItemText(pos,5);
@@ -673,16 +674,17 @@ void CDialogESM::OnButdel()
 {
 	// TODO: Add your control notification handler code here
 	int id=atoi(m_id);	
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("delete from ESM where ID=%d",id);
-	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+	try
+	{
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetESMEvent();
+	AddToGrid();
 }

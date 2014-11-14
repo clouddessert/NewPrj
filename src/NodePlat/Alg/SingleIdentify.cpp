@@ -1,3 +1,4 @@
+
 #include "SingleIdentify.h"
 
 #include <vector>
@@ -1202,7 +1203,7 @@ void Delete(VCT_UNINUM_MSG& UniMsg, VCT_UNINOTRACE_MSG& UniNoTrace, VCT_TRACE_MS
 
  
 /***************************************************举手表决**************************************************************/
-// 输入同一综合批号的esm、com、track信息（只含目标类型及其综合可信度），得到对应最高综合可信度的目标类型存入识别结果vev中
+// 输入同一综合批号的esm、com、track信息（只含目标类型及其综合可信度），得到对应最高综合可信度的目标类型存入识别结果vec中
 void ShowOfHands(TYPEVEC& Type, VCT_IDENTIINFOR_MSG& IdentifyVec)
 {
     TYPEVEC Vcst; //存储不同目标类型及其综合可信度
@@ -1307,6 +1308,7 @@ void SingleIdentify(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINO
 	VCT_TRACE_MSG::iterator iteTrace;
 	VCT_ESM_MSG::iterator iteEsm;
 	VCT_COMM_MSG::iterator iteComm;
+//	VCT_IDENTIINFOR_MSG::iterator iteIdent;
 
 // 	double Lt;
 // 	double Bt;
@@ -1378,6 +1380,12 @@ void SingleIdentify(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINO
 
 	STTYPE StType;
 	TYPEVEC Type;
+	int t = 0;
+	int f = 0;
+	int dn = 0;
+	int wn = 0;
+	double df = 1.0;
+	double wf = 1.0;
 
 	for (itt = UniMsg.begin(); itt != UniMsg.end(); itt++)//遍历聚类合批结果
 	{
@@ -1408,7 +1416,91 @@ void SingleIdentify(ALL_MSG_INPUT& AllMessage, VCT_UNINUM_MSG& UniMsg, VCT_UNINO
 		strcpy(StType.sType,itt->structTrace.sPlatType);
 		Type.push_back(StType);
 
-		ShowOfHands(Type, IdentifyVec);//调用举手表决函数
+		ShowOfHands(Type, IdentifyVec);//调用举手表决函数识别平台型号
+
+		f = 0;
+		dn = 0;
+		wn = 0;
+		df = 1.0;
+		wf = 1.0;
+		//敌我识别
+		if (strcmp(itt->structTrace.cDWAttribute,"不明") != 0)
+		{
+			strcpy(IdentifyVec.at(t).cDWAttribute, itt->structTrace.cDWAttribute);//航迹敌我属性作为识别结果
+			IdentifyVec.at(t).dDWConfidence = itt->structTrace.dDWConfidence;
+		} 
+		else//看ESM
+		{
+			if (itt->vctEsm.size())//有ESM
+			{
+				for (iteEsm = itt->vctEsm.begin(); iteEsm != itt->vctEsm.end(); iteEsm++)
+				{
+					if (strcmp(iteEsm->cDWAttribute,"不明") != 0)
+					{
+						f = 1;//ESM有识别的标志
+						break;
+					}
+				}
+				if (f)//ESM有能够识别的
+				{
+					//举手表决
+					for (iteEsm = itt->vctEsm.begin(); iteEsm != itt->vctEsm.end(); iteEsm++)
+					{
+						if (!strcmp(iteEsm->cDWAttribute,"敌方"))
+						{
+							dn++;
+							df = df*(1 - iteEsm->dDWConfidence);
+						} 
+						else if(!strcmp(iteEsm->cDWAttribute,"我方"))
+						{
+							wn++;
+							wf =wf*(1 - iteEsm->dDWConfidence);
+						}
+					}
+					if (dn>wn)
+					{
+						strcpy(IdentifyVec.at(t).cDWAttribute, "敌方");//不明属性作为识别结果
+					    IdentifyVec.at(t).dDWConfidence = 1 - df;
+					} 
+					else if(dn<wn)
+					{
+						strcpy(IdentifyVec.at(t).cDWAttribute, "我方");//不明属性作为识别结果
+					    IdentifyVec.at(t).dDWConfidence = 1 - wf;
+					}
+					else
+					{
+						if (df>wf)
+						{
+							strcpy(IdentifyVec.at(t).cDWAttribute, "敌方");//不明属性作为识别结果
+							IdentifyVec.at(t).dDWConfidence = 1 - df;
+						}
+						else if (df<wf)
+						{
+							strcpy(IdentifyVec.at(t).cDWAttribute, "我方");//不明属性作为识别结果
+							IdentifyVec.at(t).dDWConfidence = 1 - wf;
+						}
+						else
+						{
+							strcpy(IdentifyVec.at(t).cDWAttribute, "不明");//不明属性作为识别结果
+							IdentifyVec.at(t).dDWConfidence = itt->structTrace.dDWConfidence;//???????????????
+						}
+						
+					}
+				
+				} 
+				else
+				{
+					strcpy(IdentifyVec.at(t).cDWAttribute, "不明");//不明属性作为识别结果
+					IdentifyVec.at(t).dDWConfidence = itt->structTrace.dDWConfidence;//???????????????
+				}
+			} 
+			else//无ESM
+			{
+				strcpy(IdentifyVec.at(t).cDWAttribute, "不明");//不明属性作为识别结果
+				IdentifyVec.at(t).dDWConfidence = itt->structTrace.dDWConfidence;//???????????????
+			}			
+		}
+		t++;
 
 // 		for (j = 0; j < nLenEsm; j++)//清空EsmType
 // 		{

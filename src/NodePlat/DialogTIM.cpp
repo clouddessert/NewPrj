@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogTIM dialog
-
+extern CNodePlatApp theApp;
 
 CDialogTIM::CDialogTIM(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogTIM::IDD, pParent)
@@ -88,22 +88,21 @@ BOOL CDialogTIM::OnInitDialog()
 
 void CDialogTIM::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from Ïà»¥×÷ÓÃÈº order by ID desc ",NULL,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from Ïà»¥×÷ÓÃÈº order by ID desc ",NULL,adCmdText);
 	int alert,patrol,attact,intercept,bomb,penetrate,interference,warm,reconnoitre;
 	CString salert,spatrol,sattact,sintercept,sbomb,spenetrate,sinterference,swarm,sreconnoitre;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
-		alert=atoi((_bstr_t)ado.pRst->GetCollect("¾¯½ä"));
-		patrol=atoi((_bstr_t)ado.pRst->GetCollect("Ñ²Âß"));
-		attact=atoi((_bstr_t)ado.pRst->GetCollect("¹¥»÷"));
-		intercept=atoi((_bstr_t)ado.pRst->GetCollect("À¹½Ø"));
-		bomb=atoi((_bstr_t)ado.pRst->GetCollect("ºäÕ¨"));
-		penetrate=atoi((_bstr_t)ado.pRst->GetCollect("Í»·À"));
-		interference=atoi((_bstr_t)ado.pRst->GetCollect("¸ÉÈÅ"));
-		warm=atoi((_bstr_t)ado.pRst->GetCollect("Ô¤¾¯"));
-		reconnoitre=atoi((_bstr_t)ado.pRst->GetCollect("Õì²ì"));
+		alert=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("¾¯½ä"));
+		patrol=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Ñ²Âß"));
+		attact=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("¹¥»÷"));
+		intercept=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("À¹½Ø"));
+		bomb=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ºäÕ¨"));
+		penetrate=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Í»·À"));
+		interference=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("¸ÉÈÅ"));
+		warm=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Ô¤¾¯"));
+		reconnoitre=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Õì²ì"));
 		//alert
 		if(alert==1)
 		{
@@ -183,7 +182,7 @@ void CDialogTIM::AddToGrid()
 			sreconnoitre="  ";
 		}
 		m_Grid.InsertItem(0,"");
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,salert);
 		m_Grid.SetItemText(0,2,spatrol);
 		m_Grid.SetItemText(0,3,sattact);
@@ -195,10 +194,10 @@ void CDialogTIM::AddToGrid()
 		m_Grid.SetItemText(0,9,sreconnoitre);
 		
 		
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 
@@ -347,9 +346,8 @@ void CDialogTIM::OnButadd()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE);
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst->Open("select * from Ïà»¥×÷ÓÃÈº",ado.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst->Open("select * from Ïà»¥×÷ÓÃÈº",theApp.m_DataBase.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
 
 	int ale,pat,att,inte,bom,pen,fev,war,rec;
 
@@ -434,27 +432,30 @@ void CDialogTIM::OnButadd()
 		rec=0;
 	}
 
-	try{
-		ado.pRst->MoveLast();
-		ado.pRst->AddNew();
-		ado.pRst->PutCollect("ID",atol(m_id));
-		ado.pRst->PutCollect("¾¯½ä",(long)ale);
-		ado.pRst->PutCollect("Ñ²Âß",(long)pat);
-		ado.pRst->PutCollect("¹¥»÷",(long)att);
-		ado.pRst->PutCollect("À¹½Ø",(long)inte);
-		ado.pRst->PutCollect("ºäÕ¨",(long)bom);
-		ado.pRst->PutCollect("Í»·À",(long)pen);
-		ado.pRst->PutCollect("¸ÉÈÅ",(long)fev);
-		ado.pRst->PutCollect("Ô¤¾¯",(long)war);
-		ado.pRst->PutCollect("Õì²ì",(long)rec);
-		ado.pRst->Update();
-		ado.ExitConnect();
-	}catch(_com_error e)
+	try
+	{
+		theApp.m_DataBase.pRst->MoveLast();
+		theApp.m_DataBase.pRst->AddNew();
+		theApp.m_DataBase.pRst->PutCollect("ID",atol(m_id));
+		theApp.m_DataBase.pRst->PutCollect("¾¯½ä",(long)ale);
+		theApp.m_DataBase.pRst->PutCollect("Ñ²Âß",(long)pat);
+		theApp.m_DataBase.pRst->PutCollect("¹¥»÷",(long)att);
+		theApp.m_DataBase.pRst->PutCollect("À¹½Ø",(long)inte);
+		theApp.m_DataBase.pRst->PutCollect("ºäÕ¨",(long)bom);
+		theApp.m_DataBase.pRst->PutCollect("Í»·À",(long)pen);
+		theApp.m_DataBase.pRst->PutCollect("¸ÉÈÅ",(long)fev);
+		theApp.m_DataBase.pRst->PutCollect("Ô¤¾¯",(long)war);
+		theApp.m_DataBase.pRst->PutCollect("Õì²ì",(long)rec);
+		theApp.m_DataBase.pRst->Update();
+	}
+	catch(_com_error e)
 	{
 		e.Description();
 	}
+
+	theApp.m_DataBase.pRst->Close();
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	AddToGrid();
 
 }
 
@@ -545,11 +546,10 @@ void CDialogTIM::OnButmod()
 	{
 		rec=0;
 	}
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update Ïà»¥×÷ÓÃÈº set ¾¯½ä=%d,Ñ²Âß=%d,¹¥»÷=%d,À¹½Ø=%d,ºäÕ¨=%d,Í»·À=%d,¸ÉÈÅ=%d,Ô¤¾¯=%d,Õì²ì=%d where ID=%d",ale,pat,att,inte,bom,pen,fev,war,rec,ids);
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
@@ -564,16 +564,15 @@ void CDialogTIM::OnButdel()
 {
 	// TODO: Add your control notification handler code here
 	int id=atoi(m_id);	
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("delete from Ïà»¥×÷ÓÃÈº where ID=%d",id);
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	AddToGrid();
 }

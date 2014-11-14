@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Chinese (P.R.C.) resources
+// Chinese (中国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -92,6 +92,19 @@ BEGIN
     BEGIN
         MENUITEM "单舰评估",                    IDM_EVA_SIN
         MENUITEM "多舰评估",                    IDM_EVA_MUL
+    END
+    POPUP "联合识别"
+    BEGIN
+        POPUP "发送请求"
+        BEGIN
+            MENUITEM "A舰",                         IDC_MENUITEMA
+            MENUITEM "B舰",                         IDC_MENUITEMB
+            MENUITEM "C舰",                         IDC_MENUITEMC
+            MENUITEM "D舰",                         IDC_MENUITEMD
+            MENUITEM "E舰",                         IDC_MENUITEME
+            MENUITEM "所有舰",                      IDC_MENUITEMALL
+        END
+        MENUITEM "关闭请求",                    IDM_CLOSE
     END
     POPUP "帮助(&H)"
     BEGIN
@@ -711,6 +724,46 @@ BEGIN
                     WS_BORDER | WS_TABSTOP,1,3,368,162
 END
 
+IDD_MSG_DLG_NINTH DIALOG DISCARDABLE  0, 0, 187, 96
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    CONTROL         "List1",IDC_LIST_EVENT,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,18,19,60,50
+END
+
+IDD_DIALOG_TEN DIALOG DISCARDABLE  0, 0, 192, 135
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    CONTROL         "List1",IDC_LIST_PLAT,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,7,7,116,75
+END
+
+IDD_DIALOG_ELEVENTH DIALOG DISCARDABLE  0, 0, 209, 171
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    CONTROL         "List1",IDC_LIST_SPACE,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,7,7,107,108
+END
+
+IDD_DIALOG_TWELFTH DIALOG DISCARDABLE  0, 0, 187, 96
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    CONTROL         "List1",IDC_LIST_FUN,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,7,7,92,73
+END
+
+IDD_DIALOG_THIRTTH DIALOG DISCARDABLE  0, 0, 187, 96
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    CONTROL         "List1",IDC_LIST_INTER,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,7,7,85,65
+END
+
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
@@ -901,6 +954,46 @@ BEGIN
         TOPMARGIN, 3
         BOTTOMMARGIN, 165
     END
+
+    IDD_MSG_DLG_NINTH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 89
+    END
+
+    IDD_DIALOG_TEN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 185
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 128
+    END
+
+    IDD_DIALOG_ELEVENTH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 164
+    END
+
+    IDD_DIALOG_TWELFTH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 89
+    END
+
+    IDD_DIALOG_THIRTTH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 89
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -942,7 +1035,7 @@ BEGIN
     0
 END
 
-#endif    // Chinese (P.R.C.) resources
+#endif    // Chinese (中国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

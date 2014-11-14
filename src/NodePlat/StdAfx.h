@@ -54,6 +54,12 @@ using namespace std;
 
 #define WM_DISPLAY_MSG WM_USER+109
 
+#define WM_EVENT_MSG WM_USER+110
+#define WM_PLAT_MSG WM_USER+111
+#define WM_SPACE_MSG WM_USER+112
+#define WM_FUN_MSG WM_USER+113
+#define WM_INTER_MSG WM_USER+114
+
 #import "C:\Program Files\Common Files\System\ado\msado15.dll" no_namespace rename("EOF","adoEOF")
 
 //{{AFX_INSERT_LOCATION}}

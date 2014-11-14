@@ -60,24 +60,18 @@ protected:
 	afx_msg void OnEvaSin();
 	afx_msg void OnEvaMul();
 	afx_msg void OnEvatuate();
-// 	afx_msg void OnSendToMateall();
-// 	afx_msg void OnSendToMateA();
-// 	afx_msg void OnSendToMateB();
-// 	afx_msg void OnSendToMateC();
-// 	afx_msg void OnSendToMateD();
-// 	afx_msg void OnSendToMateE();
-	afx_msg void OnSendA();
-	afx_msg void OnSendB();
-	afx_msg void OnSendAll();
-	afx_msg void OnSendC();
-	afx_msg void OnSendD();
-	afx_msg void OnSendE();
-	afx_msg void OnCloseA();
-	afx_msg void OnCloseAll();
-	afx_msg void OnCloseB();
-	afx_msg void OnCloseC();
-	afx_msg void OnCloseD();
-	afx_msg void OnCloseE();
+	afx_msg void OnMenuitemA();
+	afx_msg void OnMenuitemAll();
+	afx_msg void OnMenuitemB();
+	afx_msg void OnMenuitemC();
+	afx_msg void OnMenuitemD();
+	afx_msg void OnMenuitemE();
+	afx_msg void OnClose();
+	afx_msg void OnUpdateMenuitemb(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateMenuitema(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateMenuitemc(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateMenuitemd(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateMenuiteme(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

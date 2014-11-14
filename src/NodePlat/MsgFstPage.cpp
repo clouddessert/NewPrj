@@ -80,7 +80,7 @@ BOOL CMsgFstPage::OnInitDialog()
 			_T("平台编号"),//2
 			_T("设备编号"),//3
 			_T("设备类型"),//4
-			_T("平台类型"),  //5
+			_T("平台型号"),  //5
 			_T("可信度"),   //6
 			_T("到达方位"), //7	
 			_T("载频信息"),
@@ -154,7 +154,7 @@ LRESULT CMsgFstPage::OnEsmMessage(WPARAM wParam, LPARAM lParam)
 			strTmp.Format("%s",pESM_Dat->cEquipmentType); //设备类型
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 4, strTmp);
 			
-			strTmp.Format("%s",pESM_Dat->sPlatType);
+			strTmp.Format("%s",pESM_Dat->sPlatType);//平台型号
 			((CListCtrl*)GetDlgItem(IDC_LIST_ESM))->SetItemText(nTmp, 5, strTmp);
 			
 			fTmp = pESM_Dat->dConfidence;  //置信度

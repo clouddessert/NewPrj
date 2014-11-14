@@ -17,6 +17,9 @@
 #include "MsgSocket.h"
 #include "MySocket.h"
 
+#include "DataBase.h"
+#include "Algorithm.h"	
+
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatApp:
 // See NodePlat.cpp for the implementation of this class
@@ -32,10 +35,13 @@ public:
 	//{{AFX_VIRTUAL(CNodePlatApp)
 	public:
 	virtual BOOL InitInstance();
+	virtual int ExitInstance();
 	//}}AFX_VIRTUAL
 
 public:
 	CRITICAL_SECTION g_cs;				// 临界区结构对象
+
+	CDataBase m_DataBase;               //数据库对象
 
 	void *pTmpDocPt;
 	//发送数据线程句柄;
@@ -116,6 +122,22 @@ public:
 	VCT_COMM_MSG::iterator iteFusCom1;
 
 
+	/*******************态势部分变量******************/
+	//事件黑板
+	MAP_EVENT_BLACK m_mapEventBlack; 
+	//平台黑板
+	MAP_PLAT_BLACK m_Plat_Black;
+	//飞机类黑板
+	SPACE_BLACK m_PlaneSpaceBlack;
+	//舰船类黑板
+	SPACE_BLACK m_ShipSpaceBlack;
+	//功能群黑板
+	FUN_GROUP_BLACK m_FunBlack;
+	//相互作用群黑板
+	INTERGROUPBLACK m_InterGBlack;
+
+	
+
 	
 	/**********socket communication***************/
 	//同步事件标志位
@@ -166,15 +188,27 @@ public:
 	//命令显示窗口
 	HWND hDISPLAY_wnd;
 
+	//事件显示窗口
+	HWND hEvent_wnd;
+	//平台显示窗口
+	HWND hPlat_wnd;
+	//空间群显示窗口
+	HWND hSpace_wnd;
+	//功能群显示窗口
+	HWND hFun_wnd;
+	//相互作用群显示窗口
+	HWND hInter_wnd;
+
 
 	//view的指针
 	void* pXview;
 
 private:
-	void SetIPLib(void);
+//	void SetIPLib(void);
 
 public:
 	//common
+	void SetIPLib(void);
 	void ClientAccept(void);
 	void ClientClose(void* pContext);
 	void ReceiveFromClient(CMsgSocket* pThis);

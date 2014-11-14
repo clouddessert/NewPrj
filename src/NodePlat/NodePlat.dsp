@@ -90,6 +90,10 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=.\Algorithm.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\AllParamSheet.cpp
 
 !IF  "$(CFG)" == "NodePlat - Win32 Release"
@@ -104,6 +108,10 @@ SOURCE=.\AllParamSheet.cpp
 # Begin Source File
 
 SOURCE=.\Alg\CooperativeMsg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DataBase.cpp
 # End Source File
 # Begin Source File
 
@@ -183,6 +191,10 @@ SOURCE=.\MsgEighthPage.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\MsgElethPage.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MsgFifthPage.cpp
 # End Source File
 # Begin Source File
@@ -196,6 +208,10 @@ SOURCE=.\MsgFstPage.cpp
 # Begin Source File
 
 SOURCE=.\MsgListView.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgNinthPage.cpp
 # End Source File
 # Begin Source File
 
@@ -215,7 +231,19 @@ SOURCE=.\MsgSocket.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\MsgTenPage.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgThirtthPage.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MsgThreePage.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgTwelfthPage.cpp
 # End Source File
 # Begin Source File
 
@@ -325,6 +353,10 @@ SOURCE=.\ZDIdentiGraph.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
+SOURCE=.\Algorithm.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\AllParamSheet.h
 # End Source File
 # Begin Source File
@@ -338,6 +370,10 @@ SOURCE=.\CommHeader.h
 # Begin Source File
 
 SOURCE=.\Alg\CooperativeMsg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DataBase.h
 # End Source File
 # Begin Source File
 
@@ -417,6 +453,10 @@ SOURCE=.\MsgEighthPage.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\MsgElethPage.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\MsgFifthPage.h
 # End Source File
 # Begin Source File
@@ -430,6 +470,10 @@ SOURCE=.\MsgFstPage.h
 # Begin Source File
 
 SOURCE=.\MsgListView.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgNinthPage.h
 # End Source File
 # Begin Source File
 
@@ -449,7 +493,19 @@ SOURCE=.\MsgSocket.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\MsgTenPage.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgThirtthPage.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\MsgThreePage.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MsgTwelfthPage.h
 # End Source File
 # Begin Source File
 

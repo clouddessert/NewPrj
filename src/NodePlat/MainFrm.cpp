@@ -219,8 +219,16 @@ void CMainFrame::OnTimer(UINT nIDEvent)
         ::PostMessage(theApp.hMulESM_wmd, WM_MULESM_MSG, 0, 0);
 		::PostMessage(theApp.hMulCOMM_wnd, WM_MULCOMM_MSG, 0, 0);
 		::PostMessage(theApp.hMulTRACE_wnd, WM_MULTRACE_MSG, 0, 0);
+		::PostMessage(theApp.hEvent_wnd, WM_EVENT_MSG, 0, 0);
+		::PostMessage(theApp.hPlat_wnd, WM_PLAT_MSG, 0, 0);
+		::PostMessage(theApp.hSpace_wnd, WM_SPACE_MSG, 0, 0);
+		::PostMessage(theApp.hFun_wnd, WM_FUN_MSG, 0, 0);
+		::PostMessage(theApp.hInter_wnd, WM_INTER_MSG, 0, 0);
+
                 
 	}
 
 	CFrameWnd::OnTimer(nIDEvent);
 }
+
+

@@ -34,8 +34,10 @@ typedef struct __IDENTIINFOR         //本舰识别结果结构体
 {	
 	unsigned long lAutonum; 	         //综合批号
 //	unsigned short sPlatType;            //平台类型  F117  ('1'代表F117； '2' 代表F118； '3'代表F119； '4'代表F120； '5'代表F121)
-    char sPlatType[32];
-	double dConfidence;                   //可信度	
+    char sPlatType[32];                  //平台型号  F117  ('1'代表F117； '2' 代表F118； '3'代表F119； '4'代表F120； '5'代表F121)
+	double dConfidence;                  //平台型号可信度
+	char cDWAttribute[32];               //敌我属性 (IFF信息)
+	double dDWConfidence;                //敌我可信度
 }IDENTIINFOR;
 
 //typedef map<unsigned long, STCLUSTER> MAP_CLUSTER;

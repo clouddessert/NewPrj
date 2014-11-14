@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogSPA dialog
-
+extern CNodePlatApp theApp;
 
 CDialogSPA::CDialogSPA(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogSPA::IDD, pParent)
@@ -72,14 +72,13 @@ BOOL CDialogSPA::OnInitDialog()
 
 void CDialogSPA::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from 空间群 order by ID desc ",NULL,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from 空间群 order by ID desc ",NULL,adCmdText);
 	CString sobjtype;
 	int objtype;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
-		objtype=atoi((_bstr_t)ado.pRst->GetCollect("ObjType"));
+		objtype=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ObjType"));
 		if(objtype==1)
 		{
 			sobjtype="舰船";
@@ -93,14 +92,14 @@ void CDialogSPA::AddToGrid()
 			sobjtype="导弹";
 		}
 		m_Grid.InsertItem(0,"");
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,sobjtype);
-		m_Grid.SetItemText(0,2,(_bstr_t)ado.pRst->GetCollect("Distance"));
+		m_Grid.SetItemText(0,2,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("Distance"));
 		
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 		
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 
@@ -139,9 +138,8 @@ void CDialogSPA::OnButadd()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE);
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst->Open("select * from 空间群",ado.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst->Open("select * from 空间群",theApp.m_DataBase.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
 	CString sobjtype;
 	int objtype;
 	m_objtype.GetLBText(m_objtype.GetCurSel(),sobjtype);
@@ -159,15 +157,15 @@ void CDialogSPA::OnButadd()
 	}
 	
 	int did=0;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
-		int id=atoi((_bstr_t)ado.pRst->GetCollect("ID"));
+		int id=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		if(id==atoi(m_id))
 		{
 			did=1;
 			MessageBox("ID号重复，请重新添加!");
 		}
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 	}
 	//此处可不做判断，由数据库来做唯一性判断
 
@@ -182,21 +180,24 @@ void CDialogSPA::OnButadd()
 		}
 		else
 		{	
-		ado.pRst->MoveLast();
-		ado.pRst->AddNew();
-		
-		ado.pRst->PutCollect("ID",atol(m_id));
-		ado.pRst->PutCollect("ObjType",(long)objtype);
-		ado.pRst->PutCollect("Distance",atol(m_distance));
-		ado.pRst->Update();
-		ado.ExitConnect();
+			theApp.m_DataBase.pRst->MoveLast();
+			theApp.m_DataBase.pRst->AddNew();
+			
+			theApp.m_DataBase.pRst->PutCollect("ID",atol(m_id));
+			theApp.m_DataBase.pRst->PutCollect("ObjType",(long)objtype);
+			theApp.m_DataBase.pRst->PutCollect("Distance",atol(m_distance));
+			theApp.m_DataBase.pRst->Update();
 		}
-	}catch(_com_error e)
+	}
+	catch(_com_error e)
 	{
 		MessageBox(e.Description());
 	}
+	theApp.m_DataBase.pRst->Close();
+
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetSpaceGroup();
+	AddToGrid();
 }
 
 void CDialogSPA::OnButmod() 
@@ -219,34 +220,34 @@ void CDialogSPA::OnButmod()
 	{
 		objtype=3;
 	}
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update 空间群 set ObjType=%d,Distance=%d  where ID=%d",objtype,atol(m_distance),ids);
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetSpaceGroup();
+	AddToGrid();
 }
 
 void CDialogSPA::OnButdel() 
 {
 	// TODO: Add your control notification handler code here
 	int id=atoi(m_id);	
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("delete from 空间群 where ID=%d",id);
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetSpaceGroup();
+	AddToGrid();
 }

@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogFUN dialog
-
+extern CNodePlatApp theApp;
 
 CDialogFUN::CDialogFUN(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogFUN::IDD, pParent)
@@ -100,17 +100,17 @@ CDialog::OnInitDialog();
 
 void CDialogFUN::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from 功能群 order by ID desc ",NULL,adCmdText);
+
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from 功能群 order by ID desc ",NULL,adCmdText);
 	int type,trackbaseevent,funbaseevent;
 	CString stype,strackbaseevent,sfunbaseevent;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
 		m_Grid.InsertItem(0,"");
-		type=atoi((_bstr_t)ado.pRst->GetCollect("群类型"));
-		trackbaseevent=atoi((_bstr_t)ado.pRst->GetCollect("平台态势"));
-		funbaseevent=atoi((_bstr_t)ado.pRst->GetCollect("功能事件"));
+		type=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("群类型"));
+		trackbaseevent=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("平台态势"));
+		funbaseevent=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("功能事件"));
 		
 
 		if(type==1)
@@ -198,14 +198,14 @@ void CDialogFUN::AddToGrid()
 		}
 		
 		
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,stype);
 		m_Grid.SetItemText(0,2,strackbaseevent);
 		m_Grid.SetItemText(0,3,sfunbaseevent);
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 		
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 
@@ -275,9 +275,8 @@ void CDialogFUN::OnButAdd()
 	pConn->ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\Administrator\\Desktop\\Database.accdb;Persist Security Info=False";
 	pConn->Open("","","",adConnectUnspecified);
 	*/
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst->Open("select * from 功能群",ado.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst->Open("select * from 功能群",theApp.m_DataBase.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
 	int type,trackbaseevent,funbaseevent;
 	CString stype,strackbaseevent,sfunbaseevent;
 	m_typ.GetLBText(m_typ.GetCurSel(),stype);
@@ -374,29 +373,31 @@ void CDialogFUN::OnButAdd()
 
 
 
-	try{
-		ado.pRst->MoveLast();
-		ado.pRst->AddNew();
-	ado.pRst->PutCollect("ID",atol(m_id));
-	ado.pRst->PutCollect("群类型",(long)type);
-	ado.pRst->PutCollect("平台态势",(long)trackbaseevent);
-	ado.pRst->PutCollect("功能事件",(long)funbaseevent);
-
-	ado.pRst->Update();
-	ado.ExitConnect();
-
-	}catch(_com_error e)
+	try
+	{
+		theApp.m_DataBase.pRst->MoveLast();
+		theApp.m_DataBase.pRst->AddNew();
+		theApp.m_DataBase.pRst->PutCollect("ID",atol(m_id));
+		theApp.m_DataBase.pRst->PutCollect("群类型",(long)type);
+		theApp.m_DataBase.pRst->PutCollect("平台态势",(long)trackbaseevent);
+		theApp.m_DataBase.pRst->PutCollect("功能事件",(long)funbaseevent);
+		theApp.m_DataBase.pRst->Update();
+	}
+	catch(_com_error e)
 	{
 		e.Description();
 	}
+
+	theApp.m_DataBase.pRst->Close();
+
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	AddToGrid();
 }
 
 void CDialogFUN::OnButmod() 
 {
 	// TODO: Add your control notification handler code here
-		UpdateData(TRUE);
+	UpdateData(TRUE);
 	//az
 	int type;
 	CString stype;
@@ -415,88 +416,87 @@ void CDialogFUN::OnButmod()
 		}
 		
 		//pre
-		int trackbaseevent;
+	int trackbaseevent;
 	CString strackbaseevent;
 	m_tra.GetLBText(m_tra.GetCurSel(),strackbaseevent);
-		if(strackbaseevent=="警戒")
-		{
-			trackbaseevent=1;
-		}
-		if(strackbaseevent=="巡逻")
-		{
-			trackbaseevent=2;
-		}
-		if(strackbaseevent=="拦截")
-		{
-			trackbaseevent=3;
-		}
-		if(strackbaseevent=="攻击")
-		{
-			trackbaseevent=4;
-		}
-		if(strackbaseevent=="轰炸")
-		{
-			trackbaseevent=5;
-		}
-		if(strackbaseevent=="突防")
-		{
-			trackbaseevent=6;
-		}
-		if(strackbaseevent=="干扰")
-		{
-			trackbaseevent=7;
-		}
-		if(strackbaseevent=="预警指挥")
-		{
-			trackbaseevent=8;
-		}
+	if(strackbaseevent=="警戒")
+	{
+		trackbaseevent=1;
+	}
+	if(strackbaseevent=="巡逻")
+	{
+		trackbaseevent=2;
+	}
+	if(strackbaseevent=="拦截")
+	{
+		trackbaseevent=3;
+	}
+	if(strackbaseevent=="攻击")
+	{
+		trackbaseevent=4;
+	}
+	if(strackbaseevent=="轰炸")
+	{
+		trackbaseevent=5;
+	}
+	if(strackbaseevent=="突防")
+	{
+		trackbaseevent=6;
+	}
+	if(strackbaseevent=="干扰")
+	{
+		trackbaseevent=7;
+	}
+	if(strackbaseevent=="预警指挥")
+	{
+		trackbaseevent=8;
+	}
 //paw
 	int funbaseevent;
 	CString sfunbaseevent;
 	m_fun.GetLBText(m_fun.GetCurSel(),sfunbaseevent);
-		if(sfunbaseevent=="警戒")
-		{
-			funbaseevent=1;
-		}
-		if(sfunbaseevent=="巡逻")
-		{
-			funbaseevent=2;
-		}
-		if(sfunbaseevent=="攻击")
-		{
-			funbaseevent=3;
-		}
-		if(sfunbaseevent=="拦截")
-		{
-			funbaseevent=4;
-		}	
-		if(sfunbaseevent=="轰炸")
-		{
-			funbaseevent=5;
-		}
-		if(sfunbaseevent=="突防")
-		{
-			funbaseevent=6;
-		}
-		if(sfunbaseevent=="干扰")
-		{
-			funbaseevent=7;
-		}
-		if(sfunbaseevent=="预警")
-		{
-			funbaseevent=8;
-		}
-		if(sfunbaseevent=="侦察")
-		{
-			funbaseevent=9;
-		}
+	if(sfunbaseevent=="警戒")
+	{
+		funbaseevent=1;
+	}
+	if(sfunbaseevent=="巡逻")
+	{
+		funbaseevent=2;
+	}
+	if(sfunbaseevent=="攻击")
+	{
+		funbaseevent=3;
+	}
+	if(sfunbaseevent=="拦截")
+	{
+		funbaseevent=4;
+	}	
+	if(sfunbaseevent=="轰炸")
+	{
+		funbaseevent=5;
+	}
+	if(sfunbaseevent=="突防")
+	{
+		funbaseevent=6;
+	}
+	if(sfunbaseevent=="干扰")
+	{
+		funbaseevent=7;
+	}
+	if(sfunbaseevent=="预警")
+	{
+		funbaseevent=8;
+	}
+	if(sfunbaseevent=="侦察")
+	{
+		funbaseevent=9;
+	}
 
 
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update 功能群 set 群类型=%d,平台态势=%d,功能事件=%d where ID=%d",type,trackbaseevent,funbaseevent,ids);
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
@@ -510,11 +510,10 @@ void CDialogFUN::OnButDel()
 {
 	// TODO: Add your control notification handler code here
 	int id=atoi(m_id);	
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("delete from 功能群 where ID=%d",id);
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{

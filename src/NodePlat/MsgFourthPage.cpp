@@ -59,8 +59,10 @@ BOOL CMsgFourthPage::OnInitDialog()
 	CString IDENTIFY_Columns[]=
 	{
 	 	    _T("综合批号"),
-			_T("平台类型"),
-			_T("可信度"),
+			_T("平台型号"),
+			_T("平台型号可信度"),
+			_T("敌我属性"),
+  			_T("敌我属性可信度"),
 
 // 			_T("平台编号"),
 // 			_T("设备编号"),
@@ -95,7 +97,7 @@ BOOL CMsgFourthPage::OnInitDialog()
 	((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	
 	for(int i=0; i<sizeof(IDENTIFY_Columns)/sizeof(IDENTIFY_Columns[0]); ++i)
-		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertColumn(i, IDENTIFY_Columns[i], LVCFMT_CENTER, 80);
+		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->InsertColumn(i, IDENTIFY_Columns[i], LVCFMT_CENTER, 100);
 
 	return TRUE;  // return TRUE unless you set the focus to a control	        
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -158,6 +160,13 @@ LRESULT CMsgFourthPage::OnSigleOutMessage(WPARAM wParam, LPARAM lParam)
 			fTmp = iterator->dConfidence;  //置信度
 			strTmp.Format("%.2f", fTmp);
 			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->SetItemText(nTmp, 2, strTmp);	
+
+			strTmp.Format("%s", iterator->cDWAttribute);
+			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->SetItemText(nTmp, 3, strTmp);
+			
+			fTmp = iterator->dDWConfidence;  //置信度
+			strTmp.Format("%.2f", fTmp);
+			((CListCtrl*)GetDlgItem(IDC_LIST_FIRSTIDENTMSG))->SetItemText(nTmp, 4, strTmp);
 			
 		}
 		((CListCtrl*)GetDlgItem(IDC_LIST_FUSIONMSG))->SetRedraw();//启动

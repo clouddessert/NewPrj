@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogESM1 dialog
-
+extern CNodePlatApp theApp;
 
 CDialogESM1::CDialogESM1(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogESM1::IDD, pParent)
@@ -77,14 +77,14 @@ BOOL CDialogESM1::OnInitDialog()
 
 void CDialogESM1::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from ESM1 order by ID desc ",NULL,adCmdText);
+
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from ESM1 order by ID desc ",NULL,adCmdText);
 	_variant_t str;
 	_bstr_t sty;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{		
-		str=ado.pRst->GetCollect("类型");
+		str=theApp.m_DataBase.pRst->GetCollect("类型");
 		if(str==(_variant_t)"ESMPre")
 		{sty="载频（GHz）";}
 		if(str==(_variant_t)"ESMPAw")
@@ -96,17 +96,12 @@ void CDialogESM1::AddToGrid()
 		if(str==(_variant_t)"ESMScan")
 		{sty="天线扫描周期（s）";}
 		m_Grid.InsertItem(0,"");
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,sty);
-
-			m_Grid.SetItemText(0,2,(_bstr_t)ado.pRst->GetCollect("阈值"));
-
-
-		
-
-		ado.pRst->MoveNext();
+		m_Grid.SetItemText(0,2,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("阈值"));
+		theApp.m_DataBase.pRst->MoveNext();
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 void CDialogESM1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -135,18 +130,18 @@ void CDialogESM1::OnButmod()
 		MessageBox("基础信息不能为空");
 		return;
 	}
-	ado.OnInitADOConn();
 	CString sql;
 
 	sql.Format("update ESM1 set 阈值=%f where ID=%d",atof(m_data1),ids);
 	
 	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetESMThd();
+	AddToGrid();
 }

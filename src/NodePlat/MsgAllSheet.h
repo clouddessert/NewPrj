@@ -14,6 +14,11 @@
 #include "MsgSixthPage.h"
 #include "MsgSeventhPage.h"
 #include "MsgEighthPage.h"
+#include "MsgNinthPage.h"
+#include "MsgTenPage.h"
+#include "MsgElethPage.h"
+#include "MsgTwelfthPage.h"
+#include "MsgThirtthPage.h"
 /////////////////////////////////////////////////////////////////////////////
 // CMsgAllSheet
 
@@ -36,6 +41,11 @@ private:
 	CMsgSixthPage m_SixthPage;
 	CMsgSeventhPage m_SeventhPage;
 	CMsgEighthPage m_EighthPage;
+	CMsgNinthPage m_NinthPage;
+	CMsgTenPage m_TenPage;
+	CMsgElethPage m_ElethPage;
+	CMsgTwelfthPage m_TwelthPage;
+	CMsgThirtthPage m_ThirtthPage;
 
 // Operations
 public:

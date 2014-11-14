@@ -90,7 +90,7 @@ BOOL CNodePlatApp::InitInstance()
 		AfxMessageBox("SOCKET 初始化失败");
 		return FALSE;
 	}
-	
+	m_DataBase.InitDataBase();
 	AfxEnableControlContainer();
 	
 	// Standard initialization
@@ -130,7 +130,7 @@ BOOL CNodePlatApp::InitInstance()
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	
-	
+	SetIPLib();
 	// The one and only window has been initialized, so show and update it.
 	//设置标题
 	m_pMainWnd->SetWindowText("联合识别与态势评估仿真平台");
@@ -1201,4 +1201,13 @@ DWORD WINAPI SendDataProc(LPVOID lParam)
 	}
 	
 	return 0;
+}
+
+
+
+int CNodePlatApp::ExitInstance() 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	m_DataBase.ExitDataBase();
+	return CWinApp::ExitInstance();
 }

@@ -13,6 +13,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+extern CNodePlatApp theApp;
 //////////////////////////////////////////////////////////////////////////
    
 CNodePlatDoc* pDoc = NULL;
@@ -92,4 +93,5 @@ CNodePlatDoc* CNodePlatView::GetDocument() // non-debug version is inline
 // 
 // 	CView::OnTimer(nIDEvent);
 // }
+
 

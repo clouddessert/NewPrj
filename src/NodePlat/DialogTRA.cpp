@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogTRA dialog
-
+extern CNodePlatApp theApp;
 
 CDialogTRA::CDialogTRA(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogTRA::IDD, pParent)
@@ -117,21 +117,20 @@ BOOL CDialogTRA::OnInitDialog()
 
 void CDialogTRA::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from Track order by ID desc ",NULL,adCmdText);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from Track order by ID desc ",NULL,adCmdText);
 	int rd,speed,addspeed,azimuth,high,baseevent;
 	CString srd,sspeed,saddspeed,sazimuth,shigh,sbaseevent;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
 		m_Grid.InsertItem(0,"");
 		
-		rd=atoi((_bstr_t)ado.pRst->GetCollect("Rd"));
-		speed=atoi((_bstr_t)ado.pRst->GetCollect("Speed"));
-		addspeed=atoi((_bstr_t)ado.pRst->GetCollect("AddSpeed"));
-		azimuth=atoi((_bstr_t)ado.pRst->GetCollect("Azimuth"));
-		high=atoi((_bstr_t)ado.pRst->GetCollect("High"));
-		baseevent=atoi((_bstr_t)ado.pRst->GetCollect("BaseEvent"));
+		rd=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Rd"));
+		speed=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Speed"));
+		addspeed=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("AddSpeed"));
+		azimuth=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("Azimuth"));
+		high=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("High"));
+		baseevent=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("BaseEvent"));
 		//rd
 		if(rd==0)
 		{
@@ -250,7 +249,7 @@ void CDialogTRA::AddToGrid()
 		{
 			sbaseevent="位置固定";
 		}
-m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,srd);
 		m_Grid.SetItemText(0,2,sspeed);
 		m_Grid.SetItemText(0,3,saddspeed);
@@ -258,10 +257,10 @@ m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,5,shigh);
 		m_Grid.SetItemText(0,6,sbaseevent);
 		
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 		
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 
@@ -287,10 +286,9 @@ void CDialogTRA::OnButAdd()
 	// TODO: Add your control notification handler code here
 	// TODO: Add your control notification handler code here
 	// TODO: Add your control notification handler code here
-		UpdateData(TRUE);
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst->Open("select * from Track",ado.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
+	UpdateData(TRUE);
+	//theApp.m_DataBase.pRst.CreateInstance(__uuidof(Recordset));
+	theApp.m_DataBase.pRst->Open("select * from Track",theApp.m_DataBase.pConn.GetInterfacePtr(),adOpenDynamic,adLockOptimistic,adCmdText);
 
 	CString srd,sspeed,saddspeed,sazimuth,shigh,sbaseevent;
 	int rd,speed,addspeed,azimuth,high,baseevent;
@@ -420,19 +418,20 @@ void CDialogTRA::OnButAdd()
 	{
 		baseevent=8;
 	}	
-int did=0;
-	while(!ado.pRst->adoEOF)
+	int did=0;
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
-		int id=atoi((_bstr_t)ado.pRst->GetCollect("ID"));
+		int id=atoi((_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		if(id==atoi(m_id))
 		{
 			did=1;
 			MessageBox("ID号重复，请重新添加!");
 		}
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 	}
 	//此处可不做判断，由数据库来做唯一性判断
-	try{
+	try
+	{
 		if(m_id=="")
 		{
 			MessageBox("ID号不可为空!");
@@ -443,26 +442,30 @@ int did=0;
 		}
 		else
 		{	
-		ado.pRst->MoveLast();
-		ado.pRst->AddNew();
+			theApp.m_DataBase.pRst->MoveLast();
+			theApp.m_DataBase.pRst->AddNew();
 
-	ado.pRst->PutCollect("ID",atol(m_id));
-	ado.pRst->PutCollect("Rd",(long)rd);
-	ado.pRst->PutCollect("Speed",(long)speed);
-	ado.pRst->PutCollect("AddSpeed",(long)addspeed);
-	ado.pRst->PutCollect("Azimuth",(long)azimuth);
-	ado.pRst->PutCollect("High",(long)high);
+			theApp.m_DataBase.pRst->PutCollect("ID",atol(m_id));
+			theApp.m_DataBase.pRst->PutCollect("Rd",(long)rd);
+			theApp.m_DataBase.pRst->PutCollect("Speed",(long)speed);
+			theApp.m_DataBase.pRst->PutCollect("AddSpeed",(long)addspeed);
+			theApp.m_DataBase.pRst->PutCollect("Azimuth",(long)azimuth);
+			theApp.m_DataBase.pRst->PutCollect("High",(long)high);
 
-	ado.pRst->PutCollect("BaseEvent",(long)baseevent);
-	ado.pRst->Update();
-	ado.ExitConnect();
+			theApp.m_DataBase.pRst->PutCollect("BaseEvent",(long)baseevent);
+			theApp.m_DataBase.pRst->Update();
 		}
-	}catch(_com_error e)
+	}
+	catch(_com_error e)
 	{
 		MessageBox(e.Description());
 	}
+
+	theApp.m_DataBase.pRst->Close();
+
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetTrackEvent();
+	AddToGrid();
 }
 
 void CDialogTRA::OnButmod() 
@@ -607,18 +610,19 @@ void CDialogTRA::OnButmod()
 	{
 		baseevent=8;
 	}
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update Track set Rd=%d,Speed=%d,AddSpeed=%d,Azimuth=%d,High=%d,BaseEvent=%d where ID=%d",rd,speed,addspeed,azimuth,high,baseevent,ids);
-	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+	try
+	{
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();
+	theApp.m_DataBase.GetTrackEvent();
+	AddToGrid();
 }
 
 void CDialogTRA::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -724,17 +728,18 @@ void CDialogTRA::OnButdel()
 {
 	// TODO: Add your control notification handler code here
 	int id=atoi(m_id);	
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("delete from Track where ID=%d",id);
-	try{
-		ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+	try
+	{
+		theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();	
+	theApp.m_DataBase.GetTrackEvent();
+	AddToGrid();	
 	
 }

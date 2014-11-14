@@ -49,6 +49,11 @@
 #define IDD_DIALOG_QBFUSTU              183
 #define IDD_DIALOG_ZDFUSTU              184
 #define IDD_DIALOG_QBSINSHIBIE          186
+#define IDD_MSG_DLG_NINTH               187
+#define IDD_DIALOG_TEN                  188
+#define IDD_DIALOG_ELEVENTH             189
+#define IDD_DIALOG_TWELFTH              190
+#define IDD_DIALOG_THIRTTH              191
 #define IDC_LIST_ESM                    1000
 #define IDC_LIST_COMMUNICATE            1001
 #define IDC_LIST_TRACE                  1002
@@ -135,6 +140,11 @@
 #define IDC_STATIC02                    1106
 #define IDC_STATIC12                    1107
 #define IDC_LIST_SIN                    1108
+#define IDC_LIST_EVENT                  1109
+#define IDC_LIST_PLAT                   1110
+#define IDC_LIST_SPACE                  1111
+#define IDC_LIST_FUN                    1112
+#define IDC_LIST_INTER                  1113
 #define IDM_SYSTEM                      32771
 #define IDM_NETWORK_SETTING             32772
 #define IDM_TEAM_SERVICE_START          32773
@@ -163,15 +173,22 @@
 #define IDM_SENDALL                     32806
 #define IDM_CLOSEALL                    32807
 #define IDM_EVALUATE                    32813
+#define IDM_CLOSE                       32815
+#define IDC_MENUITEMA                   32816
+#define IDC_MENUITEMB                   32817
+#define IDC_MENUITEMC                   32818
+#define IDC_MENUITEMD                   32819
+#define IDC_MENUITEME                   32820
+#define IDC_MENUITEMALL                 32821
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        187
-#define _APS_NEXT_COMMAND_VALUE         32814
-#define _APS_NEXT_CONTROL_VALUE         1109
+#define _APS_NEXT_RESOURCE_VALUE        192
+#define _APS_NEXT_COMMAND_VALUE         32822
+#define _APS_NEXT_CONTROL_VALUE         1114
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

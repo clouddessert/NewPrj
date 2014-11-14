@@ -525,7 +525,12 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 
 //	vctMidentiinforMsg.clear();//清空联合识别结果
 
- 
+	int f = 0;             //能否识别敌我标志
+	int dn = 0;            //识别结果为敌方的数量
+	int wn = 0;            //识别结果为敌方的数量
+	double bm = 1.0;       //识别结果为敌方的综合置信度
+	double df = 1.0;       //识别结果为敌方的综合置信度
+	double wf = 1.0;       //识别结果为敌方的综合置信度
 
 	for (iteCoorMsg = vctCooperMsg.begin(); iteCoorMsg != vctCooperMsg.end();iteCoorMsg++)
 	{  
@@ -652,6 +657,154 @@ void MultipleIdentify(VCT_COOPER_MSG& vctCooperMsg, VCT_MIDENTIINFOR_MSG& vctMid
 			}
 		}
 		MidentStr.dConfidence = 1 - p;
+	 
+		f = 0;
+		dn = 0;
+		wn = 0;
+		bm = 1.0;
+		df = 1.0;
+		wf = 1.0;
+		//敌我综合识别
+		if (iteCoorMsg->vctTrace.size())//有航迹
+		{
+			for (iteTrack = iteCoorMsg->vctTrace.begin(); iteTrack != iteCoorMsg->vctTrace.end(); iteTrack++)
+			{
+				if (strcmp(iteTrack->cDWAttribute,"不明") != 0)
+				{
+					f = 1;//TRACE有识别的标志
+					break;
+				}
+			}
+			if (f)//TRACE有能够识别的
+			{
+				//举手表决
+				for (iteTrack = iteCoorMsg->vctTrace.begin(); iteTrack != iteCoorMsg->vctTrace.end(); iteTrack++)
+				{
+					if (!strcmp(iteTrack->cDWAttribute,"敌方"))
+					{
+						dn++;
+						df = df*(1 - iteTrack->dDWConfidence);
+					} 
+					else if(!strcmp(iteTrack->cDWAttribute,"我方"))
+					{
+						wn++;
+						wf =wf*(1 - iteTrack->dDWConfidence);
+					}
+				}
+				if (dn>wn)
+				{
+					strcpy(MidentStr.cDWAttribute, "敌方");//不明属性作为识别结果
+					MidentStr.dDWConfidence = 1 - df;
+				} 
+				else if(dn<wn)
+				{
+					strcpy(MidentStr.cDWAttribute, "我方");//不明属性作为识别结果
+					MidentStr.dDWConfidence = 1 - wf;
+				}
+				else
+				{
+					if (df>wf)
+					{
+						strcpy(MidentStr.cDWAttribute, "敌方");//不明属性作为识别结果
+						MidentStr.dDWConfidence = 1- df;
+					}
+					else if (df<wf)
+					{
+						strcpy(MidentStr.cDWAttribute, "我方");//不明属性作为识别结果
+						MidentStr.dDWConfidence = 1 - wf;
+					}
+					else
+					{
+						f = 0;
+// 						strcpy(MidentStr.cDWAttribute, "不明");//不明属性作为识别结果
+// 						MidentStr.dDWConfidence = itt->structTrace.dDWConfidence;//???????????????
+					}
+				}
+			}
+		}
+		if (!f)//仍未识别（航迹敌我识别全为不明或者无航迹）
+		{
+			//看ESM
+			if (iteCoorMsg->vctEsm.size())//有ESM
+			{
+				for (iteEsm = iteCoorMsg->vctEsm.begin(); iteEsm != iteCoorMsg->vctEsm.end(); iteEsm++)
+				{
+					if (strcmp(iteEsm->cDWAttribute,"不明") != 0)
+					{
+						f = 1;//ESM有识别的标志
+						break;
+					}
+				}
+				if (f)//ESM有能够识别的
+				{
+					//举手表决
+					for (iteEsm =iteCoorMsg->vctEsm.begin(); iteEsm != iteCoorMsg->vctEsm.end(); iteEsm++)
+					{
+						if (!strcmp(iteEsm->cDWAttribute,"敌方"))
+						{
+							dn++;
+							df = df*(1 - iteEsm->dDWConfidence);
+						} 
+						else if(!strcmp(iteEsm->cDWAttribute,"我方"))
+						{
+							wn++;
+							wf =wf*(1 - iteEsm->dDWConfidence);
+						}
+					}
+					if (dn>wn)
+					{
+						strcpy(MidentStr.cDWAttribute, "敌方");//不明属性作为识别结果
+						MidentStr.dDWConfidence = 1 - df;
+					} 
+					else if(dn<wn)
+					{
+						strcpy(MidentStr.cDWAttribute, "我方");//不明属性作为识别结果
+						MidentStr.dDWConfidence = wf;
+					}
+					else
+					{
+						if (df>wf)
+						{
+							strcpy(MidentStr.cDWAttribute, "敌方");//不明属性作为识别结果
+							MidentStr.dDWConfidence = df;
+						}
+						else if (df<wf)
+						{
+							strcpy(MidentStr.cDWAttribute, "我方");//不明属性作为识别结果
+							MidentStr.dDWConfidence = wf;
+						}
+						else
+						{
+							f = 0;
+// 							strcpy(MidentStr.cDWAttribute, "不明");//不明属性作为识别结果
+// 							MidentStr.dDWConfidence = itt->structTrace.dDWConfidence;//???????????????
+						}						
+					}					
+				} 
+			} 
+			if (!f)//不能识别（ESM敌我识别全为不明或者无ESM）
+			{
+				if (iteCoorMsg->vctTrace.size())//航迹敌我识别不明确，ESM敌我识别不明确或者无ESM
+				{
+					strcpy(MidentStr.cDWAttribute, "不明");//不明属性作为识别结果
+					for (iteTrack = iteCoorMsg->vctTrace.begin(); iteTrack != iteCoorMsg->vctTrace.end(); iteTrack++)
+					{
+						bm = bm * (1 - iteTrack->dDWConfidence);
+					}
+					MidentStr.dDWConfidence = 1 - bm;//???????????????
+				} 
+				else//无航迹，ESM敌我识别不明确
+				{
+					strcpy(MidentStr.cDWAttribute, "不明");//不明属性作为识别结果
+					for (iteEsm = iteCoorMsg->vctEsm.begin(); iteEsm != iteCoorMsg->vctEsm.end(); iteEsm++)
+					{
+						bm = bm * (1 - iteEsm->dDWConfidence);
+					}
+					MidentStr.dDWConfidence = 1 - bm;//???????????????
+				}		
+			}			
+		}
+
 		vctMidentiinforMsg.push_back(MidentStr);//存入联合识别结果
    }
 

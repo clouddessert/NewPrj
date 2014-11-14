@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialogCOM1 dialog
-
+extern CNodePlatApp theApp;
 
 CDialogCOM1::CDialogCOM1(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialogCOM1::IDD, pParent)
@@ -73,29 +73,27 @@ BOOL CDialogCOM1::OnInitDialog()
 
 void CDialogCOM1::AddToGrid()
 {
-	ado.OnInitADOConn();
-	ado.pRst.CreateInstance(__uuidof(Recordset));
-	ado.pRst=ado.pConn->Execute("select * from COM1 order by ID desc ",NULL,adCmdText);
+	theApp.m_DataBase.pRst=theApp.m_DataBase.pConn->Execute("select * from COM1 order by ID desc ",NULL,adCmdText);
 	_variant_t str;
 	_bstr_t sty;
-	while(!ado.pRst->adoEOF)
+	while(!theApp.m_DataBase.pRst->adoEOF)
 	{
 
-str=ado.pRst->GetCollect("类型");
-if(str==(_variant_t)"Pre")
-{sty="载频（Mz）";}
-if(str==(_variant_t)"Paw")
-{sty="脉幅（电压）";}
-if(str==(_variant_t)"Hoop")
-{sty="调频次数";}
+		str=theApp.m_DataBase.pRst->GetCollect("类型");
+		if(str==(_variant_t)"Pre")
+		{sty="载频（Mz）";}
+		if(str==(_variant_t)"Paw")
+		{sty="脉幅（电压）";}
+		if(str==(_variant_t)"Hoop")
+		{sty="调频次数";}
 		m_Grid.InsertItem(0,"");
-		m_Grid.SetItemText(0,0,(_bstr_t)ado.pRst->GetCollect("ID"));
+		m_Grid.SetItemText(0,0,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("ID"));
 		m_Grid.SetItemText(0,1,sty);
-		m_Grid.SetItemText(0,2,(_bstr_t)ado.pRst->GetCollect("阈值"));
+		m_Grid.SetItemText(0,2,(_bstr_t)theApp.m_DataBase.pRst->GetCollect("阈值"));
 	
-		ado.pRst->MoveNext();
+		theApp.m_DataBase.pRst->MoveNext();
 	}
-	ado.ExitConnect();
+	theApp.m_DataBase.pRst->Close();
 }
 
 
@@ -123,17 +121,17 @@ void CDialogCOM1::OnButmod()
 		MessageBox("基础信息不能为空");
 		return;
 	}
-	ado.OnInitADOConn();
 	CString sql;
 	sql.Format("update COM1 set 阈值=%f where ID=%d",atof(m_data1),ids);
 	
 	try{
-	ado.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
+	theApp.m_DataBase.pConn->Execute((_bstr_t)sql,NULL,adCmdText);
 	}
 	catch(_com_error e)
 	{
 		AfxMessageBox(e.Description());
 	}
 	m_Grid.DeleteAllItems();
-		AddToGrid();	
+	theApp.m_DataBase.GetCOMThd();
+	AddToGrid();	
 }
