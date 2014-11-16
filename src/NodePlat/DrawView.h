@@ -18,6 +18,10 @@ protected:
 
 // Attributes
 public:
+    #define LEFT_LONGIT 115.8 //左边经度
+	#define RIGHT_LONGIT 123.5//右边经度
+	#define UP_LATI 27.8   //上边纬度
+    #define DOWN_LATI 21.5//下边纬度
 
 // Operations
 private:
@@ -29,6 +33,7 @@ private:
 	BITMAP bBitMap;
 	//客户区域大小
 	CRect ClientRect;
+
 	//红蓝目标点
 	CPoint m_TmpPt;
 
@@ -61,6 +66,7 @@ protected:
 	//{{AFX_MSG(CDrawView)
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

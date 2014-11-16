@@ -26,12 +26,12 @@ static char THIS_FILE[] = __FILE__;
 
 
 CEvaluDlg::CEvaluDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CEvaluDlg::IDD, pParent)
+	: CDialog(CEvaluDlg::IDD, pParent) 
 {
 	//{{AFX_DATA_INIT(CEvaluDlg)
 	m_pihao = 0;
 	//}}AFX_DATA_INIT
-	l = 0;
+	l = 1;
 	f = 0;
 }
 
@@ -75,30 +75,7 @@ BOOL CEvaluDlg::OnInitDialog()
 
 void CEvaluDlg::FindLocData(int autonum, int &count, double &l_bzc, double &b_bzc)
 {
-// 	if (autonum>8199&&autonum<8500)	// esm
-// 	{
-// 		for(int i=0;i<count_esm;i++)
-// 		{
-// 			if ((int)p[i][32]==autonum) 
-// 			{
-// 				count = (int)p[i][40];
-// 				l_bzc = p[i][43];
-// 				b_bzc = p[i][44];
-// 			}
-// 		}
-// 	}
-// 	if (autonum>8499&&autonum<8800)	// com
-// 	{
-// 		for(int i=0;i<count_com;i++)
-// 		{
-// 			if ((int)c[i][48]==autonum) 
-// 			{
-// 				count = (int)c[i][50];
-// 				l_bzc = c[i][53];
-// 				b_bzc = c[i][54];
-// 			}
-// 		}
-// 	}		
+	
 }
 
 void CEvaluDlg::OnOK() 
@@ -107,22 +84,49 @@ void CEvaluDlg::OnOK()
 	UpdateData();
 	l = m_ctrLB.GetCurSel();
 	f = m_ctrFS.GetCurSel();
-
-	
 	CButton *pBtn1=(CButton *)GetDlgItem(IDC_RADIO_BIAOGE);
 	CButton *pBtn2=(CButton *)GetDlgItem(IDC_RADIO_TUXING);
-	
 	{
 		if(l==0&&f==0)  //Ê¶±ð¾«¶È+Ö¸¶¨ÅúºÅ (±í¸ñºÍÍ¼ÐÎÏÔÊ¾)
 		{  
- 			if(!checkDB(m_pihao,0)) //ÅúºÅºÍ±êÖ¾ flag=0 ´ú±íÊ¶±ð
- 			{
+			if(!checkDB(m_pihao,0)) //ÅúºÅºÍ±êÖ¾ flag=0 ´ú±íÊ¶±ð
+			{
 				AfxMessageBox("Ö¸¶¨ÅúºÅ²»´æÔÚ!"); 		
 				return;
 			}
 			if (pBtn2->GetCheck())
 			{
 				//Ö¸¶¨Ê¶±ð¾«¶ÈÍ¼ÐÎÏÔÊ¾ Í¼ÐÎÀà
+// 				CString strUnum;
+//              CString real_ty;
+// 				CString real_platt;
+// 				CString p_query;
+// 				CString tmp;
+// 				OpenIdentiDb();
+// 				CRecordset mrd(&m_dbidenti);
+// 				strUnum.Format("%d",m_pihao);
+// 				p_query.Format("select * from %s",strUnum);
+// 				if(!mrd.Open(CRecordset::forwardOnly,p_query,CRecordset::readOnly))
+// 					AfxMessageBox("No RD!");
+// 				while(!mrd.IsEOF())
+// 				{
+// 					mrd.GetFieldValue("real_ty",tmp);
+// 					real_ty=tmp;					
+// 					// mrd.GetFieldValue("Real_platt",tmp);
+// 					// real_platt=tmp;
+// 					mrd.MoveNext();
+// 				}
+// 				mrd.Close();
+// 				m_dbidenti.Close();
+// 				CZDIdentiGraph dlg;
+				CDialog::OnOK();
+// 				dlg.num = m_pihao;
+// 				dlg.real_plattye = real_ty;
+// 				dlg.DoModal();
+			}
+//			else
+			if (pBtn1->GetCheck())
+			{   //Ö¸¶¨Ê¶±ð¾«¶È±í¸ñÏÔÊ¾
 				CString strUnum;
                 CString real_ty;
 				CString real_platt;
@@ -144,54 +148,25 @@ void CEvaluDlg::OnOK()
 				}
 				mrd.Close();
 				m_dbidenti.Close();
-				CZDIdentiGraph dlg;
-				CDialog::OnOK();
-				dlg.num = m_pihao;
-				dlg.real_plattye = real_ty;
-				dlg.DoModal();
-			}
-			else
-			{   //Ö¸¶¨Ê¶±ð¾«¶È±í¸ñÏÔÊ¾
-				CString strUnum;
-                CString real_ty;
-				CString real_platt;
-				CString p_query;
-				CString tmp;
-				OpenIdentiDb();
-				CRecordset mrd(&m_dbidenti);
-				strUnum.Format("%d",m_pihao);
-				p_query.Format("select * from %s",strUnum);
-				if(!mrd.Open(CRecordset::forwardOnly,p_query,CRecordset::readOnly))
-					AfxMessageBox("No RD!");
-				while(!mrd.IsEOF())
-				{
-					mrd.GetFieldValue("real_ty",tmp);
-					real_ty=tmp;					
-                   // mrd.GetFieldValue("Real_platt",tmp);
-                   // real_platt=tmp;
-					mrd.MoveNext();
-				}
-				mrd.Close();
-				m_dbidenti.Close();
 				
 				CZDIdenti dlg; 
 				CDialog::OnOK();
 				dlg.num = m_pihao;
 				dlg.real_plattye = real_ty;
 				dlg.DoModal();
-			}
-
+			}		
 		}
 		if (l==0&&f==1) //Ê¶±ð¾«¶È+È«²¿ÅúºÅ (±í¸ñºÍÍ¼ÐÎÏÔÊ¾)
 		{
 			if (pBtn2->GetCheck())
 			{
 				//È«²¿Ê¶±ð¾«¶ÈÍ¼ÐÎÏÔÊ¾ Í¼ÐÎÀà
-			//	CQBIdentiGraph dlg;
+				//CQBIdentiGraph dlg;
 				CDialog::OnOK();
-			//	dlg.DoModal();
+				//dlg.DoModal();
 			}
-			else
+			//else
+			if (pBtn1->GetCheck())
 			{   //È«²¿Ê¶±ð¾«¶È±í¸ñÏÔÊ¾
 				if (nmulFlag == 0)
 				{
@@ -203,11 +178,11 @@ void CEvaluDlg::OnOK()
 				{
 					CQBIdenti dlg; 
 					CDialog::OnOK();
-				    dlg.DoModal();
+					dlg.DoModal();
 				}
-
+				
 			}
-
+			
 		}
 		if(l==1&&f==0)//ÈÚºÏ¾«¶È+Ö¸¶¨ÅúºÅ(±í¸ñºÍÍ¼ÐÎÏÔÊ¾)
 		{
@@ -220,29 +195,6 @@ void CEvaluDlg::OnOK()
 					AfxMessageBox("Ö¸¶¨ÅúºÅ²»´æÔÚ!"); 		
 					return;
 				}
-//				int count_loc(0);
-//				double a_bzc(0.0),e_bzc(0.0);
-			//	((CEvaluDlg*)GetParent())->FindLocData(m_pihao,count_loc,a_bzc,e_bzc);
-// 				if (count_loc>330)
-// 				{
-// 					dlg.count_factor =3;
-// 				}
-// 				if (a_bzc>0.12)
-// 				{
-// 					dlg.a_factor = 2;
-// 				}
-// 				if (a_bzc>0.24)
-// 				{
-// 					dlg.a_factor = 4;
-// 				}
-// 				if (e_bzc>0.12) 
-// 				{
-// 					dlg.e_factor = 2;
-// 				}
-// 				if (e_bzc>0.24) 
-// 				{
-// 					dlg.e_factor = 4;
-// 				}
 				dlg.num = m_pihao;
 				CDialog::OnOK();
 				dlg.DoModal();
@@ -259,22 +211,22 @@ void CEvaluDlg::OnOK()
 				CDialog::OnOK();
 				dlg.DoModal();
 			}
-
+			
 		}
 		if(l==1&&f==1)//ÈÚºÏ¾«¶È+È«²¿ÅúºÅ(±í¸ñºÍÍ¼ÐÎÏÔÊ¾)
 		{
 			if (pBtn2->GetCheck())
 			{
 				//È«²¿ÈÚºÏ¾«¶ÈÍ¼ÐÎÏÔÊ¾ Í¼ÐÎÀà
-				CQBFusGraph dlg;
+			//	CQBFusGraph dlg;
 				CDialog::OnOK();
-				dlg.DoModal();
+			//	dlg.DoModal();
 			}
 			else
 			{   //È«²¿ÈÚºÏ¾«¶È±í¸ñÏÔÊ¾
-				CQBFus dlg; 
+			///	CQBFus dlg; 
 				CDialog::OnOK();
-				dlg.DoModal();
+			//	dlg.DoModal();
 			}
 		}
 	}
@@ -314,6 +266,42 @@ void CEvaluDlg::OnSelchangeComboFangshi()
 		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW); //²»ÏÔÊ¾±í¸ñ
 		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW); //Í¼ÐÎÏÔÊ¾
+	}		
+}
+
+void CEvaluDlg::OnSelchangeComboLeibie() 
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+	l = m_ctrLB.GetCurSel();
+	f = m_ctrFS.GetCurSel();
+	if(l==0&&f==0)
+	{
+		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW);
+	}
+	if (l==0&&f==1)
+	{
+		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW);	
+	}
+	if (l==1&&f==1)
+	{
+		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_HIDE);
+	}
+	if (l==1&&f==0)
+	{
+		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW);
 	}		
 }
 
@@ -382,41 +370,7 @@ bool CEvaluDlg::checkDB(int num,int flag)  //²éÊý¾Ý¿â, ×ÛºÏÅúºÅnum, flag = 0 ´ú±
 	return 0;
 }
 
-void CEvaluDlg::OnSelchangeComboLeibie() 
-{
-	// TODO: Add your control notification handler code here
-	UpdateData();
-	l = m_ctrLB.GetCurSel();
-	f = m_ctrFS.GetCurSel();
-	if(l==0&&f==0)
-	{
-		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW);
-	}
-	if (l==0&&f==1)
-	{
-		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_HIDE);
-		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_HIDE);
-		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW);	
-	}
-	if (l==1&&f==1)
-	{
-		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_HIDE);
-		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_HIDE);
-		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_HIDE);
-		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_HIDE);
-	}
-	if (l==1&&f==0)
-	{
-		GetDlgItem(IDC_STATIC1)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_EDIT_PIHAO)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_RADIO_BIAOGE)->ShowWindow(SW_SHOW);
-		GetDlgItem(IDC_RADIO_TUXING)->ShowWindow(SW_SHOW);
-	}		
-}
+
 
 void CEvaluDlg::OpenFusDb()
 {
@@ -426,8 +380,7 @@ void CEvaluDlg::OpenFusDb()
 	GetCurrentDirectory(1024, strFile);
 	strcat(strFile, "\\DB\\Fusion.mdb\0");
 	strDsn.Format("ODBC;DRIVER={%s};UID=sa;PWD=;DBQ=%s",strDriver,strFile);
-	m_dbfus.Open(NULL,false,false,strDsn,false);
-				
+	m_dbfus.Open(NULL,false,false,strDsn,false);				
 }
 
 void CEvaluDlg::OpenIdentiDb()  //Ê¶±ð
@@ -439,6 +392,5 @@ void CEvaluDlg::OpenIdentiDb()  //Ê¶±ð
 	strcat(strFile, "\\DB\\Identi.mdb\0");
 	strDsn.Format("ODBC;DRIVER={%s};UID=sa;PWD=;DBQ=%s",strDriver,strFile);
 	m_dbidenti.Open(NULL,false,false,strDsn,false);
-
 }
 

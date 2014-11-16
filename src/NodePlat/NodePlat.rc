@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Chinese (中国) resources
+// Chinese (P.R.C.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -1007,6 +1007,10 @@ IDB_MAP                 BITMAP  DISCARDABLE     "res\\捕获.bmp"
 IDB_PLANE               BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
 IDB_MISSILE             BITMAP  DISCARDABLE     "res\\missile.bmp"
 IDB_SHIP1               BITMAP  DISCARDABLE     "res\\ship1.bmp"
+IDB_MeSky               BITMAP  DISCARDABLE     "res\\MeSky.bmp"
+IDB_EnemySky            BITMAP  DISCARDABLE     "res\\EnemySky.bmp"
+IDB_Unk                 BITMAP  DISCARDABLE     "res\\Unk.bmp"
+IDB_MeSkyWhi            BITMAP  DISCARDABLE     "res\\mesky1.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1035,7 +1039,7 @@ BEGIN
     0
 END
 
-#endif    // Chinese (中国) resources
+#endif    // Chinese (P.R.C.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -151,11 +151,9 @@ LRESULT CParamThirdPage::OnAddMsgList(WPARAM wParam, LPARAM lParam)
 				max_width=sz.cx;
 		}
 		m_AddMsgList.SendMessage(LB_SETHORIZONTALEXTENT,max_width,0);
-
+ 
 	}
 	
-
-
 	return 0;  
 }
 

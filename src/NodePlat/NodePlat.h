@@ -85,6 +85,7 @@ public:
 
 	int m_ThisNumber;	                     //本舰编号
 	CString m_strLocalIP;                    //本舰IP
+	char m_SelfName[3];                         //本舰名称
 	map<int, CString> IpMap;                 //存放所有邻舰IP地址
 	map<int, CString> SendToIpMap;           //存放协同邻舰IP地址（舰编号，IP地址）
 	
@@ -156,6 +157,9 @@ public:
 
 //	vector<CString> m_MsgDisplayVec;
 	CString m_MsgDisplay;
+	CString m_GpsDisplay;
+	CString m_GpsZBDisplay;
+	CString m_SelfShipGps;
 
 public:
 	//单舰

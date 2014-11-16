@@ -8,7 +8,8 @@
 #include "DrawView.h"
 #include "MsgCtlView.h"
 #include "MsgListView.h"
-
+#include "DrawView.h"
+  
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -29,15 +30,23 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_TIMER()
+	ON_WM_MOUSEMOVE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
 {
-	ID_SEPARATOR,           // status line indicator
-	ID_INDICATOR_CAPS,
-	ID_INDICATOR_NUM,
-	ID_INDICATOR_SCRL,
+	ID_SEPARATOR,           // status line indicator 显示研究所信息
+    ID_SEPARATOR,           //显示本舰的地理位置(经纬度变化)
+	ID_SEPARATOR,           //鼠标滑动的位置   
+	ID_SEPARATOR,           //鼠标滑动的位置 
+	ID_SEPARATOR,           //显示系统时间  
+	ID_SEPARATOR,           // status line indicator 显示研究所信息
+// 	ID_INDICATOR_CAPS,
+// 	ID_INDICATOR_NUM,
+// 
+// 	ID_INDICATOR_SCRL,
+/*	IDS_TIME,*/
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -46,7 +55,7 @@ static UINT indicators[] =
 CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
-	m_bCreate = FALSE;
+	m_bCreate = FALSE;	
 }
 
 CMainFrame::~CMainFrame()
@@ -65,7 +74,28 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
 	}
+	SetTimer(1,1000,NULL);		// 显示系统时间
+		showParaX=0;
+    m_wndStatusBar.SetPaneInfo(0,0,0,200*showParaX);
+	//CString strTemp1=" 本舰为A舰 经度为      纬度为    ";
+	//m_wndStatusBar.SetPaneText(1,strTemp1);
+	m_wndStatusBar.SetPaneInfo(1,0,0,180);
+	m_wndStatusBar.SetPaneInfo(2,0,0,260);
+	m_wndStatusBar.SetPaneInfo(3,0,0,290);
+	m_wndStatusBar.SetPaneInfo(4,0,0,250);  
 
+	CString strTemp2="     XXX研究所";
+	m_wndStatusBar.SetPaneText(5,strTemp2);
+	m_wndStatusBar.SetPaneInfo(5,0,0,250);
+
+	double x00=(LEFT_LONGIT + RIGHT_LONGIT)/2;
+	double y00=(UP_LATI + DOWN_LATI)/2;
+	theApp.m_GpsDisplay.Format("地图中心经度为%.4f,中心纬度为%.4f", x00,y00);
+	OnShowGps();
+	
+	theApp.m_GpsZBDisplay.Format("");
+	OnShowGps();
+    OnSelfShipGps();
 	return 0;
 }
 
@@ -74,7 +104,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	if( !CFrameWnd::PreCreateWindow(cs) )
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
-	//  the CREATESTRUCT cs
+	// the CREATESTRUCT cs
 
 	return TRUE;
 }
@@ -218,17 +248,66 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 		::PostMessage(theApp.hMulOut_wnd, WM_MUL_OUT_MSG, 0, 0);
         ::PostMessage(theApp.hMulESM_wmd, WM_MULESM_MSG, 0, 0);
 		::PostMessage(theApp.hMulCOMM_wnd, WM_MULCOMM_MSG, 0, 0);
-		::PostMessage(theApp.hMulTRACE_wnd, WM_MULTRACE_MSG, 0, 0);
-		::PostMessage(theApp.hEvent_wnd, WM_EVENT_MSG, 0, 0);
-		::PostMessage(theApp.hPlat_wnd, WM_PLAT_MSG, 0, 0);
-		::PostMessage(theApp.hSpace_wnd, WM_SPACE_MSG, 0, 0);
-		::PostMessage(theApp.hFun_wnd, WM_FUN_MSG, 0, 0);
-		::PostMessage(theApp.hInter_wnd, WM_INTER_MSG, 0, 0);
-
-                
+		::PostMessage(theApp.hMulTRACE_wnd, WM_MULTRACE_MSG, 0, 0);          
 	}
-
+	if (1 == nIDEvent)
+	{
+		GetSysTime();
+	}
 	CFrameWnd::OnTimer(nIDEvent);
 }
 
+void CMainFrame::GetSysTime()
+{
+	CTime tm;
+	int a;                      //保存小时
+	int b;                      //保存分钟
+	int c;                      //保存秒
+	CString strW;
+	tm=CTime::GetCurrentTime(); //获取系统当前时间
+	a=tm.GetHour();             //获取时
+	b=tm.GetMinute();           //获取分
+	c=tm.GetSecond();           //获取秒
+	strW.Format("     系统时间：%d:%02d:%02d",a,b,c);
+	m_wndStatusBar.SetPaneText(4,strW);
+}
 
+void CMainFrame::OnShowGps(void)
+{
+	m_wndStatusBar.SetPaneText(2,theApp.m_GpsDisplay);
+	m_wndStatusBar.SetPaneText(3,theApp.m_GpsZBDisplay);
+}
+
+void CMainFrame::OnSelfShipGps(void)
+{
+	if (theApp.m_ThisNumber == 0)
+	{
+		strcpy(theApp.m_SelfName, _T("A"));
+        theApp.m_SelfShipGps.Format("  本舰为%s舰", theApp.m_SelfName);
+    	m_wndStatusBar.SetPaneText(1,theApp.m_SelfShipGps);
+	}
+	if (theApp.m_ThisNumber == 1)
+	{
+		strcpy(theApp.m_SelfName,  _T("B"));
+        theApp.m_SelfShipGps.Format("  本舰为%s舰", theApp.m_SelfName);
+		m_wndStatusBar.SetPaneText(1,theApp.m_SelfShipGps);
+	}
+	if (theApp.m_ThisNumber == 2)
+	{
+		strcpy(theApp.m_SelfName,  _T("C"));
+        theApp.m_SelfShipGps.Format("  本舰为%s舰", theApp.m_SelfName);
+		m_wndStatusBar.SetPaneText(1,theApp.m_SelfShipGps);
+	}
+	if (theApp.m_ThisNumber == 3)
+	{
+		strcpy(theApp.m_SelfName,  _T("D"));
+        theApp.m_SelfShipGps.Format("  本舰为%s舰", theApp.m_SelfName);
+		m_wndStatusBar.SetPaneText(1,theApp.m_SelfShipGps);
+	}
+	if (theApp.m_ThisNumber == 4)
+	{
+		strcpy(theApp.m_SelfName,  _T("E"));
+        theApp.m_SelfShipGps.Format("  本舰为%s舰", theApp.m_SelfName);
+		m_wndStatusBar.SetPaneText(1,theApp.m_SelfShipGps);
+	}
+}

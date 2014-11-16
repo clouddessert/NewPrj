@@ -26,6 +26,7 @@ IMPLEMENT_DYNCREATE(CNodePlatView, CView)
 BEGIN_MESSAGE_MAP(CNodePlatView, CView)
 	//{{AFX_MSG_MAP(CNodePlatView)
 	ON_WM_ERASEBKGND()
+	ON_WM_MOUSEMOVE()
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 END_MESSAGE_MAP()
@@ -87,11 +88,5 @@ CNodePlatDoc* CNodePlatView::GetDocument() // non-debug version is inline
 /////////////////////////////////////////////////////////////////////////////
 // CNodePlatView message handlers
 
-// void CNodePlatView::OnTimer(UINT nIDEvent) 
-// {
-// 	// TODO: Add your message handler code here and/or call default
-// 
-// 	CView::OnTimer(nIDEvent);
-// }
 
 

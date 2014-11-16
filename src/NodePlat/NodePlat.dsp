@@ -581,10 +581,6 @@ SOURCE=.\StdAfx.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\StructHeader.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\Alg\XSi.h
 # End Source File
 # Begin Source File
@@ -613,11 +609,23 @@ SOURCE=.\res\bitmap1.bmp
 # End Source File
 # Begin Source File
 
+SOURCE=.\res\EnemySky.bmp
+# End Source File
+# Begin Source File
+
 SOURCE=.\res\feiji.bmp
 # End Source File
 # Begin Source File
 
 SOURCE=.\res\map.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\MeSky.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\mesky1.bmp
 # End Source File
 # Begin Source File
 
@@ -638,6 +646,10 @@ SOURCE=.\res\NodePlatDoc.ico
 # Begin Source File
 
 SOURCE=.\res\ship1.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\Unk.bmp
 # End Source File
 # Begin Source File
 

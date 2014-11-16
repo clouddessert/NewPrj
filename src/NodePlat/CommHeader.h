@@ -1,9 +1,10 @@
-//地图左上经纬度
-#define LEFTLT 117.0720
-#define LEFTBT 26.4891
-//地图右下经纬度
-#define RIGHTLT 123.0125
-#define RIGHTBT 21.7320
+// 地图左上经纬度
+// #define LEFTLT 117.0720
+// #define LEFTBT 26.4891
+// 地图右下经纬度
+// #define RIGHTLT 123.0125
+// #define RIGHTBT 21.7320
+
 
 //图半径
 #define NRDIS 5

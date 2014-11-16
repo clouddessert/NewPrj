@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "NodePlat.h"
 #include "DrawView.h"
+#include "MainFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,6 +34,7 @@ BEGIN_MESSAGE_MAP(CDrawView, CView)
 	//{{AFX_MSG_MAP(CDrawView)
 	ON_WM_ERASEBKGND()
 	ON_WM_TIMER()
+	ON_WM_MOUSEMOVE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -46,10 +48,10 @@ BOOL CDrawView::PreCreateWindow(CREATESTRUCT& cs)
 /////////////////////////////////////////////////////////////////////////////
 // CDrawView drawing
 
-#define LEFT_LONGIT 115.8 //左边经度
-#define RIGHT_LONGIT 123.5//右边经度
-#define UP_LATI 27.8   //上边纬度
-#define DOWN_LATI 21.5//下边纬度
+// #define LEFT_LONGIT 115.8 //左边经度
+// #define RIGHT_LONGIT 123.5//右边经度
+// #define UP_LATI 27.8   //上边纬度
+// #define DOWN_LATI 21.5//下边纬度
 
 // #define LEFT_LONGIT 115.7 //左边经度
 // #define RIGHT_LONGIT 123.3//右边经度
@@ -133,9 +135,6 @@ void CDrawView::OnDraw(CDC* pDC)
 	pDC->SetBrushOrg(0, 0);
 	
 	DrawLines(&MemDc, bBitMap, ClientRect);  //画网格线
-	
-    CRect rect;
-    GetClientRect(&rect);
 
 	VCT_TRACE_MSG::iterator pTrace_Dat;
 	VCT_SHIP_POSITION::iterator pShip_Position;
@@ -144,35 +143,99 @@ void CDrawView::OnDraw(CDC* pDC)
 	   {
 		for ( pTrace_Dat = theApp.m_Trace_Dat.begin(); pTrace_Dat != theApp.m_Trace_Dat.end(); pTrace_Dat++)
 		{
-			if (strcmp(pTrace_Dat->cPlatName,"飞机1")  == 0)
+			//目标为我方
+			if (strcmp(pTrace_Dat->cDWAttribute,"我方") == 0 )
 			{
-				CDC MemDc123;         //用作缓冲作图的内存DC，定义一个显示位图对象
-				CBitmap bmp/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
-				BITMAP bmpInfo/*,bmpInfo2*/;
-				bmp.LoadBitmap(IDB_PLANE);
-				bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
-				MemDc123.CreateCompatibleDC(pDC);  
-				CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
-				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
-				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
-				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
-				MemDc123.DeleteDC(); 
+				if ( strcmp(pTrace_Dat->cPlatName,"飞机1") == 0)
+				{
+					CDC MemDc123;         //用作缓冲作图的内存DC，定义一个显示位图对象
+					CBitmap bmp/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+					BITMAP bmpInfo/*,bmpInfo2*/;
+					bmp.LoadBitmap(IDB_MeSkyWhi);
+					bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
+					MemDc123.CreateCompatibleDC(pDC);  
+					CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
+					m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+					m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
+					MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
+					MemDc123.DeleteDC(); 
+				}
+				if (strcmp(pTrace_Dat->cPlatName,"飞机2")  == 0)
+				{   
+					CDC MemDc123;         //用作缓冲作图的内存DC，定义一个显示位图对象
+					CBitmap bmp/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+					BITMAP bmpInfo/*,bmpInfo2*/;
+					bmp.LoadBitmap(IDB_MeSkyWhi);
+					bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
+					MemDc123.CreateCompatibleDC(pDC);  
+					CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
+					m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+					m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
+					MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
+					MemDc123.DeleteDC(); 
+				}
 			}
+			//目标为敌方
+			if (strcmp(pTrace_Dat->cDWAttribute,"敌方") == 0 )
+			{
+				if ( strcmp(pTrace_Dat->cPlatName,"飞机1") == 0)
+				{
+					CDC MemDc123;         //用作缓冲作图的内存DC，定义一个显示位图对象
+					CBitmap bmp/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+					BITMAP bmpInfo/*,bmpInfo2*/;
+					bmp.LoadBitmap(IDB_EnemySky);
+					bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
+					MemDc123.CreateCompatibleDC(pDC);  
+					CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
+					m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+					m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
+					MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
+					MemDc123.DeleteDC(); 
+				}
+				if (strcmp(pTrace_Dat->cPlatName,"飞机2")  == 0)
+				{   
+					CDC MemDc123;         //用作缓冲作图的内存DC，定义一个显示位图对象
+					CBitmap bmp/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+					BITMAP bmpInfo/*,bmpInfo2*/;
+					bmp.LoadBitmap(IDB_EnemySky);
+					bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
+					MemDc123.CreateCompatibleDC(pDC);  
+					CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
+					m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+					m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
+					MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
+					MemDc123.DeleteDC(); 
+				}
+			}
+			// 			if (strcmp(pTrace_Dat->cPlatName,"飞机1")  == 0)
+			// 			{
+			// 				CDC MemDc123;         //用作缓冲作图的内存DC，定义一个显示位图对象
+			// 				CBitmap bmp/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+			// 				BITMAP bmpInfo/*,bmpInfo2*/;
+			// 				bmp.LoadBitmap(IDB_PLANE);
+			// 				bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
+			// 				MemDc123.CreateCompatibleDC(pDC);  
+			// 				CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
+			// 				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+			// 				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
+			// 				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
+			// 				MemDc123.DeleteDC(); 
+			// 			}
 			
-			if (strcmp(pTrace_Dat->cPlatName,"飞机2")  == 0)
-			{   
-				CDC MemDc123;         //用作缓冲作图的内存DC，定义一个显示位图对象
-				CBitmap bmp/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
-				BITMAP bmpInfo/*,bmpInfo2*/;
-				bmp.LoadBitmap(IDB_PLANE);
-				bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
-				MemDc123.CreateCompatibleDC(pDC);  
-				CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
-				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
-				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
-				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
-				MemDc123.DeleteDC(); 
-			}
+			// 			if (strcmp(pTrace_Dat->cPlatName,"飞机2")  == 0)
+			// 			{   
+			// 				CDC MemDc123;         //用作缓冲作图的内存DC，定义一个显示位图对象
+			// 				CBitmap bmp/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+			// 				BITMAP bmpInfo/*,bmpInfo2*/;
+			// 				bmp.LoadBitmap(IDB_PLANE);
+			// 				bmp.GetObject(sizeof(bmpInfo), &bmpInfo);
+			// 				MemDc123.CreateCompatibleDC(pDC);  
+			// 				CBitmap* pOldBitmap = MemDc123.SelectObject(&bmp);
+			// 				m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pTrace_Dat->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+			// 				m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pTrace_Dat->dLati)/(UP_LATI-DOWN_LATI));
+			// 				MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDc123, 0, 0, SRCCOPY); 
+			// 				MemDc123.DeleteDC(); 
+			// 			}
 			
 			if (strcmp(pTrace_Dat->cPlatName,"导弹")  == 0)
 			{
@@ -205,22 +268,21 @@ void CDrawView::OnDraw(CDC* pDC)
 			}	
 		}
 	  }
-	//显示舰的信息
-	for ( pShip_Position = theApp.m_Ship_Position.begin(); pShip_Position != theApp.m_Ship_Position.end(); pShip_Position++)
-	{
-		CDC MemDc4;         //用作缓冲作图的内存DC，定义一个显示位图对象
-		CBitmap bmp2/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
-		BITMAP bmpInfo2/*,bmpInfo2*/;
-		bmp2.LoadBitmap(IDB_SHIP1);
-		bmp2.GetObject(sizeof(bmpInfo2), &bmpInfo2);
-		MemDc4.CreateCompatibleDC(pDC);  
-		CBitmap* pOldBitmap = MemDc4.SelectObject(&bmp2);
-		m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pShip_Position->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
-		m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pShip_Position->dLati)/(UP_LATI-DOWN_LATI));
-		MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo2.bmWidth, bmpInfo2.bmHeight, &MemDc4, 0, 0, SRCCOPY); 
-		MemDc4.DeleteDC(); 
-	}
-
+	  //显示舰的信息
+	  for ( pShip_Position = theApp.m_Ship_Position.begin(); pShip_Position != theApp.m_Ship_Position.end(); pShip_Position++)
+	  {
+		  CDC MemDc4;         //用作缓冲作图的内存DC，定义一个显示位图对象
+		  CBitmap bmp2/*,bmp2*/;          //内存中承载临时图像的位图,定义位图对象
+		  BITMAP bmpInfo2/*,bmpInfo2*/;
+		  bmp2.LoadBitmap(IDB_SHIP1);
+		  bmp2.GetObject(sizeof(bmpInfo2), &bmpInfo2);
+		  MemDc4.CreateCompatibleDC(pDC);  
+		  CBitmap* pOldBitmap = MemDc4.SelectObject(&bmp2);
+		  m_TmpPt.x = (LONG)(bBitMap.bmWidth/*rect.Width()*/*(pShip_Position->dLonti-LEFT_LONGIT)/(RIGHT_LONGIT-LEFT_LONGIT));
+		  m_TmpPt.y = (LONG)(bBitMap.bmHeight/*rect.Height()*/*(UP_LATI-pShip_Position->dLati)/(UP_LATI-DOWN_LATI));
+		  MemDc.BitBlt(m_TmpPt.x, m_TmpPt.y, bmpInfo2.bmWidth, bmpInfo2.bmHeight, &MemDc4, 0, 0, SRCCOPY); 
+		  MemDc4.DeleteDC(); 	  
+	  }
 
 	
 	//复制图像
@@ -277,20 +339,14 @@ void CDrawView::DrawLines(CDC *pDc, BITMAP &Bm, CRect &Rect)
 	CPen *OldPen;//记录原始画笔
 	Pen.CreatePen(PS_SOLID, 1, RGB(255, 255, 255));//画笔设置
 	OldPen = pDc->SelectObject(&Pen);//将画笔选入设备描述表并记录原画笔
-
-	
 // 	int rectHeight	= Rect.bottom - Rect.top;
 // 	int rectWidth = Rect.right - Rect.left;
-
 	int rectHeight = Bm.bmHeight;
 	int rectWidth = Bm.bmWidth;
-
 	float longwidth = fabs(RIGHT_LONGIT - LEFT_LONGIT);  //经度跨度
 	float latiwidth = fabs(DOWN_LATI - UP_LATI);         //纬度跨度
-
 	float steplongwidth = rectWidth / longwidth;  //每度经度的宽
 	float steplatiwidth = rectHeight / latiwidth; //每度纬度的宽
-
 	double leftlongit = LEFT_LONGIT;
 	double rightlongit = RIGHT_LONGIT;
 	double uplati = UP_LATI;
@@ -561,16 +617,8 @@ BOOL CDrawView::OnEraseBkgnd(CDC* pDC)
 	
 	MemDc.DeleteDC();
 	DrawLines(pDC, bBitMap, ClientRect);
-//	LoadBitmap(IDB_PLANE);
-
-
-	
 	return TRUE;
 }
-
-
-
-
 
 void CDrawView::OnTimer(UINT nIDEvent) 
 {
@@ -586,4 +634,94 @@ void CDrawView::OnInitialUpdate()
 	
 	// TODO: Add your specialized code here and/or call the base class
 	SetTimer(1,500,NULL);
+}
+
+void CDrawView::OnMouseMove(UINT nFlags, CPoint point) 
+{
+	// TODO: Add your message handler code here and/or call default
+ 	int xl,yl,xr,yr;
+	GetClientRect(&ClientRect);
+
+  //  GetWindowRect(ClientRect);
+  //  ScreenToClient(rect);
+  //  ClientToScreen(ClientRect);
+
+	xl=ClientRect.left;
+	yl=ClientRect.top;
+	xr=ClientRect.right;
+	yr=ClientRect.bottom;
+	int x,y;
+	int x0=(xr + xl)/2;
+ 	int y0=(yr + yl)/2;
+ 	double x00=(LEFT_LONGIT + RIGHT_LONGIT)/2;
+	double y00=(UP_LATI + DOWN_LATI)/2;
+
+	x=point.x;
+ 	y=point.y;
+
+	CMainFrame* pTmp = (CMainFrame*)AfxGetMainWnd();
+	
+ 	if((x<=xr&&x>=xl)&&(y<=yr&&y>=yl))
+ 	{
+		double lx;//保存转化后的经度纬度
+	    double ly;
+		double lxmin;//电子海图的起始经度
+		double lymin;//电子海图的起始纬度
+		double lxmax;
+		double lymax;
+ 		lxmin=LEFT_LONGIT;
+ 		lymin=DOWN_LATI;
+ 		lxmax=RIGHT_LONGIT;
+ 		lymax=UP_LATI;
+
+		lx=lxmin+(double)(x-ClientRect.left)*(lxmax-lxmin)/(double)(ClientRect.Width());
+	    ly=lymax-(double)(y-ClientRect.top)*(lymax-lymin)/(double)(ClientRect.Height());
+
+    	theApp.m_GpsDisplay.Format("  当前经度为 %.4f,当前纬度为 %.4f",lx,ly);
+		pTmp->OnShowGps();
+
+		double cx;//保存转化后的X Y坐标
+	    double cy;
+	    double bl = 333360.0/(double)ClientRect.Width();//电子海图上x方向一个像素对应的实际距离(米)3度，333360.0m
+	    double bb = 287800.8/(double)ClientRect.Height();//电子海图上Y方向一个像素对应的实际距离(米)2.52度，287800.8m
+        int mapX =(int)ClientRect.Width();
+		int mapY =(int)ClientRect.Height();
+        int mleft = (int)ClientRect.left;
+		int mtop = (int)ClientRect.top;
+	 
+		if(x > (mleft + mapX/2) && y > (mtop +mapY/2))//第四像限
+		{
+			cx=((double)x-(double)(mleft + mapX/2))*bl;
+			cy=((double)y-(double)(mtop +mapY/2))*bb*(-1);
+		}
+		if(x <(mleft + mapX/2) && y < (mtop +mapY/2))//第二像限
+		{
+			cx=((double)x-(double)(mleft + mapX/2))*bl;
+			cy=((double)y-(double)(mtop +mapY/2))*bb*(-1);
+		}
+		if(x >= (mleft + mapX/2) && y <= (mtop +mapY/2))//第一像限
+		{
+			cx=((double)x-(double)(mleft + mapX/2))*bl;
+			cy=((double)y-(double)(mtop +mapY/2))*bb*(-1);
+		}
+		if(x <=(mleft + mapX/2) && y >= (mtop +mapY/2))//第三像限
+		{
+			cx=((double)x-(double)(mleft + mapX/2))*bl;
+			cy=((double)y-(double)(mtop +mapY/2))*bb*(-1);
+	}
+
+		theApp.m_GpsZBDisplay.Format("  当前X坐标:%.4f,当前Y坐标:%.4f",cx,cy);
+		pTmp->OnShowGps();
+ 		
+	 }
+	else
+	{
+
+		theApp.m_GpsDisplay.Format("地图中心经度为%.4f,中心纬度为%.4f", x00,y00);
+		pTmp->OnShowGps();
+
+		theApp.m_GpsZBDisplay.Format("");
+		pTmp->OnShowGps();
+    }
+	CView::OnMouseMove(nFlags, point);
 }

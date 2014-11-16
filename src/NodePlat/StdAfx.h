@@ -60,6 +60,7 @@ using namespace std;
 #define WM_FUN_MSG WM_USER+113
 #define WM_INTER_MSG WM_USER+114
 
+
 #import "C:\Program Files\Common Files\System\ado\msado15.dll" no_namespace rename("EOF","adoEOF")
 
 //{{AFX_INSERT_LOCATION}}

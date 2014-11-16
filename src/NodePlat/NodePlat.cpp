@@ -64,7 +64,7 @@ CNodePlatApp::CNodePlatApp()
 	hTRACE_wmd = NULL;
 	hSigOut_wnd = NULL;
 	hMulOut_wnd = NULL;
-	hMulESM_wmd =NULL;
+	hMulESM_wmd = NULL;
 	hMulCOMM_wnd = NULL;
 	hMulTRACE_wnd = NULL;
 
@@ -603,15 +603,27 @@ void CNodePlatApp::SendToClient(CMsgSocket* pThis)
 	 if ( m_ThisNumber == 0) //代表A舰 ,或得A舰的经纬高
 	 {
 		 stSelfPosi = theApp.m_Ship_Position.at(0);
+         
 	 }
 	 if ( m_ThisNumber == 1) // 代表B舰获得的经纬高
 	 {
 		 stSelfPosi = theApp.m_Ship_Position.at(1);
+
 	 }
-	 if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+	 if ( m_ThisNumber == 2) // 代表C舰获得的经纬高
 	 {
 		 stSelfPosi = theApp.m_Ship_Position.at(2);
 	 }
+	 if ( m_ThisNumber == 3) // 代表d舰获得的经纬高
+	 {
+		 stSelfPosi = theApp.m_Ship_Position.at(3);
+		 
+	 }
+	 if ( m_ThisNumber == 4) // 代表e舰获得的经纬高
+	 {
+		 stSelfPosi = theApp.m_Ship_Position.at(4);
+	 }
+
      //调用算法,找出响应请求的返回信息stSendBackMsg
 	CoopFind_Information_To_MainShip(stSelfPosi,stUniAllN, theApp.tmpRecRequest_Msg, stSendBackMsg);
 
@@ -754,9 +766,17 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 						{
 							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(1);
 						}
-						if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+						if ( m_ThisNumber == 2) // 代表c舰获得的经纬高
 						{
 							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
+						}
+						if ( m_ThisNumber == 3) // 代表D舰获得的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(3);
+						}
+						if ( m_ThisNumber == 4) // 代表E舰获得的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(4);
 						}
 						m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
 						theApp.m_RequestMsg.push_back(m_StRequest);
@@ -799,7 +819,14 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 						{
 							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
 						}
-						
+						if ( m_ThisNumber == 3) // 代表D舰获得的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(3);
+						}
+						if ( m_ThisNumber == 4) // 代表E舰获得的经纬高
+						{
+							m_StRequest.stReqShipPosi = theApp.m_Ship_Position.at(4);
+						}
 						m_StRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
 						theApp.m_RequestMsg.push_back(m_StRequest);
 						break;
@@ -873,7 +900,14 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 						{
 							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
 						}
-						
+						if ( m_ThisNumber == 3) // 代表D舰获得的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(3);
+						}
+						if ( m_ThisNumber == 4) // 代表E舰获得的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(4);
+						}
 						theApp.m_StSendRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0
 						theApp.m_SendReqMsg_Dat.push_back(theApp.m_StSendRequest);
 						break;
@@ -925,9 +959,17 @@ void CNodePlatApp::SendMsg(map<int, CString> SendToIpMap)
 						{
 							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(1);
 						}
-						if ( m_ThisNumber == 2) // 代表B舰获得的经纬高
+						if ( m_ThisNumber == 2) // 代表c舰获得的经纬高
 						{
 							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(2);
+						}
+						if ( m_ThisNumber == 3) // 代表D舰获得的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(3);
+						}
+						if ( m_ThisNumber == 4) // 代表E舰获得的经纬高
+						{
+							theApp.m_StSendRequest.stReqShipPosi = theApp.m_Ship_Position.at(4);
 						}
 						
 						theApp.m_StSendRequest.nCorrFlag = 0;//请求信息的结构体是否找到相关联信息的标志初始化为0					

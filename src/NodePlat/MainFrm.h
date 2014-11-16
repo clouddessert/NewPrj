@@ -23,6 +23,7 @@ public:
 public:
 	void StartTimer_X(void);
 	void CloseTimer_X(void);
+	void GetSysTime();  
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -31,10 +32,12 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+	
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
+
 	virtual ~CMainFrame();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -42,9 +45,19 @@ public:
 #endif
 
 protected:  // control bar embedded members
-	CStatusBar  m_wndStatusBar;
+    CStatusBar  m_wndStatusBar;
 	CSplitterWnd m_HSplitter;
 	CSplitterWnd m_VSplitter;
+
+protected:
+	BOOL m_bCreate;
+	//////////////////////////////////////////////////////////////////////////
+	void SetFrmLayout();
+	
+public:
+	void OnShowGps(void);
+	void OnSelfShipGps(void);
+    double showParaX;		// ∆¡ƒªœ‘ æ±»¿˝X
 
 // Generated message map functions
 protected:
@@ -54,11 +67,6 @@ protected:
 	afx_msg void OnTimer(UINT nIDEvent);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
-
-protected:
-	BOOL m_bCreate;
-	//////////////////////////////////////////////////////////////////////////
-	void SetFrmLayout();
 };
 
 /////////////////////////////////////////////////////////////////////////////

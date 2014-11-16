@@ -54,6 +54,10 @@
 #define IDD_DIALOG_ELEVENTH             189
 #define IDD_DIALOG_TWELFTH              190
 #define IDD_DIALOG_THIRTTH              191
+#define IDB_MeSky                       192
+#define IDB_EnemySky                    193
+#define IDB_Unk                         194
+#define IDB_MeSkyWhi                    195
 #define IDC_LIST_ESM                    1000
 #define IDC_LIST_COMMUNICATE            1001
 #define IDC_LIST_TRACE                  1002
@@ -186,7 +190,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        192
+#define _APS_NEXT_RESOURCE_VALUE        196
 #define _APS_NEXT_COMMAND_VALUE         32822
 #define _APS_NEXT_CONTROL_VALUE         1114
 #define _APS_NEXT_SYMED_VALUE           101
